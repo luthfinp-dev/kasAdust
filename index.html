@@ -61,7 +61,7 @@ h2{font-size:1.05rem;margin:0 0 14px;display:flex;align-items:center;gap:8px}
 
 .grid3{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
 .stat{background:var(--sage-l);border-radius:20px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.stat .l{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem}
+.stat .l{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem; padding-bottom: 8px;}
 .stat .l span{display:inline-flex;align-items:center;gap:8px}
 .stat .v{font-size:1.35rem;font-weight:800;margin-top:6px;letter-spacing:-.02em;word-break:break-word}
 .stat .n{color:var(--muted);font-size:.82rem;margin-top:2px}
@@ -648,7 +648,7 @@ input,select{background:var(--field);border:1px solid var(--glass-b);border-radi
   var CATS=["Makanan & Minuman","Transportasi","Belanja","Tagihan","Hiburan","Kesehatan","Lainnya","Menabung"].sort(function(a,b){if(a==="Lainnya")return 1;if(b==="Lainnya")return -1;return a.localeCompare(b,"id")}), SAVE="Menabung", lastCat="Makanan & Minuman";
   try{var lc0=localStorage.getItem("kategori-terakhir-v1");if(lc0&&CATS.indexOf(lc0)>=0)lastCat=lc0}catch(e){}
   var KEY="pengeluaran-v1";
-  var APP_CONFIG={   SUPABASE_URL:"https://btaxdqvnfvzvycvkfneb.supabase.co",   SUPABASE_PUBLISHABLE_KEY:"sb_publishable_YIwNh0aEZxPFhxRvkJeiZA_XMFPPxee" };
+  var APP_CONFIG={SUPABASE_URL:"",SUPABASE_PUBLISHABLE_KEY:""};
   var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
   var $=function(id){return document.getElementById(id)};
   var nf=new Intl.NumberFormat("id-ID");
@@ -1619,7 +1619,7 @@ input,select{background:var(--field);border:1px solid var(--glass-b);border-radi
       return !e.disabled&&e.type!=="hidden"&&e.offsetParent!==null&&!e.closest("[hidden]");
     });
   }
-  function giveFocus(el){try{el.focus({preventScroll:true})}catch(e){el.focus()}}
+  function જવાFocus(el){try{el.focus({preventScroll:true})}catch(e){el.focus()}}
   function syncPanels(){
     PANELS.forEach(function(id){
       var p=$(id);
