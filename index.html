@@ -648,7 +648,7 @@ input,select{background:var(--field);border:1px solid var(--glass-b);border-radi
   var CATS=["Makanan & Minuman","Transportasi","Belanja","Tagihan","Hiburan","Kesehatan","Lainnya","Menabung"].sort(function(a,b){if(a==="Lainnya")return 1;if(b==="Lainnya")return -1;return a.localeCompare(b,"id")}), SAVE="Menabung", lastCat="Makanan & Minuman";
   try{var lc0=localStorage.getItem("kategori-terakhir-v1");if(lc0&&CATS.indexOf(lc0)>=0)lastCat=lc0}catch(e){}
   var KEY="pengeluaran-v1";
-  var APP_CONFIG={SUPABASE_URL:"",SUPABASE_PUBLISHABLE_KEY:""};
+  var APP_CONFIG={   SUPABASE_URL:"https://btaxdqvnfvzvycvkfneb.supabase.co",   SUPABASE_PUBLISHABLE_KEY:"sb_publishable_YIwNh0aEZxPFhxRvkJeiZA_XMFPPxee" };
   var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
   var $=function(id){return document.getElementById(id)};
   var nf=new Intl.NumberFormat("id-ID");
