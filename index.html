@@ -23,6 +23,7 @@
   padding-bottom:env(safe-area-inset-bottom,0px);
   --bg:#ffffff;--surface:#f6f8f5;--line:#e3e9e2;--text:#1f2a22;--muted:#66756b;
   --sage:#7c9a82;--sage-d:#587a60;--sage-l:#e6eee7;--danger:#b4553f;--danger-l:#f8e9e5;
+  --orange:#FC734D;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]):not([data-theme="electric"]){
@@ -41,7 +42,6 @@
   color-scheme:dark;
   --bg:#02070A;--surface:#08141F;--line:rgba(2,151,222,0.25);--text:#E2F1F8;--muted:#8AAEC2;
   --sage:#0297DE;--sage-d:#027AB3;--sage-l:rgba(2,151,222,0.15);--danger:#FC734D;--danger-l:rgba(252,115,77,0.15);
-  --muted:#8AAEC2;--sage-d:#0297DE;--line:rgba(2,151,222,0.2);
   --glass:rgba(8,20,31,0.65);--glass-2:rgba(2,151,222,0.08);--glass-s:rgba(4,12,19,0.92);--glass-b:rgba(2,151,222,0.25);
   --glass-sh:0 12px 40px rgba(2,151,222,0.18);--field:rgba(2,151,222,0.06);--chip:rgba(2,151,222,0.12);
   --hover:rgba(2,151,222,0.18);--track:rgba(2,151,222,0.15);
@@ -61,8 +61,8 @@ h2{font-size:1.05rem;margin:0 0 14px;display:flex;align-items:center;gap:8px}
 
 .grid3{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
 .stat{background:var(--sage-l);border-radius:20px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.stat .l{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-direction:row-reverse;color:var(--muted);font-size:.85rem}
-.stat .l i[data-ic], .stat .l .eye{margin-left:auto;margin-right:0}
+.stat .l{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem}
+.stat .l span{display:inline-flex;align-items:center;gap:8px}
 .stat .v{font-size:1.35rem;font-weight:800;margin-top:6px;letter-spacing:-.02em;word-break:break-word}
 .stat .n{color:var(--muted);font-size:.82rem;margin-top:2px}
 .card{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:22px;margin-bottom:22px}
@@ -112,7 +112,7 @@ td.act button{margin-left:6px}
 .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
 i[data-ic]{display:inline-flex;color:var(--sage-d)}
 :root[data-theme="electric"] i[data-ic]{color:var(--sage)}
-.stat .l i[data-ic]{width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:var(--chip);border:1px solid var(--glass-b)}
+.stat .l i[data-ic]{width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:var(--chip);border:1px solid var(--glass-b);flex:none}
 .ttl{display:inline-flex;align-items:center;gap:6px;font:inherit;font-weight:700;letter-spacing:-.02em;background:none;border:0;padding:4px 10px;margin-left:-10px;color:var(--text)}
 .ttl .ic{width:20px;height:20px;color:var(--sage-d);transition:transform .2s}
 .ttl[aria-expanded="true"] .ic{transform:rotate(180deg)}
@@ -129,7 +129,7 @@ i[data-ic]{display:inline-flex;color:var(--sage-d)}
 .addm span{display:inline-flex;align-items:center;gap:6px}
 .addm input{width:auto;min-height:36px;padding:6px 8px}
 
-.stat .eye{margin:0 0 0 auto;padding:4px;min-height:0;border:0;background:none;border-radius:8px;display:inline-flex}
+.stat .eye{margin-left:auto;padding:4px;min-height:0;border:0;background:none;border-radius:8px;display:inline-flex}
 .stat .eye .ic{color:var(--sage-d)}
 :root[data-theme="electric"] .stat .eye .ic{color:var(--sage)}
 .gm{display:flex;justify-content:space-between;gap:4px 10px;flex-wrap:wrap;color:var(--muted);font-size:.82rem;margin-top:8px}
@@ -188,6 +188,7 @@ html.lock,html.lock body{overflow:hidden}
 .setrow span{color:var(--muted)}
 .setrow b{text-align:right;word-break:break-word}
 
+/* Bottom Navigation & Floating Action Button (+ Oranye) */
 .nav{position:fixed;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;justify-content:center;padding:0 16px;pointer-events:none}
 .navbar{pointer-events:auto;display:grid;grid-template-columns:1fr 1fr 76px 1fr 1fr;align-items:center;width:100%;max-width:520px;height:66px;padding:0 8px;background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);border-radius:999px}
 .navgap{display:block}
@@ -199,16 +200,11 @@ html.lock,html.lock body{overflow:hidden}
 .nb[aria-selected="true"]{color:var(--sage-d);background:var(--chip)}
 :root[data-theme="electric"] .nb[aria-selected="true"]{color:var(--sage)}
 
-.fab{position:absolute;left:50%;top:-20px;transform:translateX(-50%);width:60px;height:60px;min-height:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:auto;background:#fff;color:#47674f;border:2px solid var(--sage);box-shadow:0 10px 24px rgba(88,122,96,.38),0 0 0 6px rgba(255,255,255,.4);touch-action:manipulation}
-:root[data-theme="electric"] .fab{background:#0297DE;color:#02070A;border-color:#FC734D;box-shadow:0 10px 24px rgba(2,151,222,.4),0 0 0 6px rgba(2,151,222,.15)}
-.fab:hover{background:#fff}
+.fab{position:absolute;left:50%;top:-20px;transform:translateX(-50%);width:60px;height:60px;min-height:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:auto;background:var(--orange);color:#ffffff;border:2px solid var(--glass-b);box-shadow:0 10px 24px rgba(252,115,77,0.4),0 0 0 6px rgba(252,115,77,0.18);touch-action:manipulation;z-index:35}
+:root[data-theme="electric"] .fab{background:#FC734D;color:#02070A;border-color:rgba(252,115,77,0.4);box-shadow:0 10px 24px rgba(252,115,77,0.4),0 0 0 6px rgba(252,115,77,0.18)}
+.fab:hover{background:#e05d38}
 .fab i[data-ic]{color:inherit}
-.fab .ic{width:28px;height:28px;stroke-width:2}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]):not([data-theme="electric"]) .fab,
-  :root:not([data-theme="light"]):not([data-theme="electric"]) .fab:hover{background:#d4ecd9;color:#173323;box-shadow:0 10px 24px rgba(0,0,0,.5),0 0 0 6px rgba(212,236,217,.12)}
-}
-:root[data-theme="dark"] .fab,:root[data-theme="dark"] .fab:hover{background:#d4ecd9;color:#173323;box-shadow:0 10px 24px rgba(0,0,0,.5),0 0 0 6px rgba(212,236,217,.12)}
+.fab .ic{width:28px;height:28px;stroke-width:2.5}
 
 .tov{position:fixed;inset:0;background:rgba(20,28,22,.5);z-index:60;touch-action:none}
 .msheet{position:fixed;left:0;right:0;bottom:0;z-index:70;max-height:88vh;max-height:88dvh;overflow:auto;overscroll-behavior:contain;background:var(--glass-s);-webkit-backdrop-filter:blur(20px) saturate(140%);backdrop-filter:blur(20px) saturate(140%);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);border-radius:24px 24px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px));animation:up .22s ease}
@@ -230,10 +226,8 @@ html.lock,html.lock body{overflow:hidden}
 .lv0 .wcol{background:var(--track)}
 .lv1 .wcol{background:var(--sage)}
 .lv2 .wcol{background:#e0b04a}
-.lv3 .wcol{background:#e07a5f}
-.lv4 .wcol{background:#b3261e}
-:root[data-theme="electric"] .lv3 .wcol{background:#FC734D}
-:root[data-theme="electric"] .lv4 .wcol{background:#FC734D}
+.lv3 .wcol{background:#FC734D}
+.lv4 .wcol{background:#FC734D}
 .wkmsg{margin-top:10px;font-size:.85rem;color:var(--muted);min-height:1.2em}
 .wkmsg.warn{color:var(--danger);font-weight:600}
 .wklim{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
@@ -429,7 +423,7 @@ input,select{background:var(--field);border:1px solid var(--glass-b);border-radi
 
 <div class="wrap" id="app" data-tab="home" hidden>
   <header>
-    <div class="hl"><div class="brand">Pencatatan Pengeluaran By adusT</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1></div>
+    <div class="hl"><div class="brand">Pencatatan Pengeluaran By adusT</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">November 2026</span><i data-ic="chev"></i></button></h1></div>
     <div class="hr"><div class="date"><i data-ic="cal"></i><span id="today"></span></div><button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti tema"><span class="knob" id="knob"></span></button></div><button type="button" class="avatar" id="btnAvatar" aria-haspopup="dialog" aria-expanded="false" aria-label="Profil"><span class="avin" id="avIn"></span><span class="avdot" id="avDot" hidden></span></button>
     <div id="mOverlay" class="ov" hidden></div>
     <div id="mSheet" class="sheet" role="dialog" aria-label="Pilih bulan" hidden>
@@ -442,23 +436,23 @@ input,select{background:var(--field);border:1px solid var(--glass-b);border-radi
 
   <section class="grid3" data-t="home" aria-label="Ringkasan bulan ini">
     <div class="stat">
-      <div class="l"><i data-ic="wallet"></i><span id="lLbl">Sisa uang bulan ini</span></div><div class="v" id="lVal">Belum diisi</div>
+      <div class="l"><span><i data-ic="wallet"></i><span id="lLbl">Sisa uang bulan ini</span></span></div><div class="v" id="lVal">Belum diisi</div>
       <div class="n" id="lSal"></div>
       <div class="bar"><i id="lBar" style="width:0"></i></div>
       <div class="n" id="lUsed"></div>
       <button type="button" class="small" id="btnSalary">Atur gaji</button>
     </div>
     <div class="stat">
-      <div class="l"><i data-ic="out"></i><span id="mLbl">Total pengeluaran bulan ini</span></div><div class="v" id="mTotal">Rp 0</div>
+      <div class="l"><span><i data-ic="out"></i><span id="mLbl">Total pengeluaran bulan ini</span></span></div><div class="v" id="mTotal">Rp 0</div>
       <div class="n" id="mInfo"></div>
     </div>
     <div class="stat">
-      <div class="l"><i data-ic="up"></i>Total aset<button type="button" class="eye" data-eye></button></div><div class="v" id="aTotal">Rp 0</div>
+      <div class="l"><span><i data-ic="up"></i>Total aset</span><button type="button" class="eye" data-eye></button></div><div class="v" id="aTotal">Rp 0</div>
       <div class="n" id="aInfo"></div>
       <button type="button" class="small" id="btnAssets">Kelola aset</button>
     </div>
     <div class="stat">
-      <div class="l"><i data-ic="target"></i>Tujuan<button type="button" class="eye" data-eye></button></div><div class="v" id="gTotal">Rp 0</div>
+      <div class="l"><span><i data-ic="target"></i>Tujuan</span><button type="button" class="eye" data-eye></button></div><div class="v" id="gTotal">Rp 0</div>
       <div class="n" id="gTgt"></div>
       <div class="n" id="gCount"></div>
       <div class="bar"><i id="gBar" style="width:0"></i></div>
@@ -654,7 +648,7 @@ input,select{background:var(--field);border:1px solid var(--glass-b);border-radi
   var CATS=["Makanan & Minuman","Transportasi","Belanja","Tagihan","Hiburan","Kesehatan","Lainnya","Menabung"].sort(function(a,b){if(a==="Lainnya")return 1;if(b==="Lainnya")return -1;return a.localeCompare(b,"id")}), SAVE="Menabung", lastCat="Makanan & Minuman";
   try{var lc0=localStorage.getItem("kategori-terakhir-v1");if(lc0&&CATS.indexOf(lc0)>=0)lastCat=lc0}catch(e){}
   var KEY="pengeluaran-v1";
-  var APP_CONFIG={   SUPABASE_URL:"https://btaxdqvnfvzvycvkfneb.supabase.co",   SUPABASE_PUBLISHABLE_KEY:"sb_publishable_YIwNh0aEZxPFhxRvkJeiZA_XMFPPxee" };
+  var APP_CONFIG={SUPABASE_URL:"",SUPABASE_PUBLISHABLE_KEY:""};
   var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
   var $=function(id){return document.getElementById(id)};
   var nf=new Intl.NumberFormat("id-ID");
