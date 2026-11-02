@@ -413,6 +413,26 @@ select{text-overflow:ellipsis}
 #fgBox .primary,#rcBox .primary{width:100%;margin-top:8px}
 #fgBox .primary:disabled{opacity:.6;cursor:not-allowed}
 .im-sum{margin:6px 0 10px;font-size:.92rem}
+/* ===== kartu daftar: ringkas, klik untuk membuka aksi ===== */
+.xc,.tablebox tr.txr{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.xc{padding:12px 14px;margin-bottom:8px;background:var(--glass-2);border:1px solid var(--glass-b);border-radius:16px;transition:background .15s}
+.xc:hover{background:var(--hover)}
+.xc:focus-visible,.tablebox tr.txr:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.xd{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .28s ease,visibility 0s linear .28s}
+.xc.open .xd{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .28s ease,visibility 0s}
+.xi{overflow:hidden;min-height:0}
+.xr{padding-top:10px;display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+.xc .arow{margin-top:10px;cursor:default}
+.xc .subs{cursor:default}
+.tablebox tr.txr{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name amt" "date cat" "act act";gap:0 12px;padding:12px 14px}
+.tablebox tr.txr td:nth-child(1){grid-area:date;align-self:center;padding-top:6px}
+.tablebox tr.txr td:nth-child(2){grid-area:name}
+.tablebox tr.txr td:nth-child(3){grid-area:cat;justify-self:end;align-self:center;padding-top:6px;min-width:0;max-width:100%}
+.tablebox tr.txr td:nth-child(4){grid-area:amt;justify-self:end;align-self:start}
+.tablebox tr.txr td.act{grid-area:act;justify-self:stretch;display:grid;grid-template-rows:0fr;visibility:hidden;cursor:default;transition:grid-template-rows .28s ease,visibility 0s linear .28s}
+.tablebox tr.txr.open td.act{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .28s ease,visibility 0s}
+.tablebox tr.txr td.act button{margin-left:0}
+@media (prefers-reduced-motion:reduce){.xd,.tablebox tr.txr td.act{transition:none}}
 .donut{display:flex;align-items:center;gap:16px 22px;flex-wrap:wrap;margin:2px 0 18px}
 .donut:empty{display:none}
 .dn{position:relative;width:168px;height:168px;flex:none;margin:0 auto}
@@ -770,7 +790,21 @@ select{text-overflow:ellipsis}
   var APP_CONFIG={SUPABASE_URL:"https://btaxdqvnfvzvycvkfneb.supabase.co",SUPABASE_PUBLISHABLE_KEY:"sb_publishable_YIwNh0aEZxPFhxRvkJeiZA_XMFPPxee"};
   var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
   var $=function(id){return document.getElementById(id)};
-  var imPending=null, imConfirm=false;
+  var imPending=null, imConfirm=false, openCard=null;
+  function setOpen(key){
+    openCard=openCard===key?null:key;
+    document.querySelectorAll("[data-ck]").forEach(function(el){var on=el.getAttribute("data-ck")===openCard;el.classList.toggle("open",on);el.setAttribute("aria-expanded",on?"true":"false")});
+  }
+  function ckAttr(key){var on=openCard===key;return ' data-ck="'+key+'" tabindex="0" role="button" aria-expanded="'+on+'"'+(on?' data-o="1"':"")}
+  ["rows","aList","gList"].forEach(function(id){
+    $(id).addEventListener("click",function(e){
+      if(e.target.closest("button,a,input,select,.xd,td.act"))return;
+      var c=e.target.closest("[data-ck]");if(c)setOpen(c.getAttribute("data-ck"));
+    });
+    $(id).addEventListener("keydown",function(e){
+      if((e.key==="Enter"||e.key===" ")&&e.target.hasAttribute&&e.target.hasAttribute("data-ck")){e.preventDefault();setOpen(e.target.getAttribute("data-ck"))}
+    });
+  });
   var nf=new Intl.NumberFormat("id-ID");
   function rp(n){return "Rp "+nf.format(n)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
@@ -861,7 +895,8 @@ select{text-overflow:ellipsis}
       var del=pendingDel===t.id
         ? '<button class="small danger confirm" data-a="del" data-id="'+t.id+'">Yakin hapus?</button>'
         : '<button class="small danger" data-a="del" data-id="'+t.id+'">'+ic("trash")+'Hapus</button>';
-      return "<tr><td>"+dateLabel(t.date)+"</td><td>"+esc(t.name)+saveSub(t)+'</td><td><span class="tag">'+esc(t.category)+'</span></td><td class="amt">'+rp(t.amount)+'</td><td class="act"><button class="small" data-a="edit" data-id="'+t.id+'">'+ic("pen")+'Edit</button>'+del+"</td></tr>";
+      var ck="tx:"+t.id;
+      return '<tr class="txr'+(openCard===ck?" open":"")+'"'+ckAttr(ck)+'><td>'+dateLabel(t.date)+"</td><td>"+esc(t.name)+saveSub(t)+'</td><td><span class="tag">'+esc(t.category)+'</span></td><td class="amt">'+rp(t.amount)+'</td><td class="act"><div class="xi"><div class="xr"><button class="small" data-a="edit" data-id="'+t.id+'">'+ic("pen")+'Edit</button>'+del+"</div></div></td></tr>";
     }).join(""):'<tr><td colspan="5" class="empty">Tidak ada transaksi untuk filter ini.</td></tr>';
 
     // ringkasan kategori (mengikuti filter)
@@ -1021,7 +1056,7 @@ select{text-overflow:ellipsis}
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+g.id+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+g.id+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat"><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?"Tercapai":"Kurang "+mk(g.target-g.saved))+'</span></div><div class="arow"><button class="small" data-a="toggle" data-id="'+g.id+'" aria-expanded="'+open+'">'+ic("chev")+'Sub-item ('+subs.length+')</button><button class="small" data-a="edit" data-id="'+g.id+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?subsHtml(g):"")+'</div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?"Tercapai":"Kurang "+mk(g.target-g.saved))+'</span></div><div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+g.id+'" aria-expanded="'+open+'">'+ic("chev")+'Sub-item ('+subs.length+')</button><button class="small" data-a="edit" data-id="'+g.id+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">Belum ada tujuan. Tambahkan di bawah.</div>';
   }
   function resetGoal(){editGoal=null;$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gErr").textContent="";$("gFormTitle").textContent="Tambah tujuan";$("btnGoalSave").textContent="Tambah tujuan";$("btnGoalCancel").hidden=true}
@@ -1144,7 +1179,7 @@ select{text-overflow:ellipsis}
     $("aList").innerHTML=assets.length?assets.slice().sort(function(a,b){return b.amount-a.amount}).map(function(a){
       var p=tot?Math.round(a.amount/tot*1000)/10:0;
       var del=pendingAsset===a.id?'<button class="small danger confirm" data-a="del" data-id="'+a.id+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+a.id+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat"><div class="top"><span>'+esc(a.name)+" ("+(hideBal?"••":String(p).replace(".",","))+'%)</span><span>'+mk(a.amount)+'</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="arow"><button class="small" data-a="edit" data-id="'+a.id+'">'+ic("pen")+'Edit</button>'+del+'</div></div>';
+      return '<div class="cat xc'+(openCard==="a:"+a.id?" open":"")+'"'+ckAttr("a:"+a.id)+'><div class="top"><span>'+esc(a.name)+" ("+(hideBal?"••":String(p).replace(".",","))+'%)</span><span>'+mk(a.amount)+'</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="edit" data-id="'+a.id+'">'+ic("pen")+'Edit</button>'+del+'</div></div></div></div>';
     }).join(""):'<div class="empty">Belum ada aset. Tambahkan di bawah.</div>';
   }
   function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";$("btnAssetCancel").hidden=true}
