@@ -63,7 +63,7 @@ button:hover{background:var(--surface)}
 .danger{color:var(--danger);border-color:var(--danger)}
 .danger.confirm{background:var(--danger);color:#fff}
 .err{color:var(--danger);font-size:.85rem;margin-top:10px;min-height:1.2em}
-.filters{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end}
+.filters{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
 .tablebox{overflow-x:auto;margin-top:14px}
 table{width:100%;border-collapse:collapse;min-width:560px}
 th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);font-size:.93rem}
@@ -211,7 +211,7 @@ html.lock,html.lock body{overflow:hidden}
   .grid3{grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:14px}.stat .v{font-size:1.1rem}
   .two{grid-template-columns:1fr}
   .filters{grid-template-columns:1fr 1fr}
-  .filters button,.filters .frek{grid-column:1/-1}
+  .filters button{grid-column:1/-1}
 }
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 /* glass */
@@ -413,6 +413,13 @@ select{text-overflow:ellipsis}
 #fgBox .primary,#rcBox .primary{width:100%;margin-top:8px}
 #fgBox .primary:disabled{opacity:.6;cursor:not-allowed}
 .im-sum{margin:6px 0 10px;font-size:.92rem}
+.moves{margin-top:10px;padding:8px 12px;border-radius:12px;background:var(--chip);border:1px solid var(--glass-b);font-size:.82rem}
+.moves:empty{display:none}
+.moves .mv-h{color:var(--muted);font-weight:600;margin-bottom:4px}
+.moves .mv{padding:3px 0}
+.moves .mv span{display:block}
+.moves .mv span:first-child{overflow-wrap:anywhere}
+.moves .mv span:last-child{font-weight:700;font-variant-numeric:tabular-nums}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
@@ -497,6 +504,7 @@ select{text-overflow:ellipsis}
       <div class="n" id="lSal"></div>
       <div class="bar"><i id="lBar" style="width:0"></i></div>
       <div class="n" id="lUsed"></div>
+      <div class="moves" id="lMoves"></div>
       <button type="button" class="small" id="btnSalary">Atur gaji</button>
     </div>
     <div class="stat">
@@ -517,50 +525,15 @@ select{text-overflow:ellipsis}
       <div class="n" id="gDone"></div>
       <button type="button" class="small" id="btnGoals">Kelola tujuan</button>
     </div>
-    <div class="stat rek">
-      <div class="l"><i data-ic="bank"></i>Saldo rekening<button type="button" class="eye" data-eye></button></div><div class="v" id="rTotal">Rp 0</div>
-      <div class="n" id="rInfo"></div>
-      <div class="rklist" id="rChips"></div>
-      <div class="arow"><button type="button" class="small" id="btnRek">Kelola rekening</button><button type="button" class="small" id="btnTrf">Transfer</button></div>
-    </div>
   </section>
 
   <section class="card" id="salaryPanel" data-t="home" hidden>
     <h2>Atur gaji <span id="lMonth"></span></h2>
+    <div class="moves" id="sMoves" style="margin:0 0 12px"></div>
     <label for="sIn">Gaji bulan ini (Rp)</label>
     <input id="sIn" inputmode="numeric" placeholder="5.000.000" autocomplete="off">
     <div class="err" id="sErr" role="alert"></div>
     <div class="row"><button type="button" class="primary" id="btnSalSave">Simpan gaji</button><button type="button" id="btnSalCancel">Tutup</button></div>
-  </section>
-
-  <section class="card" id="rekPanel" data-t="aset">
-    <h2><i data-ic="bank"></i>Kelola rekening</h2>
-    <div id="rList"></div>
-    <div class="total"><span>Total saldo</span><span id="rSum">Rp 0</span></div>
-    <h2 style="margin-top:20px" id="rFormTitle">Tambah rekening</h2>
-    <div class="fields">
-      <div><label for="rName">Nama rekening</label><input id="rName" list="rOpts" maxlength="40" placeholder="Contoh: BCA" autocomplete="off"><datalist id="rOpts"><option value="Tunai"><option value="BCA"><option value="BRI"><option value="Mandiri"><option value="BNI"><option value="Jago"><option value="GoPay"><option value="OVO"><option value="DANA"><option value="ShopeePay"></datalist></div>
-      <div><label for="rAmt" id="rAmtLbl">Saldo awal (Rp)</label><input id="rAmt" inputmode="numeric" placeholder="1.000.000" autocomplete="off"></div>
-    </div>
-    <div class="err" id="rErr" role="alert"></div>
-    <div class="row"><button type="button" class="primary" id="btnRekSave">Tambah rekening</button><button type="button" id="btnRekCancel" hidden>Batal</button></div>
-  </section>
-
-  <section class="card" id="trfPanel" data-t="aset">
-    <h2><i data-ic="swap"></i>Transfer antar rekening</h2>
-    <div class="empty sm" id="trfEmpty" hidden>Tambahkan minimal 2 rekening untuk bisa transfer.</div>
-    <div id="trfForm">
-      <div class="fields">
-        <div><label for="tFrom">Dari rekening</label><select id="tFrom"></select></div>
-        <div><label for="tTo">Ke rekening</label><select id="tTo"></select></div>
-        <div><label for="tAmt">Nominal (Rp)</label><input id="tAmt" inputmode="numeric" placeholder="100.000" autocomplete="off"></div>
-        <div><label for="tDate">Tanggal</label><input id="tDate" type="date"></div>
-        <div class="full"><label for="tNote">Catatan (opsional)</label><input id="tNote" maxlength="60" placeholder="Contoh: Top up e-wallet" autocomplete="off"></div>
-      </div>
-      <div class="err" id="tErr" role="alert"></div>
-      <div class="rs-status okmsg" id="tOk" role="status"></div>
-      <div class="row"><button type="button" class="primary" id="btnTrfSave">Transfer</button></div>
-    </div>
   </section>
 
   <section class="card" id="assetPanel" data-t="aset">
@@ -621,7 +594,14 @@ select{text-overflow:ellipsis}
           <div><label for="fAmt">Nominal (Rp)</label><input id="fAmt" inputmode="numeric" placeholder="25.000" autocomplete="off"></div>
           <div><label for="fDate">Tanggal</label><input id="fDate" type="date"></div>
           <div class="full"><label for="fCat">Kategori</label><select id="fCat"></select></div>
-          <div class="full" id="rekBox" hidden><label for="fRek">Bayar dari rekening (opsional)</label><select id="fRek"></select></div>
+          <div class="full" id="trBox" hidden>
+            <div class="fields">
+              <div><label for="fFrom">Dari (bank/dompet)</label><input id="fFrom" list="trOpts" maxlength="30" placeholder="Contoh: BCA" autocomplete="off"></div>
+              <div><label for="fTo">Ke (bank/dompet)</label><input id="fTo" list="trOpts" maxlength="30" placeholder="Contoh: SeaBank" autocomplete="off"></div>
+            </div>
+            <datalist id="trOpts"></datalist>
+            <div class="note" style="margin-top:8px">Transfer hanya memindahkan uang, tidak dihitung sebagai pengeluaran. Ketik sendiri nama bank atau dompetnya jika tidak ada di daftar.</div>
+          </div>
           <div class="full" id="saveBox" hidden>
             <label for="fAset">Simpan ke aset</label><select id="fAset"></select>
             <label for="fGoal" style="margin-top:10px">Untuk tujuan (opsional)</label><select id="fGoal"></select>
@@ -649,7 +629,6 @@ select{text-overflow:ellipsis}
     <div class="filters norek" id="filters">
       <div><label for="fMonth">Bulan</label><select id="fMonth"></select></div>
       <div><label for="fCatF">Kategori</label><select id="fCatF"></select></div>
-      <div class="frek" id="fRekWrap" hidden><label for="fRekF">Rekening</label><select id="fRekF"></select></div>
       <button type="button" id="btnReset">Reset filter</button>
     </div>
     <div class="tablebox">
@@ -659,11 +638,6 @@ select{text-overflow:ellipsis}
       </table>
     </div>
   </section>
-  <section class="card" data-t="tx" id="trfListCard" hidden>
-    <h2><i data-ic="swap"></i>Riwayat transfer</h2>
-    <div id="trfList"></div>
-  </section>
-
   <section class="card" data-t="set">
     <h2><i data-ic="sliders"></i>Pengaturan</h2>
     <div class="setrow"><span>Akun</span><b id="setAcc">-</b></div>
@@ -672,14 +646,9 @@ select{text-overflow:ellipsis}
     <p class="wp" id="setNote" style="margin-top:14px"></p>
     <div class="row"><button type="button" class="small" id="btnWelcome">Keluar</button></div>
   </section>
-  <section class="card" data-t="set" id="rekSet">
-    <h2><i data-ic="bank"></i>Rekening</h2>
-    <div id="setRek"></div>
-    <div class="row"><button type="button" class="small" id="btnSetRek">Kelola rekening</button></div>
-  </section>
   <section class="card" data-t="set" id="bkCard">
     <h2><i data-ic="download"></i>Cadangan data</h2>
-    <p class="wp" style="margin-bottom:12px">Unduh semua data (transaksi, gaji, aset, tujuan, rekening, transfer, dan profil) sebagai file .json. Simpan file di tempat aman. File ini bisa diimpor kembali kapan saja, termasuk ke akun lain.</p>
+    <p class="wp" style="margin-bottom:12px">Unduh semua data (transaksi, gaji, aset, tujuan, dan profil) sebagai file .json. Simpan file di tempat aman. File ini bisa diimpor kembali kapan saja, termasuk ke akun lain.</p>
     <div class="row" style="margin-top:0"><button type="button" class="small primary" id="btnExport"><i data-ic="download"></i>Ekspor cadangan</button><button type="button" class="small" id="btnImport"><i data-ic="upload"></i>Impor cadangan</button></div>
     <input type="file" id="imFile" accept=".json,application/json" hidden>
     <div class="err" id="bkErr" role="alert"></div>
@@ -745,7 +714,7 @@ select{text-overflow:ellipsis}
     <h2 id="rsTitle"><i data-ic="trash"></i>Reset semua data</h2>
     <div id="rsDesc">
       <p class="rs-p">Yang akan dihapus:</p>
-      <ul class="rs-ul"><li>Semua transaksi (riwayat)</li><li>Gaji tiap bulan</li><li>Semua aset</li><li>Semua rekening dan transfer</li><li>Semua tujuan beserta sub-item</li><li>Batas harian</li><li>Pengaturan sembunyikan saldo</li></ul>
+      <ul class="rs-ul"><li>Semua transaksi (riwayat)</li><li>Gaji tiap bulan</li><li>Semua aset</li><li>Semua tujuan beserta sub-item</li><li>Batas harian</li><li>Pengaturan sembunyikan saldo</li></ul>
       <p class="rs-warn">Data tidak bisa dikembalikan. Buat cadangan dulu di Pengaturan, Cadangan data.</p>
     </div>
     <label class="rs-chk"><input type="checkbox" id="rsProfil">Hapus juga nama dan foto profil</label>
@@ -771,7 +740,7 @@ select{text-overflow:ellipsis}
 
 <script>
 (function(){
-  var CATS=["Makanan & Minuman","Transportasi","Belanja","Tagihan","Hiburan","Kesehatan","Lainnya","Menabung"].sort(function(a,b){if(a==="Lainnya")return 1;if(b==="Lainnya")return -1;return a.localeCompare(b,"id")}), SAVE="Menabung", lastCat="Makanan & Minuman";
+  var CATS=["Makanan & Minuman","Transportasi","Belanja","Tagihan","Hiburan","Kesehatan","Lainnya","Menabung","Transfer"].sort(function(a,b){if(a==="Lainnya")return 1;if(b==="Lainnya")return -1;return a.localeCompare(b,"id")}), SAVE="Menabung", TRF="Transfer", lastCat="Makanan & Minuman";
   try{var lc0=localStorage.getItem("kategori-terakhir-v1");if(lc0&&CATS.indexOf(lc0)>=0)lastCat=lc0}catch(e){}
   var KEY="pengeluaran-v1";
   // ISI DI SINI: URL project dan Publishable Key (sb_publishable_...) dari Supabase, Settings > API Keys.
@@ -780,8 +749,7 @@ select{text-overflow:ellipsis}
   var APP_CONFIG={SUPABASE_URL:"https://btaxdqvnfvzvycvkfneb.supabase.co",SUPABASE_PUBLISHABLE_KEY:"sb_publishable_YIwNh0aEZxPFhxRvkJeiZA_XMFPPxee"};
   var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
   var $=function(id){return document.getElementById(id)};
-  var rekening=[], transfers=[], editRek=null, pendingRek=null, pendingTrf=null, lastRek="", imPending=null, imConfirm=false;
-  try{lastRek=localStorage.getItem("rekening-terakhir-v1")||""}catch(e){}
+  var imPending=null, imConfirm=false;
   var nf=new Intl.NumberFormat("id-ID");
   function rp(n){return "Rp "+nf.format(n)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
@@ -800,7 +768,7 @@ select{text-overflow:ellipsis}
   }
   function save(){
     if(mode==="db"){queueSync();return}
-    try{localStorage.setItem(KEY,JSON.stringify(items));localStorage.setItem("gaji-v1",JSON.stringify(salaries));localStorage.setItem("aset-v1",JSON.stringify(assets));localStorage.setItem("tujuan-v1",JSON.stringify(goals));localStorage.setItem("sembunyi-v1",hideBal?"1":"0");localStorage.setItem("batas-harian-v1",String(dailyLimit||0));localStorage.setItem("profil-v1",JSON.stringify(profil));localStorage.setItem("rekening-v1",JSON.stringify(rekening));localStorage.setItem("transfer-v1",JSON.stringify(transfers));storageOK=true}catch(e){storageOK=false}
+    try{localStorage.setItem(KEY,JSON.stringify(items));localStorage.setItem("gaji-v1",JSON.stringify(salaries));localStorage.setItem("aset-v1",JSON.stringify(assets));localStorage.setItem("tujuan-v1",JSON.stringify(goals));localStorage.setItem("sembunyi-v1",hideBal?"1":"0");localStorage.setItem("batas-harian-v1",String(dailyLimit||0));localStorage.setItem("profil-v1",JSON.stringify(profil));storageOK=true}catch(e){storageOK=false}
     $("storeNote").textContent=storageOK
       ? "Data tersimpan di browser ini saja (tidak ikut ke perangkat lain, dan hilang jika data situs dihapus)."
       : "Penyimpanan browser tidak tersedia. Data hanya bertahan selama halaman ini terbuka.";
@@ -834,7 +802,7 @@ select{text-overflow:ellipsis}
   function render(){
     // dashboard (bulan berjalan)
     var cur=items.filter(function(t){return t.date.slice(0,7)===viewYM});
-    var spendCur=cur.filter(function(t){return t.category!==SAVE}), savedCur=cur.reduce(function(s,t){return s+(t.category===SAVE?t.amount:0)},0);
+    var spendCur=cur.filter(function(t){return t.category!==SAVE&&t.category!==TRF}), savedCur=cur.reduce(function(s,t){return s+(t.category===SAVE?t.amount:0)},0);
     var tot=spendCur.reduce(function(s,t){return s+t.amount},0);
     var top=sumBy(spendCur)[0];
     var sal=salaries[viewYM], hasSal=typeof sal==="number"&&sal>0, left=hasSal?sal-tot-savedCur:0;
@@ -853,23 +821,18 @@ select{text-overflow:ellipsis}
     $("ttlText").textContent=monthLabel(viewYM);
     renderGoals();setEyes();renderWeek();
     renderAssets();
-    renderRek();
+    renderMoves();
 
     // filter options
-    var selM=pendingM||$("fMonth").value||curYM, selC=$("fCatF").value||"all", selR=$("fRekF").value||"all";pendingM=null;
+    var selM=pendingM||$("fMonth").value||curYM, selC=$("fCatF").value||"all";pendingM=null;
     var months={};months[curYM]=1;months[viewYM]=1;extraMonths.forEach(function(x){months[x]=1});items.forEach(function(t){months[t.date.slice(0,7)]=1});
     var mo=[["all","Semua bulan"]].concat(Object.keys(months).sort().reverse().map(function(m){return [m,monthLabel(m)]}));
     if(!months[selM]&&selM!=="all")selM=curYM;
     fillSelect($("fMonth"),mo,selM);
     fillSelect($("fCatF"),[["all","Semua kategori"]].concat(CATS.map(function(c){return [c,c]})),selC);
-    $("fRekWrap").hidden=!rekening.length;$("filters").classList.toggle("norek",!rekening.length);
-    if(rekening.length){
-      if(selR!=="all"&&selR!=="none"&&!rekById(selR))selR="all";
-      fillSelect($("fRekF"),[["all","Semua rekening"],["none","Tanpa rekening"]].concat(rekening.map(function(r){return [r.id,r.name]})),selR);
-    }else selR="all";
 
     var list=items.filter(function(t){
-      return (selM==="all"||t.date.slice(0,7)===selM)&&(selC==="all"||t.category===selC)&&(selR==="all"||(selR==="none"?!(t.rekId&&rekById(t.rekId)):t.rekId===selR));
+      return (selM==="all"||t.date.slice(0,7)===selM)&&(selC==="all"||t.category===selC);
     }).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0});
 
     // tabel
@@ -880,10 +843,8 @@ select{text-overflow:ellipsis}
       return "<tr><td>"+dateLabel(t.date)+"</td><td>"+esc(t.name)+saveSub(t)+'</td><td><span class="tag">'+esc(t.category)+'</span></td><td class="amt">'+rp(t.amount)+'</td><td class="act"><button class="small" data-a="edit" data-id="'+t.id+'">'+ic("pen")+'Edit</button>'+del+"</td></tr>";
     }).join(""):'<tr><td colspan="5" class="empty">Tidak ada transaksi untuk filter ini.</td></tr>';
 
-    renderTrf(selM,selR);
-
     // ringkasan kategori (mengikuti filter)
-    var sl=list.filter(function(t){return t.category!==SAVE}), groups=sumBy(sl), ft=sl.reduce(function(s,t){return s+t.amount},0);
+    var sl=list.filter(function(t){return t.category!==SAVE&&t.category!==TRF}), groups=sumBy(sl), ft=sl.reduce(function(s,t){return s+t.amount},0);
     $("catList").innerHTML=groups.length?groups.map(function(g){
       var pct=ft?Math.round(g[1]/ft*100):0;
       return '<div class="cat"><div class="top"><span>'+esc(g[0])+" ("+pct+'%)</span><span>'+rp(g[1])+'</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
@@ -897,7 +858,7 @@ select{text-overflow:ellipsis}
     editId=null;
     $("form").reset();
     $("fDate").value=ymd(new Date());
-    $("fCat").value=lastCat;toggleSaveBox();toggleRekBox(lastRek);
+    $("fCat").value=lastCat;toggleSaveBox();toggleTrBox("","");
     $("formTitle").textContent="Tambah transaksi";
     $("btnSave").textContent="Tambah";
     $("btnCancel").hidden=false;
@@ -914,18 +875,24 @@ select{text-overflow:ellipsis}
     var name=$("fName").value.trim();
     var amt=parseInt($("fAmt").value.replace(/\D/g,""),10)||0;
     var date=$("fDate").value, cat=$("fCat").value;
-    if(!name){$("err").textContent="Isi nama pengeluaran.";$("fName").focus();return}
+    if(!name&&cat!==TRF){$("err").textContent="Isi nama pengeluaran.";$("fName").focus();return}
     if(amt<=0){$("err").textContent="Nominal harus lebih dari Rp 0.";$("fAmt").focus();return}
     if(!date){$("err").textContent="Pilih tanggal.";$("fDate").focus();return}
+    var tFrom="",tTo="";
+    if(cat===TRF){
+      tFrom=$("fFrom").value.trim();tTo=$("fTo").value.trim();
+      if(!tFrom||!tTo){$("err").textContent="Isi asal dan tujuan transfer.";(tFrom?$("fTo"):$("fFrom")).focus();return}
+      if(tFrom.toLowerCase()===tTo.toLowerCase()){$("err").textContent="Asal dan tujuan transfer harus berbeda.";$("fTo").focus();return}
+      if(!name)name="Transfer "+tFrom+" ke "+tTo;
+    }
     var aId="",gId="";
     if(cat===SAVE){
       aId=$("fAset").value;gId=$("fGoal").value;
       if(!aId){$("err").textContent=assets.length?"Pilih aset untuk menyimpan tabungan.":"Belum ada aset. Tambahkan aset dulu di tab Aset.";return}
     }
-    var rId=$("rekBox").hidden?"":$("fRek").value;if(rId&&!rekById(rId))rId="";
     var rec={id:editId||uid(),name:name,amount:amt,category:cat,date:date};
     if(cat===SAVE){rec.asetId=aId;if(gId)rec.tujuanId=gId}
-    if(rId)rec.rekId=rId;
+    if(cat===TRF){rec.from=tFrom;rec.to=tTo}
     if(editId){
       applySave(items.filter(function(t){return t.id===editId})[0],-1);
       items=items.map(function(t){return t.id===editId?rec:t});
@@ -935,16 +902,14 @@ select{text-overflow:ellipsis}
       // pastikan transaksi baru terlihat di tabel
       var m=date.slice(0,7), f=$("fMonth").value;
       if(f!=="all"&&f!==m)$("fMonth").value=m;
-      $("fCatF").value="all";$("fRekF").value="all";
+      $("fCatF").value="all";
     }
     lastCat=cat;try{localStorage.setItem("kategori-terakhir-v1",cat)}catch(e){}
-    if(!$("rekBox").hidden){lastRek=rId;try{localStorage.setItem("rekening-terakhir-v1",rId)}catch(e){}}
     save();resetForm();closeTx();render();
   });
 
   $("btnCancel").addEventListener("click",function(){resetForm();closeTx()});
-  $("btnReset").addEventListener("click",function(){$("fMonth").value=viewYM;$("fCatF").value="all";$("fRekF").value="all";render()});
-  $("fRekF").addEventListener("change",render);
+  $("btnReset").addEventListener("click",function(){$("fMonth").value=viewYM;$("fCatF").value="all";render()});
   $("fMonth").addEventListener("change",function(){var v=$("fMonth").value;if(v!=="all"){viewYM=v;pendingM=v}render()});
   $("fCatF").addEventListener("change",render);
 
@@ -954,7 +919,7 @@ select{text-overflow:ellipsis}
     if(a==="edit"){
       var t=items.filter(function(x){return x.id===id})[0];if(!t)return;
       editId=id;pendingDel=null;
-      $("fName").value=t.name;$("fAmt").value=nf.format(t.amount);$("fDate").value=t.date;$("fCat").value=t.category;toggleSaveBox(t.asetId,t.tujuanId);toggleRekBox(t.rekId||"");
+      $("fName").value=t.name;$("fAmt").value=nf.format(t.amount);$("fDate").value=t.date;$("fCat").value=t.category;toggleSaveBox(t.asetId,t.tujuanId);toggleTrBox(t.from||"",t.to||"");
       $("formTitle").textContent="Edit transaksi";$("btnSave").textContent="Simpan perubahan";$("btnCancel").hidden=false;$("err").textContent="";
       openTx();render();
     }else if(a==="del"){
@@ -974,7 +939,7 @@ select{text-overflow:ellipsis}
   document.querySelectorAll("[data-ic]").forEach(function(el){el.innerHTML=ic(el.getAttribute("data-ic"))});
   function monthTotals(){
     var m={};m[curYM]=0;m[viewYM]=0;extraMonths.forEach(function(x){m[x]=0});
-    items.forEach(function(t){var k=t.date.slice(0,7);m[k]=(m[k]||0)+(t.category===SAVE?0:t.amount)});
+    items.forEach(function(t){var k=t.date.slice(0,7);m[k]=(m[k]||0)+(t.category===SAVE||t.category===TRF?0:t.amount)});
     return m;
   }
   var sheetY=0, pushed=false;
@@ -1182,7 +1147,7 @@ select{text-overflow:ellipsis}
   goals.forEach(function(g){if(!Array.isArray(g.subs))g.subs=(g.name==="Menikah"&&g.target===100000000&&g.saved===25000000)?sampleSubs():[]});
   if(!noLocal)try{hideBal=localStorage.getItem("sembunyi-v1")==="1"}catch(e){}
   if(!noLocal)try{dailyLimit=parseInt(localStorage.getItem("batas-harian-v1"),10)||0}catch(e){}
-  profil=cleanProfil(loadKey("profil-v1"));rekening=[];transfers=[];
+  profil=cleanProfil(loadKey("profil-v1"));
   salaries=loadKey("gaji-v1");
   if(!salaries||Array.isArray(salaries)){salaries={};salaries[curYM]=5000000}
   assets=loadKey("aset-v1");
@@ -1203,9 +1168,6 @@ select{text-overflow:ellipsis}
     items.forEach(function(t){var k=t.date.slice(0,7);(m[k]=m[k]||[]).push(t)});
     Object.keys(m).forEach(function(k){d["tx-"+k]={items:m[k]}});
     if(Object.keys(salaries).length)d.gaji={v:salaries};if(assets.length)d.aset={items:assets};if(goals.length)d.tujuan={items:goals};d.profil={nama:profil.nama||"",foto:profil.foto||""};
-    if(rekening.length)d.rekening={items:rekening};
-    var tm={};transfers.forEach(function(x){var k=x.date.slice(0,7);(tm[k]=tm[k]||[]).push(x)});
-    Object.keys(tm).forEach(function(k){d["trf-"+k]={items:tm[k]}});
     d.pref={dailyLimit:dailyLimit,hideBal:hideBal,theme:userTheme()};
     return d;
   }
@@ -1253,9 +1215,6 @@ select{text-overflow:ellipsis}
     assets=(docs.aset&&Array.isArray(docs.aset.items))?docs.aset.items:[];
     goals=(docs.tujuan&&Array.isArray(docs.tujuan.items))?docs.tujuan.items:[];
     goals.forEach(function(g){if(!Array.isArray(g.subs))g.subs=[]});
-    rekening=cleanList(docs.rekening&&docs.rekening.items,cleanRek,50);
-    var trRaw=[];Object.keys(docs).forEach(function(k){if(k.indexOf("trf-")===0&&Array.isArray(docs[k].items))trRaw=trRaw.concat(docs[k].items)});
-    transfers=cleanList(trRaw,cleanTrf,100000);
     profil=cleanProfil(docs.profil);var p=docs.pref||{};hideBal=!!p.hideBal;dailyLimit=+p.dailyLimit>0?+p.dailyLimit:0;
     if(p.theme==="dark"||p.theme==="light"){document.documentElement.setAttribute("data-theme",p.theme);try{localStorage.setItem("tema-v1",p.theme)}catch(e){}paintTheme();applySkin(skin)}
   }
@@ -1331,11 +1290,11 @@ select{text-overflow:ellipsis}
   function wipeMemory(){
     clearTimeout(syncTimer);
     closePm();closePh();closeRs();closeIm();closeTx();closeSheet();
-    items=[];salaries={};assets=[];goals=[];rekening=[];transfers=[];hideBal=false;dailyLimit=0;profil=cleanProfil(null);
-    recMode=false;recPending(false);imPending=null;pendingRek=null;pendingTrf=null;
+    items=[];salaries={};assets=[];goals=[];hideBal=false;dailyLimit=0;profil=cleanProfil(null);
+    recMode=false;recPending(false);imPending=null;
     lastJson={};loaded=false;mode=null;theUid=null;theName="";extraMonths=[];viewYM=curYM;pendingM=null;
     openG={};wkSel=null;pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;
-    try{resetForm();resetAsset();resetGoal();resetSub();resetRek()}catch(e){}
+    try{resetForm();resetAsset();resetGoal();resetSub()}catch(e){}
     $("salaryPanel").hidden=true;$("wkLimBox").hidden=true;
     $("app").setAttribute("data-tab","home");
     try{render();renderProfile()}catch(e){}
@@ -1406,7 +1365,7 @@ select{text-overflow:ellipsis}
     else if(a==="import"||a==="sample"||a==="empty"){
       if(a==="import")loadLocal();
       else if(a==="sample"){noLocal=true;loadLocal();noLocal=false}
-      else{items=[];salaries={};assets=[];goals=[];rekening=[];transfers=[];hideBal=false;dailyLimit=0}
+      else{items=[];salaries={};assets=[];goals=[];hideBal=false;dailyLimit=0}
       lastJson={};loaded=true;save();enter();
       if(a==="import")$("storeNote").textContent+=" Data lama masih ada di browser ini dan tidak dihapus.";
     }
@@ -1564,10 +1523,29 @@ select{text-overflow:ellipsis}
     if(t.category===SAVE){
       var a=assets.filter(function(x){return x.id===t.asetId})[0], g=goals.filter(function(x){return x.id===t.tujuanId})[0];
       if(a)p.push(a.name);if(g)p.push("tujuan: "+g.name);
-    }
-    var r=t.rekId?rekById(t.rekId):null;
-    if(r)p.push("dari "+r.name);
+    }else if(t.category===TRF&&t.from&&t.to)p.push(t.from+" \u2192 "+t.to);
     return p.length?'<small class="sv">'+esc(p.join(", "))+'</small>':"";
+  }
+  function toggleTrBox(f,t){
+    var on=$("fCat").value===TRF;
+    $("trBox").hidden=!on;
+    if(!on)return;
+    if(f!==undefined)$("fFrom").value=f;
+    if(t!==undefined)$("fTo").value=t;
+    var o=["BCA","BRI","Mandiri","BNI","SeaBank","Jago","GoPay","OVO","DANA","ShopeePay","Tunai"], seen={};
+    items.forEach(function(x){if(x.category===TRF){if(x.from)o.push(x.from);if(x.to)o.push(x.to)}});
+    $("trOpts").innerHTML=o.filter(function(v){var k=v.toLowerCase();if(seen[k])return false;seen[k]=1;return true}).map(function(v){return '<option value="'+esc(v)+'">'}).join("");
+  }
+  function renderMoves(){
+    var g=Object.create(null), ks=[];
+    items.forEach(function(t){
+      if(t.category!==TRF||t.date.slice(0,7)!==viewYM)return;
+      var k=(t.from||"?")+"\u0001"+(t.to||"?");
+      if(!g[k]){g[k]={f:t.from||"?",t:t.to||"?",a:0};ks.push(k)}
+      g[k].a+=t.amount;
+    });
+    var h=ks.length?'<div class="mv-h">Uang dipindahkan ('+monthLabel(viewYM)+')</div>'+ks.map(function(k){return '<div class="mv"><span>'+esc(g[k].f)+' &rarr; '+esc(g[k].t)+'</span><span>'+mk(g[k].a)+'</span></div>'}).join(""):"";
+    $("lMoves").innerHTML=h;$("sMoves").innerHTML=h;
   }
   function toggleSaveBox(aId,gId){
     var on=$("fCat").value===SAVE;
@@ -1578,13 +1556,13 @@ select{text-overflow:ellipsis}
     fillSelect($("fGoal"),[["","Tanpa tujuan"]].concat(goals.map(function(g){return [g.id,g.name]})),cg||"");
     $("saveHint").textContent=assets.length?"":"Tambahkan aset dulu di tab Aset.";
   }
-  $("fCat").addEventListener("change",function(){toggleSaveBox()});
+  $("fCat").addEventListener("change",function(){toggleSaveBox();toggleTrBox()});
   var LVN=["tidak ada pengeluaran","rendah","sedang","tinggi","parah"];
   function renderWeek(){
     var days=[],i,d;
     for(i=6;i>=0;i--){d=new Date();d.setDate(d.getDate()-i);days.push(ymd(d))}
     var amt={};days.forEach(function(k){amt[k]=0});
-    items.forEach(function(t){if(t.category!==SAVE&&amt[t.date]!==undefined)amt[t.date]+=t.amount});
+    items.forEach(function(t){if(t.category!==SAVE&&t.category!==TRF&&amt[t.date]!==undefined)amt[t.date]+=t.amount});
     var vals=days.map(function(k){return amt[k]}), mx=Math.max.apply(null,vals);
     var nz=vals.filter(function(v){return v>0}), avg=nz.length?nz.reduce(function(s,v){return s+v},0)/nz.length:0;
     function lvl(v){
@@ -1623,8 +1601,6 @@ select{text-overflow:ellipsis}
     $("setAcc").textContent=mode==="db"?theName:"Tanpa akun";
     $("setMode").textContent=mode==="db"?"Database akun (otomatis)":"Lokal, hanya di browser ini";
     $("setSt").textContent=mode==="db"?($("syncSt").textContent||"Tersimpan"):"-";
-    var rb=rekBals();
-    $("setRek").innerHTML=rekening.length?rekening.map(function(r){return '<div class="setrow"><span>'+esc(r.name)+'</span><b>'+mkR(rb[r.id])+'</b></div>'}).join(""):'<p class="wp">Belum ada rekening.</p>';
     $("setNote").textContent="Anda masuk dengan email. Data tersimpan di database Supabase dan hanya bisa diakses akun ini (RLS aktif). Untuk ganti akun, keluar lalu masuk dengan email lain.";
   }
   function showTab(n){
@@ -1879,116 +1855,6 @@ select{text-overflow:ellipsis}
     if(p&&!p.contains(e.target)){var f=focusables(p);giveFocus(f[0]||p)}
   });
 
-  /* ===== rekening dan transfer ===== */
-  function mkR(n){return hideBal?"Rp ••••••":rpS(n)}
-  function rekById(id){for(var i=0;i<rekening.length;i++)if(rekening[i].id===id)return rekening[i];return null}
-  function rekBals(){
-    var b=Object.create(null);
-    rekening.forEach(function(r){b[r.id]=r.open});
-    items.forEach(function(t){if(t.rekId&&b[t.rekId]!==undefined)b[t.rekId]-=t.amount});
-    transfers.forEach(function(x){if(b[x.to]!==undefined)b[x.to]+=x.amount;if(b[x.from]!==undefined)b[x.from]-=x.amount});
-    return b;
-  }
-  function rekOpts(bal){return rekening.map(function(r){return [r.id,r.name+" ("+mkR(bal[r.id])+")"]})}
-  function toggleRekBox(sel){
-    var has=rekening.length>0;
-    $("rekBox").hidden=!has;
-    if(!has)return;
-    var cur=sel!==undefined?sel:$("fRek").value;
-    fillSelect($("fRek"),[["","Tanpa rekening"]].concat(rekOpts(rekBals())),cur||"");
-  }
-  function renderRek(){
-    var bal=rekBals(), tot=0;
-    rekening.forEach(function(r){tot+=bal[r.id]});
-    $("rTotal").textContent=mkR(tot);
-    $("rTotal").className="v"+(!hideBal&&tot<0?" over":"");
-    $("rInfo").textContent=rekening.length?rekening.length+" rekening":"Belum ada rekening. Tambahkan untuk melacak saldo.";
-    function ov(n){return !hideBal&&n<0?' class="over"':''}
-    $("rChips").innerHTML=rekening.map(function(r){return '<span class="rkchip"><b>'+esc(r.name)+'</b><span'+ov(bal[r.id])+'>'+mkR(bal[r.id])+'</span></span>'}).join("");
-    $("rSum").textContent=mkR(tot);
-    $("rList").innerHTML=rekening.length?rekening.map(function(r){
-      var del=pendingRek===r.id?'<button class="small danger confirm" data-a="del" data-id="'+r.id+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+r.id+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat"><div class="top"><span>'+esc(r.name)+'</span><span'+ov(bal[r.id])+'>'+mkR(bal[r.id])+'</span></div><div class="arow"><button class="small" data-a="edit" data-id="'+r.id+'">'+ic("pen")+'Edit</button>'+del+'</div></div>';
-    }).join(""):'<div class="empty">Belum ada rekening. Tambahkan di bawah.</div>';
-    var has2=rekening.length>=2;
-    $("trfForm").hidden=!has2;$("trfEmpty").hidden=has2;
-    if(has2){
-      var f=$("tFrom").value, t=$("tTo").value, o=rekOpts(bal);
-      if(!rekById(f))f=rekening[0].id;
-      if(!rekById(t)||t===f){t="";for(var i=0;i<rekening.length;i++)if(rekening[i].id!==f){t=rekening[i].id;break}}
-      fillSelect($("tFrom"),o,f);fillSelect($("tTo"),o,t);
-    }
-    paintSet();
-  }
-  function renderTrf(selM,selR){
-    var list=transfers.filter(function(x){
-      return (selM==="all"||x.date.slice(0,7)===selM)&&(selR==="all"||(selR!=="none"&&(x.from===selR||x.to===selR)));
-    }).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
-    $("trfListCard").hidden=!rekening.length&&!transfers.length;
-    function nm(id){var r=rekById(id);return r?r.name:"Rekening dihapus"}
-    $("trfList").innerHTML=list.length?list.map(function(x){
-      var del=pendingTrf===x.id?'<button class="small danger confirm" data-a="del" data-id="'+x.id+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+x.id+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="trow"><div class="tinfo"><b>'+esc(nm(x.from))+' &rarr; '+esc(nm(x.to))+'</b><small>'+dateLabel(x.date)+(x.note?" &middot; "+esc(x.note):"")+'</small></div><div class="tact"><span class="tamt">'+rp(x.amount)+'</span>'+del+'</div></div>';
-    }).join(""):'<div class="empty sm">Belum ada transfer untuk filter ini.</div>';
-  }
-  function resetRek(){editRek=null;$("rName").value="";$("rAmt").value="";$("rErr").textContent="";$("rFormTitle").textContent="Tambah rekening";$("rAmtLbl").textContent="Saldo awal (Rp)";$("btnRekSave").textContent="Tambah rekening";$("btnRekCancel").hidden=true}
-  fmtIn($("rAmt"));fmtIn($("tAmt"));
-  $("tDate").value=ymd(new Date());
-  $("btnRek").addEventListener("click",function(){goTab("aset","rekPanel")});
-  $("btnSetRek").addEventListener("click",function(){goTab("aset","rekPanel")});
-  $("btnTrf").addEventListener("click",function(){goTab("aset","trfPanel")});
-  $("btnRekCancel").addEventListener("click",function(){resetRek();renderRek()});
-  $("btnRekSave").addEventListener("click",function(){
-    var n=$("rName").value.trim(), v=num($("rAmt").value);
-    if(!n){$("rErr").textContent="Isi nama rekening.";$("rName").focus();return}
-    var dup=rekening.some(function(r){return r.id!==editRek&&r.name.toLowerCase()===n.toLowerCase()});
-    if(dup){$("rErr").textContent="Nama rekening sudah dipakai.";$("rName").focus();return}
-    if(!editRek&&rekening.length>=30){$("rErr").textContent="Maksimal 30 rekening.";return}
-    if(editRek){
-      var r=rekById(editRek);if(!r){resetRek();return}
-      var cur=rekBals()[r.id];
-      r.name=n;r.open=r.open+(v-cur);
-    }else rekening.push({id:uid(),name:n,open:v});
-    save();resetRek();render();
-  });
-  $("rList").addEventListener("click",function(e){
-    var b=e.target.closest("button");if(!b)return;
-    var id=b.getAttribute("data-id"), act=b.getAttribute("data-a");
-    if(act==="edit"){
-      var r=rekById(id);if(!r)return;
-      editRek=id;pendingRek=null;
-      $("rName").value=r.name;$("rAmt").value=rekBals()[id]>0?nf.format(rekBals()[id]):"";$("rErr").textContent="";
-      $("rFormTitle").textContent="Edit rekening";$("rAmtLbl").textContent="Saldo saat ini (Rp)";$("btnRekSave").textContent="Simpan perubahan";$("btnRekCancel").hidden=false;
-      $("rName").focus();renderRek();
-    }else if(act==="del"){
-      if(pendingRek===id){rekening=rekening.filter(function(x){return x.id!==id});pendingRek=null;if(editRek===id)resetRek();save();render()}
-      else{pendingRek=id;renderRek();setTimeout(function(){if(pendingRek===id){pendingRek=null;renderRek()}},4000)}
-    }
-  });
-  $("btnTrfSave").addEventListener("click",function(){
-    var from=$("tFrom").value, to=$("tTo").value, amt=num($("tAmt").value), date=$("tDate").value, note=$("tNote").value.trim();
-    $("tOk").textContent="";
-    var rf=rekById(from), rt=rekById(to);
-    if(!rf||!rt){$("tErr").textContent="Pilih rekening asal dan tujuan.";return}
-    if(from===to){$("tErr").textContent="Rekening asal dan tujuan harus berbeda.";return}
-    if(amt<=0){$("tErr").textContent="Nominal harus lebih dari Rp 0.";$("tAmt").focus();return}
-    if(!date){$("tErr").textContent="Pilih tanggal.";$("tDate").focus();return}
-    var bal=rekBals()[from];
-    if(amt>bal){$("tErr").textContent="Saldo "+rf.name+" tidak cukup (tersedia "+rpS(bal)+"). Perbarui saldo lewat Edit rekening jika sudah tidak sesuai.";return}
-    $("tErr").textContent="";
-    transfers.push({id:uid(),from:from,to:to,amount:amt,date:date,note:note.slice(0,60)});
-    save();
-    $("tAmt").value="";$("tNote").value="";
-    render();
-    $("tOk").textContent="Transfer "+rp(amt)+" dari "+rf.name+" ke "+rt.name+" tercatat.";
-  });
-  $("trfList").addEventListener("click",function(e){
-    var b=e.target.closest("button");if(!b||b.getAttribute("data-a")!=="del")return;
-    var id=b.getAttribute("data-id");
-    if(pendingTrf===id){transfers=transfers.filter(function(x){return x.id!==id});pendingTrf=null;save();render()}
-    else{pendingTrf=id;render();setTimeout(function(){if(pendingTrf===id){pendingTrf=null;render()}},4000)}
-  });
-
   /* ===== cadangan data: ekspor dan impor ===== */
   var BK_APP="pencatatan-pengeluaran", BK_VER=2;
   function isObj(o){return !!o&&typeof o==="object"&&!Array.isArray(o)}
@@ -2016,7 +1882,7 @@ select{text-overflow:ellipsis}
     var cat=CATS.indexOf(o.category)>=0?o.category:"Lainnya";
     var r={id:cId(o.id)||uid(),name:name,amount:amt,category:cat,date:date};
     if(cat===SAVE){var a=cId(o.asetId),g=cId(o.tujuanId);if(a)r.asetId=a;if(g)r.tujuanId=g}
-    var k=cId(o.rekId);if(k)r.rekId=k;
+    if(cat===TRF){var tf=cStr(o.from,30), tt=cStr(o.to,30);if(tf)r.from=tf;if(tt)r.to=tt}
     return r;
   }
   function cleanAsset(o){var n=cStr(o.name,60), v=cAmt(o.amount);return n&&v>=0?{id:cId(o.id)||uid(),name:n,amount:v}:null}
@@ -2029,17 +1895,6 @@ select{text-overflow:ellipsis}
       return {id:cId(x.id)||uid(),name:nn,price:p<0?0:p,link:l===null?"":l};
     },200);
     return {id:cId(o.id)||uid(),name:n,target:t,saved:sv<0?0:sv,subs:subs};
-  }
-  function cleanRek(o){
-    var n=cStr(o.name,40), v=Math.round(+o.open);
-    if(!n)return null;
-    if(!isFinite(v)||Math.abs(v)>9999999999999)v=0;
-    return {id:cId(o.id)||uid(),name:n,open:v};
-  }
-  function cleanTrf(o){
-    var f=cId(o.from), t=cId(o.to), a=cAmt(o.amount), d=cDate(o.date);
-    if(!f||!t||f===t||a<=0||!d)return null;
-    return {id:cId(o.id)||uid(),from:f,to:t,amount:a,date:d,note:cStr(o.note,60)};
   }
   function cleanSal(o){
     var out={};
@@ -2057,35 +1912,33 @@ select{text-overflow:ellipsis}
       items:cleanList(d.items,cleanTx,100000),
       assets:cleanList(d.assets,cleanAsset,500),
       goals:cleanList(d.goals,cleanGoal,500),
-      rekening:cleanList(d.rekening,cleanRek,50),
-      transfers:cleanList(d.transfers,cleanTrf,100000),
       salaries:cleanSal(d.salaries),
       dailyLimit:Math.max(0,cAmt(d.dailyLimit)),
       profil:cleanProfil(d.profil)
     };
-    raw=cnt(d.items)+cnt(d.assets)+cnt(d.goals)+cnt(d.rekening)+cnt(d.transfers);
-    ok=b.items.length+b.assets.length+b.goals.length+b.rekening.length+b.transfers.length;
+    raw=cnt(d.items)+cnt(d.assets)+cnt(d.goals);
+    ok=b.items.length+b.assets.length+b.goals.length;
     return {data:b,skipped:raw-ok,exportedAt:typeof j.exportedAt==="string"?j.exportedAt:""};
   }
   function bkCounts(b){
-    return b.items.length+" transaksi, "+b.rekening.length+" rekening, "+b.transfers.length+" transfer, "+b.assets.length+" aset, "+b.goals.length+" tujuan, "+Object.keys(b.salaries).length+" bulan gaji";
+    return b.items.length+" transaksi, "+b.assets.length+" aset, "+b.goals.length+" tujuan, "+Object.keys(b.salaries).length+" bulan gaji";
   }
   function doExport(){
     $("bkErr").textContent="";$("bkOk").textContent="";
     try{
-      var bk={app:BK_APP,version:BK_VER,exportedAt:new Date().toISOString(),data:{items:items,salaries:salaries,assets:assets,goals:goals,rekening:rekening,transfers:transfers,dailyLimit:dailyLimit,profil:profil}};
+      var bk={app:BK_APP,version:BK_VER,exportedAt:new Date().toISOString(),data:{items:items,salaries:salaries,assets:assets,goals:goals,dailyLimit:dailyLimit,profil:profil}};
       var blob=new Blob([JSON.stringify(bk,null,2)],{type:"application/json"});
       var url=URL.createObjectURL(blob), a=document.createElement("a");
       a.href=url;a.download="cadangan-pengeluaran-"+ymd(new Date())+".json";
       document.body.appendChild(a);a.click();a.remove();
       setTimeout(function(){URL.revokeObjectURL(url)},5000);
-      $("bkOk").textContent="Cadangan diunduh: "+bkCounts({items:items,rekening:rekening,transfers:transfers,assets:assets,goals:goals,salaries:salaries})+".";
+      $("bkOk").textContent="Cadangan diunduh: "+bkCounts({items:items,assets:assets,goals:goals,salaries:salaries})+".";
     }catch(e){$("bkErr").textContent="Gagal membuat cadangan. Coba lagi."}
   }
   function openIm(){
     var p=imPending, d=p.parsed.data, when="";
     if(p.parsed.exportedAt){var dt=new Date(p.parsed.exportedAt);if(!isNaN(dt.getTime()))when=dt.toLocaleString("id-ID",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}
-    $("imInfo").innerHTML='<div class="im-sum"><b>'+esc(p.name)+'</b>'+(when?'<br>Dibuat: '+esc(when):'')+'</div><ul class="rs-ul"><li>'+d.items.length+' transaksi</li><li>'+d.rekening.length+' rekening dan '+d.transfers.length+' transfer</li><li>'+d.assets.length+' aset, '+d.goals.length+' tujuan</li><li>'+Object.keys(d.salaries).length+' bulan gaji</li></ul>'+(p.parsed.skipped>0?'<p class="rs-warn">'+p.parsed.skipped+' data tidak valid dilewati.</p>':'');
+    $("imInfo").innerHTML='<div class="im-sum"><b>'+esc(p.name)+'</b>'+(when?'<br>Dibuat: '+esc(when):'')+'</div><ul class="rs-ul"><li>'+d.items.length+' transaksi</li><li>'+d.assets.length+' aset, '+d.goals.length+' tujuan</li><li>'+Object.keys(d.salaries).length+' bulan gaji</li></ul>'+(p.parsed.skipped>0?'<p class="rs-warn">'+p.parsed.skipped+' data tidak valid dilewati.</p>':'');
     imConfirm=false;$("imReplace").textContent="Ganti semua data dengan cadangan";$("imReplace").classList.remove("confirm");$("imErr").textContent="";
     $("imSheet").hidden=false;$("imOv").hidden=false;
     document.documentElement.classList.add("lock");
@@ -2104,16 +1957,16 @@ select{text-overflow:ellipsis}
     var b=imPending&&imPending.parsed.data;if(!b)return;
     var keepPhoto=profil.foto, keepName=profil.nama;
     if(how==="replace"){
-      items=b.items;assets=b.assets;goals=b.goals;rekening=b.rekening;transfers=b.transfers;salaries=b.salaries;dailyLimit=b.dailyLimit;
+      items=b.items;assets=b.assets;goals=b.goals;salaries=b.salaries;dailyLimit=b.dailyLimit;
       profil={nama:b.profil.nama||keepName,foto:b.profil.foto||keepPhoto};
     }else{
-      items=mergeById(items,b.items);assets=mergeById(assets,b.assets);goals=mergeById(goals,b.goals);rekening=mergeById(rekening,b.rekening);transfers=mergeById(transfers,b.transfers);
+      items=mergeById(items,b.items);assets=mergeById(assets,b.assets);goals=mergeById(goals,b.goals);
       Object.keys(b.salaries).forEach(function(k){if(!(k in salaries))salaries[k]=b.salaries[k]});
       if(!dailyLimit)dailyLimit=b.dailyLimit;
       profil={nama:keepName||b.profil.nama,foto:keepPhoto||b.profil.foto};
     }
     goals.forEach(function(g){if(!Array.isArray(g.subs))g.subs=[]});
-    pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;pendingRek=null;pendingTrf=null;openG={};
+    pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;openG={};
     var msg=(how==="replace"?"Data diganti dengan cadangan: ":"Cadangan digabungkan: ")+bkCounts(b)+".";
     closeIm();
     save();render();renderProfile();
@@ -2165,10 +2018,9 @@ select{text-overflow:ellipsis}
     viewYM=curYM;pendingM=curYM;extraMonths=[];
     pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;openG={};wkSel=null;
     lastCat="Makanan & Minuman";try{localStorage.removeItem("kategori-terakhir-v1")}catch(e){}
-    lastRek="";try{localStorage.removeItem("rekening-terakhir-v1")}catch(e){}pendingRek=null;pendingTrf=null;
-    resetForm();resetAsset();resetGoal();resetSub();resetRek();closeTx();closePh();closeSheet();
+    resetForm();resetAsset();resetGoal();resetSub();closeTx();closePh();closeSheet();
     $("salaryPanel").hidden=true;$("wkLimBox").hidden=true;
-    $("fMonth").value=curYM;$("fCatF").value="all";$("fRekF").value="all";
+    $("fMonth").value=curYM;$("fCatF").value="all";
     showTab("home");render();renderProfile();
     $("rsErr").textContent="";$("rsStatus").textContent="Reset selesai.";
     $("rsGo").hidden=true;$("rsRetry").hidden=true;$("rsCancel").textContent="Tutup";
@@ -2176,10 +2028,10 @@ select{text-overflow:ellipsis}
   async function doReset(){
     if(rsBusy)return;
     var wipe=$("rsProfil").checked;
-    var snap={items:items,salaries:salaries,assets:assets,goals:goals,rekening:rekening,transfers:transfers,hideBal:hideBal,dailyLimit:dailyLimit,profil:profil};
+    var snap={items:items,salaries:salaries,assets:assets,goals:goals,hideBal:hideBal,dailyLimit:dailyLimit,profil:profil};
     rsBusy=true;$("rsGo").disabled=true;$("rsCancel").disabled=true;$("rsRetry").hidden=true;
     $("rsErr").textContent="";$("rsStatus").textContent="Menghapus...";
-    items=[];salaries={};assets=[];goals=[];rekening=[];transfers=[];hideBal=false;dailyLimit=0;
+    items=[];salaries={};assets=[];goals=[];hideBal=false;dailyLimit=0;
     if(wipe)profil={nama:"",foto:""};
     if(mode==="db"){
       clearTimeout(syncTimer);
@@ -2191,7 +2043,7 @@ select{text-overflow:ellipsis}
         finishReset();
       }catch(e){
         syncing=false;
-        items=snap.items;salaries=snap.salaries;assets=snap.assets;goals=snap.goals;rekening=snap.rekening;transfers=snap.transfers;hideBal=snap.hideBal;dailyLimit=snap.dailyLimit;profil=snap.profil;
+        items=snap.items;salaries=snap.salaries;assets=snap.assets;goals=snap.goals;hideBal=snap.hideBal;dailyLimit=snap.dailyLimit;profil=snap.profil;
         var c=e&&e.code;
         $("rsStatus").textContent="";
         $("rsErr").textContent="Reset gagal"+(c?" ("+c+")":"")+". Data di layar tidak diubah. Coba lagi.";
