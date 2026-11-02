@@ -413,6 +413,7 @@ select{text-overflow:ellipsis}
 #fgBox .primary,#rcBox .primary{width:100%;margin-top:8px}
 #fgBox .primary:disabled{opacity:.6;cursor:not-allowed}
 .im-sum{margin:6px 0 10px;font-size:.92rem}
+@media (min-width:761px){.hr{margin-left:auto;margin-right:14px}}
 .moves{margin-top:10px;padding:8px 12px;border-radius:12px;background:var(--chip);border:1px solid var(--glass-b);font-size:.82rem}
 .moves:empty{display:none}
 .moves .mv-h{color:var(--muted);font-weight:600;margin-bottom:4px}
@@ -487,8 +488,8 @@ select{text-overflow:ellipsis}
 </div></div>
 <div class="wrap" id="app" data-tab="home" hidden>
   <header>
-    <div class="hl"><div class="brand">Pencatatan Pengeluaran By adusT</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1></div>
-    <div class="hr"><div class="date"><i data-ic="cal"></i><span id="today"></span></div><button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button></div><button type="button" class="avatar" id="btnAvatar" aria-haspopup="dialog" aria-expanded="false" aria-label="Profil"><span class="avin" id="avIn"></span><span class="avdot" id="avDot" hidden></span></button>
+    <div class="hl"><div class="brand">Pencatatan Pengeluaran By adusT</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1><div class="date" style="margin-top:2px"><i data-ic="cal"></i><span id="today"></span></div></div>
+    <div class="hr"><button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button></div><button type="button" class="avatar" id="btnAvatar" aria-haspopup="dialog" aria-expanded="false" aria-label="Profil"><span class="avin" id="avIn"></span><span class="avdot" id="avDot" hidden></span></button>
     <div id="mOverlay" class="ov" hidden></div>
     <div id="mSheet" class="sheet" role="dialog" aria-label="Pilih bulan" hidden>
       <div class="sh">Pilih bulan</div>
@@ -500,7 +501,7 @@ select{text-overflow:ellipsis}
 
   <section class="grid3" data-t="home" aria-label="Ringkasan bulan ini">
     <div class="stat">
-      <div class="l"><i data-ic="wallet"></i><span id="lLbl">Sisa uang bulan ini</span></div><div class="v" id="lVal">Belum diisi</div>
+      <div class="l"><i data-ic="wallet"></i><span id="lLbl">Sisa uang bulan ini</span><button type="button" class="eye" data-eye></button></div><div class="v" id="lVal">Belum diisi</div>
       <div class="n" id="lSal"></div>
       <div class="bar"><i id="lBar" style="width:0"></i></div>
       <div class="n" id="lUsed"></div>
@@ -638,6 +639,14 @@ select{text-overflow:ellipsis}
       </table>
     </div>
   </section>
+  <section class="card" data-t="set" id="skinCard">
+    <h2><i data-ic="palette"></i>Tema</h2>
+    <div class="skins" role="radiogroup" aria-label="Pilih tema">
+      <button type="button" role="radio" class="skin" data-skin="original" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Original</span><span class="sk-sub">Putih dan hijau sage</span></button>
+      <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Gelap, biru dan oranye</span></button>
+    </div>
+    <p class="wp" id="skinNote" style="margin:12px 0 0"></p>
+  </section>
   <section class="card" data-t="set">
     <h2><i data-ic="sliders"></i>Pengaturan</h2>
     <div class="setrow"><span>Akun</span><b id="setAcc">-</b></div>
@@ -653,14 +662,6 @@ select{text-overflow:ellipsis}
     <input type="file" id="imFile" accept=".json,application/json" hidden>
     <div class="err" id="bkErr" role="alert"></div>
     <div class="rs-status okmsg" id="bkOk" role="status"></div>
-  </section>
-  <section class="card" data-t="set" id="skinCard">
-    <h2><i data-ic="palette"></i>Tema</h2>
-    <div class="skins" role="radiogroup" aria-label="Pilih tema">
-      <button type="button" role="radio" class="skin" data-skin="original" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Original</span><span class="sk-sub">Putih dan hijau sage</span></button>
-      <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Gelap, biru dan oranye</span></button>
-    </div>
-    <p class="wp" id="skinNote" style="margin:12px 0 0"></p>
   </section>
   <p class="note" id="storeNote" data-t="set"></p>
   <nav class="nav" aria-label="Menu utama">
@@ -807,13 +808,13 @@ select{text-overflow:ellipsis}
     var top=sumBy(spendCur)[0];
     var sal=salaries[viewYM], hasSal=typeof sal==="number"&&sal>0, left=hasSal?sal-tot-savedCur:0;
     $("lMonth").textContent="("+monthLabel(viewYM)+")";
-    $("lVal").textContent=hasSal?rpS(left):"Belum diisi";
-    $("lVal").className="v"+(hasSal&&left<0?" over":"");
-    $("lSal").textContent=hasSal?"Gaji: "+rp(sal):"Klik Atur gaji untuk mengisi";
+    $("lVal").textContent=hasSal?(hideBal?"Rp ••••••":rpS(left)):"Belum diisi";
+    $("lVal").className="v"+(hasSal&&left<0&&!hideBal?" over":"");
+    $("lSal").textContent=hasSal?"Gaji: "+mk(sal):"Klik Atur gaji untuk mengisi";
     var used=hasSal?Math.round((tot+savedCur)/sal*100):0;
-    $("lBar").style.width=Math.min(100,used)+"%";
-    $("lUsed").textContent=hasSal?(left<0?"Pengeluaran melebihi gaji":used+"% gaji terpakai"):"";
-    $("lUsed").className="n"+(hasSal&&left<0?" over":"");
+    $("lBar").style.width=(hideBal?0:Math.min(100,used))+"%";
+    $("lUsed").textContent=hasSal?(left<0&&!hideBal?"Pengeluaran melebihi gaji":(hideBal?"••":used)+"% gaji terpakai"):"";
+    $("lUsed").className="n"+(hasSal&&left<0&&!hideBal?" over":"");
     $("mTotal").textContent=rp(tot);
     $("mInfo").textContent=spendCur.length+" transaksi, terbesar: "+(top?top[0]:"belum ada");
     var tl=viewYM===curYM?" bulan ini":"";
@@ -1583,7 +1584,7 @@ select{text-overflow:ellipsis}
       else msg="Aman, belum ada hari yang melewati batas";
     }else msg="Atur batas harian untuk mendapat peringatan";
     $("wkMsg").textContent=msg;$("wkMsg").className="wkmsg"+(warn?" warn":"");
-    $("btnLimit").textContent=dailyLimit>0?"Batas "+mk(dailyLimit)+"/hari":"+ Batas/hari";
+    $("btnLimit").textContent=dailyLimit>0?"Batas "+rp(dailyLimit)+"/hari":"+ Batas/hari";
   }
   fmtIn($("wkLim"));
   $("btnLimit").addEventListener("click",function(){var b=$("wkLimBox");b.hidden=!b.hidden;if(!b.hidden){$("wkLim").value=dailyLimit>0?nf.format(dailyLimit):"";$("wkErr").textContent="";$("wkLim").focus()}});
