@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="bydust">
-<script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme","dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}catch(e){}</script>
+<script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}catch(e){}</script>
 <style>
 :root{
   box-sizing:border-box;
@@ -381,6 +381,47 @@ select{text-overflow:ellipsis}
 :root[data-skin="midnight"] .lv3 .wcol{background:#FC734D}
 :root[data-skin="midnight"] .tag{color:#4DB9F0}
 
+/* ===== panel aset/tujuan akordeon + geser antar tab ===== */
+.acch{cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;margin:0 0 14px}
+.acch .accr{margin-left:auto;display:inline-flex;align-items:center;gap:6px;min-width:0}
+.acch .accsum{font-size:.85rem;font-weight:600;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis}
+.acch .accchev{flex:none;transition:transform .2s}
+.acch .accchev .ic{width:20px;height:20px}
+.acch[aria-expanded="true"] .accchev{transform:rotate(180deg)}
+.acc.collapsed>:not(.acch){display:none!important}
+.acc.collapsed>.acch{margin-bottom:0}
+.acc{scroll-margin-top:12px}
+@keyframes slideN{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes slideP{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+#app.tabin.sw-n .card,#app.tabin.sw-n .stat{animation:slideN .32s var(--ease) both}
+#app.tabin.sw-p .card,#app.tabin.sw-p .stat{animation:slideP .32s var(--ease) both}
+@media (prefers-reduced-motion:reduce){.acch .accchev{transition:none}}
+/* ===== Midnight Electric versi terang (biru + pink) ===== */
+:root[data-skin="midnight"][data-theme="light"]{color-scheme:light;
+  --bg:#ffffff;--surface:#f3f6fd;--text:#18213d;--muted:#5b6688;--line:rgba(59,100,190,.16);
+  --sage:#3b82f6;--sage-d:#1f5fc9;--sage-l:rgba(59,130,246,.14);--danger:#d9456f;--danger-l:#fbe6ec;
+  --glass:rgba(255,255,255,.6);--glass-2:rgba(255,255,255,.65);--glass-s:rgba(255,255,255,.9);--glass-b:rgba(255,255,255,.85);
+  --glass-sh:0 10px 32px rgba(60,90,170,.16);
+  --field:rgba(255,255,255,.78);--chip:rgba(59,130,246,.13);--hover:rgba(59,130,246,.2);--track:rgba(59,100,190,.14);
+  --page:linear-gradient(160deg,#eef4ff 0%,#e6eefc 45%,#fbeaf3 100%);
+  --b1:#bcd3f7;--b2:#f5c3dc;--b3:#cfe0fb;
+  --t1:rgba(59,130,246,.16);--t2:rgba(244,114,182,.2);--t3:rgba(96,165,250,.16);--t4:rgba(244,114,182,.14)}
+:root[data-skin="midnight"][data-theme="light"] body::before{opacity:.85;background:radial-gradient(42vmax 42vmax at 10% 6%,var(--b1),transparent 70%),radial-gradient(36vmax 36vmax at 92% 28%,var(--b2),transparent 70%),radial-gradient(40vmax 40vmax at 28% 96%,var(--b3),transparent 70%)}
+:root[data-skin="midnight"][data-theme="light"] .primary{background:#2f6fe0;border-color:#2f6fe0;color:#fff}
+:root[data-skin="midnight"][data-theme="light"] .primary:hover{background:#3b82f6;border-color:#3b82f6}
+:root[data-skin="midnight"][data-theme="light"] .avatar{background:linear-gradient(135deg,#3b82f6,#ec6aa8);color:#fff;border-color:rgba(255,255,255,.8);box-shadow:0 4px 14px rgba(80,100,200,.3)}
+:root[data-skin="midnight"][data-theme="light"] .avatar:hover{background:linear-gradient(135deg,#5a98f8,#f07fb6)}
+:root[data-skin="midnight"][data-theme="light"] .fab,:root[data-skin="midnight"][data-theme="light"] .fab:hover{background:linear-gradient(135deg,#ec5b9a,#f58ab8);color:#fff;border:2px solid rgba(255,255,255,.75);box-shadow:0 10px 28px rgba(236,91,154,.4),0 0 0 6px rgba(236,91,154,.14)}
+:root[data-skin="midnight"][data-theme="light"] .bar i{background:linear-gradient(90deg,#3b82f6,#7fb0fa)}
+:root[data-skin="midnight"][data-theme="light"] .rs-chk input{accent-color:#3b82f6}
+:root[data-skin="midnight"][data-theme="light"] .wb.today small{color:#d9488a}
+:root[data-skin="midnight"][data-theme="light"] .lv3 .wcol{background:#ec5b9a}
+:root[data-skin="midnight"][data-theme="light"] .tag{color:#1f5fc9}
+:root[data-skin="midnight"][data-theme="light"] .toast{--tbg:#1d2a52;--ttx:#eef3ff;--tac:#f48bbd;--tmu:rgba(238,243,255,.72)}
+:root[data-skin="midnight"][data-theme="light"] .toast.del{--tac:#ff8aa6}
+:root[data-skin="midnight"][data-theme="dark"] .toast{--tbg:#e7f2fb;--ttx:#0a1d2b;--tac:#0a7fc2;--tmu:rgba(10,29,43,.68)}
+:root[data-skin="midnight"][data-theme="dark"] .toast.del{--tac:#d4502b}
+
 .auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;background:var(--chip);border:1px solid var(--glass-b);border-radius:999px;margin-bottom:14px}
 .auth-tabs button{border:0;background:none;border-radius:999px;min-height:38px;font-weight:600;color:var(--muted)}
 .auth-tabs button:hover{background:var(--hover)}
@@ -689,8 +730,8 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     <div class="row"><button type="button" class="primary" id="btnSalSave">Simpan gaji</button><button type="button" id="btnSalCancel">Tutup</button></div>
   </section>
 
-  <section class="card" id="assetPanel" data-t="aset">
-    <h2><i data-ic="up"></i>Kelola aset</h2>
+  <section class="card acc" id="assetPanel" data-t="aset">
+    <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="assetPanel" data-acc="assetPanel"><i data-ic="up"></i>Kelola aset<span class="accr"><span class="accsum" id="aAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="donut" id="aDonut"></div>
     <div id="aList"></div>
     <div class="total"><span>Total aset</span><span id="aSum">Rp 0</span></div>
@@ -703,8 +744,8 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     <div class="row"><button type="button" class="primary" id="btnAssetSave">Tambah aset</button><button type="button" id="btnAssetCancel" hidden>Batal</button><button type="button" id="btnAssetClose">Tutup</button></div>
   </section>
 
-  <section class="card" id="goalPanel" data-t="aset">
-    <h2><i data-ic="target"></i>Kelola tujuan</h2>
+  <section class="card acc collapsed" id="goalPanel" data-t="aset">
+    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="goalPanel" data-acc="goalPanel"><i data-ic="target"></i>Kelola tujuan<span class="accr"><span class="accsum" id="gAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="donut" id="gDonut"></div>
     <div id="gList"></div>
     <div class="total"><span>Total terkumpul</span><span id="gSum">Rp 0</span></div>
@@ -1164,6 +1205,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     var dn=goals.filter(function(g){return g.saved>=g.target}).length;
     $("gTgt").textContent=goals.length?"dari target "+mk(tg):"Belum ada tujuan";
     $("gCount").textContent=goals.length+" tujuan";
+    $("gAccSum").textContent=goals.length?(hideBal?"••":op)+"% terkumpul":"Kosong";
     $("gPct").textContent=goals.length?(hideBal?"••":op)+"% menuju tujuan":"";
     $("gBar").style.width=hideBal?"0%":op+"%";
     $("gDone").textContent="Tercapai "+dn+" dari "+goals.length+" tujuan";
@@ -1200,13 +1242,13 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     $("sbName").value=s?s.name:"";$("sbPrice").value=s&&s.price?nf.format(s.price):"";$("sbLink").value=s?(s.link||""):"";$("sbErr").textContent="";
     $("sbTitle").textContent=(s?"Edit sub-item di ":"Tambah sub-item untuk ")+g.name;
     $("btnSubSave").textContent=s?"Simpan perubahan":"Tambah sub-item";
-    $("subForm").hidden=false;$("subForm").scrollIntoView({behavior:"smooth",block:"nearest"});$("sbName").focus();
+    $("subForm").hidden=false;$("subForm").scrollIntoView({behavior:"smooth",block:"nearest"});
   }
   $("gList").addEventListener("click",function(e){
     var b=e.target.closest("button");if(!b)return;
     var act=b.getAttribute("data-a"), id=b.getAttribute("data-id"), gid=b.getAttribute("data-g")||id;
     var g=goals.filter(function(x){return x.id===gid})[0];
-    if(act==="toggle"){openG[id]=!openG[id];renderGoals()}
+    if(act==="toggle"){var was=!!openG[id];openG={};if(!was)openG[id]=true;renderGoals()}
     else if(act==="sadd"&&g){startSub(g,null)}
     else if(act==="sedit"&&g){var s=(g.subs||[]).filter(function(x){return x.id===id})[0];if(s)startSub(g,s)}
     else if(act==="sdel"&&g){
@@ -1224,7 +1266,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     g.subs=g.subs||[];
     if(subCtx.s){g.subs=g.subs.map(function(x){return x.id===subCtx.s?{id:x.id,name:n,price:pr,link:lk}:x})}
     else{g.subs.push({id:uid(),name:n,price:pr,link:lk})}
-    openG[g.id]=true;save();resetSub();renderGoals();
+    openG={};openG[g.id]=true;save();resetSub();renderGoals();
   });
   function curDark(){var t=document.documentElement.getAttribute("data-theme");if(t)return t==="dark";return !!(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)}
   function paintTheme(){
@@ -1237,7 +1279,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     document.documentElement.setAttribute("data-theme",n);
     try{localStorage.setItem("tema-v1",n)}catch(e){}
     if(mode==="db")save();
-    paintTheme();
+    paintTheme();refreshDonut();
   });
   if(window.matchMedia){var mq=matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",paintTheme)}
   paintTheme();
@@ -1260,7 +1302,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       editGoal=id;pendingGoal=null;
       $("gName").value=g.name;$("gTarget").value=nf.format(g.target);$("gSaved").value=g.saved?nf.format(g.saved):"";$("gErr").textContent="";
       $("gFormTitle").textContent="Edit tujuan";$("btnGoalSave").textContent="Simpan perubahan";$("btnGoalCancel").hidden=false;
-      $("gName").focus();renderGoals();
+      renderGoals();
     }else if(act==="del"){
       if(pendingGoal===id){var goneG=goals.filter(function(x){return x.id===id})[0];goals=goals.filter(function(x){return x.id!==id});pendingGoal=null;if(editGoal===id)resetGoal();save();renderGoals();toast("Tujuan dihapus",function(){if(goneG){goals.push(goneG);save();renderGoals()}},goneG?goneG.name:"","del")}
       else{pendingGoal=id;renderGoals();setTimeout(function(){if(pendingGoal===id){pendingGoal=null;renderGoals()}},4000)}
@@ -1272,7 +1314,13 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   function num(s){return parseInt(s.replace(/\D/g,""),10)||0}
   function fmtIn(el){el.addEventListener("input",function(){var d=this.value.replace(/\D/g,"").replace(/^0+/,"");this.value=d?nf.format(+d):""})}
   function loadKey(k){if(noLocal)return null;try{var r=localStorage.getItem(k);if(r){var a=JSON.parse(r);if(a&&typeof a==="object")return a}}catch(e){}return null}
-  var DN_COL=["var(--sage-d)","var(--sage)","#6fae7e","#a5c2ab","#3b6c4a","#8fc4a8","#58a089"];
+  var DN_ORIG=["var(--sage-d)","var(--sage)","#6fae7e","#a5c2ab","#3b6c4a","#8fc4a8","#58a089"];
+  var DN_MID_L=["#1e5bbf","#3b82f6","#f472b6","#60a5fa","#ec4899","#93c5fd","#f9a8d4"];
+  var DN_MID_D=["#4DB9F0","#0297DE","#FC734D","#8fd3f7","#ff9b72","#0a6fa8","#ffbfa6"];
+  function dnCol(){
+    if(document.documentElement.getAttribute("data-skin")!=="midnight")return DN_ORIG;
+    return document.documentElement.getAttribute("data-theme")==="light"?DN_MID_L:DN_MID_D;
+  }
   function ring(parts,total,center,label){
     var R=56, C=2*Math.PI*R, off=0, g="";
     parts.forEach(function(p){
@@ -1288,11 +1336,12 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     $("aTotal").textContent=mk(tot);
     $("aSum").textContent=mk(tot);
     var srt=assets.slice().sort(function(a,b){return b.amount-a.amount});
-    $("aDonut").innerHTML=assets.length?ring(hideBal?[]:srt.map(function(a,i){return {v:a.amount,c:DN_COL[i%DN_COL.length]}}),tot,'<small>Total aset</small><b>'+mk(tot)+'</b>',"Total aset "+mk(tot))+'<div class="dleg">'+srt.map(function(a,i){
+    $("aDonut").innerHTML=assets.length?ring(hideBal?[]:srt.map(function(a,i){return {v:a.amount,c:dnCol()[i%dnCol().length]}}),tot,'<small>Total aset</small><b>'+mk(tot)+'</b>',"Total aset "+mk(tot))+'<div class="dleg">'+srt.map(function(a,i){
       var p=tot?Math.round(a.amount/tot*1000)/10:0;
-      return '<div class="dl"><i style="background:'+DN_COL[i%DN_COL.length]+'"></i><span>'+esc(a.name)+'</span><b>'+(hideBal?"••":String(p).replace(".",","))+'%</b></div>';
+      return '<div class="dl"><i style="background:'+dnCol()[i%dnCol().length]+'"></i><span>'+esc(a.name)+'</span><b>'+(hideBal?"••":String(p).replace(".",","))+'%</b></div>';
     }).join("")+'</div>':"";
     $("aInfo").textContent=assets.length?assets.length+" aset":"Belum ada aset";
+    $("aAccSum").textContent=assets.length?mk(tot):"Kosong";
     $("aList").innerHTML=assets.length?assets.slice().sort(function(a,b){return b.amount-a.amount}).map(function(a){
       var p=tot?Math.round(a.amount/tot*1000)/10:0;
       var del=pendingAsset===a.id?'<button class="small danger confirm" data-a="del" data-id="'+a.id+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+a.id+'">'+ic("trash")+'Hapus</button>';
@@ -1301,7 +1350,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   }
   function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";$("btnAssetCancel").hidden=true}
   fmtIn($("sIn"));fmtIn($("aAmt"));
-  $("btnSalary").addEventListener("click",function(){var p=$("salaryPanel");p.hidden=!p.hidden;if(!p.hidden){var s=salaries[viewYM];$("sIn").value=s?nf.format(s):"";$("sErr").textContent="";$("sIn").focus()}});
+  $("btnSalary").addEventListener("click",function(){var p=$("salaryPanel");p.hidden=!p.hidden;if(!p.hidden){var s=salaries[viewYM];$("sIn").value=s?nf.format(s):"";$("sErr").textContent=""}});
   $("btnSalCancel").addEventListener("click",function(){$("salaryPanel").hidden=true});
   $("btnSalSave").addEventListener("click",function(){var v=num($("sIn").value);if(v<=0){$("sErr").textContent="Nominal gaji harus lebih dari Rp 0.";return}salaries[viewYM]=v;save();$("salaryPanel").hidden=true;render();toast("Gaji disimpan")});
   $("btnAssets").addEventListener("click",function(){goTab("aset","assetPanel")});
@@ -1323,7 +1372,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       editAsset=id;pendingAsset=null;
       $("aName").value=a.name;$("aAmt").value=nf.format(a.amount);$("aErr").textContent="";
       $("aFormTitle").textContent="Edit aset";$("btnAssetSave").textContent="Simpan perubahan";$("btnAssetCancel").hidden=false;
-      $("aName").focus();renderAssets();
+      renderAssets();
     }else if(act==="del"){
       if(pendingAsset===id){var goneA=assets.filter(function(x){return x.id===id})[0];assets=assets.filter(function(x){return x.id!==id});pendingAsset=null;if(editAsset===id)resetAsset();save();renderAssets();toast("Aset dihapus",function(){if(goneA){assets.push(goneA);save();renderAssets()}},goneA?goneA.name:"","del")}
       else{pendingAsset=id;renderAssets();setTimeout(function(){if(pendingAsset===id){pendingAsset=null;renderAssets()}},4000)}
@@ -1457,7 +1506,6 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     var c=getCfg();$("btnCfg").hidden=!!(c&&c.fixed);
     setAuthMode(authMode);
     $("auPass").value="";$("auPass2").value="";$("auPass").type="password";$("auPassToggle").textContent="Lihat";
-    setTimeout(function(){$("auEmail").focus()},50);
   }
   function showCfg(){
     showPane("cfg");$("wBtns").innerHTML="";$("wMsg").textContent="Hubungkan ke Supabase.";
@@ -1639,13 +1687,11 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     $("wMsg").textContent=msg||"Pulihkan akun Anda.";
     $("fgErr").textContent="";$("fgOk").textContent="";
     var e=$("fgEmail");if(!e.value)e.value=$("auEmail").value.trim();
-    setTimeout(function(){e.focus()},50);
   }
   function showReset(){
     recMode=true;
     showPane("rc");$("wBtns").innerHTML="";$("wMsg").textContent="Atur ulang password.";
     $("rcPass").value="";$("rcPass2").value="";$("rcErr").textContent="";$("rcPass").type="password";$("rcPass2").type="password";$("rcToggle").textContent="Lihat";
-    setTimeout(function(){$("rcPass").focus()},50);
   }
   function fgCooldown(n){
     clearInterval(fgTick);fgCd=n;
@@ -1776,7 +1822,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     $("btnLimit").textContent=dailyLimit>0?"Batas "+rp(dailyLimit)+"/hari":"+ Batas/hari";
   }
   fmtIn($("wkLim"));
-  $("btnLimit").addEventListener("click",function(){var b=$("wkLimBox");b.hidden=!b.hidden;if(!b.hidden){$("wkLim").value=dailyLimit>0?nf.format(dailyLimit):"";$("wkErr").textContent="";$("wkLim").focus()}});
+  $("btnLimit").addEventListener("click",function(){var b=$("wkLimBox");b.hidden=!b.hidden;if(!b.hidden){$("wkLim").value=dailyLimit>0?nf.format(dailyLimit):"";$("wkErr").textContent=""}});
   $("btnLimClose").addEventListener("click",function(){$("wkLimBox").hidden=true});
   $("btnLimSave").addEventListener("click",function(){var v=num($("wkLim").value);if(v<=0){$("wkErr").textContent="Isi batas lebih dari Rp 0.";return}dailyLimit=v;$("wkLimBox").hidden=true;save();renderWeek()});
   $("btnLimDel").addEventListener("click",function(){dailyLimit=0;$("wkLimBox").hidden=true;save();renderWeek()});
@@ -1818,14 +1864,31 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     if(n==="set")paintSet();
     window.scrollTo(0,0);
   }
-  function goTab(n,id){showTab(n);var el=$(id);if(el&&el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"start"})}
+  function setAcc(id,open){
+    ["assetPanel","goalPanel"].forEach(function(p){
+      var el=$(p);if(!el)return;
+      var col=p===id?!open:(open?true:el.classList.contains("collapsed"));
+      el.classList.toggle("collapsed",col);
+      var h=el.querySelector(".acch");if(h)h.setAttribute("aria-expanded",col?"false":"true");
+    });
+  }
+  function accToggle(h){
+    var id=h.getAttribute("data-acc"), el=$(id), willOpen=el.classList.contains("collapsed");
+    setAcc(id,willOpen);
+    if(willOpen&&el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  document.querySelectorAll(".acch").forEach(function(h){
+    h.addEventListener("click",function(){accToggle(h)});
+    h.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();accToggle(h)}});
+  });
+  function goTab(n,id){showTab(n);if(id==="assetPanel"||id==="goalPanel")setAcc(id,true);var el=$(id);if(el&&el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"start"})}
   function openTx(){
     if(!$("txSheet").hidden)return;
     txY=window.scrollY||window.pageYOffset||0;
     $("txSheet").hidden=false;$("txOv").hidden=false;
     document.documentElement.classList.add("lock");
     if(!txPushed){try{history.pushState({tx:1},"");txPushed=true}catch(e){txPushed=false}}
-    setTimeout(function(){$("fName").focus();fitSheets()},60);
+    setTimeout(function(){fitSheets()},60);
   }
   function closeTx(fromPop){
     if($("txSheet").hidden)return;
@@ -1836,6 +1899,40 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     if(p&&fromPop!==true){try{history.back()}catch(e){}}
   }
   document.querySelector(".navbar").addEventListener("click",function(e){var b=e.target.closest(".nb");if(b)showTab(b.getAttribute("data-tab"))});
+
+  (function(){
+    var ORDER=["home","tx","aset","set"], sx=0, sy=0, st=0, live=false;
+    function hScroll(el){
+      while(el&&el!==document.body&&el.nodeType===1){
+        var o=getComputedStyle(el).overflowX;
+        if((o==="auto"||o==="scroll")&&el.scrollWidth>el.clientWidth+2)return true;
+        el=el.parentNode;
+      }
+      return false;
+    }
+    document.addEventListener("touchstart",function(e){
+      live=false;
+      if(e.touches.length!==1||$("app").hidden||document.documentElement.classList.contains("lock")||(typeof topPanel==="function"&&topPanel()))return;
+      var t=e.target;
+      if(!t||!t.closest||t.closest("input,textarea,select,[contenteditable=true],.sheet,.msheet,.tov,.ov"))return;
+      var x=e.touches[0].clientX;
+      if(x<24||x>window.innerWidth-24)return;
+      if(hScroll(t))return;
+      sx=x;sy=e.touches[0].clientY;st=Date.now();live=true;
+    },{passive:true});
+    document.addEventListener("touchend",function(e){
+      if(!live)return;live=false;
+      var c=e.changedTouches[0], dx=c.clientX-sx, dy=c.clientY-sy;
+      if(Date.now()-st>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.8)return;
+      try{if(String(window.getSelection())!=="")return}catch(er){}
+      var cur=ORDER.indexOf($("app").getAttribute("data-tab")), nx=cur+(dx<0?1:-1);
+      if(cur<0||nx<0||nx>=ORDER.length)return;
+      var ap=$("app");ap.classList.remove("sw-n","sw-p");ap.classList.add(dx<0?"sw-n":"sw-p");
+      showTab(ORDER[nx]);
+      setTimeout(function(){ap.classList.remove("sw-n","sw-p")},1700);
+    },{passive:true});
+    document.addEventListener("touchcancel",function(){live=false},{passive:true});
+  })();
   $("btnAdd").addEventListener("click",function(){resetForm();openTx()});
   $("txOv").addEventListener("click",function(){resetForm();closeTx()});
   window.addEventListener("popstate",function(){if(!$("txSheet").hidden){txPushed=false;resetForm();closeTx(true)}});
@@ -1971,7 +2068,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   $("pmSwitch").addEventListener("click",function(){closePm();doLogout()});
   $("pmRename").addEventListener("click",function(){
     var b=$("pmRenameBox");b.hidden=!b.hidden;
-    if(!b.hidden){$("pmNameIn").value=profil.nama||"";$("pmNameErr").textContent="";$("pmNameIn").focus()}
+    if(!b.hidden){$("pmNameIn").value=profil.nama||"";$("pmNameErr").textContent=""}
   });
   $("pmNameCancel").addEventListener("click",function(){$("pmRenameBox").hidden=true});
   $("pmNameSave").addEventListener("click",function(){
@@ -2026,6 +2123,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       return !e.disabled&&e.type!=="hidden"&&e.offsetParent!==null&&!e.closest("[hidden]");
     });
   }
+  function firstFocus(p){var f=focusables(p)[0];return (f&&!/^(INPUT|TEXTAREA|SELECT)$/.test(f.tagName))?f:p}
   function giveFocus(el){try{el.focus({preventScroll:true})}catch(e){el.focus()}}
   function syncPanels(){
     PANELS.forEach(function(id){
@@ -2040,7 +2138,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       var p=$(id);
       if(!p.hidden&&opener[id]===undefined){
         opener[id]=document.activeElement||document.body;
-        var f=focusables(p);giveFocus(f[0]||p);
+        giveFocus(firstFocus(p));
       }
     });
   }
@@ -2057,7 +2155,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   });
   document.addEventListener("focusin",function(e){
     var p=topPanel();
-    if(p&&!p.contains(e.target)){var f=focusables(p);giveFocus(f[0]||p)}
+    if(p&&!p.contains(e.target)){giveFocus(firstFocus(p))}
   });
 
   /* ===== cadangan data: ekspor dan impor ===== */
@@ -2283,23 +2381,24 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       var on=b.getAttribute("data-skin")===skin;
       b.setAttribute("aria-checked",on?"true":"false");b.setAttribute("tabindex",on?"0":"-1");
     });
-    var bt=$("btnTheme");
-    bt.disabled=mid;
-    if(mid){bt.title="Tema Midnight Electric selalu gelap";bt.setAttribute("aria-label","Mode gelap terkunci oleh tema Midnight Electric")}
+    $("btnTheme").disabled=false;
     $("skinNote").textContent=mid
-      ?"Midnight Electric selalu gelap. Pilihan terang/gelap Anda tersimpan dan kembali saat memakai tema Original."
+      ?"Midnight Electric mengikuti pilihan terang atau gelap di saklar atas (biru dan pink saat terang, biru dan oranye saat gelap)."
       :"Tema Original mengikuti pilihan terang atau gelap di saklar atas.";
   }
+  function refreshDonut(){try{if(typeof renderAssets==="function")renderAssets()}catch(e){}}
   function applySkin(sk){
     skin=sk==="midnight"?"midnight":"original";
     var r=document.documentElement;
     r.setAttribute("data-skin",skin);
-    if(skin==="midnight")r.setAttribute("data-theme","dark");
-    else{
+    if(skin==="midnight"){
+      var tm=null;try{tm=localStorage.getItem("tema-v1")}catch(e){}
+      r.setAttribute("data-theme",tm==="light"?"light":"dark");
+    }else{
       var t=null;try{t=localStorage.getItem("tema-v1")}catch(e){}
       if(t==="dark"||t==="light")r.setAttribute("data-theme",t);else r.removeAttribute("data-theme");
     }
-    paintTheme();paintSkin();fitStats();
+    paintTheme();paintSkin();fitStats();refreshDonut();
   }
   function pickSkin(sk){
     try{localStorage.setItem("skin-v1",sk==="midnight"?"midnight":"original")}catch(e){}
