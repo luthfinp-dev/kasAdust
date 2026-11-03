@@ -396,6 +396,15 @@ select{text-overflow:ellipsis}
 #app.tabin.sw-n .card,#app.tabin.sw-n .stat{animation:slideN .32s var(--ease) both}
 #app.tabin.sw-p .card,#app.tabin.sw-p .stat{animation:slideP .32s var(--ease) both}
 @media (prefers-reduced-motion:reduce){.acch .accchev{transition:none}}
+/* ===== animasi tab ringan (hanya fade, tanpa geser) ===== */
+@keyframes tabFade{from{opacity:0}to{opacity:1}}
+#app.tabin .card,#app.tabin .stat,#app.tabin.sw-n .card,#app.tabin.sw-n .stat,#app.tabin.sw-p .card,#app.tabin.sw-p .stat{animation:tabFade .18s ease-out both}
+#app.tabin .grid3 .stat:nth-child(n){animation-delay:0s}
+#app.tabin .dn-seg{animation:ringIn .45s ease-out both}
+#app.tabin .bar i{animation:barIn .4s ease-out both}
+#app.tabin .wcol{animation:colIn .35s ease-out both}
+#app.tabin .wb:nth-child(n) .wcol{animation-delay:0s}
+@media (prefers-reduced-motion:reduce){#app.tabin *{animation:none!important}}
 /* ===== Midnight Electric versi terang (biru + pink) ===== */
 :root[data-skin="midnight"][data-theme="light"]{color-scheme:light;
   --bg:#ffffff;--surface:#f3f6fd;--text:#18213d;--muted:#5b6688;--line:rgba(59,100,190,.16);
@@ -730,11 +739,10 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     <div class="row"><button type="button" class="primary" id="btnSalSave">Simpan gaji</button><button type="button" id="btnSalCancel">Tutup</button></div>
   </section>
 
-  <section class="card acc" id="assetPanel" data-t="aset">
+  <section class="card acc" id="assetPanel" data-t="aset" data-grp="aset">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="assetPanel" data-acc="assetPanel"><i data-ic="up"></i>Kelola aset<span class="accr"><span class="accsum" id="aAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="donut" id="aDonut"></div>
     <div id="aList"></div>
-    <div class="total"><span>Total aset</span><span id="aSum">Rp 0</span></div>
     <h2 style="margin-top:20px" id="aFormTitle">Tambah aset</h2>
     <div class="fields">
       <div><label for="aName">Nama aset</label><input id="aName" list="aOpts" maxlength="60" placeholder="Contoh: Reksa dana" autocomplete="off"><datalist id="aOpts"><option value="Reksa dana"><option value="Emas"><option value="Saham"><option value="Deposito"><option value="Tabungan"><option value="Crypto"></datalist></div>
@@ -744,11 +752,10 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     <div class="row"><button type="button" class="primary" id="btnAssetSave">Tambah aset</button><button type="button" id="btnAssetCancel" hidden>Batal</button><button type="button" id="btnAssetClose">Tutup</button></div>
   </section>
 
-  <section class="card acc collapsed" id="goalPanel" data-t="aset">
+  <section class="card acc collapsed" id="goalPanel" data-t="aset" data-grp="aset">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="goalPanel" data-acc="goalPanel"><i data-ic="target"></i>Kelola tujuan<span class="accr"><span class="accsum" id="gAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="donut" id="gDonut"></div>
     <div id="gList"></div>
-    <div class="total"><span>Total terkumpul</span><span id="gSum">Rp 0</span></div>
     <div id="subForm" class="subform" hidden>
       <h2 style="margin-top:20px"><i data-ic="plus"></i><span id="sbTitle">Tambah sub-item</span></h2>
       <div class="fields">
@@ -834,31 +841,28 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       </table>
     </div>
   </section>
-  <section class="card" data-t="set" id="skinCard">
-    <h2><i data-ic="palette"></i>Tema</h2>
+  <section class="card acc" data-t="set" id="skinCard" data-grp="set">
+    <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="skinCard" data-acc="skinCard"><i data-ic="palette"></i>Tema<span class="accr"><span class="accsum" id="skAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="skins" role="radiogroup" aria-label="Pilih tema">
       <button type="button" role="radio" class="skin" data-skin="original" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Original</span><span class="sk-sub">Putih dan hijau sage</span></button>
-      <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Gelap, biru dan oranye</span></button>
+      <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Biru, pink, dan oranye</span></button>
     </div>
-    <p class="wp" id="skinNote" style="margin:12px 0 0"></p>
   </section>
-  <section class="card" data-t="set">
-    <h2><i data-ic="sliders"></i>Pengaturan</h2>
+  <section class="card acc collapsed" data-t="set" id="setCard" data-grp="set">
+    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="setCard" data-acc="setCard"><i data-ic="sliders"></i>Pengaturan<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="setrow"><span>Akun</span><b id="setAcc">-</b></div>
     <div class="setrow"><span>Penyimpanan</span><b id="setMode">-</b></div>
     <div class="setrow"><span>Status</span><b id="setSt">-</b></div>
-    <p class="wp" id="setNote" style="margin-top:14px"></p>
     <div class="row"><button type="button" class="small" id="btnWelcome">Keluar</button></div>
   </section>
-  <section class="card" data-t="set" id="bkCard">
-    <h2><i data-ic="download"></i>Cadangan data</h2>
-    <p class="wp" style="margin-bottom:12px">Unduh semua data (transaksi, gaji, aset, tujuan, dan profil) sebagai file .json. Simpan file di tempat aman. File ini bisa diimpor kembali kapan saja, termasuk ke akun lain.</p>
+  <section class="card acc collapsed" data-t="set" id="bkCard" data-grp="set">
+    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="bkCard" data-acc="bkCard"><i data-ic="download"></i>Cadangan data<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="row" style="margin-top:0"><button type="button" class="small primary" id="btnExport"><i data-ic="download"></i>Ekspor cadangan</button><button type="button" class="small" id="btnImport"><i data-ic="upload"></i>Impor cadangan</button></div>
     <input type="file" id="imFile" accept=".json,application/json" hidden>
     <div class="err" id="bkErr" role="alert"></div>
     <div class="rs-status okmsg" id="bkOk" role="status"></div>
   </section>
-  <p class="note" id="storeNote" data-t="set"></p>
+  <p class="note" id="storeNote" data-t="set" hidden></p>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   <nav class="nav" aria-label="Menu utama">
     <div class="navbar" role="tablist">
@@ -980,9 +984,8 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   function save(){
     if(mode==="db"){queueSync();return}
     try{localStorage.setItem(KEY,JSON.stringify(items));localStorage.setItem("gaji-v1",JSON.stringify(salaries));localStorage.setItem("aset-v1",JSON.stringify(assets));localStorage.setItem("tujuan-v1",JSON.stringify(goals));localStorage.setItem("sembunyi-v1",hideBal?"1":"0");localStorage.setItem("batas-harian-v1",String(dailyLimit||0));localStorage.setItem("profil-v1",JSON.stringify(profil));storageOK=true}catch(e){storageOK=false}
-    $("storeNote").textContent=storageOK
-      ? "Data tersimpan di browser ini saja (tidak ikut ke perangkat lain, dan hilang jika data situs dihapus)."
-      : "Penyimpanan browser tidak tersedia. Data hanya bertahan selama halaman ini terbuka.";
+    $("storeNote").textContent=storageOK?"":"Penyimpanan browser tidak tersedia. Data hanya bertahan selama halaman ini terbuka.";
+    $("storeNote").hidden=!!storageOK;
   }
   function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
   function daysAgo(n){var d=new Date();d.setDate(d.getDate()-n);return ymd(d)}
@@ -1209,7 +1212,6 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     $("gPct").textContent=goals.length?(hideBal?"••":op)+"% menuju tujuan":"";
     $("gBar").style.width=hideBal?"0%":op+"%";
     $("gDone").textContent="Tercapai "+dn+" dari "+goals.length+" tujuan";
-    $("gSum").textContent=hideBal?"Rp •••••• dari Rp ••••••":rp(sv)+" dari "+rp(tg);
     $("gDonut").innerHTML=goals.length?ring(hideBal?[]:[{v:Math.min(sv,tg),c:"var(--sage-d)"}],tg,'<b class="big">'+(hideBal?"••":op)+'%</b><small>terkumpul</small>',"Target terkumpul "+(hideBal?"":op+"%"))+'<div class="dleg"><div class="dst"><span>Terkumpul</span><b>'+mk(sv)+'</b></div><div class="dst"><span>Total target</span><b>'+mk(tg)+'</b></div><div class="dst"><span>Sisa target</span><b>'+mk(Math.max(0,tg-sv))+'</b></div></div>':"";
     $("gList").innerHTML=goals.length?goals.map(function(g){
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
@@ -1334,7 +1336,6 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   function renderAssets(){
     var tot=assets.reduce(function(s,a){return s+a.amount},0);
     $("aTotal").textContent=mk(tot);
-    $("aSum").textContent=mk(tot);
     var srt=assets.slice().sort(function(a,b){return b.amount-a.amount});
     $("aDonut").innerHTML=assets.length?ring(hideBal?[]:srt.map(function(a,i){return {v:a.amount,c:dnCol()[i%dnCol().length]}}),tot,'<small>Total aset</small><b>'+mk(tot)+'</b>',"Total aset "+mk(tot))+'<div class="dleg">'+srt.map(function(a,i){
       var p=tot?Math.round(a.amount/tot*1000)/10:0;
@@ -1395,9 +1396,9 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   function wShow(msg,btns){$("wMsg").textContent=msg;$("wBtns").innerHTML=btns.map(function(b){return '<button type="button" class="'+(b[2]||"")+'" data-w="'+b[0]+'">'+b[1]+'</button>'}).join("")}
   function setSync(t,fail){$("syncBox").hidden=(mode!=="db");$("syncSt").textContent=t||"";$("btnRetry").hidden=!fail;paintSet();paintDot(t,fail)}
   function enter(){
-    $("welcome").hidden=true;$("app").hidden=false;
+    $("welcome").hidden=true;$("app").hidden=false;noCU=Date.now()+2000;
     $("userTag").textContent=mode==="db"?theName:"";
-    if(mode==="db")$("storeNote").textContent="Data tersimpan otomatis di database Supabase milik akun ini. Setiap akun hanya bisa melihat dan mengubah datanya sendiri (RLS).";
+    if(mode==="db"){$("storeNote").textContent="";$("storeNote").hidden=true}
     setSync($("syncSt").textContent||"Tersimpan",!$("btnRetry").hidden);
     $("fMonth").value=curYM;resetForm();render();renderProfile();
   }
@@ -1605,7 +1606,6 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       else if(a==="sample"){noLocal=true;loadLocal();noLocal=false}
       else{items=[];salaries={};assets=[];goals=[];hideBal=false;dailyLimit=0}
       lastJson={};loaded=true;save();enter();
-      if(a==="import")$("storeNote").textContent+=" Data lama masih ada di browser ini dan tidak dihapus.";
     }
   });
   $("tabLogin").addEventListener("click",function(){setAuthMode("login")});
@@ -1851,11 +1851,11 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     $("setAcc").textContent=mode==="db"?theName:"Tanpa akun";
     $("setMode").textContent=mode==="db"?"Database akun (otomatis)":"Lokal, hanya di browser ini";
     $("setSt").textContent=mode==="db"?($("syncSt").textContent||"Tersimpan"):"-";
-    $("setNote").textContent="Anda masuk dengan email. Data tersimpan di database Supabase dan hanya bisa diakses akun ini (RLS aktif). Untuk ganti akun, keluar lalu masuk dengan email lain.";
   }
   function showTab(n){
     $("app").setAttribute("data-tab",n);
-    var ap=$("app");if(ap._tab!==n){ap._tab=n;clearTimeout(ap._tt);ap.classList.remove("tabin");void ap.offsetWidth;ap.classList.add("tabin");ap._tt=setTimeout(function(){ap.classList.remove("tabin")},1600)}
+    var ap=$("app");if(ap._tab!==n){ap._tab=n;clearTimeout(ap._tt);ap.classList.remove("tabin");void ap.offsetWidth;ap.classList.add("tabin");ap._tt=setTimeout(function(){ap.classList.remove("tabin")},600)}
+    syncStats();
     document.querySelectorAll(".nb").forEach(function(b){
       var on=b.getAttribute("data-tab")===n;
       b.setAttribute("aria-selected",on?"true":"false");
@@ -1865,23 +1865,26 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     window.scrollTo(0,0);
   }
   function setAcc(id,open){
-    ["assetPanel","goalPanel"].forEach(function(p){
-      var el=$(p);if(!el)return;
-      var col=p===id?!open:(open?true:el.classList.contains("collapsed"));
-      el.classList.toggle("collapsed",col);
-      var h=el.querySelector(".acch");if(h)h.setAttribute("aria-expanded",col?"false":"true");
+    var el=$(id);if(!el)return;
+    var grp=el.getAttribute("data-grp");
+    document.querySelectorAll('.acc[data-grp="'+grp+'"]').forEach(function(p){
+      var col=p===el?!open:(open?true:p.classList.contains("collapsed"));
+      p.classList.toggle("collapsed",col);
+      var h=p.querySelector(".acch");if(h)h.setAttribute("aria-expanded",col?"false":"true");
     });
   }
+  function docTop(el){var y=0;while(el){y+=el.offsetTop;el=el.offsetParent}return y}
+  function scrollToEl(el){requestAnimationFrame(function(){window.scrollTo(0,Math.max(0,docTop(el)-12))})}
   function accToggle(h){
     var id=h.getAttribute("data-acc"), el=$(id), willOpen=el.classList.contains("collapsed");
     setAcc(id,willOpen);
-    if(willOpen&&el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"start"});
+    if(willOpen)scrollToEl(el);
   }
   document.querySelectorAll(".acch").forEach(function(h){
     h.addEventListener("click",function(){accToggle(h)});
     h.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();accToggle(h)}});
   });
-  function goTab(n,id){showTab(n);if(id==="assetPanel"||id==="goalPanel")setAcc(id,true);var el=$(id);if(el&&el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"start"})}
+  function goTab(n,id){showTab(n);if(id==="assetPanel"||id==="goalPanel")setAcc(id,true);var el=$(id);if(el)scrollToEl(el)}
   function openTx(){
     if(!$("txSheet").hidden)return;
     txY=window.scrollY||window.pageYOffset||0;
@@ -1923,7 +1926,8 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     document.addEventListener("touchend",function(e){
       if(!live)return;live=false;
       var c=e.changedTouches[0], dx=c.clientX-sx, dy=c.clientY-sy;
-      if(Date.now()-st>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.8)return;
+      var dt=Date.now()-st, ax=Math.abs(dx), ay=Math.abs(dy);
+      if(dt>800||ax<ay*1.6||(ax<60&&!(ax>=30&&ax/Math.max(dt,1)>0.35)))return;
       try{if(String(window.getSelection())!=="")return}catch(er){}
       var cur=ORDER.indexOf($("app").getAttribute("data-tab")), nx=cur+(dx<0?1:-1);
       if(cur<0||nx<0||nx>=ORDER.length)return;
@@ -2382,9 +2386,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       b.setAttribute("aria-checked",on?"true":"false");b.setAttribute("tabindex",on?"0":"-1");
     });
     $("btnTheme").disabled=false;
-    $("skinNote").textContent=mid
-      ?"Midnight Electric mengikuti pilihan terang atau gelap di saklar atas (biru dan pink saat terang, biru dan oranye saat gelap)."
-      :"Tema Original mengikuti pilihan terang atau gelap di saklar atas.";
+    $("skAccSum").textContent=mid?"Midnight Electric":"Original";
   }
   function refreshDonut(){try{if(typeof renderAssets==="function")renderAssets()}catch(e){}}
   function applySkin(sk){
@@ -2430,13 +2432,19 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     toastT=setTimeout(hideToast,ms);buzz();
   }
   function parseRp(t){var m=/^(-?)Rp ([\d.]+)$/.exec(t);return m?(m[1]?-1:1)*parseInt(m[2].replace(/\./g,""),10):null}
+  var noCU=0;
+  function syncStats(){document.querySelectorAll(".stat .v").forEach(function(el){if(el._ft!=null&&el.textContent!==el._ft){el._g=(el._g||0)+1;el._own=true;el.textContent=el._ft}})}
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)syncStats()});
+  window.addEventListener("pageshow",syncStats);
   var cuObs=new MutationObserver(function(ms){ms.forEach(function(m){
     var el=m.target.nodeType===1?m.target:m.target.parentNode;el=el&&el.closest?el.closest(".stat .v"):null;
     if(!el)return;
     if(el._own){el._own=false;return}
+    el._ft=el.textContent;
     var to=parseRp(el.textContent), from=el._n;el._n=to;el._g=(el._g||0)+1;
-    if(to===null||from==null||from===to||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches))return;
+    if(to===null||from==null||from===to||Date.now()<noCU||!el.offsetParent||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches))return;
     var g=el._g, t0=performance.now();
+    setTimeout(function(){if(g===el._g&&el._ft!=null&&el.textContent!==el._ft){el._own=true;el.textContent=el._ft}},1100);
     (function step(t){
       if(g!==el._g)return;
       var k=Math.min(1,(t-t0)/900), v=Math.round(from+(to-from)*(1-Math.pow(1-k,4)));
