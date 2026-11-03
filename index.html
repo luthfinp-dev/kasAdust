@@ -547,6 +547,32 @@ button:active,.xc:active,.tablebox tr.txr:active{transform:scale(.97)}
 @media (prefers-reduced-motion:reduce){.toast .tb{animation:none;display:none}.toast.on .ti{animation:none}}
 .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 20px);transform:translate(-50%,-22px) scale(.94)}
 .toast.on{transform:translate(-50%,0) scale(1)}
+/* ===== tempo gerak: nyaman di mata (0,2 - 1 detik), easing halus ===== */
+:root{--ease:cubic-bezier(.22,1,.36,1)}
+button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22s ease}
+.xd{transition:grid-template-rows .42s var(--ease),visibility 0s linear .42s}
+.xc.open .xd{transition:grid-template-rows .42s var(--ease),visibility 0s}
+.tablebox tr.txr td.act{transition:grid-template-rows .42s var(--ease),visibility 0s linear .42s}
+.tablebox tr.txr.open td.act{transition:grid-template-rows .42s var(--ease),visibility 0s}
+.bar i{transition:width .7s var(--ease)}
+.wcol{transition:height .55s var(--ease)}
+#app.tabin .card,#app.tabin .stat{animation:fadeUp .55s var(--ease) both}
+#app.tabin .grid3 .stat:nth-child(2){animation-delay:.06s}
+#app.tabin .grid3 .stat:nth-child(3){animation-delay:.12s}
+#app.tabin .grid3 .stat:nth-child(4){animation-delay:.18s}
+#app.tabin .dn-seg{animation:ringIn 1s var(--ease) .12s both}
+#app.tabin .bar i{animation:barIn .85s var(--ease) .12s both}
+#app.tabin .wcol{animation:colIn .75s var(--ease) both}
+#app.tabin .wb:nth-child(2) .wcol{animation-delay:.05s}
+#app.tabin .wb:nth-child(3) .wcol{animation-delay:.1s}
+#app.tabin .wb:nth-child(4) .wcol{animation-delay:.15s}
+#app.tabin .wb:nth-child(5) .wcol{animation-delay:.2s}
+#app.tabin .wb:nth-child(6) .wcol{animation-delay:.25s}
+#app.tabin .wb:nth-child(7) .wcol{animation-delay:.3s}
+.toast{transition:opacity .32s ease,transform .55s var(--ease)}
+.toast.on .ti{animation:tpop .6s var(--ease) .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.xd,.tablebox tr.txr td.act,.bar i,.wcol,.toast{transition:none}}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
@@ -1783,7 +1809,7 @@ button:active,.xc:active,.tablebox tr.txr:active{transform:scale(.97)}
   }
   function showTab(n){
     $("app").setAttribute("data-tab",n);
-    var ap=$("app");ap.classList.remove("tabin");void ap.offsetWidth;ap.classList.add("tabin");setTimeout(function(){ap.classList.remove("tabin")},900);
+    var ap=$("app");if(ap._tab!==n){ap._tab=n;clearTimeout(ap._tt);ap.classList.remove("tabin");void ap.offsetWidth;ap.classList.add("tabin");ap._tt=setTimeout(function(){ap.classList.remove("tabin")},1600)}
     document.querySelectorAll(".nb").forEach(function(b){
       var on=b.getAttribute("data-tab")===n;
       b.setAttribute("aria-selected",on?"true":"false");
@@ -2294,8 +2320,8 @@ button:active,.xc:active,.tablebox tr.txr:active{transform:scale(.97)}
   function hideToast(){var t=$("toast");t.classList.remove("on");clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true},260)}
   function toast(msg,undo,sub,kind){
     var t=$("toast");clearTimeout(toastT);
-    var ms=undo?6000:2600;
-    t.className="toast"+(kind?" "+kind:"");
+    var ms=undo?6500:3200;
+    var vis=!t.hidden&&t.classList.contains("on");t.className="toast"+(kind?" "+kind:"")+(vis?" on":"");
     t.innerHTML='<i class="ti">'+ic(kind==="del"?"trash":"check")+'</i><div class="tt"><b></b>'+(sub?'<small></small>':"")+'</div>'+(undo?'<button type="button">Urungkan</button>':"")+'<span class="tb" style="animation-duration:'+ms+'ms"></span>';
     t.querySelector("b").textContent=msg;
     if(sub)t.querySelector("small").textContent=sub;
@@ -2314,7 +2340,7 @@ button:active,.xc:active,.tablebox tr.txr:active{transform:scale(.97)}
     var g=el._g, t0=performance.now();
     (function step(t){
       if(g!==el._g)return;
-      var k=Math.min(1,(t-t0)/550), v=Math.round(from+(to-from)*(1-Math.pow(1-k,3)));
+      var k=Math.min(1,(t-t0)/900), v=Math.round(from+(to-from)*(1-Math.pow(1-k,4)));
       el._own=true;el.textContent=(v<0?"-":"")+"Rp "+nf.format(Math.abs(v));
       if(k<1)requestAnimationFrame(step);
     })(t0);
