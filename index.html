@@ -646,6 +646,37 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   .accb,.acch,.nb i,.skin{transition:none!important;animation:none!important}
   html.tswap *{transition:none!important}
 }
+
+/* ===== popup blur: gaji, aset, tujuan ===== */
+.tov.blur{background:rgba(16,24,40,.26);-webkit-backdrop-filter:blur(10px) saturate(120%);backdrop-filter:blur(10px) saturate(120%)}
+.tov.blur:not([hidden]){animation:ovIn .32s var(--ease) both}
+.tov.blur.out{animation:ovOut .24s ease both!important}
+.msheet.pop:not([hidden]){animation:popUp .42s var(--ease) both}
+.msheet.pop.out{animation:popDown .24s ease both!important}
+.msheet.pop:not([hidden])>*{animation:popItem .46s var(--ease) both}
+.msheet.pop:not([hidden])>*:nth-child(2){animation-delay:.05s}
+.msheet.pop:not([hidden])>*:nth-child(3){animation-delay:.09s}
+.msheet.pop:not([hidden])>*:nth-child(4){animation-delay:.13s}
+.msheet.pop:not([hidden])>*:nth-child(n+5){animation-delay:.17s}
+@keyframes ovOut{from{opacity:1}to{opacity:0}}
+@keyframes popUp{from{transform:translateY(34px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+@keyframes popDown{from{transform:none;opacity:1}to{transform:translateY(26px);opacity:0}}
+@keyframes popItem{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+@media (min-width:761px){
+  .msheet.pop:not([hidden]){animation:popUpD .42s var(--ease) both}
+  .msheet.pop.out{animation:popDownD .24s ease both!important}
+  @keyframes popUpD{from{transform:translate(-50%,-47%) scale(.96);opacity:0}to{transform:translate(-50%,-50%);opacity:1}}
+  @keyframes popDownD{from{transform:translate(-50%,-50%);opacity:1}to{transform:translate(-50%,-48%) scale(.97);opacity:0}}
+}
+.msheet.pop h2{margin-top:0}
+.sxr{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:8px;align-items:center;animation:popItem .36s var(--ease) both}
+.sxr .small.icon{padding:0 10px;height:42px}
+.sx-add{margin-top:10px}
+.sx-tot{display:flex;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-weight:700;font-variant-numeric:tabular-nums}
+.sx-h{margin:16px 0 0;font-size:.85rem;font-weight:600;color:var(--muted)}
+.addrow{margin-top:14px}
+.addrow .primary{width:100%}
+@media (prefers-reduced-motion:reduce){.msheet.pop,.msheet.pop>*,.tov.blur,.sxr{animation:none!important}}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
@@ -753,50 +784,20 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     </div>
   </section>
 
-  <section class="card" id="salaryPanel" data-t="home" hidden>
-    <h2>Atur gaji <span id="lMonth"></span></h2>
-    <div class="moves" id="sMoves" style="margin:0 0 12px"></div>
-    <label for="sIn">Gaji bulan ini (Rp)</label>
-    <input id="sIn" inputmode="numeric" placeholder="5.000.000" autocomplete="off">
-    <div class="err" id="sErr" role="alert"></div>
-    <div class="row"><button type="button" class="primary" id="btnSalSave">Simpan gaji</button><button type="button" id="btnSalCancel">Tutup</button></div>
-  </section>
+
 
   <section class="card acc" id="assetPanel" data-t="aset" data-grp="aset">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="assetPanel" data-acc="assetPanel"><i data-ic="up"></i>Kelola aset<span class="accr"><span class="accsum" id="aAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="donut" id="aDonut"></div>
     <div id="aList"></div>
-    <h2 style="margin-top:20px" id="aFormTitle">Tambah aset</h2>
-    <div class="fields">
-      <div><label for="aName">Nama aset</label><input id="aName" list="aOpts" maxlength="60" placeholder="Contoh: Reksa dana" autocomplete="off"><datalist id="aOpts"><option value="Reksa dana"><option value="Emas"><option value="Saham"><option value="Deposito"><option value="Tabungan"><option value="Crypto"></datalist></div>
-      <div><label for="aAmt">Nominal (Rp)</label><input id="aAmt" inputmode="numeric" placeholder="1.000.000" autocomplete="off"></div>
-    </div>
-    <div class="err" id="aErr" role="alert"></div>
-    <div class="row"><button type="button" class="primary" id="btnAssetSave">Tambah aset</button><button type="button" id="btnAssetCancel" hidden>Batal</button><button type="button" id="btnAssetClose">Tutup</button></div>
+    <div class="row addrow"><button type="button" class="primary" id="btnAssetAdd">Tambah aset</button></div>
   </section>
 
   <section class="card acc collapsed" id="goalPanel" data-t="aset" data-grp="aset">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="goalPanel" data-acc="goalPanel"><i data-ic="target"></i>Kelola tujuan<span class="accr"><span class="accsum" id="gAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="donut" id="gDonut"></div>
     <div id="gList"></div>
-    <div id="subForm" class="subform" hidden>
-      <h2 style="margin-top:20px"><i data-ic="plus"></i><span id="sbTitle">Tambah sub-item</span></h2>
-      <div class="fields">
-        <div class="full"><label for="sbName">Kebutuhan</label><input id="sbName" maxlength="80" placeholder="Contoh: Katering" autocomplete="off"></div>
-        <div><label for="sbPrice">Harga (Rp)</label><input id="sbPrice" inputmode="numeric" placeholder="0" autocomplete="off"></div>
-        <div><label for="sbLink">Link (opsional)</label><input id="sbLink" inputmode="url" placeholder="tokoonline.com/produk" autocomplete="off"></div>
-      </div>
-      <div class="err" id="sbErr" role="alert"></div>
-      <div class="row"><button type="button" class="primary" id="btnSubSave">Tambah sub-item</button><button type="button" id="btnSubCancel">Batal</button></div>
-    </div>
-    <h2 style="margin-top:20px"><span id="gFormTitle">Tambah tujuan</span></h2>
-    <div class="fields">
-      <div class="full"><label for="gName">Nama tujuan</label><input id="gName" list="gOpts" maxlength="60" placeholder="Contoh: Menikah" autocomplete="off"><datalist id="gOpts"><option value="Menikah"><option value="Dana darurat"><option value="Liburan"><option value="Beli rumah"><option value="Beli kendaraan"><option value="Pendidikan"></datalist></div>
-      <div><label for="gTarget">Target (Rp)</label><input id="gTarget" inputmode="numeric" placeholder="100.000.000" autocomplete="off"></div>
-      <div><label for="gSaved">Terkumpul (Rp)</label><input id="gSaved" inputmode="numeric" placeholder="0" autocomplete="off"></div>
-    </div>
-    <div class="err" id="gErr" role="alert"></div>
-    <div class="row"><button type="button" class="primary" id="btnGoalSave">Tambah tujuan</button><button type="button" id="btnGoalCancel" hidden>Batal</button><button type="button" id="btnGoalClose">Tutup</button></div>
+    <div class="row addrow"><button type="button" class="primary" id="btnGoalAdd">Tambah tujuan</button></div>
   </section>
 
   <section class="card wk" data-t="home" aria-label="Statistik 7 hari">
@@ -921,6 +922,51 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
       <button type="button" class="pm-item pm-danger" id="pmReset"><i data-ic="trash"></i>Reset semua data</button>
     </div>
   </section>
+  <div class="tov blur" id="salOv" hidden></div>
+  <section class="msheet pop" id="salaryPanel" role="dialog" aria-modal="true" aria-label="Atur gaji" hidden>
+    <h2><i data-ic="wallet"></i>Atur gaji <span id="lMonth"></span></h2>
+    <div class="moves" id="sMoves" style="margin:0 0 12px"></div>
+    <label for="sIn">Gaji utama (Rp)</label>
+    <input id="sIn" inputmode="numeric" placeholder="5.000.000" autocomplete="off">
+    <div class="sx-h" id="sxHead" hidden>Gaji tambahan</div>
+    <div id="sxList"></div>
+    <button type="button" class="small sx-add" id="btnSxAdd"><i data-ic="plus"></i>Gaji tambahan</button>
+    <div class="sx-tot"><span>Total gaji</span><span id="sxTot">Rp 0</span></div>
+    <div class="err" id="sErr" role="alert"></div>
+    <div class="row"><button type="button" class="primary" id="btnSalSave">Simpan gaji</button><button type="button" id="btnSalCancel">Tutup</button></div>
+  </section>
+  <div class="tov blur" id="asOv" hidden></div>
+  <section class="msheet pop" id="asSheet" role="dialog" aria-modal="true" aria-label="Form aset" hidden>
+    <h2><i data-ic="up"></i><span id="aFormTitle">Tambah aset</span></h2>
+    <div class="fields">
+      <div><label for="aName">Nama aset</label><input id="aName" list="aOpts" maxlength="60" placeholder="Contoh: Reksa dana" autocomplete="off"><datalist id="aOpts"><option value="Reksa dana"><option value="Emas"><option value="Saham"><option value="Deposito"><option value="Tabungan"><option value="Crypto"></datalist></div>
+      <div><label for="aAmt">Nominal (Rp)</label><input id="aAmt" inputmode="numeric" placeholder="1.000.000" autocomplete="off"></div>
+    </div>
+    <div class="err" id="aErr" role="alert"></div>
+    <div class="row"><button type="button" class="primary" id="btnAssetSave">Tambah aset</button><button type="button" id="btnAssetCancel">Batal</button></div>
+  </section>
+  <div class="tov blur" id="gsOv" hidden></div>
+  <section class="msheet pop" id="gsSheet" role="dialog" aria-modal="true" aria-label="Form tujuan" hidden>
+    <h2><i data-ic="target"></i><span id="gFormTitle">Tambah tujuan</span></h2>
+    <div class="fields">
+      <div class="full"><label for="gName">Nama tujuan</label><input id="gName" list="gOpts" maxlength="60" placeholder="Contoh: Menikah" autocomplete="off"><datalist id="gOpts"><option value="Menikah"><option value="Dana darurat"><option value="Liburan"><option value="Beli rumah"><option value="Beli kendaraan"><option value="Pendidikan"></datalist></div>
+      <div><label for="gTarget">Target (Rp)</label><input id="gTarget" inputmode="numeric" placeholder="100.000.000" autocomplete="off"></div>
+      <div><label for="gSaved">Terkumpul (Rp)</label><input id="gSaved" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+    </div>
+    <div class="err" id="gErr" role="alert"></div>
+    <div class="row"><button type="button" class="primary" id="btnGoalSave">Tambah tujuan</button><button type="button" id="btnGoalCancel">Batal</button></div>
+  </section>
+  <div class="tov blur" id="sbOv" hidden></div>
+  <section class="msheet pop" id="sbSheet" role="dialog" aria-modal="true" aria-label="Form sub-item" hidden>
+    <h2><i data-ic="plus"></i><span id="sbTitle">Tambah sub-item</span></h2>
+    <div class="fields">
+      <div class="full"><label for="sbName">Kebutuhan</label><input id="sbName" maxlength="80" placeholder="Contoh: Katering" autocomplete="off"></div>
+      <div><label for="sbPrice">Harga (Rp)</label><input id="sbPrice" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+      <div><label for="sbLink">Link (opsional)</label><input id="sbLink" inputmode="url" placeholder="tokoonline.com/produk" autocomplete="off"></div>
+    </div>
+    <div class="err" id="sbErr" role="alert"></div>
+    <div class="row"><button type="button" class="primary" id="btnSubSave">Tambah sub-item</button><button type="button" id="btnSubCancel">Batal</button></div>
+  </section>
   <div class="tov" id="imOv" hidden></div>
   <section class="msheet" id="imSheet" role="dialog" aria-modal="true" aria-labelledby="imTitle" hidden>
     <h2 id="imTitle"><i data-ic="upload"></i>Impor cadangan</h2>
@@ -971,7 +1017,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   // Aman dipublikasikan karena data dilindungi RLS. JANGAN isi secret key atau service_role key.
   // Jika dikosongkan, aplikasi menampilkan formulir konfigurasi saat pertama dibuka.
   var APP_CONFIG={SUPABASE_URL:"https://btaxdqvnfvzvycvkfneb.supabase.co",SUPABASE_PUBLISHABLE_KEY:"sb_publishable_YIwNh0aEZxPFhxRvkJeiZA_XMFPPxee"};
-  var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
+  var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, extras={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
   var $=function(id){return document.getElementById(id)};
   var imPending=null, imConfirm=false, openCard=null;
   function setOpen(key){
@@ -1006,7 +1052,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   }
   function save(){
     if(mode==="db"){queueSync();return}
-    try{localStorage.setItem(KEY,JSON.stringify(items));localStorage.setItem("gaji-v1",JSON.stringify(salaries));localStorage.setItem("aset-v1",JSON.stringify(assets));localStorage.setItem("tujuan-v1",JSON.stringify(goals));localStorage.setItem("sembunyi-v1",hideBal?"1":"0");localStorage.setItem("batas-harian-v1",String(dailyLimit||0));localStorage.setItem("profil-v1",JSON.stringify(profil));storageOK=true}catch(e){storageOK=false}
+    try{localStorage.setItem(KEY,JSON.stringify(items));localStorage.setItem("gaji-v1",JSON.stringify(salaries));localStorage.setItem("gaji-x-v1",JSON.stringify(extras));localStorage.setItem("aset-v1",JSON.stringify(assets));localStorage.setItem("tujuan-v1",JSON.stringify(goals));localStorage.setItem("sembunyi-v1",hideBal?"1":"0");localStorage.setItem("batas-harian-v1",String(dailyLimit||0));localStorage.setItem("profil-v1",JSON.stringify(profil));storageOK=true}catch(e){storageOK=false}
     $("storeNote").textContent=storageOK?"":"Penyimpanan browser tidak tersedia. Data hanya bertahan selama halaman ini terbuka.";
     $("storeNote").hidden=!!storageOK;
   }
@@ -1042,11 +1088,11 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     var spendCur=cur.filter(function(t){return t.category!==SAVE&&t.category!==TRF}), savedCur=cur.reduce(function(s,t){return s+(t.category===SAVE?t.amount:0)},0);
     var tot=spendCur.reduce(function(s,t){return s+t.amount},0);
     var top=sumBy(spendCur)[0];
-    var sal=salaries[viewYM], hasSal=typeof sal==="number"&&sal>0, left=hasSal?sal-tot-savedCur:0;
+    var sal=salTot(viewYM), hasSal=sal>0, left=hasSal?sal-tot-savedCur:0, xsum=xtrSum(viewYM);
     $("lMonth").textContent="("+monthLabel(viewYM)+")";
     $("lVal").textContent=hasSal?(hideBal?"Rp ••••••":rpS(left)):"Belum diisi";
     $("lVal").className="v"+(hasSal&&left<0&&!hideBal?" over":"");
-    $("lSal").textContent=hasSal?"Gaji: "+mk(sal):"Klik Atur gaji untuk mengisi";
+    $("lSal").textContent=hasSal?"Gaji: "+mk(sal)+(xsum?" (termasuk tambahan "+mk(xsum)+")":""):"Klik Atur gaji untuk mengisi";
     var used=hasSal?Math.round((tot+savedCur)/sal*100):0;
     $("lBar").style.width=(hideBal?0:Math.min(100,used))+"%";
     $("lUsed").textContent=hasSal?(left<0&&!hideBal?"Pengeluaran melebihi gaji":(hideBal?"••":used)+"% gaji terpakai"):"";
@@ -1243,7 +1289,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
       return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?"Tercapai":"Kurang "+mk(g.target-g.saved))+'</span></div><div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+g.id+'" aria-expanded="'+open+'">'+ic("chev")+'Sub-item ('+subs.length+')</button><button class="small" data-a="edit" data-id="'+g.id+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">Belum ada tujuan. Tambahkan di bawah.</div>';
   }
-  function resetGoal(){editGoal=null;$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gErr").textContent="";$("gFormTitle").textContent="Tambah tujuan";$("btnGoalSave").textContent="Tambah tujuan";$("btnGoalCancel").hidden=true}
+  function resetGoal(){editGoal=null;$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gErr").textContent="";$("gFormTitle").textContent="Tambah tujuan";$("btnGoalSave").textContent="Tambah tujuan";popClose("gsSheet")}
   fmtIn($("gTarget"));fmtIn($("gSaved"));fmtIn($("sbPrice"));
   var openG={}, pendingSub=null, subCtx={g:null,s:null};
   function sampleSubs(){return [{id:uid(),name:"Katering",price:25000000,link:""},{id:uid(),name:"Fotografer",price:8000000,link:""},{id:uid(),name:"Dekorasi",price:15000000,link:""}]}
@@ -1261,13 +1307,13 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     }).join(""):'<div class="empty sm">Belum ada sub-item.</div>';
     return '<div class="subs">'+rows+'<div class="gm"><span>Total harga sub-item</span><span>'+mk(sum)+'</span></div><div class="arow"><button class="small" data-a="sadd" data-id="'+g.id+'">'+ic("plus")+'Tambah sub-item</button></div></div>';
   }
-  function resetSub(){subCtx={g:null,s:null};$("sbName").value="";$("sbPrice").value="";$("sbLink").value="";$("sbErr").textContent="";$("subForm").hidden=true}
+  function resetSub(){subCtx={g:null,s:null};$("sbName").value="";$("sbPrice").value="";$("sbLink").value="";$("sbErr").textContent="";popClose("sbSheet")}
   function startSub(g,s){
     subCtx={g:g.id,s:s?s.id:null};
     $("sbName").value=s?s.name:"";$("sbPrice").value=s&&s.price?nf.format(s.price):"";$("sbLink").value=s?(s.link||""):"";$("sbErr").textContent="";
     $("sbTitle").textContent=(s?"Edit sub-item di ":"Tambah sub-item untuk ")+g.name;
     $("btnSubSave").textContent=s?"Simpan perubahan":"Tambah sub-item";
-    $("subForm").hidden=false;$("subForm").scrollIntoView({behavior:"smooth",block:"nearest"});
+    popOpen("sbSheet");
   }
   $("gList").addEventListener("click",function(e){
     var b=e.target.closest("button");if(!b)return;
@@ -1282,7 +1328,6 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     }
   });
   $("btnSubCancel").addEventListener("click",resetSub);
-  $("btnGoalClose").addEventListener("click",resetSub);
   $("btnSubSave").addEventListener("click",function(){
     var g=goals.filter(function(x){return x.id===subCtx.g})[0];if(!g){resetSub();return}
     var n=$("sbName").value.trim(), pr=num($("sbPrice").value), raw=$("sbLink").value.trim(), lk=normLink(raw);
@@ -1311,7 +1356,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   if(window.matchMedia){var mq=matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",paintTheme)}
   paintTheme();
   $("btnGoals").addEventListener("click",function(){goTab("aset","goalPanel")});
-  $("btnGoalClose").addEventListener("click",function(){$("goalPanel").hidden=true;resetGoal()});
+  $("btnGoalAdd").addEventListener("click",function(){editGoal=null;pendingGoal=null;$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gErr").textContent="";$("gFormTitle").textContent="Tambah tujuan";$("btnGoalSave").textContent="Tambah tujuan";popOpen("gsSheet")});
   $("btnGoalCancel").addEventListener("click",resetGoal);
   $("btnGoalSave").addEventListener("click",function(){
     var n=$("gName").value.trim(), t=num($("gTarget").value), s=num($("gSaved").value);
@@ -1328,8 +1373,8 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
       var g=goals.filter(function(x){return x.id===id})[0];if(!g)return;
       editGoal=id;pendingGoal=null;
       $("gName").value=g.name;$("gTarget").value=nf.format(g.target);$("gSaved").value=g.saved?nf.format(g.saved):"";$("gErr").textContent="";
-      $("gFormTitle").textContent="Edit tujuan";$("btnGoalSave").textContent="Simpan perubahan";$("btnGoalCancel").hidden=false;
-      renderGoals();
+      $("gFormTitle").textContent="Edit tujuan";$("btnGoalSave").textContent="Simpan perubahan";
+      renderGoals();popOpen("gsSheet");
     }else if(act==="del"){
       if(pendingGoal===id){var goneG=goals.filter(function(x){return x.id===id})[0];goals=goals.filter(function(x){return x.id!==id});pendingGoal=null;if(editGoal===id)resetGoal();save();renderGoals();toast("Tujuan dihapus",function(){if(goneG){goals.push(goneG);save();renderGoals()}},goneG?goneG.name:"","del")}
       else{pendingGoal=id;renderGoals();setTimeout(function(){if(pendingGoal===id){pendingGoal=null;renderGoals()}},4000)}
@@ -1374,13 +1419,82 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
       return '<div class="cat xc'+(openCard==="a:"+a.id?" open":"")+'"'+ckAttr("a:"+a.id)+'><div class="top"><span>'+esc(a.name)+" ("+(hideBal?"••":String(p).replace(".",","))+'%)</span><span>'+mk(a.amount)+'</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="edit" data-id="'+a.id+'">'+ic("pen")+'Edit</button>'+del+'</div></div></div></div>';
     }).join(""):'<div class="empty">Belum ada aset. Tambahkan di bawah.</div>';
   }
-  function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";$("btnAssetCancel").hidden=true}
+  function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popClose("asSheet")}
   fmtIn($("sIn"));fmtIn($("aAmt"));
-  $("btnSalary").addEventListener("click",function(){var p=$("salaryPanel");p.hidden=!p.hidden;if(!p.hidden){var s=salaries[viewYM];$("sIn").value=s?nf.format(s):"";$("sErr").textContent=""}});
-  $("btnSalCancel").addEventListener("click",function(){$("salaryPanel").hidden=true});
-  $("btnSalSave").addEventListener("click",function(){var v=num($("sIn").value);if(v<=0){$("sErr").textContent="Nominal gaji harus lebih dari Rp 0.";return}salaries[viewYM]=v;save();$("salaryPanel").hidden=true;render();toast("Gaji disimpan")});
+  /* ===== popup blur (gaji, aset, tujuan, sub-item) ===== */
+  var POPS={salaryPanel:"salOv",asSheet:"asOv",gsSheet:"gsOv",sbSheet:"sbOv"}, popY=0;
+  function popOpen(id){
+    var sh=$(id), ov=$(POPS[id]);if(!sh||!sh.hidden)return;
+    popY=window.scrollY||window.pageYOffset||0;
+    sh.classList.remove("out");ov.classList.remove("out");
+    sh.hidden=false;ov.hidden=false;
+    document.documentElement.classList.add("lock");
+    setTimeout(function(){fitSheets()},60);
+  }
+  function popClose(id,now){
+    var sh=$(id), ov=$(POPS[id]);if(!sh||sh.hidden)return;
+    function fin(){
+      sh.hidden=true;ov.hidden=true;sh.classList.remove("out");ov.classList.remove("out");sh.style.bottom="";sh.style.maxHeight="";
+      var any=false;for(var k in POPS){if(!$(k).hidden)any=true}
+      if(!any&&$("txSheet").hidden){document.documentElement.classList.remove("lock");window.scrollTo(0,popY)}
+    }
+    if(now){fin();return}
+    sh.classList.add("out");ov.classList.add("out");
+    clearTimeout(sh._pt);sh._pt=setTimeout(fin,230);
+  }
+  function popAll(now){for(var k in POPS)popClose(k,now)}
+  Object.keys(POPS).forEach(function(id){$(POPS[id]).addEventListener("click",function(){
+    if(id==="salaryPanel")popClose(id);else if(id==="asSheet")resetAsset();else if(id==="gsSheet")resetGoal();else resetSub();
+  })});
+  document.addEventListener("keydown",function(e){if(e.key!=="Escape")return;for(var k in POPS){if(!$(k).hidden){$(POPS[k]).click();return}}});
+  function cleanXtr(o){
+    var out={};
+    if(isObj(o))Object.keys(o).forEach(function(k){
+      if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(k)||!Array.isArray(o[k]))return;
+      var a=o[k].map(function(x){if(!isObj(x))return null;var v=cAmt(x.a);if(!(v>0))return null;return {id:cId(x.id)||uid(),n:String(x.n==null?"":x.n).slice(0,30),a:v}}).filter(Boolean).slice(0,20);
+      if(a.length)out[k]=a;
+    });
+    return out;
+  }
+  function xtrSum(ym){return (extras[ym]||[]).reduce(function(t,x){return t+x.a},0)}
+  function salBase(ym){var b=salaries[ym];return typeof b==="number"&&b>0?b:0}
+  function salTot(ym){return salBase(ym)+xtrSum(ym)}
+  function sxRow(n,a){
+    var d=document.createElement("div");d.className="sxr";
+    d.innerHTML='<input class="sxn" maxlength="30" placeholder="Nama, mis. Bonus" autocomplete="off" aria-label="Nama gaji tambahan"><input class="sxa" inputmode="numeric" placeholder="500.000" autocomplete="off" aria-label="Nominal gaji tambahan"><button type="button" class="small icon" aria-label="Hapus gaji tambahan">'+ic("trash")+'</button>';
+    d.querySelector(".sxn").value=n||"";d.querySelector(".sxa").value=a?nf.format(a):"";
+    fmtIn(d.querySelector(".sxa"));
+    d.querySelector(".sxa").addEventListener("input",sxCalc);
+    d.querySelector("button").addEventListener("click",function(){d.remove();sxCalc()});
+    $("sxList").appendChild(d);
+    return d;
+  }
+  function sxCalc(){
+    var t=num($("sIn").value);
+    document.querySelectorAll("#sxList .sxa").forEach(function(i){t+=num(i.value)});
+    $("sxTot").textContent=rp(t);
+    $("sxHead").hidden=!$("sxList").children.length;
+  }
+  function openSalary(){
+    $("sIn").value=salBase(viewYM)?nf.format(salBase(viewYM)):"";$("sErr").textContent="";
+    $("sxList").innerHTML="";(extras[viewYM]||[]).forEach(function(x){sxRow(x.n,x.a)});
+    sxCalc();popOpen("salaryPanel");
+  }
+  $("btnSalary").addEventListener("click",openSalary);
+  $("sIn").addEventListener("input",sxCalc);
+  $("btnSxAdd").addEventListener("click",function(){var r=sxRow("",0);sxCalc();r.querySelector(".sxn").focus()});
+  $("btnSalCancel").addEventListener("click",function(){popClose("salaryPanel")});
+  $("btnSalSave").addEventListener("click",function(){
+    var base=num($("sIn").value), xs=[];
+    document.querySelectorAll("#sxList .sxr").forEach(function(r){var v=num(r.querySelector(".sxa").value);if(v>0)xs.push({id:uid(),n:r.querySelector(".sxn").value.trim().slice(0,30)||"Tambahan",a:v})});
+    var tot=base+xs.reduce(function(t,x){return t+x.a},0);
+    if(tot<=0){$("sErr").textContent="Nominal gaji harus lebih dari Rp 0.";return}
+    if(base>0)salaries[viewYM]=base;else delete salaries[viewYM];
+    if(xs.length)extras[viewYM]=xs;else delete extras[viewYM];
+    save();popClose("salaryPanel");render();toast("Gaji disimpan")
+  });
   $("btnAssets").addEventListener("click",function(){goTab("aset","assetPanel")});
-  $("btnAssetClose").addEventListener("click",function(){$("assetPanel").hidden=true;resetAsset()});
+  $("btnAssetAdd").addEventListener("click",function(){editAsset=null;pendingAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popOpen("asSheet")});
   $("btnAssetCancel").addEventListener("click",resetAsset);
   $("btnAssetSave").addEventListener("click",function(){
     var n=$("aName").value.trim(), v=num($("aAmt").value);
@@ -1397,8 +1511,8 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
       var a=assets.filter(function(x){return x.id===id})[0];if(!a)return;
       editAsset=id;pendingAsset=null;
       $("aName").value=a.name;$("aAmt").value=nf.format(a.amount);$("aErr").textContent="";
-      $("aFormTitle").textContent="Edit aset";$("btnAssetSave").textContent="Simpan perubahan";$("btnAssetCancel").hidden=false;
-      renderAssets();
+      $("aFormTitle").textContent="Edit aset";$("btnAssetSave").textContent="Simpan perubahan";
+      renderAssets();popOpen("asSheet");
     }else if(act==="del"){
       if(pendingAsset===id){var goneA=assets.filter(function(x){return x.id===id})[0];assets=assets.filter(function(x){return x.id!==id});pendingAsset=null;if(editAsset===id)resetAsset();save();renderAssets();toast("Aset dihapus",function(){if(goneA){assets.push(goneA);save();renderAssets()}},goneA?goneA.name:"","del")}
       else{pendingAsset=id;renderAssets();setTimeout(function(){if(pendingAsset===id){pendingAsset=null;renderAssets()}},4000)}
@@ -1413,7 +1527,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   if(!noLocal)try{hideBal=localStorage.getItem("sembunyi-v1")==="1"}catch(e){}
   if(!noLocal)try{dailyLimit=parseInt(localStorage.getItem("batas-harian-v1"),10)||0}catch(e){}
   profil=cleanProfil(loadKey("profil-v1"));
-  salaries=loadKey("gaji-v1");
+  salaries=loadKey("gaji-v1");extras=cleanXtr(loadKey("gaji-x-v1"));
   if(!salaries||Array.isArray(salaries)){salaries={};salaries[curYM]=5000000}
   assets=loadKey("aset-v1");
   if(!Array.isArray(assets))assets=[{id:uid(),name:"Reksa dana",amount:2000000},{id:uid(),name:"Emas",amount:1500000},{id:uid(),name:"Tabungan",amount:1000000}];
@@ -1432,7 +1546,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     var d={}, m={};
     items.forEach(function(t){var k=t.date.slice(0,7);(m[k]=m[k]||[]).push(t)});
     Object.keys(m).forEach(function(k){d["tx-"+k]={items:m[k]}});
-    if(Object.keys(salaries).length)d.gaji={v:salaries};if(assets.length)d.aset={items:assets};if(goals.length)d.tujuan={items:goals};d.profil={nama:profil.nama||"",foto:profil.foto||""};
+    if(Object.keys(salaries).length||Object.keys(extras).length)d.gaji={v:salaries,x:extras};if(assets.length)d.aset={items:assets};if(goals.length)d.tujuan={items:goals};d.profil={nama:profil.nama||"",foto:profil.foto||""};
     d.pref={dailyLimit:dailyLimit,hideBal:hideBal,theme:userTheme()};
     return d;
   }
@@ -1476,7 +1590,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   function applyDocs(docs){
     items=[];
     Object.keys(docs).forEach(function(k){if(k.indexOf("tx-")===0&&Array.isArray(docs[k].items))items=items.concat(docs[k].items)});
-    salaries=(docs.gaji&&docs.gaji.v&&typeof docs.gaji.v==="object")?docs.gaji.v:{};
+    salaries=(docs.gaji&&docs.gaji.v&&typeof docs.gaji.v==="object")?docs.gaji.v:{};extras=cleanXtr(docs.gaji&&docs.gaji.x);
     assets=(docs.aset&&Array.isArray(docs.aset.items))?docs.aset.items:[];
     goals=(docs.tujuan&&Array.isArray(docs.tujuan.items))?docs.tujuan.items:[];
     goals.forEach(function(g){if(!Array.isArray(g.subs))g.subs=[]});
@@ -1554,12 +1668,12 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   function wipeMemory(){
     clearTimeout(syncTimer);
     closePm();closePh();closeRs();closeIm();closeTx();closeSheet();
-    items=[];salaries={};assets=[];goals=[];hideBal=false;dailyLimit=0;profil=cleanProfil(null);
+    items=[];salaries={};extras={};assets=[];goals=[];hideBal=false;dailyLimit=0;profil=cleanProfil(null);
     recMode=false;recPending(false);imPending=null;
     lastJson={};loaded=false;mode=null;theUid=null;theName="";extraMonths=[];viewYM=curYM;pendingM=null;
     openG={};wkSel=null;pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;
     try{resetForm();resetAsset();resetGoal();resetSub()}catch(e){}
-    $("salaryPanel").hidden=true;$("wkLimBox").hidden=true;
+    popAll(true);$("wkLimBox").hidden=true;
     $("app").setAttribute("data-tab","home");
     try{render();renderProfile()}catch(e){}
     setSync("");
@@ -1629,7 +1743,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     else if(a==="import"||a==="sample"||a==="empty"){
       if(a==="import")loadLocal();
       else if(a==="sample"){noLocal=true;loadLocal();noLocal=false}
-      else{items=[];salaries={};assets=[];goals=[];hideBal=false;dailyLimit=0}
+      else{items=[];salaries={};extras={};assets=[];goals=[];hideBal=false;dailyLimit=0}
       lastJson={};loaded=true;save();enter();
     }
   });
@@ -1857,7 +1971,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     clearTimeout(wkTimer);if(wkSel)wkTimer=setTimeout(function(){wkSel=null;renderWeek()},4000);
     renderWeek();
   });
-  var FIT_IDS=["txSheet","rsSheet","imSheet","phSheet"];
+  var FIT_IDS=["txSheet","rsSheet","imSheet","phSheet","salaryPanel","asSheet","gsSheet","sbSheet"];
   function fitSheets(){
     var vv=window.visualViewport;
     FIT_IDS.forEach(function(id){
@@ -2152,7 +2266,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   }
   window.addEventListener("resize",function(){if(!$("pmSheet").hidden)placePm()});
 
-  var PANELS=["imSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet"], FB={imSheet:"btnImport",rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",mSheet:"btnMonth"}, opener={};
+  var PANELS=["imSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet"], FB={imSheet:"btnImport",rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd"}, opener={};
   PANELS.forEach(function(id){$(id).setAttribute("tabindex","-1")});
   function topPanel(){for(var i=0;i<PANELS.length;i++){var p=$(PANELS[i]);if(p&&!p.hidden)return p}return null}
   function focusables(p){
@@ -2253,6 +2367,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
       assets:cleanList(d.assets,cleanAsset,500),
       goals:cleanList(d.goals,cleanGoal,500),
       salaries:cleanSal(d.salaries),
+      extras:cleanXtr(d.extras),
       dailyLimit:Math.max(0,cAmt(d.dailyLimit)),
       profil:cleanProfil(d.profil)
     };
@@ -2266,7 +2381,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   function doExport(){
     $("bkErr").textContent="";$("bkOk").textContent="";
     try{
-      var bk={app:BK_APP,version:BK_VER,exportedAt:new Date().toISOString(),data:{items:items,salaries:salaries,assets:assets,goals:goals,dailyLimit:dailyLimit,profil:profil}};
+      var bk={app:BK_APP,version:BK_VER,exportedAt:new Date().toISOString(),data:{items:items,salaries:salaries,extras:extras,assets:assets,goals:goals,dailyLimit:dailyLimit,profil:profil}};
       var blob=new Blob([JSON.stringify(bk,null,2)],{type:"application/json"});
       var url=URL.createObjectURL(blob), a=document.createElement("a");
       a.href=url;a.download="cadangan-pengeluaran-"+ymd(new Date())+".json";
@@ -2297,11 +2412,12 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     var b=imPending&&imPending.parsed.data;if(!b)return;
     var keepPhoto=profil.foto, keepName=profil.nama;
     if(how==="replace"){
-      items=b.items;assets=b.assets;goals=b.goals;salaries=b.salaries;dailyLimit=b.dailyLimit;
+      items=b.items;assets=b.assets;goals=b.goals;salaries=b.salaries;extras=b.extras;dailyLimit=b.dailyLimit;
       profil={nama:b.profil.nama||keepName,foto:b.profil.foto||keepPhoto};
     }else{
       items=mergeById(items,b.items);assets=mergeById(assets,b.assets);goals=mergeById(goals,b.goals);
       Object.keys(b.salaries).forEach(function(k){if(!(k in salaries))salaries[k]=b.salaries[k]});
+      Object.keys(b.extras).forEach(function(k){if(!(k in extras))extras[k]=b.extras[k]});
       if(!dailyLimit)dailyLimit=b.dailyLimit;
       profil={nama:keepName||b.profil.nama,foto:keepPhoto||b.profil.foto};
     }
@@ -2359,7 +2475,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
     pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;openG={};wkSel=null;
     lastCat="Makanan & Minuman";try{localStorage.removeItem("kategori-terakhir-v1")}catch(e){}
     resetForm();resetAsset();resetGoal();resetSub();closeTx();closePh();closeSheet();
-    $("salaryPanel").hidden=true;$("wkLimBox").hidden=true;
+    popAll(true);$("wkLimBox").hidden=true;
     $("fMonth").value=curYM;$("fCatF").value="all";
     showTab("home");render();renderProfile();
     $("rsErr").textContent="";$("rsStatus").textContent="Reset selesai.";
@@ -2368,10 +2484,10 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
   async function doReset(){
     if(rsBusy)return;
     var wipe=$("rsProfil").checked;
-    var snap={items:items,salaries:salaries,assets:assets,goals:goals,hideBal:hideBal,dailyLimit:dailyLimit,profil:profil};
+    var snap={items:items,salaries:salaries,extras:extras,assets:assets,goals:goals,hideBal:hideBal,dailyLimit:dailyLimit,profil:profil};
     rsBusy=true;$("rsGo").disabled=true;$("rsCancel").disabled=true;$("rsRetry").hidden=true;
     $("rsErr").textContent="";$("rsStatus").textContent="Menghapus...";
-    items=[];salaries={};assets=[];goals=[];hideBal=false;dailyLimit=0;
+    items=[];salaries={};extras={};assets=[];goals=[];hideBal=false;dailyLimit=0;
     if(wipe)profil={nama:"",foto:""};
     if(mode==="db"){
       clearTimeout(syncTimer);
@@ -2383,7 +2499,7 @@ html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,bord
         finishReset();
       }catch(e){
         syncing=false;
-        items=snap.items;salaries=snap.salaries;assets=snap.assets;goals=snap.goals;hideBal=snap.hideBal;dailyLimit=snap.dailyLimit;profil=snap.profil;
+        items=snap.items;salaries=snap.salaries;extras=snap.extras;assets=snap.assets;goals=snap.goals;hideBal=snap.hideBal;dailyLimit=snap.dailyLimit;profil=snap.profil;
         var c=e&&e.code;
         $("rsStatus").textContent="";
         $("rsErr").textContent="Reset gagal"+(c?" ("+c+")":"")+". Data di layar tidak diubah. Coba lagi.";
