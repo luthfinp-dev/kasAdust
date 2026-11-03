@@ -501,6 +501,25 @@ header .date{margin-top:6px!important;font-size:.88rem}
   #app[data-tab="home"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px;align-items:start}
   #app[data-tab="home"]>header,#app[data-tab="home"]>.grid3,#app[data-tab="home"]>#salaryPanel{grid-column:1/-1}
 }
+/* ===== mikro-interaksi ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes ringIn{from{stroke-dasharray:0 400}}
+@keyframes barIn{from{transform:scaleX(0)}}
+@keyframes colIn{from{transform:scaleY(0)}}
+button,.xc,.tablebox tr.txr{transition:transform .12s ease,background .15s ease}
+button:active,.xc:active,.tablebox tr.txr:active{transform:scale(.97)}
+.fab:active{transform:translateX(-50%) scale(.93)}
+#app.tabin .card,#app.tabin .stat{animation:fadeUp .38s ease both}
+#app.tabin .grid3 .stat:nth-child(2){animation-delay:.04s}
+#app.tabin .grid3 .stat:nth-child(3){animation-delay:.08s}
+#app.tabin .grid3 .stat:nth-child(4){animation-delay:.12s}
+#app.tabin .dn-seg{animation:ringIn .8s ease both}
+#app.tabin .bar i{transform-origin:left;animation:barIn .6s ease both}
+#app.tabin .wcol{transform-origin:bottom;animation:colIn .5s ease both}
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translate(-50%,12px);opacity:0;z-index:80;display:flex;align-items:center;gap:12px;max-width:min(92vw,420px);padding:10px 16px;border-radius:999px;background:var(--glass-s);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);font-size:.9rem;font-weight:600;transition:opacity .22s ease,transform .22s ease;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{min-height:30px;padding:4px 12px;border-radius:999px;font-weight:700;color:var(--sage-d)}
+@media (prefers-reduced-motion:reduce){#app.tabin *{animation:none!important}.toast{transition:none}button:active,.xc:active,.tablebox tr.txr:active{transform:none}}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
@@ -746,6 +765,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
     <div class="rs-status okmsg" id="bkOk" role="status"></div>
   </section>
   <p class="note" id="storeNote" data-t="set"></p>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   <nav class="nav" aria-label="Menu utama">
     <div class="navbar" role="tablist">
       <button type="button" role="tab" class="nb" data-tab="home" aria-selected="true" aria-current="page"><i data-ic="home"></i><span>Beranda</span></button>
@@ -1003,7 +1023,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
       $("fCatF").value="all";
     }
     lastCat=cat;try{localStorage.setItem("kategori-terakhir-v1",cat)}catch(e){}
-    save();resetForm();closeTx();render();
+    var wasE=!!editId;save();resetForm();closeTx();render();toast(wasE?"Perubahan disimpan":"Transaksi ditambahkan");
   });
 
   $("btnCancel").addEventListener("click",function(){resetForm();closeTx()});
@@ -1022,9 +1042,11 @@ header .date{margin-top:6px!important;font-size:.88rem}
       openTx();render();
     }else if(a==="del"){
       if(pendingDel===id){
-        applySave(items.filter(function(x){return x.id===id})[0],-1);items=items.filter(function(x){return x.id!==id});pendingDel=null;
+        var gone=items.filter(function(x){return x.id===id})[0];
+        applySave(gone,-1);items=items.filter(function(x){return x.id!==id});pendingDel=null;
         if(editId===id)resetForm();
         save();render();
+        toast("Transaksi dihapus",function(){if(gone){items.push(gone);applySave(gone,1);save();render()}});
       }else{
         pendingDel=id;render();
         setTimeout(function(){if(pendingDel===id){pendingDel=null;render()}},4000);
@@ -1175,7 +1197,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
     if(t<=0){$("gErr").textContent="Target harus lebih dari Rp 0.";$("gTarget").focus();return}
     if(editGoal){goals=goals.map(function(g){return g.id===editGoal?{id:g.id,name:n,target:t,saved:s,subs:g.subs||[]}:g})}
     else{goals.push({id:uid(),name:n,target:t,saved:s,subs:[]})}
-    save();resetGoal();renderGoals();
+    save();resetGoal();renderGoals();toast("Tujuan disimpan");
   });
   $("gList").addEventListener("click",function(e){
     var b=e.target.closest("button");if(!b)return;
@@ -1187,7 +1209,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
       $("gFormTitle").textContent="Edit tujuan";$("btnGoalSave").textContent="Simpan perubahan";$("btnGoalCancel").hidden=false;
       $("gName").focus();renderGoals();
     }else if(act==="del"){
-      if(pendingGoal===id){goals=goals.filter(function(x){return x.id!==id});pendingGoal=null;if(editGoal===id)resetGoal();save();renderGoals()}
+      if(pendingGoal===id){var goneG=goals.filter(function(x){return x.id===id})[0];goals=goals.filter(function(x){return x.id!==id});pendingGoal=null;if(editGoal===id)resetGoal();save();renderGoals();toast("Tujuan dihapus",function(){if(goneG){goals.push(goneG);save();renderGoals()}})}
       else{pendingGoal=id;renderGoals();setTimeout(function(){if(pendingGoal===id){pendingGoal=null;renderGoals()}},4000)}
     }
   });
@@ -1228,7 +1250,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
   fmtIn($("sIn"));fmtIn($("aAmt"));
   $("btnSalary").addEventListener("click",function(){var p=$("salaryPanel");p.hidden=!p.hidden;if(!p.hidden){var s=salaries[viewYM];$("sIn").value=s?nf.format(s):"";$("sErr").textContent="";$("sIn").focus()}});
   $("btnSalCancel").addEventListener("click",function(){$("salaryPanel").hidden=true});
-  $("btnSalSave").addEventListener("click",function(){var v=num($("sIn").value);if(v<=0){$("sErr").textContent="Nominal gaji harus lebih dari Rp 0.";return}salaries[viewYM]=v;save();$("salaryPanel").hidden=true;render()});
+  $("btnSalSave").addEventListener("click",function(){var v=num($("sIn").value);if(v<=0){$("sErr").textContent="Nominal gaji harus lebih dari Rp 0.";return}salaries[viewYM]=v;save();$("salaryPanel").hidden=true;render();toast("Gaji disimpan")});
   $("btnAssets").addEventListener("click",function(){goTab("aset","assetPanel")});
   $("btnAssetClose").addEventListener("click",function(){$("assetPanel").hidden=true;resetAsset()});
   $("btnAssetCancel").addEventListener("click",resetAsset);
@@ -1238,7 +1260,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
     if(v<=0){$("aErr").textContent="Nominal harus lebih dari Rp 0.";$("aAmt").focus();return}
     if(editAsset){assets=assets.map(function(a){return a.id===editAsset?{id:a.id,name:n,amount:v}:a})}
     else{assets.push({id:uid(),name:n,amount:v})}
-    save();resetAsset();renderAssets();
+    save();resetAsset();renderAssets();toast("Aset disimpan");
   });
   $("aList").addEventListener("click",function(e){
     var b=e.target.closest("button");if(!b)return;
@@ -1250,7 +1272,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
       $("aFormTitle").textContent="Edit aset";$("btnAssetSave").textContent="Simpan perubahan";$("btnAssetCancel").hidden=false;
       $("aName").focus();renderAssets();
     }else if(act==="del"){
-      if(pendingAsset===id){assets=assets.filter(function(x){return x.id!==id});pendingAsset=null;if(editAsset===id)resetAsset();save();renderAssets()}
+      if(pendingAsset===id){var goneA=assets.filter(function(x){return x.id===id})[0];assets=assets.filter(function(x){return x.id!==id});pendingAsset=null;if(editAsset===id)resetAsset();save();renderAssets();toast("Aset dihapus",function(){if(goneA){assets.push(goneA);save();renderAssets()}})}
       else{pendingAsset=id;renderAssets();setTimeout(function(){if(pendingAsset===id){pendingAsset=null;renderAssets()}},4000)}
     }
   });
@@ -1720,6 +1742,7 @@ header .date{margin-top:6px!important;font-size:.88rem}
   }
   function showTab(n){
     $("app").setAttribute("data-tab",n);
+    var ap=$("app");ap.classList.remove("tabin");void ap.offsetWidth;ap.classList.add("tabin");setTimeout(function(){ap.classList.remove("tabin")},900);
     document.querySelectorAll(".nb").forEach(function(b){
       var on=b.getAttribute("data-tab")===n;
       b.setAttribute("aria-selected",on?"true":"false");
@@ -2225,6 +2248,33 @@ header .date{margin-top:6px!important;font-size:.88rem}
       var t=document.querySelector('.skin[data-skin="'+nx+'"]');if(t)t.focus();
     });
   });
+  var toastT=null;
+  function buzz(){try{if(navigator.vibrate)navigator.vibrate(8)}catch(e){}}
+  function hideToast(){var t=$("toast");t.classList.remove("on");clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true},260)}
+  function toast(msg,undo){
+    var t=$("toast");clearTimeout(toastT);
+    t.innerHTML="<span></span>"+(undo?'<button type="button">Urungkan</button>':"");
+    t.firstChild.textContent=msg;
+    if(undo)t.lastChild.onclick=function(){hideToast();undo()};
+    t.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add("on")})});
+    toastT=setTimeout(hideToast,undo?6000:2200);buzz();
+  }
+  function parseRp(t){var m=/^(-?)Rp ([\d.]+)$/.exec(t);return m?(m[1]?-1:1)*parseInt(m[2].replace(/\./g,""),10):null}
+  var cuObs=new MutationObserver(function(ms){ms.forEach(function(m){
+    var el=m.target.nodeType===1?m.target:m.target.parentNode;el=el&&el.closest?el.closest(".stat .v"):null;
+    if(!el)return;
+    if(el._own){el._own=false;return}
+    var to=parseRp(el.textContent), from=el._n;el._n=to;el._g=(el._g||0)+1;
+    if(to===null||from==null||from===to||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches))return;
+    var g=el._g, t0=performance.now();
+    (function step(t){
+      if(g!==el._g)return;
+      var k=Math.min(1,(t-t0)/550), v=Math.round(from+(to-from)*(1-Math.pow(1-k,3)));
+      el._own=true;el.textContent=(v<0?"-":"")+"Rp "+nf.format(Math.abs(v));
+      if(k<1)requestAnimationFrame(step);
+    })(t0);
+  })});
+  document.querySelectorAll(".stat .v").forEach(function(el){cuObs.observe(el,{childList:true,characterData:true,subtree:true})});
   var fitQ=0;
   function fitStats(){
     cancelAnimationFrame(fitQ);
