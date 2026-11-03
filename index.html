@@ -388,23 +388,9 @@ select{text-overflow:ellipsis}
 .acch .accchev{flex:none;transition:transform .2s}
 .acch .accchev .ic{width:20px;height:20px}
 .acch[aria-expanded="true"] .accchev{transform:rotate(180deg)}
-.acc.collapsed>:not(.acch){display:none!important}
 .acc.collapsed>.acch{margin-bottom:0}
 .acc{scroll-margin-top:12px}
-@keyframes slideN{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
-@keyframes slideP{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
-#app.tabin.sw-n .card,#app.tabin.sw-n .stat{animation:slideN .32s var(--ease) both}
-#app.tabin.sw-p .card,#app.tabin.sw-p .stat{animation:slideP .32s var(--ease) both}
 @media (prefers-reduced-motion:reduce){.acch .accchev{transition:none}}
-/* ===== animasi tab ringan (hanya fade, tanpa geser) ===== */
-@keyframes tabFade{from{opacity:0}to{opacity:1}}
-#app.tabin .card,#app.tabin .stat,#app.tabin.sw-n .card,#app.tabin.sw-n .stat,#app.tabin.sw-p .card,#app.tabin.sw-p .stat{animation:tabFade .18s ease-out both}
-#app.tabin .grid3 .stat:nth-child(n){animation-delay:0s}
-#app.tabin .dn-seg{animation:ringIn .45s ease-out both}
-#app.tabin .bar i{animation:barIn .4s ease-out both}
-#app.tabin .wcol{animation:colIn .35s ease-out both}
-#app.tabin .wb:nth-child(n) .wcol{animation-delay:0s}
-@media (prefers-reduced-motion:reduce){#app.tabin *{animation:none!important}}
 /* ===== Midnight Electric versi terang (biru + pink) ===== */
 :root[data-skin="midnight"][data-theme="light"]{color-scheme:light;
   --bg:#ffffff;--surface:#f3f6fd;--text:#18213d;--muted:#5b6688;--line:rgba(59,100,190,.16);
@@ -623,6 +609,43 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
 .toast.on .ti{animation:tpop .6s var(--ease) .1s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.xd,.tablebox tr.txr td.act,.bar i,.wcol,.toast{transition:none}}
+
+/* ===== animasi & mikro-interaksi halus (taruh paling akhir supaya menang) ===== */
+@keyframes tabFade{from{opacity:0}to{opacity:1}}
+@keyframes ovIn{from{opacity:0}to{opacity:1}}
+@keyframes navPop{0%{transform:scale(.78)}55%{transform:scale(1.14)}100%{transform:scale(1)}}
+/* pindah tab: hanya fade, TANPA geser (transform di kartu ber-blur bikin iOS nyangkut) */
+#app.tabin .card,#app.tabin .stat{animation:tabFade .16s ease-out both}
+#app.tabin .grid3 .stat:nth-child(n){animation-delay:0s}
+#app.tabin .dn-seg{animation:ringIn .5s var(--ease) both}
+#app.tabin .bar i{animation:barIn .45s var(--ease) both}
+#app.tabin .wcol{animation:colIn .4s var(--ease) both}
+#app.tabin .wb:nth-child(n) .wcol{animation-delay:0s}
+/* akordeon mulus */
+.accb{display:grid;grid-template-rows:1fr;transition:grid-template-rows .42s var(--ease),opacity .3s ease}
+.acci{min-height:0;overflow:hidden;padding:4px;margin:-4px}
+.acc.collapsed>.accb{grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .42s var(--ease),opacity .2s ease,visibility 0s linear .42s}
+.acch{transition:margin-bottom .42s var(--ease),opacity .15s ease}
+.acch:active{opacity:.7}
+/* tombol, input, pilihan tema */
+button{transition:transform .18s var(--ease),background-color .22s ease,background .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease}
+button:active{transform:scale(.96)}
+.fab:active{transform:translateX(-50%) scale(.92)}
+.nb:active{transform:scale(.9)}
+.nb[aria-selected="true"] i{animation:navPop .42s var(--ease)}
+input,select{transition:border-color .2s ease,box-shadow .25s ease,background-color .2s ease}
+input:focus,select:focus{box-shadow:0 0 0 3px var(--sage-l)}
+.skin{transition:background-color .25s ease,border-color .25s ease,transform .18s var(--ease)}
+.skin:active{transform:scale(.97)}
+.tov:not([hidden]),.ov:not([hidden]){animation:ovIn .22s ease both}
+.msheet,.sheet{will-change:auto}
+/* pergantian terang/gelap: warna memudar, bukan loncat */
+html.tswap *:not(.knob){transition:background-color .4s ease,color .4s ease,border-color .4s ease,box-shadow .4s ease,fill .4s ease,stroke .4s ease!important}
+@media (prefers-reduced-motion:reduce){
+  #app.tabin *{animation:none!important}
+  .accb,.acch,.nb i,.skin{transition:none!important;animation:none!important}
+  html.tswap *{transition:none!important}
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
@@ -1276,7 +1299,9 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     b.setAttribute("aria-checked",d?"true":"false");b.setAttribute("aria-label",l);b.title=l;
     $("knob").innerHTML=ic(d?"moon":"sun");
   }
+  function themeFade(){var r=document.documentElement;r.classList.add("tswap");clearTimeout(themeFade._t);themeFade._t=setTimeout(function(){r.classList.remove("tswap")},520)}
   $("btnTheme").addEventListener("click",function(){
+    themeFade();
     var n=curDark()?"light":"dark";
     document.documentElement.setAttribute("data-theme",n);
     try{localStorage.setItem("tema-v1",n)}catch(e){}
@@ -1875,16 +1900,26 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
   }
   function docTop(el){var y=0;while(el){y+=el.offsetTop;el=el.offsetParent}return y}
   function scrollToEl(el){requestAnimationFrame(function(){window.scrollTo(0,Math.max(0,docTop(el)-12))})}
+  document.querySelectorAll(".acc").forEach(function(sec){
+    var h=sec.querySelector(":scope>.acch");if(!h||sec.querySelector(":scope>.accb"))return;
+    var wrap=document.createElement("div"), inner=document.createElement("div");
+    wrap.className="accb";inner.className="acci";
+    var n=h.nextSibling;while(n){var nx=n.nextSibling;inner.appendChild(n);n=nx}
+    wrap.appendChild(inner);sec.appendChild(wrap);
+  });
   function accToggle(h){
     var id=h.getAttribute("data-acc"), el=$(id), willOpen=el.classList.contains("collapsed");
     setAcc(id,willOpen);
-    if(willOpen)scrollToEl(el);
+    if(willOpen)setTimeout(function(){
+      var r=h.getBoundingClientRect();
+      if(r.top<8||r.top>window.innerHeight*0.55)window.scrollTo({top:Math.max(0,docTop(el)-12),behavior:"smooth"});
+    },440);
   }
   document.querySelectorAll(".acch").forEach(function(h){
     h.addEventListener("click",function(){accToggle(h)});
     h.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();accToggle(h)}});
   });
-  function goTab(n,id){showTab(n);if(id==="assetPanel"||id==="goalPanel")setAcc(id,true);var el=$(id);if(el)scrollToEl(el)}
+  function goTab(n,id){showTab(n);if($(id)&&$(id).classList.contains("acc"))setAcc(id,true)}
   function openTx(){
     if(!$("txSheet").hidden)return;
     txY=window.scrollY||window.pageYOffset||0;
@@ -1931,9 +1966,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
       try{if(String(window.getSelection())!=="")return}catch(er){}
       var cur=ORDER.indexOf($("app").getAttribute("data-tab")), nx=cur+(dx<0?1:-1);
       if(cur<0||nx<0||nx>=ORDER.length)return;
-      var ap=$("app");ap.classList.remove("sw-n","sw-p");ap.classList.add(dx<0?"sw-n":"sw-p");
       showTab(ORDER[nx]);
-      setTimeout(function(){ap.classList.remove("sw-n","sw-p")},1700);
     },{passive:true});
     document.addEventListener("touchcancel",function(){live=false},{passive:true});
   })();
@@ -2403,6 +2436,7 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
     paintTheme();paintSkin();fitStats();refreshDonut();
   }
   function pickSkin(sk){
+    themeFade();
     try{localStorage.setItem("skin-v1",sk==="midnight"?"midnight":"original")}catch(e){}
     applySkin(sk);
     if(mode==="db")save();
