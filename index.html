@@ -459,6 +459,48 @@ select{text-overflow:ellipsis}
 .moves .mv span{display:block}
 .moves .mv span:first-child{overflow-wrap:anywhere}
 .moves .mv span:last-child{font-weight:700;font-variant-numeric:tabular-nums}
+/* ===== rapikan Beranda: header dan kartu ringkasan ===== */
+.wrap{padding-top:20px}
+@media (max-width:760px){.wrap{padding-left:16px;padding-right:16px;padding-top:16px}}
+@media (min-width:1100px){.wrap{max-width:1160px}}
+header{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:12px;margin-bottom:18px}
+header .hl{grid-column:1;min-width:0}
+header .hr{grid-column:2;order:0;flex-basis:auto;margin:0;gap:0}
+header .avatar:not(.big){grid-column:3;order:0;width:42px;height:42px}
+.brand{font-size:.8rem;letter-spacing:.01em;margin:0 0 4px}
+header h1{margin:0;font-size:1.65rem;line-height:1.15}
+header .ttl{padding:2px 8px;margin-left:-8px}
+header .ttl{white-space:nowrap;text-align:left;gap:4px}
+@media (max-width:760px){header h1{font-size:1.45rem}}
+header .date{margin-top:6px!important;font-size:.88rem}
+.grid3{gap:12px;margin-bottom:18px}
+@media (min-width:761px){.grid3{gap:16px;margin-bottom:22px}}
+.stat{display:flex;flex-direction:column;align-items:stretch;padding:16px}
+.stat>.l{align-items:center;gap:10px;min-height:2.7em;font-size:.84rem;line-height:1.25}
+.stat .l i[data-ic]{width:32px;height:32px;flex:none}
+.stat .l>span{flex:1;min-width:0}
+.stat .eye{flex:none;margin-left:auto}
+.stat .v{font-size:1.3rem;line-height:1.2;margin-top:12px;font-weight:800}
+.stat .n{font-size:.8rem;line-height:1.4;margin-top:4px}
+.stat .bar{margin-top:12px;margin-bottom:2px}
+.stat .bar+.n{margin-top:8px}
+.stat>*:has(+button),.stat>*:has(+.moves:empty+button){margin-bottom:14px}
+.stat>button{align-self:flex-start;margin-top:auto}
+.brand{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .l>span{overflow-wrap:normal;word-break:normal}
+@media (max-width:420px){
+  .brand{font-size:.72rem}
+  header .date{font-size:.8rem;white-space:nowrap}
+  .stat{padding:14px}
+  .stat>.l{gap:8px;font-size:.82rem}
+  .stat .l i[data-ic]{width:28px;height:28px}
+  .stat .l i[data-ic] .ic{width:16px;height:16px}
+  .stat .v{font-size:1.2rem}
+}
+@media (min-width:1000px){
+  #app[data-tab="home"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px;align-items:start}
+  #app[data-tab="home"]>header,#app[data-tab="home"]>.grid3,#app[data-tab="home"]>#salaryPanel{grid-column:1/-1}
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
