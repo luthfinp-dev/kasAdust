@@ -545,6 +545,8 @@ button:active,.xc:active,.tablebox tr.txr:active{transform:scale(.97)}
   :root:not([data-theme="light"]) .toast .ti,:root:not([data-theme="light"]) .toast button{background:rgba(16,35,26,.1)}
 }
 @media (prefers-reduced-motion:reduce){.toast .tb{animation:none;display:none}.toast.on .ti{animation:none}}
+.toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 20px);transform:translate(-50%,-22px) scale(.94)}
+.toast.on{transform:translate(-50%,0) scale(1)}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
