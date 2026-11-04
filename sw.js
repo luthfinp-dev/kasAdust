@@ -1,7 +1,6 @@
-/* Service worker: kerangka aplikasi tersedia offline. Data Supabase tidak pernah disimpan di sini. */
-var VERSION = "v2";
+/* Service worker: kerangka aplikasi tersedia offline. CDN dan Supabase tidak pernah disentuh atau disimpan. */
+var VERSION = "v3";
 var CACHE = "bydust-shell-" + VERSION;
-var SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js";
 var SHELL = ["./", "manifest.json", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 function offlinePage() {
@@ -16,9 +15,7 @@ self.addEventListener("install", function (e) {
     caches.open(CACHE).then(function (c) {
       // best effort: satu file gagal tidak membatalkan pemasangan
       return Promise.all(SHELL.map(function (u) { return c.add(u).catch(function () {}); }))
-        .then(function () {
-          return c.add(new Request(SUPABASE_JS, { mode: "cors", credentials: "omit" })).catch(function () {});
-        });
+        ;
     }).then(function () { return self.skipWaiting(); })
   );
 });
@@ -37,19 +34,7 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
 
-  // Pustaka Supabase dari CDN: cache dulu (integritas tetap dicek browser lewat atribut SRI).
-  if (req.url === SUPABASE_JS) {
-    e.respondWith(
-      caches.match(SUPABASE_JS).then(function (hit) {
-        return hit || fetch(new Request(SUPABASE_JS, { mode: "cors", credentials: "omit" })).then(function (res) {
-          if (res && res.ok) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put(SUPABASE_JS, cp); }); }
-          return res;
-        });
-      })
-    );
-    return;
-  }
-
+  // Domain lain (CDN, Supabase) tidak disentuh sama sekali: browser memuatnya langsung dari jaringan.
   // Selain itu hanya file milik sendiri. API Supabase, login, dan semua domain lain tidak disentuh.
   if (url.origin !== self.location.origin) return;
 
