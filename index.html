@@ -2,12 +2,12 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pencatatan Pengeluaran By adusT</title>
-<link rel="icon" type="image/png" href="Minimal%20White%20Compass%20Diamond%20Emblem.png">
+<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#47674f">
@@ -2044,9 +2044,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     theUid=user.id;theName=user.email||"Akun";mode=null;
     await goDb();
   }
+  // Pemulihan otomatis: jika pustaka gagal dimuat (mis. service worker lama rusak), lepas service worker dan cache lalu muat ulang sekali.
+  function healLib(){
+    try{if(navigator.onLine===false)return false;if(sessionStorage.getItem("heal-v1"))return false;sessionStorage.setItem("heal-v1","1")}catch(e){return false}
+    if(!navigator.serviceWorker)return false;
+    var done=function(){location.reload()};
+    navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))})
+      .then(function(){return window.caches?caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}):0})
+      .then(done,done);
+    return true;
+  }
   async function start(){
     showPane("msg");wShow("Memeriksa sesi...",[]);
-    if(!window.supabase||!supabase.createClient){wShow("Library Supabase gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman.",[["retry","Muat ulang","primary"]]);return}
+    if(!window.supabase||!supabase.createClient){if(healLib()){wShow("Memulihkan aplikasi...",[]);return}wShow("Library Supabase gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman.",[["retry","Muat ulang","primary"]]);return}
     var c=getCfg();
     if(!c){showCfg();return}
     try{
