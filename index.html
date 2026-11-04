@@ -748,6 +748,72 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .tr-btns .tr-skip{background:none;border-color:transparent;color:var(--muted);padding:0 6px}
 .tr-btns .tr-skip:hover{color:var(--text);background:none}
 @media (prefers-reduced-motion:reduce){.tr-ring,.tr-card,.tr-bar i{transition:none}.tr-ring::after{animation:none}}
+
+/* ===== layar sambutan & pilihan cara buka (v2) ===== */
+.welcome{position:relative;overflow:hidden;padding:28px 20px}
+.wcard{position:relative;width:100%;max-width:468px;padding:56px 36px 34px;text-align:center;border-radius:32px;
+  background:linear-gradient(165deg,var(--glass) 0%,var(--glass-2) 100%);
+  -webkit-backdrop-filter:blur(32px) saturate(170%);backdrop-filter:blur(32px) saturate(170%);
+  border:1px solid var(--glass-b);
+  box-shadow:var(--glass-sh),0 40px 80px -40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3)}
+.wcard::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(255,255,255,0) 34%,rgba(255,255,255,0) 66%,rgba(255,255,255,.2));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.wcard>*{position:relative}
+.wlogo{position:relative;display:inline-flex;width:66px;height:66px;align-items:center;justify-content:center;border-radius:21px;
+  background:linear-gradient(145deg,var(--sage) 0%,var(--sage-d) 100%);color:var(--bg);border:0;
+  box-shadow:0 16px 36px -12px var(--sage),inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,0,.12)}
+.wlogo svg{width:34px;height:34px;display:block}
+.weyebrow{display:flex;align-items:center;justify-content:center;gap:11px;margin:22px 0 0;font-size:.8rem;font-weight:600;letter-spacing:.05em;color:var(--muted)}
+.weyebrow b{display:block;width:4px;height:4px;border-radius:50%;background:var(--sage);opacity:.8}
+.wcard .whead{margin:14px 0 0;font-size:clamp(1.95rem,6.6vw,2.4rem);line-height:1.1;letter-spacing:-.04em;font-weight:700;text-wrap:balance}
+.wcard .whead span{display:block;margin:0;font-size:inherit;font-weight:inherit;color:inherit}
+.wcard .whead .l2{font-weight:500;letter-spacing:-.035em;color:var(--sage-d)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .wcard .whead .l2{background:linear-gradient(95deg,var(--sage-d),var(--sage));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+}
+.wcard .wlead{max-width:31ch;margin:16px auto 0;font-size:.98rem;line-height:1.65;color:var(--muted);text-wrap:balance}
+.wrule{display:flex;align-items:center;gap:14px;max-width:290px;margin:28px auto 24px}
+.wrule i{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line) 70%)}
+.wrule i:last-child{transform:scaleX(-1)}
+.wrule b{display:block;width:6px;height:6px;border-radius:1px;transform:rotate(45deg);background:var(--sage);opacity:.75}
+.wcard .wmsg{margin:0 0 6px;font-size:1.28rem;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.wcard .wsub{margin:0 auto 22px;max-width:30ch;font-size:.92rem;line-height:1.55;color:var(--muted);text-wrap:balance}
+.wcard .wmsg:only-of-type{margin-bottom:16px}
+.wlang{position:absolute;top:18px;right:18px;margin:0;gap:4px}
+.wlang button{padding:4px 10px;font-size:.72rem;letter-spacing:.04em;border-width:1px}
+.wcard form label{margin-top:12px;font-size:.84rem;font-weight:600;color:var(--muted);letter-spacing:.01em}
+.wcard input{min-height:48px;border-radius:14px;font-size:.98rem}
+.wcard #authBox .primary,.wcard #cfgBox .primary,.wcard #fgBox .primary,.wcard #rcBox .primary{min-height:50px;border-radius:14px;font-size:1rem;margin-top:14px}
+.wcard .auth-tabs{margin-bottom:6px}
+.wcard .cfglink{margin-top:14px}
+@keyframes wIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.wcard>*{animation:wIn .6s var(--ease,cubic-bezier(.22,1,.36,1)) both}
+.wcard>*:nth-child(2){animation-delay:.04s}.wcard>*:nth-child(3){animation-delay:.08s}.wcard>*:nth-child(4){animation-delay:.12s}
+.wcard>*:nth-child(5){animation-delay:.16s}.wcard>*:nth-child(6){animation-delay:.2s}.wcard>*:nth-child(n+7){animation-delay:.24s}
+@media (prefers-reduced-motion:reduce){.wcard>*{animation:none}}
+/* pilihan cara buka */
+.gcard{max-width:620px;padding:60px 42px 42px}
+.gcard .whead{font-size:clamp(2rem,5vw,2.6rem)}
+.gcard .wp{margin:14px auto 0;font-size:1rem;color:var(--muted)}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+.gopt{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;min-height:178px;height:auto;padding:22px 22px 20px;text-align:left;border-radius:24px;
+  background:var(--glass-2);border:1px solid var(--glass-b);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.gopt:hover{background:var(--hover);transform:translateY(-3px);box-shadow:0 18px 36px -18px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22)}
+.gopt:active{transform:translateY(-1px) scale(.985)}
+.gopt.primary{background:linear-gradient(150deg,var(--sage-d) 0%,var(--sage) 100%);border-color:transparent;box-shadow:0 20px 40px -20px var(--sage),inset 0 1px 0 rgba(255,255,255,.35)}
+.gopt.primary:hover{filter:brightness(1.06)}
+.gico{display:grid;place-items:center;width:44px;height:44px;margin-bottom:22px;border-radius:14px;background:rgba(127,127,127,.16)}
+.gopt:not(.primary) .gico{background:var(--chip);color:var(--sage-d)}
+.gico svg{width:22px;height:22px;display:block}
+.gtx{display:block}
+.gopt b{display:block;font-size:1.1rem;font-weight:700;letter-spacing:-.015em;line-height:1.25}
+.gopt small{display:block;margin-top:6px;font-size:.87rem;font-weight:400;line-height:1.5;opacity:.78}
+.garr{position:absolute;top:22px;right:22px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(127,127,127,.16);transition:transform .25s var(--ease,ease)}
+.garr svg{width:15px;height:15px;display:block}
+.gopt:hover .garr{transform:translateX(3px)}
+@media(max-width:560px){.gopts{grid-template-columns:1fr}.gopt{min-height:0}.gcard{padding:52px 24px 28px}.wcard{padding:52px 24px 28px}}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -755,20 +821,24 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 <body>
 <noscript><p style="padding:24px;font-family:sans-serif">Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.</p></noscript>
 <div class="welcome" id="gate" hidden><div class="wcard gcard">
-  <div class="wlogo"><img src="Minimal White Compass Diamond Emblem.png" alt="Logo bydust" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>
-  <h1>Pencatatan Pengeluaran<span>By adusT</span></h1>
+  <div class="wlogo"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3.2 28.8 16 16 28.8 3.2 16Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 8.6 19.6 16 16 23.4 12.4 16Z" fill="currentColor"/><circle cx="16" cy="16" r="1.5" fill="var(--sage-d)"/></svg></div>
+  <p class="weyebrow"><span>By adusT</span></p>
+  <h1 class="whead gh">Pencatatan Pengeluaran</h1>
   <p class="wp">Pilih cara membuka aplikasi.</p>
   <div class="gopts">
-    <button type="button" class="gopt primary" id="gInstall"><b>Install aplikasi</b><small>Buka seperti aplikasi di komputer, tanpa tab browser.</small></button>
-    <button type="button" class="gopt" id="gWeb"><b>Lanjut di website</b><small>Masuk langsung lewat browser ini.</small></button>
+    <button type="button" class="gopt primary" id="gInstall"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 16.5v1.2A2.3 2.3 0 0 0 6.8 20h10.4a2.3 2.3 0 0 0 2.3-2.3v-1.2"/></svg></span><span class="gtx"><b>Install aplikasi</b><small>Buka seperti aplikasi di komputer, tanpa tab browser.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
+    <button type="button" class="gopt" id="gWeb"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.6 5.3 3.6 8.5s-1.2 6-3.6 8.5c-2.4-2.5-3.6-5.3-3.6-8.5s1.2-6 3.6-8.5Z"/></svg></span><span class="gtx"><b>Lanjut di website</b><small>Masuk langsung lewat browser ini.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
   </div>
 </div></div>
 <div class="welcome" id="welcome"><div class="wcard">
-  <div class="wlogo"><img src="Minimal White Compass Diamond Emblem.png" alt="Logo bydust" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>
   <div class="wlang" role="group" aria-label="Language" data-notr><button type="button" data-lang="en">EN</button><button type="button" data-lang="id">ID</button></div>
-  <h1>Pencatatan Pengeluaran<span>By adusT</span></h1>
-  <p class="wp">Catat pengeluaran, gaji, aset, dan tujuan Anda dengan tenang dan rapi.</p>
+  <div class="wlogo"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3.2 28.8 16 16 28.8 3.2 16Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 8.6 19.6 16 16 23.4 12.4 16Z" fill="currentColor"/><circle cx="16" cy="16" r="1.5" fill="var(--sage-d)"/></svg></div>
+  <p class="weyebrow"><span>Pencatatan Pengeluaran</span><b></b><span>By adusT</span></p>
+  <h1 class="whead"><span class="l1">Uang Anda,</span><span class="l2">dalam perspektif.</span></h1>
+  <p class="wp wlead">Gambaran keuangan yang lebih jernih, dari pengeluaran harian hingga tujuan jangka panjang.</p>
+  <div class="wrule" aria-hidden="true"><i></i><b></b><i></i></div>
   <div class="wmsg" id="wMsg" role="status">Memeriksa sesi...</div>
+  <p class="wsub" id="wSub" hidden></p>
   <div id="authBox" hidden>
     <div class="auth-tabs" role="tablist" aria-label="Masuk atau daftar">
       <button type="button" role="tab" id="tabLogin" aria-selected="true">Masuk</button>
@@ -1110,6 +1180,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var KEY="lang-v1", lang="en";
   try{var sv=localStorage.getItem(KEY);if(sv==="id"||sv==="en")lang=sv}catch(e){}
   var EN={
+    "Uang Anda,":"Your money,","dalam perspektif.":"in perspective.",
+    "Gambaran keuangan yang lebih jernih, dari pengeluaran harian hingga tujuan jangka panjang.":"A clearer view of your finances, from daily spending to long-term goals.",
+    "Selamat datang kembali":"Welcome back","Masuk untuk melanjutkan perjalanan finansial Anda.":"Sign in to continue your financial journey.",
+    "Mulai dengan tenang":"Start with ease","Buat akun untuk mulai mencatat keuangan Anda.":"Create an account to start tracking your finances.",
 "Pilih cara membuka aplikasi.":"Choose how to open the app.","Install aplikasi":"Install app","Lanjut di website":"Continue on the website","Buka seperti aplikasi di komputer, tanpa tab browser.":"Open it like a desktop app, without a browser tab.","Masuk langsung lewat browser ini.":"Sign in right here in this browser.",
 "Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.":"This app needs JavaScript. Please enable JavaScript in your browser.",
 "Pencatatan Pengeluaran":"Expense Tracker",
@@ -1895,7 +1969,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   assets=loadKey("aset-v1");
   assets=Array.isArray(assets)?cleanList(assets,cleanAsset,500):[{id:uid(),name:"Reksa dana",amount:2000000},{id:uid(),name:"Emas",amount:1500000},{id:uid(),name:"Tabungan",amount:1000000}];
   }
-  function wShow(msg,btns){$("wMsg").textContent=msg;$("wBtns").innerHTML=btns.map(function(b){return '<button type="button" class="'+(b[2]||"")+'" data-w="'+b[0]+'">'+b[1]+'</button>'}).join("")}
+  function wShow(msg,btns){$("wSub").hidden=true;$("wMsg").textContent=msg;$("wBtns").innerHTML=btns.map(function(b){return '<button type="button" class="'+(b[2]||"")+'" data-w="'+b[0]+'">'+b[1]+'</button>'}).join("")}
   function setSync(t,fail){$("syncBox").hidden=(mode!=="db");$("syncSt").textContent=t||"";$("btnRetry").hidden=!fail;paintSet();paintDot(t,fail)}
   function enter(){
     $("welcome").hidden=true;$("app").hidden=false;noCU=Date.now()+2000;
@@ -1993,7 +2067,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function showPane(p){
     $("gate").hidden=true;$("authBox").hidden=p!=="auth";$("cfgBox").hidden=p!=="cfg";$("fgBox").hidden=p!=="fg";$("rcBox").hidden=p!=="rc";
-    $("welcome").hidden=false;$("app").hidden=true;
+    $("welcome").hidden=false;$("app").hidden=true;$("wSub").hidden=true;
+  }
+  function authHead(){
+    var w=$("wMsg");if(w.getAttribute("data-m")==="1"||$("authBox").hidden)return;
+    var reg=authMode==="reg";
+    w.textContent=reg?"Mulai dengan tenang":"Selamat datang kembali";
+    $("wSub").textContent=reg?"Buat akun untuk mulai mencatat keuangan Anda.":"Masuk untuk melanjutkan perjalanan finansial Anda.";
+    $("wSub").hidden=false;
   }
   function setAuthMode(m){
     authMode=m;
@@ -2003,6 +2084,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("auPass").setAttribute("autocomplete",m==="reg"?"new-password":"current-password");
     $("auSubmit").textContent=m==="reg"?"Daftar":"Masuk";
     $("auErr").textContent="";
+    authHead();
   }
   var gateDone=false, gateWaited=false;
   function isStandalone(){
@@ -2030,7 +2112,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       gateDone=true;
     }
     showPane("auth");$("wBtns").innerHTML="";
-    $("wMsg").textContent=msg||"Masuk atau daftar untuk melanjutkan.";
+    $("wMsg").setAttribute("data-m",msg?"1":"0");$("wMsg").textContent=msg||"Selamat datang kembali";
     $("auRemember").checked=remember;
     var c=getCfg();$("btnCfg").hidden=!!(c&&c.fixed);
     setAuthMode(authMode);
