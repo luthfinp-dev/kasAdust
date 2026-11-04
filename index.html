@@ -702,6 +702,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .ct-act{margin-top:6px}
 @media (prefers-reduced-motion:reduce){.ct-row.in{animation:none}}
 .toast{z-index:100}
+
+/* ===== pilihan bahasa ===== */
+.lgopt{display:flex;flex-direction:row;align-items:center;gap:10px;padding:12px;border-radius:16px;text-align:left;background:var(--glass-2);border:1.5px solid var(--glass-b);min-height:0;transition:background-color .25s ease,border-color .25s ease,transform .18s var(--ease)}
+.lgopt:hover{background:var(--hover)}
+.lgopt[aria-checked="true"]{border-color:var(--sage);background:var(--chip)}
+.lgopt:active{transform:scale(.97)}
+.lg-badge{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;background:var(--sage-l);color:var(--sage-d);font-weight:800;font-size:.78rem;letter-spacing:.02em}
+.wlang{display:flex;justify-content:center;gap:6px;margin:0 0 10px}
+.wlang button{min-height:0;padding:5px 12px;border-radius:999px;font-size:.78rem;font-weight:700;background:var(--glass-2);border:1.5px solid var(--glass-b);color:var(--muted)}
+.wlang button.on{border-color:var(--sage);background:var(--chip);color:var(--sage-d)}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
@@ -710,6 +720,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 <noscript><p style="padding:24px;font-family:sans-serif">Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.</p></noscript>
 <div class="welcome" id="welcome"><div class="wcard">
   <div class="wlogo"><img src="Minimal White Compass Diamond Emblem.png" alt="Logo bydust" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>
+  <div class="wlang" role="group" aria-label="Language" data-notr><button type="button" data-lang="en">EN</button><button type="button" data-lang="id">ID</button></div>
   <h1>Pencatatan Pengeluaran<span>By adusT</span></h1>
   <p class="wp">Catat pengeluaran, gaji, aset, dan tujuan Anda dengan tenang dan rapi.</p>
   <div class="wmsg" id="wMsg" role="status">Memeriksa sesi...</div>
@@ -897,6 +908,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Biru, pink, dan oranye</span></button>
     </div>
   </section>
+  <section class="card acc collapsed" data-t="set" id="langCard" data-grp="set">
+    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="langCard" data-acc="langCard"><i data-ic="globe"></i>Bahasa<span class="accr"><span class="accsum" id="lgAccSum" data-notr></span><i class="accchev" data-ic="chev"></i></span></h2>
+    <div class="skins" role="radiogroup" aria-label="Pilih bahasa">
+      <button type="button" role="radio" class="lgopt" data-lang="en" aria-checked="true" tabindex="0"><span class="lg-badge" data-notr>EN</span><span class="sk-name" data-notr>English</span></button>
+      <button type="button" role="radio" class="lgopt" data-lang="id" aria-checked="false" tabindex="-1"><span class="lg-badge" data-notr>ID</span><span class="sk-name" data-notr>Bahasa Indonesia</span></button>
+    </div>
+  </section>
   <section class="card acc collapsed" data-t="set" id="setCard" data-grp="set">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="setCard" data-acc="setCard"><i data-ic="sliders"></i>Pengaturan<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="setrow"><span>Akun</span><b id="setAcc">-</b></div>
@@ -1044,6 +1062,232 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 
 <script>
 (function(){
+  var KEY="lang-v1", lang="en";
+  try{var sv=localStorage.getItem(KEY);if(sv==="id"||sv==="en")lang=sv}catch(e){}
+  var EN={
+"Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.":"This app needs JavaScript. Please enable JavaScript in your browser.",
+"Pencatatan Pengeluaran":"Expense Tracker",
+"Pencatatan Pengeluaran By adusT":"Expense Tracker By adusT",
+"Catat pengeluaran, gaji, aset, dan tujuan Anda dengan tenang dan rapi.":"Track your spending, salary, assets, and goals calmly and neatly.",
+"Library Supabase gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman.":"The Supabase library failed to load. Check your internet connection, then reload the page.",
+"Masuk":"Sign in","Daftar":"Sign up","Lihat":"Show","Sembunyi":"Hide",
+"Ulangi password":"Repeat password","Ingat saya di perangkat ini":"Remember me on this device","Lupa password?":"Forgot password?",
+"Ubah konfigurasi Supabase":"Change Supabase settings","Ubah konfigurasi":"Change settings",
+"Masukkan email akun Anda. Kami kirim tautan untuk mengatur ulang password.":"Enter your account email. We will send you a link to reset your password.",
+"Kirim tautan pemulihan":"Send recovery link","Kembali ke halaman masuk":"Back to sign in",
+"Buat password baru untuk akun Anda (minimal 8 karakter).":"Create a new password for your account (at least 8 characters).",
+"Password baru":"New password","Ulangi password baru":"Repeat new password","Simpan password baru":"Save new password","Batal dan keluar":"Cancel and sign out",
+"Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
+"Simpan":"Save","Muat ulang":"Reload",
+"Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
+"Sisa uang":"Money left","Sisa uang bulan ini":"Money left this month",
+"Belum diisi":"Not set","Atur gaji":"Set salary",
+"Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
+"Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
+"Tujuan":"Goals","Kelola tujuan":"Manage goals",
+"Gaji bulan ini (Rp)":"Salary this month (Rp)","Simpan gaji":"Save salary","Tutup":"Close","Kosong":"Empty",
+"Belum ada aset. Tambahkan di bawah.":"No assets yet. Add one below.",
+"Tambah aset":"Add asset","Nama aset":"Asset name","Nominal (Rp)":"Amount (Rp)","Batal":"Cancel",
+"Tambah sub-item":"Add sub-item","Kebutuhan":"Item","Harga (Rp)":"Price (Rp)","Link (opsional)":"Link (optional)",
+"Tambah tujuan":"Add goal","Nama tujuan":"Goal name","Terkumpul (Rp)":"Saved (Rp)",
+"7 hari terakhir":"Last 7 days","+ Batas/hari":"+ Daily limit","Batas pengeluaran per hari (Rp)":"Daily spending limit (Rp)","Hapus batas":"Remove limit","Hapus gaji tambahan":"Delete extra salary",
+"Tambah transaksi":"Add transaction","Nama pengeluaran":"Expense name","Tanggal":"Date","Kategori":"Category",
+"Belanja":"Shopping","Hiburan":"Entertainment","Kesehatan":"Health","Makanan & Minuman":"Food & Drinks","Menabung":"Savings","Tagihan":"Bills","Transportasi":"Transportation","Lainnya":"Other",
+"Dari (bank/dompet)":"From (bank/wallet)","Ke (bank/dompet)":"To (bank/wallet)",
+"Transfer hanya memindahkan uang, tidak dihitung sebagai pengeluaran. Ketik sendiri nama bank atau dompetnya jika tidak ada di daftar.":"A transfer only moves money and is not counted as spending. Type the bank or wallet name yourself if it is not in the list.",
+"Simpan ke aset":"Save to asset","Untuk tujuan (opsional)":"For goal (optional)",
+"Ringkasan per kategori":"Summary by category","Semua transaksi":"All transactions","Bulan":"Month","Reset filter":"Reset filters","Nama":"Name","Nominal":"Amount",
+"Tema":"Theme","Putih dan hijau sage":"White and sage green","Biru, pink, dan oranye":"Blue, pink, and orange",
+"Bahasa":"Language",
+"Pengaturan":"Settings","Akun":"Account","Penyimpanan":"Storage","Keluar":"Sign out",
+"Cadangan data":"Data backup","Ekspor cadangan":"Export backup","Impor cadangan":"Import backup",
+"Beranda":"Home","Transaksi":"Transactions","Aset":"Assets",
+"Coba lagi":"Try again","Ubah foto":"Change photo","Ubah nama":"Change name",
+"Nama tampilan (maksimal 30 karakter). Kosongkan untuk memakai nama akun.":"Display name (maximum 30 characters). Leave empty to use your account name.",
+"Layar sambutan":"Welcome screen","Reset semua data":"Reset all data","Gabungkan":"Merge","Ganti semua":"Replace all",
+"menambah data yang belum ada (dicocokkan lewat ID) dan tidak mengubah data yang sudah ada.":"adds data that does not exist yet (matched by ID) and does not change existing data.",
+"menghapus data sekarang lalu memakai isi file. Disarankan ekspor cadangan dulu sebelum mengganti.":"deletes your current data and uses the file contents. We recommend exporting a backup before replacing.",
+"Gabungkan dengan data sekarang":"Merge with current data","Ganti semua data dengan cadangan":"Replace all data with the backup",
+"Yang akan dihapus:":"This will be deleted:","Semua transaksi (riwayat)":"All transactions (history)","Gaji tiap bulan":"Monthly salaries","Semua aset":"All assets","Semua tujuan beserta sub-item":"All goals and their sub-items","Batas harian":"Daily limit","Pengaturan sembunyikan saldo":"Hide balance setting",
+"Data tidak bisa dikembalikan. Buat cadangan dulu di Pengaturan, Cadangan data.":"This data cannot be recovered. Make a backup first in Settings, Data backup.",
+"Hapus juga nama dan foto profil":"Also delete profile name and photo","Ketik RESET untuk melanjutkan":"Type RESET to continue","Reset sekarang":"Reset now",
+"Pilih dari galeri":"Choose from gallery","Ambil foto":"Take photo","Hapus foto":"Remove photo",
+"Masuk atau daftar":"Sign in or sign up","Tampilkan password":"Show password","Sembunyikan password":"Hide password",
+"Ganti ke mode gelap":"Switch to dark mode","Ganti ke mode terang":"Switch to light mode","Profil":"Profile",
+"Ringkasan bulan ini":"This month's summary","Contoh: Reksa dana":"Example: Mutual funds","Contoh: Katering":"Example: Catering","Contoh: Menikah":"Example: Wedding","Contoh: Makan siang":"Example: Lunch","Contoh: BCA":"Example: BCA","Contoh: SeaBank":"Example: SeaBank",
+"Statistik 7 hari":"7-day statistics","Form transaksi":"Transaction form","Pilih tema":"Choose theme","Pilih bahasa":"Choose language","Menu utama":"Main menu","Aset dan tujuan":"Assets and goals","Tambah pengeluaran":"Add expense","Perbesar foto":"Enlarge photo",
+"Atur kategori":"Manage categories","Form aset":"Asset form","Form sub-item":"Sub-item form","Form tujuan":"Goal form","Nama kategori baru":"New category name","Kategori baru, mis. Anak":"New category, e.g. Kids",
+"Gaji tambahan":"Extra salary","Gaji utama (Rp)":"Main salary (Rp)","Total gaji":"Total salary","Selesai":"Done","Tambahan":"Extra",
+"Hapus kategori yang tidak terpakai atau tambah sendiri sesuai kebutuhan. Transaksi lama tetap aman.":"Delete categories you do not use, or add your own. Existing transactions stay safe.",
+"Kembalikan bawaan":"Restore defaults","Yakin kembalikan?":"Restore?","Nama, mis. Bonus":"Name, e.g. Bonus","Nama gaji tambahan":"Extra salary name","Nominal gaji tambahan":"Extra salary amount","Atur gaji":"Set salary",
+"Penyimpanan browser tidak tersedia. Data hanya bertahan selama halaman ini terbuka.":"Browser storage is not available. Data only lasts while this page is open.",
+"Penyimpanan browser tidak tersedia, konfigurasi tidak bisa disimpan.":"Browser storage is not available, so the settings cannot be saved.",
+"Klik Atur gaji untuk mengisi":"Tap Set salary to fill it in","Pengeluaran melebihi gaji":"Spending exceeds salary","belum ada":"none yet","bulan ini":"this month","semua bulan":"all months",
+"Semua bulan":"All months","Semua kategori":"All categories","Edit":"Edit","Hapus":"Delete","Yakin hapus?":"Confirm delete?",
+"Tidak ada transaksi untuk filter ini.":"No transactions match these filters.","Belum ada data.":"No data yet.",
+"Isi nama pengeluaran.":"Enter the expense name.","Nominal harus lebih dari Rp 0.":"The amount must be more than Rp 0.","Pilih tanggal.":"Choose a date.",
+"Isi asal dan tujuan transfer.":"Enter the transfer source and destination.","Asal dan tujuan transfer harus berbeda.":"The transfer source and destination must be different.",
+"Pilih aset untuk menyimpan tabungan.":"Choose an asset to save into.","Belum ada aset. Tambahkan aset dulu di tab Aset.":"No assets yet. Add an asset first in the Assets tab.",
+"Perubahan disimpan":"Changes saved","Tabungan dicatat":"Savings recorded","Transfer dicatat":"Transfer recorded","Pengeluaran dicatat":"Expense recorded",
+"Edit transaksi":"Edit transaction","Simpan perubahan":"Save changes","Transaksi dihapus":"Transaction deleted","Pilih bulan dulu, lalu tekan Tambah.":"Choose a month first, then press Add.",
+"Tampilkan saldo":"Show balance","Sembunyikan saldo":"Hide balance","Belum ada tujuan":"No goals yet","Tercapai":"Achieved","Terkumpul":"Saved","terkumpul":"saved","Total target":"Total target","Sisa target":"Remaining target",
+"Belum ada tujuan. Tambahkan di bawah.":"No goals yet. Add one below.","Buka link":"Open link","Belum ada sub-item.":"No sub-items yet.","Total harga sub-item":"Sub-items total","Hapus sub-item":"Delete sub-item","Edit sub-item":"Edit sub-item",
+"Isi nama kebutuhan.":"Enter the item name.","Link harus berupa alamat web (http:// atau https://).":"The link must be a web address (http:// or https://).",
+"Isi nama tujuan.":"Enter the goal name.","Target harus lebih dari Rp 0.":"The target must be more than Rp 0.","Tujuan disimpan":"Goal saved","Edit tujuan":"Edit goal","Tujuan dihapus":"Goal deleted",
+"Nominal gaji harus lebih dari Rp 0.":"The salary must be more than Rp 0.","Gaji disimpan":"Salary saved","Isi nama aset.":"Enter the asset name.","Aset disimpan":"Asset saved","Edit aset":"Edit asset","Aset dihapus":"Asset deleted",
+"Pilih aset":"Choose asset","Tanpa tujuan":"No goal","Tambahkan aset dulu di tab Aset.":"Add an asset first in the Assets tab.","Tunai":"Cash",
+"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high",
+"Aman, belum ada hari yang melewati batas":"All good, no days over the limit yet","Atur batas harian untuk mendapat peringatan":"Set a daily limit to get warnings","Isi batas lebih dari Rp 0.":"Enter a limit above Rp 0.",
+"Tersimpan":"Saved","Menyimpan...":"Saving...",
+"URL harus diawali https:// dan berbentuk https://xxxx.supabase.co":"The URL must start with https:// and look like https://xxxx.supabase.co",
+"Itu secret key. Jangan dipakai di aplikasi. Pakai Publishable Key.":"That is a secret key. Do not use it in the app. Use the Publishable Key.",
+"Itu service_role key. Jangan dipakai di aplikasi. Pakai Publishable Key.":"That is a service_role key. Do not use it in the app. Use the Publishable Key.",
+"Format key tidak dikenali. Pakai Publishable Key (sb_publishable_...).":"The key format is not recognized. Use the Publishable Key (sb_publishable_...).",
+"Masuk atau daftar untuk melanjutkan.":"Sign in or sign up to continue.","Hubungkan ke Supabase.":"Connect to Supabase.",
+"Email atau password salah.":"Incorrect email or password.","Email sudah terdaftar. Silakan masuk.":"This email is already registered. Please sign in.",
+"Password terlalu lemah. Pakai minimal 8 karakter.":"The password is too weak. Use at least 8 characters.","Email belum dikonfirmasi. Cek kotak masuk Anda.":"Your email is not confirmed yet. Check your inbox.",
+"Pendaftaran sedang dinonaktifkan.":"Sign-ups are currently disabled.","Password baru harus berbeda dari password lama.":"The new password must be different from the old one.",
+"Sesi pemulihan sudah berakhir. Minta tautan baru.":"The recovery session has expired. Request a new link.","Alamat email tidak valid.":"Invalid email address.",
+"Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.":"Too many attempts. Please wait a moment and try again.",
+"Tidak bisa terhubung ke Supabase. Periksa koneksi internet.":"Cannot connect to Supabase. Check your internet connection.",
+"Sesi berakhir. Silakan masuk lagi.":"Your session has ended. Please sign in again.","Memeriksa sesi...":"Checking session...","Memuat data...":"Loading data...",
+"Impor data dari browser ini":"Import data from this browser","Mulai dengan data contoh":"Start with sample data","Mulai kosong":"Start empty","Akun Anda masih kosong. Pilih cara memulai.":"Your account is empty. Choose how to start.",
+"Isi alamat email yang valid.":"Enter a valid email address.","Isi password.":"Enter your password.","Password minimal 8 karakter.":"The password must be at least 8 characters.","Ulangi password dengan benar.":"Repeat the password correctly.",
+"Akun dibuat. Cek email Anda untuk konfirmasi, lalu masuk.":"Account created. Check your email to confirm, then sign in.",
+"Tautan sudah kedaluwarsa atau pernah dipakai. Pilih Lupa password untuk meminta tautan baru.":"The link has expired or was already used. Choose Forgot password to request a new link.",
+"Tautan tidak valid. Jika Anda lupa password, pilih Lupa password untuk meminta tautan baru.":"The link is not valid. If you forgot your password, choose Forgot password to request a new link.",
+"Pulihkan akun Anda.":"Recover your account.","Atur ulang password.":"Reset your password.","Belum terhubung ke Supabase. Muat ulang halaman.":"Not connected to Supabase yet. Reload the page.",
+"Jika email terdaftar, tautan pemulihan sudah dikirim. Cek kotak masuk dan folder spam, lalu buka tautannya di perangkat ini.":"If the email is registered, a recovery link has been sent. Check your inbox and spam folder, then open the link on this device.",
+"Tanpa akun":"No account","Database akun (otomatis)":"Account database (automatic)","Lokal, hanya di browser ini":"Local, this browser only","Pengguna":"User","Database (tersimpan otomatis)":"Database (saved automatically)","Lokal (hanya di browser ini)":"Local (this browser only)",
+"JPEG, PNG, atau WebP, maksimal 8 MB. Foto disimpan terkompresi 256x256.":"JPEG, PNG, or WebP, up to 8 MB. The photo is saved compressed at 256x256.",
+"Format harus JPEG, PNG, atau WebP.":"The format must be JPEG, PNG, or WebP.","Ukuran file maksimal 8 MB.":"The file size can be at most 8 MB.","Foto tidak bisa dibaca. Coba foto lain.":"The photo could not be read. Try another photo.",
+"Geser foto untuk mengatur posisi, gunakan slider untuk memperbesar.":"Drag the photo to set its position, use the slider to zoom.","Maksimal 30 karakter.":"Maximum 30 characters.",
+"Foto terlalu detail untuk dikompres di bawah 60 KB. Coba foto lain.":"The photo is too detailed to compress under 60 KB. Try another photo.","Yakin hapus foto?":"Remove the photo?",
+"File bukan JSON yang valid.":"The file is not valid JSON.","Ini bukan file cadangan dari aplikasi ini.":"This is not a backup file from this app.",
+"File cadangan dibuat oleh versi aplikasi yang lebih baru. Perbarui aplikasi dulu.":"This backup was made by a newer version of the app. Please update the app first.",
+"Gagal membuat cadangan. Coba lagi.":"Failed to create the backup. Please try again.","File terlalu besar (maksimal 20 MB).":"The file is too large (maximum 20 MB).","File tidak bisa dibaca.":"The file could not be read.",
+"Yakin? Data sekarang akan diganti":"Sure? Your current data will be replaced","Reset selesai.":"Reset complete.","Menghapus...":"Deleting...",
+"Reset selesai, tapi penyimpanan browser tidak tersedia.":"Reset complete, but browser storage is not available.","Urungkan":"Undo",
+"Isi nama kategori.":"Enter the category name.","Kategori dihapus":"Category deleted","Kategori ditambahkan":"Category added","Kategori itu sudah ada.":"That category already exists.",
+"Maksimal 40 kategori.":"Maximum 40 categories.","Minimal harus ada satu kategori.":"At least one category is required.","Belum dipakai":"Not used yet"
+  };
+  var LV={"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high"};
+  function tt(x){return Object.prototype.hasOwnProperty.call(EN,x)?EN[x]:x}
+  function pl(n,one,many){return n+(String(n)==="1"?one:many)}
+  function cnt(s){var m=/^(\d+) transaksi, (\d+) aset, (\d+) tujuan, (\d+) bulan gaji$/.exec(s);return m?pl(m[1]," transaction"," transactions")+", "+pl(m[2]," asset"," assets")+", "+pl(m[3]," goal"," goals")+", "+pl(m[4]," salary month"," salary months"):s}
+  function code(c){return c?" ("+c+")":""}
+  var RX=[
+   [/^Gaji: (.+?)(?: \(termasuk tambahan (.+)\))?$/,function(m){return "Salary: "+m[1]+(m[2]?" (including extra "+m[2]+")":"")}],
+   [/^(.+)% gaji terpakai$/,function(m){return m[1]+"% of salary used"}],
+   [/^(\d+) transaksi, terbesar: (.+)$/,function(m){return pl(m[1]," transaction"," transactions")+", largest: "+tt(m[2])}],
+   [/^(\d+) transaksi$/,function(m){return pl(m[1]," transaction"," transactions")}],
+   [/^(\d+) aset$/,function(m){return pl(m[1]," asset"," assets")}],
+   [/^(\d+) tujuan$/,function(m){return pl(m[1]," goal"," goals")}],
+   [/^(\d+) aset, (\d+) tujuan$/,function(m){return pl(m[1]," asset"," assets")+", "+pl(m[2]," goal"," goals")}],
+   [/^(\d+) bulan gaji$/,function(m){return pl(m[1]," salary month"," salary months")}],
+   [/^dari target (.+)$/,function(m){return "of "+m[1]+" target"}],
+   [/^(.+)% terkumpul$/,function(m){return m[1]+"% saved"}],
+   [/^(.+)% menuju tujuan$/,function(m){return m[1]+"% toward goals"}],
+   [/^Tercapai (\d+) dari (\d+) tujuan$/,function(m){return m[1]+" of "+m[2]+" goals achieved"}],
+   [/^Target terkumpul ?(.*)$/,function(m){return ("Goal progress "+m[1]).trim()}],
+   [/^Total aset ?(.*)$/,function(m){return ("Total assets "+m[1]).trim()}],
+   [/^Kurang (.+)$/,function(m){return "Remaining: "+m[1]}],
+   [/^(Rp \S+) dari (Rp \S+)$/,function(m){return m[1]+" of "+m[2]}],
+   [/^Sub-item \((\d+)\)$/,function(m){return "Sub-items ("+m[1]+")"}],
+   [/^Edit sub-item di (.+)$/,function(m){return "Edit sub-item in "+m[1]}],
+   [/^Tambah sub-item untuk (.+)$/,function(m){return "Add sub-item for "+m[1]}],
+   [/^Total \((.+)\)$/,function(m){return "Total ("+tt(m[1])+")"}],
+   [/^Ditabung (.+)$/,function(m){return "Saved "+tt(m[1])}],
+   [/^Uang dipindahkan \((.+)\)$/,function(m){return "Money moved ("+m[1]+")"}],
+   [/^(.+), (tidak ada pengeluaran|rendah|sedang|tinggi|parah)$/,function(m){return m[1]+", "+LV[m[2]]}],
+   [/^Hari ini melewati batas(?: \((\d+) dari 7 hari melewati batas\))?$/,function(m){return "Today is over the limit"+(m[1]?" ("+m[1]+" of 7 days over the limit)":"")}],
+   [/^(\d+) dari 7 hari melewati batas$/,function(m){return m[1]+" of 7 days over the limit"}],
+   [/^Batas (Rp .+)\/hari$/,function(m){return "Limit "+m[1]+"/day"}],
+   [/^Transfer (.+) ke (.+)$/,function(m){return "Transfer "+m[1]+" to "+m[2]}],
+   [/^tujuan: (.+)$/,function(m){return "goal: "+m[1]}],
+   [/^Profil: (.+)$/,function(m){return "Profile: "+m[1]}],
+   [/^Akun: (.+)$/,function(m){return "Account: "+m[1]}],
+   [/^Kirim ulang dalam (\d+) dtk$/,function(m){return "Resend in "+m[1]+" s"}],
+   [/^Gagal menyimpan(?: \((izin ditolak, periksa aturan RLS|data terlalu besar|sesi berakhir, masuk ulang)\))?$/,function(m){var d={"izin ditolak, periksa aturan RLS":"permission denied, check RLS rules","data terlalu besar":"data too large","sesi berakhir, masuk ulang":"session expired, sign in again"};return "Failed to save"+(m[1]?" ("+d[m[1]]+")":"")}],
+   [/^Gagal membaca data(?: \((.+)\))?\. Pastikan tabel dan aturan RLS sudah dibuat di Supabase\.$/,function(m){return "Failed to read data"+code(m[1])+". Make sure the tables and RLS rules have been created in Supabase."}],
+   [/^Reset gagal(?: \((.+)\))?\. Data di layar tidak diubah\. Coba lagi\.$/,function(m){return "Reset failed"+code(m[1])+". The data on screen was not changed. Please try again."}],
+   [/^Gagal(?: \((.+)\))?\. Coba lagi\.$/,function(m){return "Failed"+code(m[1])+". Please try again."}],
+   [/^Cadangan diunduh: (.+)\.$/,function(m){return "Backup downloaded: "+cnt(m[1])+"."}],
+   [/^Data diganti dengan cadangan: (.+)\.$/,function(m){return "Data replaced with the backup: "+cnt(m[1])+"."}],
+   [/^Cadangan digabungkan: (.+)\.$/,function(m){return "Backup merged: "+cnt(m[1])+"."}],
+   [/^Dibuat: (.+)$/,function(m){return "Created: "+m[1]}],
+   [/^(\d+) data tidak valid dilewati\.$/,function(m){return m[1]+" invalid items skipped."}],
+   [/^Hapus (.+)$/,function(m){return "Delete "+tt(m[1])}]
+  ];
+  var DICT_RX=/[A-Za-z]{3}/;
+  function lookup(core){
+    if(!DICT_RX.test(core.replace(/Rp/g,"")))return undefined;
+    if(Object.prototype.hasOwnProperty.call(EN,core))return EN[core];
+    for(var i=0;i<RX.length;i++){var m=RX[i][0].exec(core);if(m)return RX[i][1](m)}
+    return undefined;
+  }
+  function trText(src){
+    var m=/^(\s*)([\s\S]*?)(\s*)$/.exec(src);if(!m||!m[2])return src;
+    var core=m[2].replace(/\s+/g," "), r=lookup(core);
+    return r===undefined?src:m[1]+r+m[3];
+  }
+  function skipNode(n){var p=n.parentNode;if(!p||p.nodeType!==1)return true;var t=p.nodeName;return t==="SCRIPT"||t==="STYLE"||t==="TEXTAREA"||t==="NOSCRIPT"||!!(p.closest&&p.closest("[data-notr]"))}
+  function trNode(n){
+    if(skipNode(n))return;
+    var v=n.nodeValue, src=(n.__en!==undefined&&v===n.__en)?n.__id:v;
+    var out=lang==="en"?trText(src):src;
+    if(out!==v)n.nodeValue=out;
+    if(out!==src){n.__id=src;n.__en=out}else{n.__id=undefined;n.__en=undefined}
+  }
+  var ATTRS=["placeholder","aria-label","title","alt"];
+  function trAttr(el,a){
+    if(el.closest&&el.closest("[data-notr]"))return;
+    var v=el.getAttribute(a);if(v===null)return;
+    var st=el.__a&&el.__a[a], src=(st&&v===st.en)?st.id:v;
+    var out=lang==="en"?trText(src):src;
+    if(out!==v)el.setAttribute(a,out);
+    el.__a=el.__a||{};el.__a[a]=(out!==src)?{id:src,en:out}:undefined;
+  }
+  function apply(root){
+    if(!root)return;
+    if(root.nodeType===3){trNode(root);return}
+    if(root.nodeType!==1)return;
+    var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n;
+    while(n=w.nextNode())trNode(n);
+    var els=root.querySelectorAll("[placeholder],[aria-label],[title],[alt]");
+    for(var i=0;i<els.length;i++)ATTRS.forEach(function(a){if(els[i].hasAttribute(a))trAttr(els[i],a)});
+    ATTRS.forEach(function(a){if(root.hasAttribute&&root.hasAttribute(a))trAttr(root,a)});
+  }
+  var TITLE_ID=document.title;
+  function paintTitle(){document.title=lang==="en"?trText(TITLE_ID):TITLE_ID}
+  var obs=new MutationObserver(function(ms){
+    ms.forEach(function(m){
+      if(m.type==="childList")m.addedNodes.forEach(apply);
+      else if(m.type==="characterData")trNode(m.target);
+      else if(m.type==="attributes")trAttr(m.target,m.attributeName);
+    });
+  });
+  function start(){
+    document.documentElement.lang=lang;paintTitle();apply(document.body);
+    obs.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:ATTRS});
+  }
+  window.I18N={
+    lang:function(){return lang},
+    loc:function(){return lang==="en"?"en-GB":"id-ID"},
+    t:trText,
+    set:function(l){
+      if(l!=="id"&&l!=="en")return;
+      if(l===lang)return;
+      lang=l;try{localStorage.setItem(KEY,l)}catch(e){}
+      document.documentElement.lang=l;paintTitle();apply(document.body);
+      window.dispatchEvent(new Event("langchange"));
+    }
+  };
+  start();
+})();
+</script>
+<script>
+(function(){
   var DEF_CATS=["Makanan & Minuman","Transportasi","Belanja","Tagihan","Hiburan","Kesehatan","Lainnya","Menabung","Transfer"], SAVE="Menabung", TRF="Transfer", lastCat="Makanan & Minuman", userCats=DEF_CATS.slice(), CATS=[];
   function sortCats(a){return a.slice().sort(function(x,y){if(x==="Lainnya")return 1;if(y==="Lainnya")return -1;return x.localeCompare(y,"id")})}
   function rebuildCats(){CATS=sortCats(userCats)}
@@ -1084,12 +1328,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var nf=new Intl.NumberFormat("id-ID");
   function rp(n){return "Rp "+nf.format(n)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-  var P={wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',out:'<path d="M7 17 17 7"/><path d="M7 7h10v10"/>',up:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',pie:'<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',list:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',pen:'<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',chev:'<path d="m6 9 6 6 6-6"/>',check:'<path d="M20 6 9 17l-5-5"/>',cal:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',eye:'<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',sliders:'<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>',palette:'<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/>',chart:'<path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',camera:'<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',bank:'<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',download:'<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',upload:'<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'};
+  var P={globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',out:'<path d="M7 17 17 7"/><path d="M7 7h10v10"/>',up:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',pie:'<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',list:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',pen:'<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',chev:'<path d="m6 9 6 6 6-6"/>',check:'<path d="M20 6 9 17l-5-5"/>',cal:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',eye:'<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',sliders:'<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>',palette:'<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/>',chart:'<path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',camera:'<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',bank:'<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',download:'<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',upload:'<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'};
   function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+P[n]+'</svg>'}
   function pad(n){return n<10?"0"+n:""+n}
   function ymd(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
-  function monthLabel(ym){var p=ym.split("-");return new Date(+p[0],+p[1]-1,1).toLocaleDateString("id-ID",{month:"long",year:"numeric"})}
-  function dateLabel(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"})}
+  function monthLabel(ym){var p=ym.split("-");return new Date(+p[0],+p[1]-1,1).toLocaleDateString(I18N.loc(),{month:"long",year:"numeric"})}
+  function dateLabel(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString(I18N.loc(),{day:"numeric",month:"short",year:"numeric"})}
   var now=new Date(), curYM=ymd(now).slice(0,7);
 
   function load(){
@@ -1441,7 +1685,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       else{pendingGoal=id;renderGoals();setTimeout(function(){if(pendingGoal===id){pendingGoal=null;renderGoals()}},4000)}
     }
   });
-  $("today").textContent=now.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  function paintToday(){$("today").textContent=new Date().toLocaleDateString(I18N.loc(),{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+  paintToday();
   paintFCat(CATS[0]);
   function rpS(n){return n<0?"-"+rp(-n):rp(n)}
   function num(s){return parseInt(s.replace(/\D/g,""),10)||0}
@@ -2213,7 +2458,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("phZoom").disabled=true;$("phZoom").value=1;$("phSave").disabled=true;
     $("phErr").textContent="";
     $("phInfo").textContent="JPEG, PNG, atau WebP, maksimal 8 MB. Foto disimpan terkompresi 256x256.";
-    $("phDel").hidden=!profil.foto;$("phDel").textContent="Hapus foto";
+    $("phDel").hidden=!profil.foto;$("phDel").textContent="Hapus foto";$("phDel").removeAttribute("data-conf");
     renderProfile();
     phY=window.scrollY||window.pageYOffset||0;
     $("phSheet").hidden=false;$("phOv").hidden=false;
@@ -2316,7 +2561,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     profil.foto=d;save();renderProfile();closePh();
   });
   $("phDel").addEventListener("click",function(){
-    if($("phDel").textContent!=="Yakin hapus foto?"){$("phDel").textContent="Yakin hapus foto?";return}
+    if($("phDel").getAttribute("data-conf")!=="1"){$("phDel").setAttribute("data-conf","1");$("phDel").textContent="Yakin hapus foto?";return}
     profil.foto="";save();renderProfile();closePh();
   });
 
@@ -2329,6 +2574,34 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   window.addEventListener("resize",function(){if(!$("pmSheet").hidden)placePm()});
 
+  function paintLang(){
+    var l=I18N.lang();
+    document.querySelectorAll("[data-lang]").forEach(function(b){
+      var on=b.getAttribute("data-lang")===l;
+      if(b.getAttribute("role")==="radio"){b.setAttribute("aria-checked",on?"true":"false");b.tabIndex=on?0:-1}
+      else b.classList.toggle("on",on);
+    });
+    $("lgAccSum").textContent=l==="en"?"English":"Bahasa Indonesia";
+  }
+  document.querySelectorAll("[data-lang]").forEach(function(b){
+    b.addEventListener("click",function(){I18N.set(b.getAttribute("data-lang"))});
+    b.addEventListener("keydown",function(e){
+      if(b.getAttribute("role")!=="radio")return;
+      if(e.key==="ArrowRight"||e.key==="ArrowLeft"||e.key==="ArrowDown"||e.key==="ArrowUp"){
+        e.preventDefault();var nx=b.getAttribute("data-lang")==="en"?"id":"en";
+        I18N.set(nx);var t=document.querySelector('.lgopt[data-lang="'+nx+'"]');if(t)t.focus();
+      }
+    });
+  });
+  window.addEventListener("langchange",function(){
+    paintToday();
+    try{render()}catch(e){}
+    try{paintSet()}catch(e){}
+    try{paintTheme()}catch(e){}
+    try{paintSkin()}catch(e){}
+    paintLang();
+  });
+  paintLang();
   var PANELS=["ctSheet","imSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet"], FB={imSheet:"btnImport",rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",ctSheet:"btnCatSet",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd"}, opener={};
   PANELS.forEach(function(id){$(id).setAttribute("tabindex","-1")});
   function topPanel(){for(var i=0;i<PANELS.length;i++){var p=$(PANELS[i]);if(p&&!p.hidden)return p}return null}
@@ -2520,7 +2793,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function openIm(){
     var p=imPending, d=p.parsed.data, when="";
-    if(p.parsed.exportedAt){var dt=new Date(p.parsed.exportedAt);if(!isNaN(dt.getTime()))when=dt.toLocaleString("id-ID",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}
+    if(p.parsed.exportedAt){var dt=new Date(p.parsed.exportedAt);if(!isNaN(dt.getTime()))when=dt.toLocaleString(I18N.loc(),{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}
     $("imInfo").innerHTML='<div class="im-sum"><b>'+esc(p.name)+'</b>'+(when?'<br>Dibuat: '+esc(when):'')+'</div><ul class="rs-ul"><li>'+d.items.length+' transaksi</li><li>'+d.assets.length+' aset, '+d.goals.length+' tujuan</li><li>'+Object.keys(d.salaries).length+' bulan gaji</li></ul>'+(p.parsed.skipped>0?'<p class="rs-warn">'+p.parsed.skipped+' data tidak valid dilewati.</p>':'');
     imConfirm=false;$("imReplace").textContent="Ganti semua data dengan cadangan";$("imReplace").classList.remove("confirm");$("imErr").textContent="";
     $("imSheet").hidden=false;$("imOv").hidden=false;
