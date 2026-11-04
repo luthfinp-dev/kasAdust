@@ -16,6 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="bydust">
 <script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}catch(e){}</script>
+<script>window.__dip=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dip=e});window.addEventListener("appinstalled",function(){window.__dip=null});</script>
 <style>
 :root{
   box-sizing:border-box;
@@ -148,6 +149,12 @@ i[data-ic]{display:inline-flex;color:var(--sage-d)}
 .wlogo .ic{width:26px;height:26px}
 .wp{color:var(--muted);margin:0 0 18px}
 .wmsg{font-weight:600;margin-bottom:16px;line-height:1.45}
+.gcard{max-width:560px}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.gopt{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:18px 16px;height:auto}
+.gopt b{font-size:1.02rem}
+.gopt small{font-weight:400;opacity:.8;line-height:1.4}
+@media(max-width:520px){.gopts{grid-template-columns:1fr}}
 .wbtns{display:flex;flex-direction:column;gap:10px}
 .wbtns button{width:100%}
 html.lock,html.lock body{overflow:hidden}
@@ -747,6 +754,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 </head>
 <body>
 <noscript><p style="padding:24px;font-family:sans-serif">Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.</p></noscript>
+<div class="welcome" id="gate" hidden><div class="wcard gcard">
+  <div class="wlogo"><img src="Minimal White Compass Diamond Emblem.png" alt="Logo bydust" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>
+  <h1>Pencatatan Pengeluaran<span>By adusT</span></h1>
+  <p class="wp">Pilih cara membuka aplikasi.</p>
+  <div class="gopts">
+    <button type="button" class="gopt primary" id="gInstall"><b>Install aplikasi</b><small>Buka seperti aplikasi di komputer, tanpa tab browser.</small></button>
+    <button type="button" class="gopt" id="gWeb"><b>Lanjut di website</b><small>Masuk langsung lewat browser ini.</small></button>
+  </div>
+</div></div>
 <div class="welcome" id="welcome"><div class="wcard">
   <div class="wlogo"><img src="Minimal White Compass Diamond Emblem.png" alt="Logo bydust" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>
   <div class="wlang" role="group" aria-label="Language" data-notr><button type="button" data-lang="en">EN</button><button type="button" data-lang="id">ID</button></div>
@@ -1094,6 +1110,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var KEY="lang-v1", lang="en";
   try{var sv=localStorage.getItem(KEY);if(sv==="id"||sv==="en")lang=sv}catch(e){}
   var EN={
+"Pilih cara membuka aplikasi.":"Choose how to open the app.","Install aplikasi":"Install app","Lanjut di website":"Continue on the website","Buka seperti aplikasi di komputer, tanpa tab browser.":"Open it like a desktop app, without a browser tab.","Masuk langsung lewat browser ini.":"Sign in right here in this browser.",
 "Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.":"This app needs JavaScript. Please enable JavaScript in your browser.",
 "Pencatatan Pengeluaran":"Expense Tracker",
 "Pencatatan Pengeluaran By adusT":"Expense Tracker By adusT",
@@ -1975,7 +1992,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     return null;
   }
   function showPane(p){
-    $("authBox").hidden=p!=="auth";$("cfgBox").hidden=p!=="cfg";$("fgBox").hidden=p!=="fg";$("rcBox").hidden=p!=="rc";
+    $("gate").hidden=true;$("authBox").hidden=p!=="auth";$("cfgBox").hidden=p!=="cfg";$("fgBox").hidden=p!=="fg";$("rcBox").hidden=p!=="rc";
     $("welcome").hidden=false;$("app").hidden=true;
   }
   function setAuthMode(m){
@@ -1987,7 +2004,31 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("auSubmit").textContent=m==="reg"?"Daftar":"Masuk";
     $("auErr").textContent="";
   }
+  var gateDone=false, gateWaited=false;
+  function isStandalone(){
+    try{return matchMedia("(display-mode: standalone)").matches||matchMedia("(display-mode: window-controls-overlay)").matches||navigator.standalone===true}catch(e){return false}
+  }
+  function isDesktop(){
+    try{return matchMedia("(hover: hover) and (pointer: fine)").matches&&!/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)}catch(e){return false}
+  }
+  function gateWanted(){
+    if(gateDone||isStandalone()||!isDesktop())return false;
+    try{if(sessionStorage.getItem("gate-web-v1")==="1"){gateDone=true;return false}}catch(e){}
+    return true;
+  }
+  function showGate(){
+    $("welcome").hidden=true;$("app").hidden=true;$("gate").hidden=false;
+  }
   function showAuth(msg){
+    if(!msg&&gateWanted()){
+      if(window.__dip){showGate();return}
+      if(!gateWaited){
+        gateWaited=true;showPane("msg");$("wBtns").innerHTML="";$("wMsg").textContent="Memeriksa sesi...";
+        setTimeout(function(){if(!window.__dip)gateDone=true;showAuth()},1200);
+        return;
+      }
+      gateDone=true;
+    }
     showPane("auth");$("wBtns").innerHTML="";
     $("wMsg").textContent=msg||"Masuk atau daftar untuk melanjutkan.";
     $("auRemember").checked=remember;
@@ -2199,6 +2240,17 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   $("btnForgot").addEventListener("click",function(){showForgot()});
   $("fgBack").addEventListener("click",function(){showAuth()});
+  $("gWeb").addEventListener("click",function(){
+    gateDone=true;try{sessionStorage.setItem("gate-web-v1","1")}catch(e){}
+    showAuth();
+  });
+  $("gInstall").addEventListener("click",function(){
+    var d=window.__dip;gateDone=true;
+    if(!d){showAuth();return}
+    window.__dip=null;
+    try{d.prompt();var r=d.userChoice;if(r&&r.then)r.then(function(){},function(){})}catch(e){}
+    showAuth();
+  });
   $("fgForm").addEventListener("submit",async function(e){
     e.preventDefault();
     if(fgBusy||fgCd>0)return;
