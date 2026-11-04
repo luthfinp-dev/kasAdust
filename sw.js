@@ -1,8 +1,15 @@
 /* Service worker: kerangka aplikasi tersedia offline. Data Supabase tidak pernah disimpan di sini. */
-var VERSION = "v1";
+var VERSION = "v2";
 var CACHE = "bydust-shell-" + VERSION;
 var SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js";
 var SHELL = ["./", "manifest.json", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
+
+function offlinePage() {
+  var html = '<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Offline</title>' +
+    '<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#012b1a;color:#eef3ee;font:16px/1.5 -apple-system,system-ui,sans-serif;text-align:center;padding:24px}a{display:inline-block;margin-top:16px;padding:10px 20px;border-radius:12px;background:#d4ecd9;color:#173323;text-decoration:none;font-weight:600}</style></head>' +
+    '<body><div><h1 style="font-size:1.3rem;margin:0 0 8px">Tidak ada koneksi</h1><p style="margin:0;opacity:.8">Aplikasi belum tersimpan di perangkat ini. Hubungkan internet, lalu coba lagi.</p><a href="./">Muat ulang</a></div></body></html>';
+  return new Response(html, { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } });
+}
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
@@ -53,7 +60,7 @@ self.addEventListener("fetch", function (e) {
         if (res && res.ok) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put("./", cp); }); }
         return res;
       }).catch(function () {
-        return caches.match("./").then(function (hit) { return hit || Response.error(); });
+        return caches.match("./").then(function (hit) { return hit || offlinePage(); });
       })
     );
     return;
