@@ -948,7 +948,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 <div class="wrap" id="app" data-tab="home" hidden>
   <header>
     <div class="hl"><div class="brand">Pencatatan Pengeluaran By adusT</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1><div class="date" style="margin-top:2px"><i data-ic="cal"></i><span id="today"></span></div></div>
-    <div class="hr"><button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button></div><button type="button" class="avatar" id="btnAvatar" aria-haspopup="dialog" aria-expanded="false" aria-label="Profil"><span class="avin" id="avIn"></span><span class="avdot" id="avDot" hidden></span></button>
+    <div class="hr"><button type="button" class="calcbtn" id="btnCalc" aria-haspopup="dialog" aria-expanded="false" aria-label="Kalkulator"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="2" width="15" height="20" rx="3.4" fill="currentColor"/><rect class="cut" x="7.2" y="4.6" width="9.6" height="4.4" rx="1.2"/><g class="cut"><circle cx="8.6" cy="12.6" r="1.15"/><circle cx="12" cy="12.6" r="1.15"/><circle cx="15.4" cy="12.6" r="1.15"/><circle cx="8.6" cy="15.9" r="1.15"/><circle cx="12" cy="15.9" r="1.15"/><circle cx="15.4" cy="15.9" r="1.15"/><circle cx="8.6" cy="19.1" r="1.15"/><circle cx="12" cy="19.1" r="1.15"/><circle cx="15.4" cy="19.1" r="1.15"/></g></svg></button><button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button></div><button type="button" class="avatar" id="btnAvatar" aria-haspopup="dialog" aria-expanded="false" aria-label="Profil"><span class="avin" id="avIn"></span><span class="avdot" id="avDot" hidden></span></button>
     <div id="mOverlay" class="ov" hidden></div>
     <div id="mSheet" class="sheet" role="dialog" aria-label="Pilih bulan" hidden>
       <div class="sh">Pilih bulan</div>
@@ -1229,7 +1229,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 
 <script>
 (function(){
-  var KEY="lang-v1", lang="en";
+  var KEY="lang-v1", lang="id";
   try{var sv=localStorage.getItem(KEY);if(sv==="id"||sv==="en")lang=sv}catch(e){}
   var EN={
     "Keuanganmu,":"Your money,","lebih terarah.":"in perspective.",
@@ -3387,6 +3387,182 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     }
   },true);
   start();
+})();
+</script>
+<style>
+/* kalkulator */
+.calcbtn{position:relative;width:28px;height:28px;min-height:0;padding:0;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--sage-l);border:1px solid var(--line);color:var(--text);--cb:var(--sage-l);touch-action:manipulation}
+.calcbtn::after{content:"";position:absolute;inset:-8px}
+.calcbtn svg{width:16px;height:16px;display:block}
+.calcbtn .cut{fill:var(--cb)}
+.calc-ov{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.calc{position:fixed;z-index:91;left:50%;top:50%;transform:translate(-50%,-50%);width:min(344px,calc(100vw - 24px));padding:14px 14px 16px;border-radius:28px;
+  background:var(--glass-s);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1px solid var(--glass-b);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.55);outline:none;color:var(--text);animation:calcIn .22s cubic-bezier(.22,1,.36,1) both}
+.calc[hidden],.calc-ov[hidden]{display:none}
+@keyframes calcIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}
+.calc-x{position:absolute;top:10px;right:12px;width:30px;height:30px;min-height:0;padding:0;border-radius:50%;font-size:1.2rem;line-height:1;background:transparent;border:0;color:var(--muted)}
+.calc-disp{min-height:84px;padding:34px 8px 10px;text-align:right;font-weight:300;font-size:3.4rem;line-height:1.05;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums;color:var(--text)}
+.calc-disp.s1{font-size:2.8rem}.calc-disp.s2{font-size:2.3rem}.calc-disp.s3{font-size:1.9rem}
+.calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ck{min-height:0;aspect-ratio:1;padding:0;border-radius:50%;font-size:1.55rem;font-weight:500;display:flex;align-items:center;justify-content:center;
+  background:var(--field,rgba(127,127,127,.14));border:1px solid var(--glass-b);color:var(--text);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.ck:active{filter:brightness(1.25)}
+.ck.fn{background:var(--sage-l);color:var(--text)}
+.ck.op{background:var(--sage-d);border-color:transparent;color:var(--bg);font-size:1.8rem}
+.ck.op.on{background:var(--bg);color:var(--sage-d);border-color:var(--sage-d)}
+.ck.z{grid-column:span 2;aspect-ratio:auto;border-radius:999px;justify-content:flex-start;padding-left:9%}
+@media (max-width:760px){
+  .calc{top:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);animation:calcUp .24s cubic-bezier(.22,1,.36,1) both}
+  @keyframes calcUp{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translateX(-50%)}}
+}
+@media (max-width:760px) and (max-height:700px){.ck{font-size:1.3rem}.calc-keys{gap:8px}.calc-disp{min-height:70px;font-size:2.9rem}}
+@media (prefers-reduced-motion:reduce){.calc{animation:none}}
+</style>
+<div id="calcOv" class="calc-ov" hidden></div>
+<div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
+  <button type="button" class="calc-x" id="calcX" aria-label="Tutup">&times;</button>
+  <div class="calc-disp" id="calcDisp" aria-live="polite" data-notr>0</div>
+  <div class="calc-keys" data-notr>
+    <button type="button" class="ck fn" data-k="ac" id="calcAC">AC</button>
+    <button type="button" class="ck fn" data-k="neg" aria-label="Ubah tanda">&plusmn;</button>
+    <button type="button" class="ck fn" data-k="pct" aria-label="Persen">%</button>
+    <button type="button" class="ck op" data-k="/" aria-label="Bagi">&divide;</button>
+    <button type="button" class="ck" data-k="7">7</button><button type="button" class="ck" data-k="8">8</button><button type="button" class="ck" data-k="9">9</button>
+    <button type="button" class="ck op" data-k="*" aria-label="Kali">&times;</button>
+    <button type="button" class="ck" data-k="4">4</button><button type="button" class="ck" data-k="5">5</button><button type="button" class="ck" data-k="6">6</button>
+    <button type="button" class="ck op" data-k="-" aria-label="Kurang">&minus;</button>
+    <button type="button" class="ck" data-k="1">1</button><button type="button" class="ck" data-k="2">2</button><button type="button" class="ck" data-k="3">3</button>
+    <button type="button" class="ck op" data-k="+" aria-label="Tambah">+</button>
+    <button type="button" class="ck z" data-k="0">0</button>
+    <button type="button" class="ck" data-k="." id="calcDot" aria-label="Desimal">,</button>
+    <button type="button" class="ck op" data-k="=" aria-label="Sama dengan">=</button>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById("btnCalc"),ov=document.getElementById("calcOv"),box=document.getElementById("calc"),
+      disp=document.getElementById("calcDisp"),ac=document.getElementById("calcAC"),dot=document.getElementById("calcDot"),xb=document.getElementById("calcX");
+  if(!btn||!box)return;
+  var cur="0",prev=null,op=null,fresh=true,lastOp=null,lastB=null,err=false,isOpen=false;
+  var sepG=".",sepD=",";
+  function seps(){
+    try{var l=(window.I18N&&I18N.loc)?I18N.loc():"id-ID";
+      var parts=new Intl.NumberFormat(l).formatToParts(1234567.5);
+      for(var i=0;i<parts.length;i++){if(parts[i].type==="group")sepG=parts[i].value;if(parts[i].type==="decimal")sepD=parts[i].value}
+    }catch(e){}
+  }
+  function fmt(str){
+    if(err)return "Error";
+    var neg=str.charAt(0)==="-";if(neg)str=str.slice(1);
+    var ex="",ei=str.indexOf("e");if(ei>-1){ex=str.slice(ei);str=str.slice(0,ei)}
+    var parts=str.split("."),ip=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,sepG);
+    return (neg?"-":"")+ip+(parts.length>1?sepD+parts[1]:"")+ex.replace("e+","e");
+  }
+  function paint(){
+    seps();
+    var t=fmt(cur);disp.textContent=t;
+    var n=t.length;disp.className="calc-disp"+(n>13?" s3":n>10?" s2":n>7?" s1":"");
+    dot.textContent=sepD;
+    ac.textContent=(!err&&(cur!=="0"||!fresh)&&cur!=="0")||(!fresh&&cur==="0"&&op===null&&prev!==null)?"C":"AC";
+    var ops=box.querySelectorAll(".op");
+    for(var i=0;i<ops.length;i++){var k=ops[i].getAttribute("data-k");ops[i].classList.toggle("on",!!op&&fresh&&k===op)}
+  }
+  function num(){return parseFloat(cur)}
+  function clean(v){
+    if(!isFinite(v)){err=true;return "0"}
+    var r=Number(v.toPrecision(12));
+    var s=String(r);
+    if(Math.abs(r)>=1e12||(Math.abs(r)<1e-6&&r!==0)){s=r.toExponential(8).replace(/\.?0+e/,"e")}
+    else if(s.length>12){s=String(Number(r.toPrecision(9)))}
+    return s;
+  }
+  function calc(a,o,b){
+    if(o==="+")return a+b;if(o==="-")return a-b;if(o==="*")return a*b;
+    if(o==="/"){if(b===0){err=true;return 0}return a/b}
+    return b;
+  }
+  function digit(d){
+    if(err)reset();
+    if(fresh){cur=d;fresh=false}else{
+      var raw=cur.replace("-","").replace(".","");
+      if(raw.length>=9)return;
+      cur=(cur==="0")?d:(cur==="-0"?"-"+d:cur+d);
+    }
+    paint();
+  }
+  function dec(){
+    if(err)reset();
+    if(fresh){cur="0.";fresh=false}else if(cur.indexOf(".")<0){cur+="."}
+    paint();
+  }
+  function reset(){cur="0";prev=null;op=null;fresh=true;lastOp=null;lastB=null;err=false}
+  function setOp(o){
+    if(err)return;
+    if(op&&!fresh){var r=calc(prev,op,num());cur=clean(r);if(err){paint();return}}
+    prev=num();op=o;fresh=true;lastOp=null;paint();
+  }
+  function eq(){
+    if(err)return;
+    var r;
+    if(op){lastB=num();lastOp=op;r=calc(prev,op,lastB);op=null;prev=null}
+    else if(lastOp){r=calc(num(),lastOp,lastB)}
+    else return;
+    cur=clean(r);fresh=true;paint();
+  }
+  function clearKey(){
+    if(ac.textContent==="C"&&!err){cur="0";fresh=true;paint();return}
+    reset();paint();
+  }
+  function neg(){if(err)return;if(cur==="0"&&fresh){cur="-0";fresh=false}else cur=cur.charAt(0)==="-"?cur.slice(1):"-"+cur;paint()}
+  function pct(){if(err)return;cur=clean(num()/100);fresh=true;paint()}
+  function back(){
+    if(err||fresh)return;
+    cur=cur.length>1&&!(cur.length===2&&cur.charAt(0)==="-")?cur.slice(0,-1):"0";
+    if(cur==="0"||cur==="-")fresh=true;
+    paint();
+  }
+  function press(k){
+    if(k>="0"&&k<="9"&&k.length===1)digit(k);
+    else if(k===".")dec();
+    else if(k==="ac")clearKey();
+    else if(k==="neg")neg();
+    else if(k==="pct")pct();
+    else if(k==="=")eq();
+    else setOp(k);
+  }
+  function open(){
+    if(isOpen)return;isOpen=true;
+    reset();paint();ov.hidden=false;box.hidden=false;btn.setAttribute("aria-expanded","true");
+    try{box.focus({preventScroll:true})}catch(e){box.focus()}
+  }
+  function close(){
+    if(!isOpen)return;isOpen=false;
+    ov.hidden=true;box.hidden=true;btn.setAttribute("aria-expanded","false");
+    try{btn.focus({preventScroll:true})}catch(e){}
+  }
+  btn.addEventListener("click",function(){isOpen?close():open()});
+  ov.addEventListener("click",close);xb.addEventListener("click",close);
+  box.addEventListener("click",function(e){
+    var t=e.target;while(t&&t!==box&&!(t.getAttribute&&t.getAttribute("data-k")))t=t.parentNode;
+    if(t&&t!==box)press(t.getAttribute("data-k"));
+  });
+  document.addEventListener("keydown",function(e){
+    if(!isOpen)return;
+    var k=e.key;
+    if(k==="Escape"){e.preventDefault();close();return}
+    if(e.ctrlKey||e.metaKey||e.altKey)return;
+    if(k>="0"&&k<="9"&&k.length===1){e.preventDefault();digit(k)}
+    else if(k==="."||k===","){e.preventDefault();dec()}
+    else if(k==="+"||k==="-"||k==="*"||k==="/"){e.preventDefault();setOp(k)}
+    else if(k==="x"||k==="X"){e.preventDefault();setOp("*")}
+    else if(k==="Enter"||k==="="){e.preventDefault();eq()}
+    else if(k==="%"){e.preventDefault();pct()}
+    else if(k==="Backspace"){e.preventDefault();back()}
+    else if(k==="Delete"||k==="c"||k==="C"){e.preventDefault();reset();paint()}
+  });
+  window.__calc={press:press,get:function(){return disp.textContent},open:open,close:close};
 })();
 </script>
 <script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
