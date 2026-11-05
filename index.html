@@ -774,12 +774,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   .wcard .whead .l2{background:linear-gradient(95deg,var(--sage-d),var(--sage));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 }
 .wcard .wlead{max-width:31ch;margin:16px auto 0;font-size:.98rem;line-height:1.65;color:var(--muted);text-wrap:balance}
-.wrule{display:flex;align-items:center;gap:14px;max-width:290px;margin:28px auto 24px}
+.wrule{display:flex;align-items:center;gap:14px;max-width:none;margin:28px auto 24px}
 .wrule i{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line) 70%)}
 .wrule i:last-child{transform:scaleX(-1)}
 .wrule b{display:block;width:6px;height:6px;border-radius:1px;transform:rotate(45deg);background:var(--sage);opacity:.75}
-.wcard .wmsg{margin:0 0 6px;font-size:1.28rem;font-weight:700;letter-spacing:-.02em;line-height:1.3}
-.wcard .wsub{margin:0 auto 22px;max-width:30ch;font-size:.92rem;line-height:1.55;color:var(--muted);text-wrap:balance}
+.wcard .wmsg{margin:0 0 6px;font-size:1.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.wcard .wsub{margin:0 auto 26px;max-width:none;padding:0;font-size:.95rem;line-height:1.5;color:var(--muted)}
 .wcard .wmsg:only-of-type{margin-bottom:16px}
 .wlang{position:absolute;top:18px;right:18px;margin:0;gap:4px}
 .wlang button{padding:4px 10px;font-size:.72rem;letter-spacing:.04em;border-width:1px}
@@ -824,21 +824,21 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 <div class="welcome" id="gate" hidden><div class="wcard gcard">
   <div class="wlogo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
   <p class="weyebrow"><span>Pencatatan Pengeluaran</span><b></b><span>By adusT</span></p>
-  <h1 class="whead"><span class="l1">Uang Anda,</span><span class="l2">dalam perspektif.</span></h1>
-  <p class="wp wlead">Gambaran keuangan yang lebih jernih, dari pengeluaran harian hingga tujuan jangka panjang.</p>
+  <h1 class="whead"><span class="l1">Keuanganmu,</span><span class="l2">lebih terarah.</span></h1>
+  <p class="wp wlead">Pantau keuangan dari jajan harian sampai target besar.</p>
   <div class="wrule" aria-hidden="true"><i></i><b></b><i></i></div>
-  <div class="wmsg gmsg">Pilih cara membuka aplikasi.</div>
+  <div class="wmsg gmsg">Mau buka lewat mana?</div>
   <div class="gopts">
-    <button type="button" class="gopt primary" id="gInstall"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 16.5v1.2A2.3 2.3 0 0 0 6.8 20h10.4a2.3 2.3 0 0 0 2.3-2.3v-1.2"/></svg></span><span class="gtx"><b>Install aplikasi</b><small>Buka seperti aplikasi di komputer, tanpa tab browser.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
-    <button type="button" class="gopt" id="gWeb"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.6 5.3 3.6 8.5s-1.2 6-3.6 8.5c-2.4-2.5-3.6-5.3-3.6-8.5s1.2-6 3.6-8.5Z"/></svg></span><span class="gtx"><b>Lanjut di website</b><small>Masuk langsung lewat browser ini.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
+    <button type="button" class="gopt primary" id="gInstall"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 16.5v1.2A2.3 2.3 0 0 0 6.8 20h10.4a2.3 2.3 0 0 0 2.3-2.3v-1.2"/></svg></span><span class="gtx"><b>Install aplikasi</b><small>Terbuka seperti aplikasi di komputer, tanpa tab browser.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
+    <button type="button" class="gopt" id="gWeb"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.6 5.3 3.6 8.5s-1.2 6-3.6 8.5c-2.4-2.5-3.6-5.3-3.6-8.5s1.2-6 3.6-8.5Z"/></svg></span><span class="gtx"><b>Lanjut di website</b><small>Langsung masuk lewat browser ini.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
   </div>
 </div></div>
 <div class="welcome" id="welcome"><div class="wcard">
   <div class="wlang" role="group" aria-label="Language" data-notr><button type="button" data-lang="en">EN</button><button type="button" data-lang="id">ID</button></div>
   <div class="wlogo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
   <p class="weyebrow"><span>Pencatatan Pengeluaran</span><b></b><span>By adusT</span></p>
-  <h1 class="whead"><span class="l1">Uang Anda,</span><span class="l2">dalam perspektif.</span></h1>
-  <p class="wp wlead">Gambaran keuangan yang lebih jernih, dari pengeluaran harian hingga tujuan jangka panjang.</p>
+  <h1 class="whead"><span class="l1">Keuanganmu,</span><span class="l2">lebih terarah.</span></h1>
+  <p class="wp wlead">Pantau keuangan dari jajan harian sampai target besar.</p>
   <div class="wrule" aria-hidden="true"><i></i><b></b><i></i></div>
   <div class="wmsg" id="wMsg" role="status">Memeriksa sesi...</div>
   <p class="wsub" id="wSub" hidden></p>
@@ -853,7 +853,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <label for="auPass">Password</label>
       <div class="pw"><input id="auPass" type="password" autocomplete="current-password"><button type="button" class="small" id="auPassToggle" aria-label="Tampilkan password">Lihat</button></div>
       <div id="auPass2Box" hidden><label for="auPass2">Ulangi password</label><input id="auPass2" type="password" autocomplete="new-password"></div>
-      <label class="rs-chk" style="margin-top:12px"><input type="checkbox" id="auRemember" checked>Ingat saya di perangkat ini</label>
+      <label class="rs-chk" style="margin-top:12px"><input type="checkbox" id="auRemember" checked>Tetap masuk di perangkat ini</label>
       <div class="err" id="auErr" role="alert"></div>
       <button type="submit" class="primary" id="auSubmit">Masuk</button>
     </form>
@@ -861,7 +861,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <button type="button" class="cfglink" id="btnCfg">Ubah konfigurasi Supabase</button>
   </div>
   <div id="fgBox" hidden>
-    <p class="wp">Masukkan email akun Anda. Kami kirim tautan untuk mengatur ulang password.</p>
+    <p class="wp">Masukkan email akunmu. Kami kirim tautan untuk atur ulang password.</p>
     <form id="fgForm" novalidate>
       <label for="fgEmail">Email</label>
       <input id="fgEmail" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
@@ -1183,20 +1183,20 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var KEY="lang-v1", lang="en";
   try{var sv=localStorage.getItem(KEY);if(sv==="id"||sv==="en")lang=sv}catch(e){}
   var EN={
-    "Uang Anda,":"Your money,","dalam perspektif.":"in perspective.",
-    "Gambaran keuangan yang lebih jernih, dari pengeluaran harian hingga tujuan jangka panjang.":"A clearer view of your finances, from daily spending to long-term goals.",
-    "Selamat datang kembali":"Welcome back","Masuk untuk melanjutkan perjalanan finansial Anda.":"Sign in to continue your financial journey.",
-    "Mulai dengan tenang":"Start with ease","Buat akun untuk mulai mencatat keuangan Anda.":"Create an account to start tracking your finances.",
-"Pilih cara membuka aplikasi.":"Choose how to open the app.","Install aplikasi":"Install app","Lanjut di website":"Continue on the website","Buka seperti aplikasi di komputer, tanpa tab browser.":"Open it like a desktop app, without a browser tab.","Masuk langsung lewat browser ini.":"Sign in right here in this browser.",
+    "Keuanganmu,":"Your money,","lebih terarah.":"in perspective.",
+    "Pantau keuangan dari jajan harian sampai target besar.":"A clearer view of your finances, from daily spending to long-term goals.",
+    "Selamat datang lagi":"Welcome back","Masuk untuk lanjut":"Sign in to continue",
+    "Mulai tanpa ribet":"Start with ease","Buat akun baru":"Create an account",
+"Mau buka lewat mana?":"Choose how to open the app.","Install aplikasi":"Install app","Lanjut di website":"Continue on the website","Terbuka seperti aplikasi di komputer, tanpa tab browser.":"Open it like a desktop app, without a browser tab.","Langsung masuk lewat browser ini.":"Sign in right here in this browser.",
 "Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.":"This app needs JavaScript. Please enable JavaScript in your browser.",
 "Pencatatan Pengeluaran":"Expense Tracker",
 "Pencatatan Pengeluaran By adusT":"Expense Tracker By adusT",
 "Catat pengeluaran, gaji, aset, dan tujuan Anda dengan tenang dan rapi.":"Track your spending, salary, assets, and goals calmly and neatly.",
 "Library Supabase gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman.":"The Supabase library failed to load. Check your internet connection, then reload the page.",
 "Masuk":"Sign in","Daftar":"Sign up","Lihat":"Show","Sembunyi":"Hide",
-"Ulangi password":"Repeat password","Ingat saya di perangkat ini":"Remember me on this device","Lupa password?":"Forgot password?",
+"Ulangi password":"Repeat password","Tetap masuk di perangkat ini":"Remember me on this device","Lupa password?":"Forgot password?",
 "Ubah konfigurasi Supabase":"Change Supabase settings","Ubah konfigurasi":"Change settings",
-"Masukkan email akun Anda. Kami kirim tautan untuk mengatur ulang password.":"Enter your account email. We will send you a link to reset your password.",
+"Masukkan email akunmu. Kami kirim tautan untuk atur ulang password.":"Enter your account email. We will send you a link to reset your password.",
 "Kirim tautan pemulihan":"Send recovery link","Kembali ke halaman masuk":"Back to sign in",
 "Buat password baru untuk akun Anda (minimal 8 karakter).":"Create a new password for your account (at least 8 characters).",
 "Password baru":"New password","Ulangi password baru":"Repeat new password","Simpan password baru":"Save new password","Batal dan keluar":"Cancel and sign out",
@@ -2075,8 +2075,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function authHead(){
     var w=$("wMsg");if(w.getAttribute("data-m")==="1"||$("authBox").hidden)return;
     var reg=authMode==="reg";
-    w.textContent=reg?"Mulai dengan tenang":"Selamat datang kembali";
-    $("wSub").textContent=reg?"Buat akun untuk mulai mencatat keuangan Anda.":"Masuk untuk melanjutkan perjalanan finansial Anda.";
+    w.textContent=reg?"Mulai tanpa ribet":"Selamat datang lagi";
+    $("wSub").textContent=reg?"Buat akun baru":"Masuk untuk lanjut";
     $("wSub").hidden=false;
   }
   function setAuthMode(m){
@@ -2115,7 +2115,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       gateDone=true;
     }
     showPane("auth");$("wBtns").innerHTML="";
-    $("wMsg").setAttribute("data-m",msg?"1":"0");$("wMsg").textContent=msg||"Selamat datang kembali";
+    $("wMsg").setAttribute("data-m",msg?"1":"0");$("wMsg").textContent=msg||"Selamat datang lagi";
     $("auRemember").checked=remember;
     var c=getCfg();$("btnCfg").hidden=!!(c&&c.fixed);
     setAuthMode(authMode);
