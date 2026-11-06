@@ -2504,7 +2504,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     authStore.removeItem(AUTH_KEY);
     authBusy=true;$("auSubmit").disabled=true;$("auErr").textContent="";
     try{
-      var r=reg?await sb.auth.signUp({email:em,password:pw}):await sb.auth.signInWithPassword({email:em,password:pw});
+      var r=reg?await sb.auth.signUp({email:em,password:pw,options:(/^https?:$/.test(location.protocol)&&location.hostname!=="localhost"&&location.hostname!=="127.0.0.1")?{emailRedirectTo:location.origin+location.pathname}:{}}):await sb.auth.signInWithPassword({email:em,password:pw});
       if(r.error)throw r.error;
       if(reg&&r.data&&r.data.user&&r.data.user.identities&&r.data.user.identities.length===0){
         $("auErr").textContent="Email sudah terdaftar. Silakan masuk.";
