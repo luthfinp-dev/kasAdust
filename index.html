@@ -974,6 +974,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="stat">
       <div class="l"><i data-ic="up"></i>Total aset<button type="button" class="eye" data-eye></button></div><div class="v" id="aTotal">Rp 0</div>
       <div class="n" id="aInfo"></div>
+      <div class="aspark" id="aSpark" aria-hidden="true"></div>
       <button type="button" class="small" id="btnAssets">Kelola aset</button>
     </div>
     <div class="stat">
@@ -1992,9 +1993,42 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     });
     return '<div class="dn" role="img" aria-label="'+esc(label)+'"><svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="'+R+'" fill="none" stroke="var(--track)" stroke-width="12"/>'+g+'</svg><div class="ct">'+center+'</div></div>';
   }
+  /* grafik total aset 30 hari: dihitung mundur dari saldo sekarang lewat riwayat transaksi */
+  function aDelta(t){
+    var c=t.category, a=t.amount;
+    if(c===SAVE||c===ASET)return a;
+    if(c===GOALC){var g=gOf(t.tujuanId);if(g&&g.debt)return -a;if(t.setor)return -a;return a}
+    return 0;
+  }
+  function sparkPath(p){
+    var d="M"+p[0][0].toFixed(1)+","+p[0][1].toFixed(1);
+    for(var i=0;i<p.length-1;i++){
+      var p0=p[i-1]||p[i], p1=p[i], p2=p[i+1], p3=p[i+2]||p2;
+      var c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6, c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+      d+=" C"+c1x.toFixed(1)+","+c1y.toFixed(1)+" "+c2x.toFixed(1)+","+c2y.toFixed(1)+" "+p2[0].toFixed(1)+","+p2[1].toFixed(1);
+    }
+    return d;
+  }
+  function sparkAset(){
+    var el=$("aSpark");if(!el)return;
+    var T=assets.reduce(function(s,a){return s+a.amount},0), N=30, vals=[];
+    var txs=items.map(function(t){return {d:t.date,v:aDelta(t)}}).filter(function(x){return x.v});
+    for(var i=N-1;i>=0;i--){var day=daysAgo(i),v=T;txs.forEach(function(x){if(x.d>day)v-=x.v});vals.push(Math.max(0,v))}
+    if(!assets.length||hideBal||vals.every(function(v){return v===vals[0]})){el.innerHTML="";return}
+    var W=300,H=70,pd=8,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=mx-mn||1;
+    var pts=vals.map(function(v,i){return [i*W/(N-1),pd+(1-(v-mn)/rg)*(H-2*pd)]});
+    var line=sparkPath(pts), last=pts[pts.length-1], uid2="sp"+Date.now().toString(36);
+    el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Grafik total aset 30 hari terakhir">'
+      +'<defs><linearGradient id="'+uid2+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sp)" stop-opacity=".28"/><stop offset="1" stop-color="var(--sp)" stop-opacity="0"/></linearGradient></defs>'
+      +'<path class="sp-area" d="'+line+' L'+W+','+H+' L0,'+H+' Z" fill="url(#'+uid2+')"/>'
+      +'<path class="sp-line" pathLength="1" d="'+line+'"/>'
+      +'<circle class="sp-ring" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="4"/>'
+      +'<circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.2"/></svg>';
+  }
   function renderAssets(){
     var tot=assets.reduce(function(s,a){return s+a.amount},0);
     $("aTotal").textContent=mk(tot);
+    sparkAset();
     var srt=assets.slice().sort(function(a,b){return b.amount-a.amount});
     $("aDonut").innerHTML=assets.length?ring(hideBal?[]:srt.map(function(a,i){return {v:a.amount,c:dnCol()[i%dnCol().length]}}),tot,'<small>Total aset</small><b>'+mk(tot)+'</b>',"Total aset "+mk(tot))+'<div class="dleg">'+srt.map(function(a,i){
       var p=tot?Math.round(a.amount/tot*1000)/10:0;
@@ -3477,6 +3511,20 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .sx-auto{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.92rem}
 .sx-auto small{display:block;color:var(--muted);font-size:.76rem;margin-top:2px}
 .sx-auto b{white-space:nowrap}
+.aspark{--sp:#2f7a55;--sp-g:rgba(47,122,85,.35);margin:10px -6px 0;height:70px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .aspark{--sp:#8be3b2;--sp-g:rgba(139,227,178,.5)}}
+:root[data-theme="dark"] .aspark{--sp:#8be3b2;--sp-g:rgba(139,227,178,.5)}
+.aspark svg{width:100%;height:100%;display:block;overflow:visible}
+.sp-line{fill:none;stroke:var(--sp);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:spDraw 1.4s cubic-bezier(.22,.8,.3,1) forwards;filter:drop-shadow(0 0 4px var(--sp-g));vector-effect:non-scaling-stroke}
+@keyframes spDraw{to{stroke-dashoffset:0}}
+.sp-area{opacity:0;animation:spFade .8s .6s forwards}
+@keyframes spFade{to{opacity:1}}
+.sp-dot{fill:var(--sp);filter:drop-shadow(0 0 5px var(--sp));opacity:0;animation:spIn .3s 1.35s forwards}
+.sp-ring{fill:none;stroke:var(--sp);stroke-width:1.2;transform-box:fill-box;transform-origin:center;opacity:0;animation:spPulse 2.2s 1.4s ease-out infinite}
+@keyframes spPulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(4.2);opacity:0}}
+@keyframes spIn{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.sp-line,.sp-area,.sp-dot{animation:none;opacity:1;stroke-dashoffset:0}.sp-ring{animation:none;opacity:0}}
+
 .gdt .ic{width:14px;height:14px}
 .gdt b{font-weight:700;padding:2px 9px;border-radius:99px;background:var(--sage-l);color:var(--muted);font-size:.74rem}
 .gdt.soon b{background:rgba(224,160,40,.18);color:#a8700a}
