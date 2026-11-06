@@ -1181,7 +1181,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <div class="full"><label for="gName">Nama tujuan</label><input id="gName" maxlength="60" placeholder="Contoh: Menikah" autocomplete="off"></div>
       <div><label for="gTarget" id="gLblT">Target (Rp)</label><input id="gTarget" inputmode="numeric" placeholder="100.000.000" autocomplete="off"></div>
       <div><label for="gSaved" id="gLblS">Terkumpul (Rp)</label><input id="gSaved" inputmode="numeric" placeholder="0" autocomplete="off"></div>
-      <div class="full"><label for="gDate" id="gLblD">Tanggal target (opsional)</label><input id="gDate" type="date" min="1900-01-01" max="2199-12-31"></div>
+      <div><label for="gDate0">Tanggal</label><input id="gDate0" type="date" min="1900-01-01" max="2199-12-31"></div>
+      <div><label for="gDate" id="gLblD">Jatuh tempo (opsional)</label><input id="gDate" type="date" min="1900-01-01" max="2199-12-31"></div>
     </div>
     <div class="err" id="gErr" role="alert"></div>
     <div class="row"><button type="button" class="primary" id="btnGoalSave">Tambah tujuan</button><button type="button" id="btnGoalCancel">Batal</button></div>
@@ -1252,7 +1253,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var KEY="lang-v1", lang="id";
   try{var sv=localStorage.getItem(KEY);if(sv==="id"||sv==="en")lang=sv}catch(e){}
   var EN={
-    "Piutang":"Receivable","Tambah hutang":"Add debt","Tambah piutang":"Add receivable","Total piutang":"Total receivable","Sisa piutang":"Remaining receivable","Sudah diterima":"Already received","dibayar":"paid","diterima":"received","Tanggal target (opsional)":"Target date (optional)","Jatuh tempo (opsional)":"Due date (optional)","Tanggal tidak valid.":"Invalid date.","Hari ini":"Today","Lunas":"Settled","Belum ada hutang. Tambahkan di bawah.":"No debts yet. Add one below.","Belum ada piutang. Tambahkan di bawah.":"No receivables yet. Add one below.","Jenis tujuan":"Goal type",
+    "Piutang":"Receivable","Tambah hutang":"Add debt","Tambah piutang":"Add receivable","Total piutang":"Total receivable","Sisa piutang":"Remaining receivable","Sudah diterima":"Already received","dibayar":"paid","diterima":"received","Jatuh tempo tidak boleh sebelum tanggal.":"Due date cannot be before the date.","Jatuh tempo (opsional)":"Due date (optional)","Tanggal tidak valid.":"Invalid date.","Hari ini":"Today","Lunas":"Settled","Belum ada hutang. Tambahkan di bawah.":"No debts yet. Add one below.","Belum ada piutang. Tambahkan di bawah.":"No receivables yet. Add one below.","Jenis tujuan":"Goal type",
     "Keuanganmu,":"Your money,","lebih terarah.":"in perspective.",
     "Pantau keuangan dari jajan harian sampai target besar.":"A clearer view of your finances, from daily spending to long-term goals.",
     "Selamat datang lagi":"Welcome back","Masuk untuk lanjut":"Sign in to continue",
@@ -1371,7 +1372,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function code(c){return c?" ("+c+")":""}
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
-   [/^(Target|Jatuh tempo) (.+)$/,function(m){return (m[1]==="Target"?"Target ":"Due ")+m[2]}],
+   [/^Jatuh tempo (.+)$/,function(m){return "Due "+m[1]}],
+   [/^Tanggal (.+)$/,function(m){return "Date "+m[1]}],
    [/^(\d+) hari lagi$/,function(m){return m[1]+(m[1]==="1"?" day left":" days left")}],
    [/^Terlambat (\d+) hari$/,function(m){return m[1]+(m[1]==="1"?" day overdue":" days overdue")}],
    [/^Gaji: (.+?)(?: \(termasuk tambahan (.+)\))?$/,function(m){return "Salary: "+m[1]+(m[2]?" (including extra "+m[2]+")":"")}],
@@ -1811,22 +1813,25 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   document.addEventListener("click",function(e){var b=e.target.closest("[data-eye]");if(!b)return;hideBal=!hideBal;save();render()});
   var GK=[
-    {tab:"Non-hutang",add:"Tambah tujuan",lT:"Total target",lS:"Terkumpul",lR:"Sisa target",lP:"terkumpul",dl:"Target",empty:"Belum ada tujuan. Tambahkan di bawah.",done:"Tercapai",left:"Kurang "},
+    {tab:"Non-hutang",add:"Tambah tujuan",lT:"Total target",lS:"Terkumpul",lR:"Sisa target",lP:"terkumpul",dl:"Jatuh tempo",empty:"Belum ada tujuan. Tambahkan di bawah.",done:"Tercapai",left:"Kurang "},
     {tab:"Hutang",add:"Tambah hutang",lT:"Total hutang",lS:"Sudah dibayar",lR:"Sisa hutang",lP:"dibayar",dl:"Jatuh tempo",empty:"Belum ada hutang. Tambahkan di bawah.",done:"Lunas",left:"Sisa "},
     {tab:"Piutang",add:"Tambah piutang",lT:"Total piutang",lS:"Sudah diterima",lR:"Sisa piutang",lP:"diterima",dl:"Jatuh tempo",empty:"Belum ada piutang. Tambahkan di bawah.",done:"Lunas",left:"Sisa "}
   ];
   var gTab=0;
   try{var gt0=+localStorage.getItem("gtab-v1");if(gt0===1||gt0===2)gTab=gt0}catch(e){}
   function gDateInfo(g,k,done){
-    if(!g.date)return "";
-    var q=g.date.split("-"), d=new Date(+q[0],+q[1]-1,+q[2]), n=new Date(), t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
-    var days=Math.round((d-t0)/864e5), rel="", cls="";
-    if(!done){
-      if(days<0){rel="Terlambat "+(-days)+" hari";cls=" late"}
-      else if(days===0){rel="Hari ini";cls=" soon"}
-      else{rel=days+" hari lagi";if(days<=7)cls=" soon"}
+    if(!g.date&&!g.start)return "";
+    var rel="", cls="";
+    if(g.date){
+      var q=g.date.split("-"), d=new Date(+q[0],+q[1]-1,+q[2]), n=new Date(), t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+      var days=Math.round((d-t0)/864e5);
+      if(!done){
+        if(days<0){rel="Terlambat "+(-days)+" hari";cls=" late"}
+        else if(days===0){rel="Hari ini";cls=" soon"}
+        else{rel=days+" hari lagi";if(days<=7)cls=" soon"}
+      }
     }
-    return '<div class="gdt'+cls+'"><span>'+ic("cal")+GK[k].dl+" "+dateLabel(g.date)+'</span>'+(rel?'<b>'+rel+'</b>':'')+'</div>';
+    return '<div class="gdt'+cls+(g.start&&g.date?" two":"")+'">'+(g.start?'<span class="gds">'+ic("cal")+'<span>Tanggal '+dateLabel(g.start)+'</span></span>':'')+(g.date?'<span class="gdd">'+(g.start?'':ic("cal"))+'<span>'+GK[k].dl+" "+dateLabel(g.date)+'</span></span>':'')+(rel?'<b>'+rel+'</b>':'')+'</div>';
   }
   function renderGoals(){
     var by=[[],[],[]];goals.forEach(function(g){by[gKindOf(g)].push(g)});
@@ -1863,7 +1868,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     gTab=+b.getAttribute("data-k");pendingGoal=null;try{localStorage.setItem("gtab-v1",String(gTab))}catch(x){}
     renderGoals();
   });
-  function resetGoal(){editGoal=null;setKind(false);$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gDate").value="";$("gErr").textContent="";$("gFormTitle").textContent="Tambah tujuan";$("btnGoalSave").textContent="Tambah tujuan";popClose("gsSheet")}
+  function resetGoal(){editGoal=null;setKind(false);$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gDate").value="";$("gDate0").value="";$("gErr").textContent="";$("gFormTitle").textContent="Tambah tujuan";$("btnGoalSave").textContent="Tambah tujuan";popClose("gsSheet")}
   var gDebt=false, gRecv=false;
   function setKind(v){
     var k=v===true?1:(+v||0);gDebt=k===1;gRecv=k===2;
@@ -1872,8 +1877,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("gLblT").textContent=["Target (Rp)","Total hutang (Rp)","Total piutang (Rp)"][k];
     $("gLblS").textContent=["Terkumpul (Rp)","Sudah dibayar (Rp)","Sudah diterima (Rp)"][k];
     $("gName").placeholder=["Contoh: Menikah","Contoh: Cicilan motor","Contoh: Pinjaman ke teman"][k];
-    $("gLblD").textContent=["Tanggal target (opsional)","Jatuh tempo (opsional)","Jatuh tempo (opsional)"][k];
-    $("gKindDesc").textContent=["masa depan / self reward / liburan / dll","cicil/membayar hutang","cicil/menagih uang kamu dari orang lain"][k];
+        $("gKindDesc").textContent=["masa depan / self reward / liburan / dll","cicil/membayar hutang","cicil/menagih uang kamu dari orang lain"][k];
   }
   $("gKind").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setKind(+b.getAttribute("data-v"))});
   fmtIn($("gTarget"));fmtIn($("gSaved"));fmtIn($("sbPrice"));
@@ -1942,18 +1946,20 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   if(window.matchMedia){var mq=matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",paintTheme)}
   paintTheme();
   $("btnGoals").addEventListener("click",function(){goTab("aset","goalPanel")});
-  $("btnGoalAdd").addEventListener("click",function(){editGoal=null;pendingGoal=null;setKind(gTab);$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gDate").value="";$("gErr").textContent="";$("gFormTitle").textContent=GK[gTab].add;$("btnGoalSave").textContent=GK[gTab].add;popOpen("gsSheet")});
+  $("btnGoalAdd").addEventListener("click",function(){editGoal=null;pendingGoal=null;setKind(gTab);$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gDate").value="";$("gDate0").value=ymd(new Date());$("gErr").textContent="";$("gFormTitle").textContent=GK[gTab].add;$("btnGoalSave").textContent=GK[gTab].add;popOpen("gsSheet")});
   $("btnGoalCancel").addEventListener("click",resetGoal);
   $("btnGoalSave").addEventListener("click",function(){
-    var n=$("gName").value.trim(), t=num($("gTarget").value), s=num($("gSaved").value), kk=gDebt?1:gRecv?2:0, dv=$("gDate").value||"";
+    var n=$("gName").value.trim(), t=num($("gTarget").value), s=num($("gSaved").value), kk=gDebt?1:gRecv?2:0, dv=$("gDate").value||"", dz=$("gDate0").value||"";
+    if(dz&&!/^\d{4}-\d{2}-\d{2}$/.test(dz)){$("gErr").textContent="Tanggal tidak valid.";$("gDate0").focus();return}
     if(dv&&!/^\d{4}-\d{2}-\d{2}$/.test(dv)){$("gErr").textContent="Tanggal tidak valid.";$("gDate").focus();return}
+    if(dz&&dv&&dv<dz){$("gErr").textContent="Jatuh tempo tidak boleh sebelum tanggal.";$("gDate").focus();return}
     if(!n){$("gErr").textContent="Isi nama tujuan.";$("gName").focus();return}
     if(t<=0){$("gErr").textContent="Target harus lebih dari Rp 0.";$("gTarget").focus();return}
     if(editGoal){
       var og=goals.filter(function(x){return x.id===editGoal})[0];
       if(og&&gKindOf(og)!==(gDebt?1:gRecv?2:0)&&items.some(function(x){return x.tujuanId===editGoal})){$("gErr").textContent="Tujuan ini sudah punya transaksi terkait, jenisnya tidak bisa diubah.";return}
-      goals=goals.map(function(g){if(g.id!==editGoal)return g;var r={id:g.id,name:n,target:t,saved:s,subs:g.subs||[]};if(gDebt)r.debt=true;if(gRecv)r.recv=true;if(dv)r.date=dv;return r});
-    }else{var ng={id:uid(),name:n,target:t,saved:s,subs:[]};if(gDebt)ng.debt=true;if(gRecv)ng.recv=true;if(dv)ng.date=dv;goals.push(ng)}
+      goals=goals.map(function(g){if(g.id!==editGoal)return g;var r={id:g.id,name:n,target:t,saved:s,subs:g.subs||[]};if(gDebt)r.debt=true;if(gRecv)r.recv=true;if(dv)r.date=dv;if(dz)r.start=dz;return r});
+    }else{var ng={id:uid(),name:n,target:t,saved:s,subs:[]};if(gDebt)ng.debt=true;if(gRecv)ng.recv=true;if(dv)ng.date=dv;if(dz)ng.start=dz;goals.push(ng)}
     gTab=kk;try{localStorage.setItem("gtab-v1",String(gTab))}catch(x){}
     save();resetGoal();renderGoals();toast("Tujuan disimpan");
   });
@@ -1963,7 +1969,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(act==="edit"){
       var g=goals.filter(function(x){return x.id===id})[0];if(!g)return;
       editGoal=id;pendingGoal=null;setKind(g.debt?1:g.recv?2:0);
-      $("gName").value=g.name;$("gTarget").value=nf.format(g.target);$("gSaved").value=g.saved?nf.format(g.saved):"";$("gDate").value=g.date||"";$("gErr").textContent="";
+      $("gName").value=g.name;$("gTarget").value=nf.format(g.target);$("gSaved").value=g.saved?nf.format(g.saved):"";$("gDate").value=g.date||"";$("gDate0").value=g.start||"";$("gErr").textContent="";
       $("gFormTitle").textContent="Edit tujuan";$("btnGoalSave").textContent="Simpan perubahan";
       renderGoals();popOpen("gsSheet");
     }else if(act==="del"){
@@ -3128,6 +3134,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     },200);
     var gr={id:cId(o.id)||uid(),name:n,target:t,saved:sv<0?0:sv,subs:subs};if(o.debt===true)gr.debt=true;else if(o.recv===true)gr.recv=true;
     if(typeof o.date==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(o.date)){var dy=+o.date.slice(0,4);if(dy>=1900&&dy<=2199&&!isNaN(new Date(o.date+"T00:00:00").getTime()))gr.date=o.date}
+    if(typeof o.start==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(o.start)){var sy=+o.start.slice(0,4);if(sy>=1900&&sy<=2199&&!isNaN(new Date(o.start+"T00:00:00").getTime()))gr.start=o.start}
     return gr;
   }
   function cleanSal(o){
@@ -3569,6 +3576,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .kseg button[aria-pressed="true"]{background:var(--tcl);color:var(--tc);border-color:var(--tc);box-shadow:none}
 .gdt{display:flex;justify-content:space-between;align-items:center;gap:4px 10px;flex-wrap:wrap;margin-top:6px;font-size:.8rem;color:var(--muted)}
 .gdt span{display:inline-flex;align-items:center;gap:5px}
+.gdt .gds,.gdt .gdd{margin-right:2px}
+.gdt.two .gdd{flex-basis:100%;order:2;padding-left:19px}
+.gdt.two b{order:1}
 .gdt .ic{width:14px;height:14px}
 .gdt b{font-weight:700;padding:2px 9px;border-radius:99px;background:var(--sage-l);color:var(--muted);font-size:.74rem}
 .gdt.soon b{background:rgba(224,160,40,.18);color:#a8700a}
