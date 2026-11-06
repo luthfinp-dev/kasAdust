@@ -1235,6 +1235,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="err" id="sbErr" role="alert"></div>
     <div class="row"><button type="button" class="primary" id="btnSubSave">Tambah sub-item</button><button type="button" id="btnSubCancel">Batal</button></div>
   </section>
+  <div class="tov blur" id="paOv" hidden></div>
+  <section class="msheet pop" id="paSheet" role="dialog" aria-modal="true" aria-label="Form tambah piutang" hidden>
+    <h2><i data-ic="plus"></i><span id="paTitle">Tambah piutang</span></h2>
+    <div class="fields">
+      <div><label for="paAmt">Nominal (Rp)</label><input id="paAmt" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+      <div><label for="paDate">Tanggal</label><input id="paDate" type="date" min="1900-01-01" max="2199-12-31"></div>
+      <div class="full"><label for="paNote">Catatan (opsional)</label><input id="paNote" maxlength="80" placeholder="Contoh: Pinjam lagi buat renovasi" autocomplete="off"></div>
+      <div class="full"><label for="paAset">Diambil dari aset (opsional)</label><select id="paAset"></select></div>
+    </div>
+    <div class="err" id="paErr" role="alert"></div>
+    <div class="row"><button type="button" class="primary" id="btnPaSave">Tambah</button><button type="button" id="btnPaCancel">Batal</button></div>
+  </section>
   <div class="tov" id="rsOv" hidden></div>
   <section class="msheet" id="rsSheet" role="alertdialog" aria-modal="true" aria-labelledby="rsTitle" aria-describedby="rsDesc" hidden>
     <h2 id="rsTitle"><i data-ic="trash"></i>Reset semua data</h2>
@@ -1294,7 +1306,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1628,8 +1640,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var tot=sp.reduce(function(s,t){return s+t.amount},0);
     var sv=cur.reduce(function(s,t){return s+((isSave(t.category)||(t.category===GOALC&&t.setor&&nonSpend(t)&&gKindOf(gOf(t.tujuanId))===0&&t.asetId&&t.asetId!=="dompet"))?(t.tarik?0:t.amount):0)},0);
     var ext=sp.reduce(function(s,t){return s+((t.category===GOALC&&t.asetId&&t.asetId!=="dompet")?t.amount:0)},0);
+    var lend=goals.reduce(function(a,g){return a+(Array.isArray(g.history)?g.history.reduce(function(b,h){return b+((h.type==="tambah"&&h.asetId==="dompet"&&String(h.date).slice(0,7)===ym)?h.amount:0)},0):0)},0);
     var sal=salTot(ym);
-    return {sal:sal,tot:tot,saved:sv,ext:ext,left:sal>0?sal-tot-sv+ext:0};
+    return {sal:sal,tot:tot,saved:sv,ext:ext,lend:lend,left:sal>0?sal-tot-sv+ext-lend:0};
   }
   function syncWallet(){ensureDompet();var w=assets.filter(function(a){return a.id==="dompet"})[0];if(w)w.amount=Math.max(0,monthLeft(curYM).left)}
   function render(){
@@ -1644,7 +1657,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("lVal").textContent=hasSal?(hideBal?"Rp ••••••":rpS(left)):"Belum diisi";
     $("lVal").className="v"+(hasSal&&left<0&&!hideBal?" over":"");
     $("lSal").textContent=hasSal?"Gaji: "+mk(sal)+(xsum?" (termasuk tambahan "+mk(xsum)+")":""):"Klik Atur gaji untuk mengisi";
-    var used=hasSal?Math.round((tot-ml.ext+savedCur)/sal*100):0;
+    var used=hasSal?Math.round((tot-ml.ext+savedCur+ml.lend)/sal*100):0;
     $("lBar").style.width=(hideBal?0:Math.min(100,used))+"%";
     $("lUsed").textContent=hasSal?(left<0&&!hideBal?"Pengeluaran melebihi gaji":(hideBal?"••":used)+"% gaji terpakai"):"";
     $("lUsed").className="n"+(hasSal&&left<0&&!hideBal?" over":"");
@@ -1908,7 +1921,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k===2?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="Tambah piutang" title="Tambah piutang">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -1938,7 +1951,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     try{var u=new URL(s);return (u.protocol==="http:"||u.protocol==="https:")?u.href:null}catch(e){return null}
   }
   function goalHistoryHtml(g){
-    var h=(Array.isArray(g.history)?g.history:[]).map(function(x){return {type:x.type,amount:x.amount,date:x.date||"",desc:x.desc||"",ts:0}});
+    var h=(Array.isArray(g.history)?g.history:[]).map(function(x){var ax=x.asetId?assets.filter(function(y){return y.id===x.asetId})[0]:null;return {id:x.id,type:x.type,amount:x.amount,date:x.date||"",desc:(x.desc||"")+(ax?((x.desc?" \u00b7 ":"")+ax.name):""),ts:0}});
     items.forEach(function(t){var gk=gKindOf(g);
       if(t.tujuanId!==g.id)return;
       var a=assets.filter(function(x){return x.id===t.asetId})[0];
@@ -1947,8 +1960,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       else if(gk===2&&t.category===GOALC){h.push({type:"terima",amount:t.amount,date:t.date,desc:a?a.name:"",ts:t.ts||0})}});
     h.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:a.ts-b.ts});
     var rows=h.slice().reverse().map(function(x){
-      var positive=x.type==="setor"||x.type==="terima";
-      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima"}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div><b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b></div>';
+      var positive=x.type==="setor"||x.type==="terima", isAdd=x.type==="tambah";
+      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima",tambah:"Tambah piutang"}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div>'+(isAdd&&x.id?'<div class="sact"><b>+'+mk(x.amount)+'</b>'+(pendingPa===x.id?'<button class="small danger confirm" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button class="small danger icon" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Hapus tambahan piutang">'+ic("trash")+'</button>')+'</div>':'<b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b>')+'</div>';
     }).join("");
     return '<div class="subs"><b>Riwayat saldo</b>'+(rows||'<div class="empty sm">'+(gKindOf(g)===1?"Belum ada riwayat pembayaran.":gKindOf(g)===2?"Belum ada riwayat penerimaan.":"Belum ada riwayat setor/dipakai.")+'</div>')+'</div>';
   }
@@ -1974,12 +1987,44 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var act=b.getAttribute("data-a"), id=b.getAttribute("data-id"), gid=b.getAttribute("data-g")||id;
     var g=goals.filter(function(x){return x.id===gid})[0];
     if(act==="toggle"){var was=!!openG[id];openG={};if(!was)openG[id]=true;renderGoals()}
+    else if(act==="padd"&&g){startPa(g)}
+    else if(act==="pdel"&&g){
+      var pe=(g.history||[]).filter(function(x){return x.id===id})[0];if(!pe)return;
+      if(pendingPa===id){
+        pendingPa=null;
+        if(g.target-pe.amount<Math.max(1,g.saved)){toast("Total piutang tidak boleh kurang dari yang sudah diterima");renderGoals();return}
+        g.target-=pe.amount;
+        if(pe.asetId&&pe.asetId!=="dompet"){var ra=assets.filter(function(x){return x.id===pe.asetId})[0];if(ra)ra.amount+=pe.amount}
+        g.history=g.history.filter(function(x){return x.id!==id});save();render();
+      }else{pendingPa=id;renderGoals();setTimeout(function(){if(pendingPa===id){pendingPa=null;renderGoals()}},4000)}
+    }
     else if(act==="sadd"&&g){startSub(g,null)}
     else if(act==="sedit"&&g){var s=(g.subs||[]).filter(function(x){return x.id===id})[0];if(s)startSub(g,s)}
     else if(act==="sdel"&&g){
       if(pendingSub===id){g.subs=(g.subs||[]).filter(function(x){return x.id!==id});pendingSub=null;if(subCtx.s===id)resetSub();save();renderGoals()}
       else{pendingSub=id;renderGoals();setTimeout(function(){if(pendingSub===id){pendingSub=null;renderGoals()}},4000)}
     }
+  });
+  var pendingPa=null, paCtx=null;
+  fmtIn($("paAmt"));
+  function resetPa(){paCtx=null;$("paAmt").value="";$("paNote").value="";$("paErr").textContent="";popClose("paSheet")}
+  function startPa(g){
+    paCtx=g.id;$("paTitle").textContent="Tambah piutang: "+g.name;
+    $("paAmt").value="";$("paNote").value="";$("paDate").value=ymd(new Date());$("paErr").textContent="";
+    fillSelect($("paAset"),[["","Tanpa aset"]].concat(assets.map(function(a){return [a.id,a.name]})),"");
+    popOpen("paSheet");
+  }
+  $("btnPaCancel").addEventListener("click",resetPa);
+  $("btnPaSave").addEventListener("click",function(){
+    var g=gOf(paCtx);if(!g){resetPa();return}
+    var amt=num($("paAmt").value), d=$("paDate").value, note=$("paNote").value.trim().slice(0,80), aId=$("paAset").value;
+    if(!(amt>0)){$("paErr").textContent="Nominal harus lebih dari Rp 0.";$("paAmt").focus();return}
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){$("paErr").textContent="Tanggal tidak valid.";return}
+    var as=aId?assets.filter(function(x){return x.id===aId})[0]:null;
+    if(as&&as.id!=="dompet"){if(amt>as.amount){$("paErr").textContent="Jumlah melebihi saldo aset.";return}as.amount-=amt}
+    g.target+=amt;g.history=Array.isArray(g.history)?g.history:[];
+    var e={id:uid(),type:"tambah",amount:amt,date:d,desc:note};if(aId)e.asetId=aId;g.history.push(e);
+    openG={};openG[g.id]=true;save();resetPa();render();toast("Piutang ditambah",null,g.name+" \u00b7 "+rp(amt));
   });
   $("btnSubCancel").addEventListener("click",resetSub);
   $("btnSubSave").addEventListener("click",function(){
@@ -2142,7 +2187,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popClose("asSheet")}
   fmtIn($("sIn"));fmtIn($("aAmt"));
   /* ===== popup blur (gaji, aset, tujuan, sub-item) ===== */
-  var POPS={salaryPanel:"salOv",asSheet:"asOv",gsSheet:"gsOv",sbSheet:"sbOv",ctSheet:"ctOv"}, popY=0;
+  var POPS={salaryPanel:"salOv",asSheet:"asOv",gsSheet:"gsOv",sbSheet:"sbOv",paSheet:"paOv",ctSheet:"ctOv"}, popY=0;
   function popOpen(id){
     var sh=$(id), ov=$(POPS[id]);if(!sh||!sh.hidden)return;
     popY=window.scrollY||window.pageYOffset||0;
@@ -2164,7 +2209,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function popAll(now){for(var k in POPS)popClose(k,now)}
   Object.keys(POPS).forEach(function(id){$(POPS[id]).addEventListener("click",function(){
-    if(id==="salaryPanel"||id==="ctSheet")popClose(id);else if(id==="asSheet")resetAsset();else if(id==="gsSheet")resetGoal();else resetSub();
+    if(id==="salaryPanel"||id==="ctSheet")popClose(id);else if(id==="asSheet")resetAsset();else if(id==="gsSheet")resetGoal();else if(id==="paSheet")resetPa();else resetSub();
   })});
   document.addEventListener("keydown",function(e){if(e.key!=="Escape")return;for(var k in POPS){if(!$(k).hidden){$(POPS[k]).click();return}}});
   function cleanXtr(o){
@@ -3162,7 +3207,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     paintLang();
   });
   paintLang();
-  var PANELS=["ctSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet"], FB={rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",ctSheet:"btnCatSet",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd"}, opener={};
+  var PANELS=["ctSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet","paSheet"], FB={rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",ctSheet:"btnCatSet",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd",paSheet:"btnGoalAdd"}, opener={};
   PANELS.forEach(function(id){$(id).setAttribute("tabindex","-1")});
   function topPanel(){for(var i=0;i<PANELS.length;i++){var p=$(PANELS[i]);if(p&&!p.hidden)return p}return null}
   function focusables(p){
@@ -3310,7 +3355,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       return {id:cId(x.id)||uid(),name:nn,price:p<0?0:p,link:l===null?"":l};
     },200);
     var gr={id:cId(o.id)||uid(),name:n,target:t,saved:sv<0?0:sv,subs:subs};if(o.debt===true)gr.debt=true;else if(o.recv===true)gr.recv=true;
-    if(Array.isArray(o.history)){var hh=o.history.filter(function(x){return isObj(x)&&(x.type==="setor"||x.type==="ambil")&&cAmt(x.amount)>0&&typeof x.date==="string"}).slice(-200).map(function(x){return {id:cId(x.id)||uid(),type:x.type,amount:cAmt(x.amount),date:x.date.slice(0,10),desc:cStr(x.desc||"",80)}});if(hh.length)gr.history=hh}
+    if(Array.isArray(o.history)){var hh=o.history.filter(function(x){return isObj(x)&&(x.type==="setor"||x.type==="ambil"||x.type==="tambah")&&cAmt(x.amount)>0&&typeof x.date==="string"}).slice(-200).map(function(x){var r={id:cId(x.id)||uid(),type:x.type,amount:cAmt(x.amount),date:x.date.slice(0,10),desc:cStr(x.desc||"",80)};if(x.type==="tambah"){var ax=cId(x.asetId);if(ax)r.asetId=ax}return r});if(hh.length)gr.history=hh}
     if(typeof o.date==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(o.date)){var dy=+o.date.slice(0,4);if(dy>=1900&&dy<=2199&&!isNaN(new Date(o.date+"T00:00:00").getTime()))gr.date=o.date}
     if(typeof o.start==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(o.start)){var sy=+o.start.slice(0,4);if(sy>=1900&&sy<=2199&&!isNaN(new Date(o.start+"T00:00:00").getTime()))gr.start=o.start}
     return gr;
@@ -3710,6 +3755,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 }
 @media (max-width:760px) and (max-height:700px){.ck{font-size:1.3rem}.calc-keys{gap:8px}.calc-disp{min-height:70px;font-size:2.9rem}}
 @media (prefers-reduced-motion:reduce){.calc{animation:none}}
+.gtr{display:inline-flex;align-items:center;gap:8px}.gadd{width:26px;height:26px;min-width:26px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:50%}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
