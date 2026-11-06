@@ -1894,7 +1894,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Sub-item ('+subs.length+')</button><button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button><button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Ambil</button><button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -1922,6 +1922,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     s=String(s||"").trim();if(!s)return "";
     if(!/^https?:\/\//i.test(s)){if(/^(javascript|data|vbscript|file|blob|ftp|mailto|tel):/i.test(s))return null;s="https://"+s}
     try{var u=new URL(s);return (u.protocol==="http:"||u.protocol==="https:")?u.href:null}catch(e){return null}
+  }
+  function goalHistoryHtml(g){
+    var h=Array.isArray(g.history)?g.history:[];
+    var rows=h.slice().reverse().map(function(x){
+      var positive=x.type==="setor";
+      return '<div class="srow"><div class="sinfo"><span>'+esc(positive?"Setor":"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div><b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b></div>';
+    }).join("");
+    return '<div class="subs"><b>Riwayat saldo</b>'+(rows||'<div class="empty sm">Belum ada riwayat setor/ambil.</div>')+'</div>';
   }
   function subsHtml(g){
     var subs=g.subs||[], sum=subs.reduce(function(s,x){return s+x.price},0);
@@ -2001,6 +2009,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   $("gList").addEventListener("click",function(e){
     var b=e.target.closest("button");if(!b)return;
     var id=b.getAttribute("data-id"), act=b.getAttribute("data-a");
+    if(act==="deposit"||act==="withdraw"){
+      if(!g||gKindOf(g)!==0)return;
+      var raw=prompt(act==="deposit"?"Nominal setor (Rp):":"Nominal ambil (Rp):","");if(raw===null)return;
+      var amount=parseInt(String(raw).replace(/\D/g,""),10)||0;if(amount<=0){toast("Nominal harus lebih dari Rp 0");return}
+      if(act==="withdraw"&&amount>g.saved){toast("Saldo tujuan tidak mencukupi");return}
+      var desc=prompt("Deskripsi (opsional):","");if(desc===null)desc="";
+      var date=new Date().toISOString().slice(0,10);
+      g.history=Array.isArray(g.history)?g.history:[];
+      g.history.push({id:uid(),type:act==="deposit"?"setor":"ambil",amount:amount,date:date,desc:desc.trim()});
+      g.saved=Math.max(0,g.saved+(act==="deposit"?amount:-amount));
+      save();renderGoals();toast(act==="deposit"?"Setoran berhasil":"Pengambilan berhasil");return;
+    }
     if(act==="edit"){
       var g=goals.filter(function(x){return x.id===id})[0];if(!g)return;
       editGoal=id;pendingGoal=null;setKind(g.debt?1:g.recv?2:0);
