@@ -2014,16 +2014,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var T=assets.reduce(function(s,a){return s+a.amount},0), N=30, vals=[];
     var txs=items.map(function(t){return {d:t.date,v:aDelta(t)}}).filter(function(x){return x.v});
     for(var i=N-1;i>=0;i--){var day=daysAgo(i),v=T;txs.forEach(function(x){if(x.d>day)v-=x.v});vals.push(Math.max(0,v))}
+    var held=vals[0];
+    vals=vals.map(function(v){var th=Math.max(500000,Math.abs(v)*0.1);if(Math.abs(v-held)>=th)held=v;return held});
     if(!assets.length||hideBal||vals.every(function(v){return v===vals[0]})){el.innerHTML="";return}
     var W=300,H=60,pd=10,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=mx-mn||1;
     var pts=vals.map(function(v,i){return [16+i*(W-32)/(N-1),pd+(1-(v-mn)/rg)*(H-2*pd)]});
     var line=sparkPath(pts), last=pts[pts.length-1], uid2="sp"+Date.now().toString(36);
     el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Grafik total aset 30 hari terakhir">'
-      +'<defs><linearGradient id="'+uid2+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sp)" stop-opacity=".28"/><stop offset="1" stop-color="var(--sp)" stop-opacity="0"/></linearGradient></defs>'
+      +'<defs><linearGradient id="'+uid2+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".34"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="0"/></linearGradient>'
+      +'<linearGradient id="'+uid2+'s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".05"/><stop offset=".55" style="stop-color:var(--sp)" stop-opacity=".85"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="1"/></linearGradient></defs>'
       +'<path class="sp-area" d="'+line+' L'+last[0].toFixed(1)+','+H+' L'+pts[0][0].toFixed(1)+','+H+' Z" fill="url(#'+uid2+')"/>'
-      +'<path class="sp-line" pathLength="1" d="'+line+'"/>'
+      +'<path class="sp-line" pathLength="1" d="'+line+'" stroke="url(#'+uid2+'s)"/>'
       +'<circle class="sp-ring" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.4"/>'
-      +'<circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="2.4"/></svg>';
+      +'<circle class="sp-halo" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="7"/><circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.6"/></svg>';
   }
   function renderAssets(){
     var tot=assets.reduce(function(s,a){return s+a.amount},0);
@@ -3511,12 +3514,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .sx-auto{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.92rem}
 .sx-auto small{display:block;color:var(--muted);font-size:.76rem;margin-top:2px}
 .sx-auto b{white-space:nowrap}
-.aspark{--sp:#2f7a55;--sp-g:rgba(47,122,85,.3);margin:14px 14px 0;height:56px}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .aspark{--sp:#8be3b2;--sp-g:rgba(139,227,178,.5)}}
-:root[data-theme="dark"] .aspark{--sp:#8be3b2;--sp-g:rgba(139,227,178,.5)}
+.aspark{--sp:#7cf55c;--sp-g:rgba(124,245,92,.6);margin:14px 14px 0;height:56px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .aspark{--sp:#7cf55c;--sp-g:rgba(124,245,92,.6)}}
+:root[data-theme="dark"] .aspark{--sp:#7cf55c;--sp-g:rgba(124,245,92,.6)}
 .aspark svg{width:100%;height:100%;display:block;overflow:visible}
-.aspark .sp-line{stroke-width:1.8}
-.sp-line{fill:none;stroke:var(--sp);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:spDraw 1.4s cubic-bezier(.22,.8,.3,1) forwards;filter:drop-shadow(0 0 4px var(--sp-g));vector-effect:non-scaling-stroke}
+.aspark .sp-line{stroke-width:2.6}
+.sp-line{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:spDraw 1.4s cubic-bezier(.22,.8,.3,1) forwards;filter:drop-shadow(0 0 6px var(--sp-g));vector-effect:non-scaling-stroke}
+.sp-halo{fill:var(--sp);opacity:.22;filter:blur(4px)}
 @keyframes spDraw{to{stroke-dashoffset:0}}
 .sp-area{opacity:0;animation:spFade .8s .6s forwards}
 @keyframes spFade{to{opacity:1}}
