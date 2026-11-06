@@ -1108,13 +1108,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="setrow"><span>Status</span><b id="setSt">-</b></div>
     <div class="row"><button type="button" class="small" id="btnTour">Ulangi panduan</button><button type="button" class="small" id="btnWelcome">Keluar</button></div>
   </section>
-  <section class="card acc collapsed" data-t="set" id="bkCard" data-grp="set">
-    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="bkCard" data-acc="bkCard"><i data-ic="download"></i>Cadangan data<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
-    <div class="row" style="margin-top:0"><button type="button" class="small primary" id="btnExport"><i data-ic="download"></i>Ekspor cadangan</button><button type="button" class="small" id="btnImport"><i data-ic="upload"></i>Impor cadangan</button></div>
-    <input type="file" id="imFile" accept=".json,application/json" hidden>
-    <div class="err" id="bkErr" role="alert"></div>
-    <div class="rs-status okmsg" id="bkOk" role="status"></div>
-  </section>
   <p class="note" id="storeNote" data-t="set" hidden></p>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   <nav class="nav" aria-label="Menu utama">
@@ -1209,25 +1202,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="err" id="sbErr" role="alert"></div>
     <div class="row"><button type="button" class="primary" id="btnSubSave">Tambah sub-item</button><button type="button" id="btnSubCancel">Batal</button></div>
   </section>
-  <div class="tov" id="imOv" hidden></div>
-  <section class="msheet" id="imSheet" role="dialog" aria-modal="true" aria-labelledby="imTitle" hidden>
-    <h2 id="imTitle"><i data-ic="upload"></i>Impor cadangan</h2>
-    <div id="imInfo"></div>
-    <p class="pm-note"><b>Gabungkan</b> menambah data yang belum ada (dicocokkan lewat ID) dan tidak mengubah data yang sudah ada. <b>Ganti semua</b> menghapus data sekarang lalu memakai isi file. Disarankan ekspor cadangan dulu sebelum mengganti.</p>
-    <div class="err" id="imErr" role="alert"></div>
-    <div class="wbtns" style="margin-top:14px">
-      <button type="button" class="primary" id="imMerge">Gabungkan dengan data sekarang</button>
-      <button type="button" class="small danger" id="imReplace">Ganti semua data dengan cadangan</button>
-      <button type="button" class="small" id="imCancel">Batal</button>
-    </div>
-  </section>
   <div class="tov" id="rsOv" hidden></div>
   <section class="msheet" id="rsSheet" role="alertdialog" aria-modal="true" aria-labelledby="rsTitle" aria-describedby="rsDesc" hidden>
     <h2 id="rsTitle"><i data-ic="trash"></i>Reset semua data</h2>
     <div id="rsDesc">
       <p class="rs-p">Yang akan dihapus:</p>
       <ul class="rs-ul"><li>Semua transaksi (riwayat)</li><li>Gaji tiap bulan</li><li>Semua aset</li><li>Semua tujuan beserta sub-item</li><li>Batas harian</li><li>Pengaturan sembunyikan saldo</li></ul>
-      <p class="rs-warn">Data tidak bisa dikembalikan. Buat cadangan dulu di Pengaturan, Cadangan data.</p>
+      <p class="rs-warn">Data tidak bisa dikembalikan.</p>
     </div>
     <label class="rs-chk"><input type="checkbox" id="rsProfil">Hapus juga nama dan foto profil</label>
     <label for="rsType">Ketik RESET untuk melanjutkan</label>
@@ -1309,7 +1290,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "menghapus data sekarang lalu memakai isi file. Disarankan ekspor cadangan dulu sebelum mengganti.":"deletes your current data and uses the file contents. We recommend exporting a backup before replacing.",
 "Gabungkan dengan data sekarang":"Merge with current data","Ganti semua data dengan cadangan":"Replace all data with the backup",
 "Yang akan dihapus:":"This will be deleted:","Semua transaksi (riwayat)":"All transactions (history)","Gaji tiap bulan":"Monthly salaries","Semua aset":"All assets","Semua tujuan beserta sub-item":"All goals and their sub-items","Batas harian":"Daily limit","Pengaturan sembunyikan saldo":"Hide balance setting",
-"Data tidak bisa dikembalikan. Buat cadangan dulu di Pengaturan, Cadangan data.":"This data cannot be recovered. Make a backup first in Settings, Data backup.",
+"Data tidak bisa dikembalikan.":"This data cannot be recovered.",
 "Hapus juga nama dan foto profil":"Also delete profile name and photo","Ketik RESET untuk melanjutkan":"Type RESET to continue","Reset sekarang":"Reset now",
 "Pilih dari galeri":"Choose from gallery","Ambil foto":"Take photo","Hapus foto":"Remove photo",
 "Masuk atau daftar":"Sign in or sign up","Tampilkan password":"Show password","Sembunyikan password":"Hide password",
@@ -1540,7 +1521,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var APP_CONFIG={SUPABASE_URL:"https://btaxdqvnfvzvycvkfneb.supabase.co",SUPABASE_PUBLISHABLE_KEY:"sb_publishable_YIwNh0aEZxPFhxRvkJeiZA_XMFPPxee"};
   var items=[], editId=null, pendingDel=null, storageOK=true, salaries={}, extras={}, assets=[], editAsset=null, pendingAsset=null, viewYM="", pendingM=null, extraMonths=[], goals=[], editGoal=null, pendingGoal=null, hideBal=false, mode=null, lastJson={}, syncTimer=null, syncing=false, loaded=false, theUid=null, theDb=null, theName="", noLocal=false, dailyLimit=0, wkSel=null, wkTimer=null;
   var $=function(id){return document.getElementById(id)};
-  var imPending=null, imConfirm=false, openCard=null;
+  var openCard=null;
   function setOpen(key){
     openCard=openCard===key?null:key;
     document.querySelectorAll("[data-ck]").forEach(function(el){var on=el.getAttribute("data-ck")===openCard;el.classList.toggle("open",on);el.setAttribute("aria-expanded",on?"true":"false")});
@@ -2313,9 +2294,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function wipeMemory(){
     clearTimeout(syncTimer);
-    closePm();closePh();closeRs();closeIm();closeTx();closeSheet();
+    closePm();closePh();closeRs();closeTx();closeSheet();
     items=[];salaries={};extras={};assets=[];goals=[];hideBal=false;dailyLimit=0;profil=cleanProfil(null);userCats=DEF_CATS.slice();rebuildCats();
-    recMode=false;recPending(false);imPending=null;
+    recMode=false;recPending(false);
     lastJson={};loaded=false;mode=null;theUid=null;theName="";extraMonths=[];viewYM=curYM;pendingM=null;
     openG={};wkSel=null;pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;
     try{resetForm();resetAsset();resetGoal();resetSub()}catch(e){}
@@ -2679,7 +2660,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     clearTimeout(wkTimer);if(wkSel)wkTimer=setTimeout(function(){wkSel=null;renderWeek()},4000);
     renderWeek();
   });
-  var FIT_IDS=["ctSheet","txSheet","rsSheet","imSheet","phSheet","salaryPanel","asSheet","gsSheet","sbSheet"];
+  var FIT_IDS=["ctSheet","txSheet","rsSheet","phSheet","salaryPanel","asSheet","gsSheet","sbSheet"];
   function fitSheets(){
     var vv=window.visualViewport;
     FIT_IDS.forEach(function(id){
@@ -3002,7 +2983,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     paintLang();
   });
   paintLang();
-  var PANELS=["ctSheet","imSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet"], FB={imSheet:"btnImport",rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",ctSheet:"btnCatSet",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd"}, opener={};
+  var PANELS=["ctSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet"], FB={rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",ctSheet:"btnCatSet",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd"}, opener={};
   PANELS.forEach(function(id){$(id).setAttribute("tabindex","-1")});
   function topPanel(){for(var i=0;i<PANELS.length;i++){var p=$(PANELS[i]);if(p&&!p.hidden)return p}return null}
   function focusables(p){
@@ -3108,8 +3089,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var cur=$("fCat").value;afterCatChange(CATS.indexOf(cur)>=0?cur:CATS[0]);
   });
 
-  /* ===== cadangan data: ekspor dan impor ===== */
-  var BK_APP="pencatatan-pengeluaran", BK_VER=2;
   function isObj(o){return !!o&&typeof o==="object"&&!Array.isArray(o)}
   function cStr(x,n){return typeof x==="string"?x.trim().slice(0,n):""}
   function cId(x){return typeof x==="string"&&/^[A-Za-z0-9_-]{1,40}$/.test(x)?x:""}
@@ -3160,107 +3139,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(isObj(o))Object.keys(o).forEach(function(k){var v=cAmt(o[k]);if(/^\d{4}-(0[1-9]|1[0-2])$/.test(k)&&v>0)out[k]=v});
     return out;
   }
-  function parseBackup(text){
-    var j;
-    try{j=JSON.parse(text)}catch(e){return {err:"File bukan JSON yang valid."}}
-    if(!isObj(j)||j.app!==BK_APP||!isObj(j.data))return {err:"Ini bukan file cadangan dari aplikasi ini."};
-    if(typeof j.version!=="number"||j.version>BK_VER)return {err:"File cadangan dibuat oleh versi aplikasi yang lebih baru. Perbarui aplikasi dulu."};
-    var d=j.data, raw=0, ok=0;
-    function cnt(a){return Array.isArray(a)?a.length:0}
-    var b={
-      items:cleanList(d.items,cleanTx,100000),
-      assets:cleanList(d.assets,cleanAsset,500),
-      goals:cleanList(d.goals,cleanGoal,500),
-      salaries:cleanSal(d.salaries),
-      extras:cleanXtr(d.extras),
-      dailyLimit:Math.max(0,cAmt(d.dailyLimit)),
-      profil:cleanProfil(d.profil),
-      cats:Array.isArray(d.cats)?cleanCats(d.cats):null
-    };
-    raw=cnt(d.items)+cnt(d.assets)+cnt(d.goals);
-    ok=b.items.length+b.assets.length+b.goals.length;
-    return {data:b,skipped:raw-ok,exportedAt:typeof j.exportedAt==="string"?j.exportedAt:""};
-  }
-  function bkCounts(b){
-    return b.items.length+" transaksi, "+b.assets.length+" aset, "+b.goals.length+" tujuan, "+Object.keys(b.salaries).length+" bulan gaji";
-  }
-  function doExport(){
-    $("bkErr").textContent="";$("bkOk").textContent="";
-    try{
-      var bk={app:BK_APP,version:BK_VER,exportedAt:new Date().toISOString(),data:{items:items,salaries:salaries,extras:extras,assets:assets,goals:goals,dailyLimit:dailyLimit,profil:profil,cats:userCats}};
-      var blob=new Blob([JSON.stringify(bk,null,2)],{type:"application/json"});
-      var url=URL.createObjectURL(blob), a=document.createElement("a");
-      a.href=url;a.download="cadangan-pengeluaran-"+ymd(new Date())+".json";
-      document.body.appendChild(a);a.click();a.remove();
-      setTimeout(function(){URL.revokeObjectURL(url)},5000);
-      $("bkOk").textContent="Cadangan diunduh: "+bkCounts({items:items,assets:assets,goals:goals,salaries:salaries})+".";
-    }catch(e){$("bkErr").textContent="Gagal membuat cadangan. Coba lagi."}
-  }
-  function openIm(){
-    var p=imPending, d=p.parsed.data, when="";
-    if(p.parsed.exportedAt){var dt=new Date(p.parsed.exportedAt);if(!isNaN(dt.getTime()))when=dt.toLocaleString(I18N.loc(),{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}
-    $("imInfo").innerHTML='<div class="im-sum"><b>'+esc(p.name)+'</b>'+(when?'<br>Dibuat: '+esc(when):'')+'</div><ul class="rs-ul"><li>'+d.items.length+' transaksi</li><li>'+d.assets.length+' aset, '+d.goals.length+' tujuan</li><li>'+Object.keys(d.salaries).length+' bulan gaji</li></ul>'+(p.parsed.skipped>0?'<p class="rs-warn">'+p.parsed.skipped+' data tidak valid dilewati.</p>':'');
-    imConfirm=false;$("imReplace").textContent="Ganti semua data dengan cadangan";$("imReplace").classList.remove("confirm");$("imErr").textContent="";
-    $("imSheet").hidden=false;$("imOv").hidden=false;
-    document.documentElement.classList.add("lock");
-  }
-  function closeIm(){
-    imPending=null;
-    if($("imSheet").hidden)return;
-    $("imSheet").hidden=true;$("imOv").hidden=true;
-    document.documentElement.classList.remove("lock");
-  }
-  function mergeById(cur,add){
-    var ids=Object.create(null);cur.forEach(function(x){ids[x.id]=1});
-    return cur.concat(add.filter(function(x){return !ids[x.id]}));
-  }
-  function doImport(how){
-    var b=imPending&&imPending.parsed.data;if(!b)return;
-    var keepPhoto=profil.foto, keepName=profil.nama;
-    if(how==="replace"){
-      items=b.items;assets=b.assets;goals=b.goals;salaries=b.salaries;extras=b.extras;dailyLimit=b.dailyLimit;
-      if(b.cats){userCats=b.cats;rebuildCats()}
-      profil={nama:b.profil.nama||keepName,foto:b.profil.foto||keepPhoto};
-    }else{
-      items=mergeById(items,b.items);assets=mergeById(assets,b.assets);goals=mergeById(goals,b.goals);
-      Object.keys(b.salaries).forEach(function(k){if(!(k in salaries))salaries[k]=b.salaries[k]});
-      Object.keys(b.extras).forEach(function(k){if(!(k in extras))extras[k]=b.extras[k]});
-      if(!dailyLimit)dailyLimit=b.dailyLimit;
-      if(b.cats){b.cats.forEach(function(c){if(!userCats.some(function(u){return u.toLowerCase()===c.toLowerCase()}))userCats.push(c)});rebuildCats()}
-      profil={nama:keepName||b.profil.nama,foto:keepPhoto||b.profil.foto};
-    }
-    goals.forEach(function(g){if(!Array.isArray(g.subs))g.subs=[]});
-    pendingDel=null;pendingAsset=null;pendingGoal=null;pendingSub=null;openG={};
-    var msg=(how==="replace"?"Data diganti dengan cadangan: ":"Cadangan digabungkan: ")+bkCounts(b)+".";
-    closeIm();
-    save();render();renderProfile();
-    $("bkErr").textContent="";$("bkOk").textContent=msg;
-  }
-  $("btnExport").addEventListener("click",doExport);
-  $("btnImport").addEventListener("click",function(){$("bkErr").textContent="";$("bkOk").textContent="";$("imFile").value="";$("imFile").click()});
-  $("imFile").addEventListener("change",function(){
-    var f=this.files&&this.files[0];if(!f)return;
-    $("bkErr").textContent="";$("bkOk").textContent="";
-    if(f.size>20*1024*1024){$("bkErr").textContent="File terlalu besar (maksimal 20 MB).";return}
-    var rd=new FileReader();
-    rd.onerror=function(){$("bkErr").textContent="File tidak bisa dibaca."};
-    rd.onload=function(){
-      var p=parseBackup(String(rd.result||""));
-      if(p.err){$("bkErr").textContent=p.err;return}
-      imPending={parsed:p,name:f.name};openIm();
-    };
-    rd.readAsText(f);
-  });
-  $("imOv").addEventListener("click",closeIm);
-  $("imCancel").addEventListener("click",closeIm);
-  $("imMerge").addEventListener("click",function(){doImport("merge")});
-  $("imReplace").addEventListener("click",function(){
-    if(!imPending)return;
-    if(!imConfirm){imConfirm=true;this.textContent="Yakin? Data sekarang akan diganti";this.classList.add("confirm");return}
-    doImport("replace");
-  });
-  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("imSheet").hidden)closeIm()});
-
   var rsBusy=false, rsY=0;
   function openRs(){
     closePm();
@@ -3448,7 +3326,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     {tab:"aset",el:"#goalPanel .acch",t:["Kelola tujuan","Manage goals"],d:["Ketuk untuk membuka. Setiap tujuan punya target, jumlah terkumpul, dan sub-item kebutuhan lengkap dengan link.","Tap to open. Each goal has a target, an amount saved, and sub-items for what you need, with links."]},
     {tab:"set",el:"#skinCard .acch",t:["Tema","Theme"],d:["Pilih Original atau Midnight Electric. Keduanya punya versi terang dan gelap.","Pick Original or Midnight Electric. Both have a light and a dark version."]},
     {tab:"set",el:"#langCard .acch",t:["Bahasa","Language"],d:["Ganti bahasa aplikasi antara Indonesia dan Inggris.","Switch the app between Indonesian and English."]},
-    {tab:"set",el:"#bkCard .acch",t:["Cadangan data","Data backup"],d:["Ekspor semua data ke file dan impor kembali kapan saja. Disarankan sebelum ganti perangkat.","Export all your data to a file and import it back any time. Recommended before switching devices."]},
     {tab:"home",t:["Selesai!","All done!"],d:["Anda siap mulai mencatat. Panduan ini bisa diulang kapan saja lewat Pengaturan, tombol Ulangi panduan.","You're ready to start. You can replay this guide any time from Settings, using the replay button."]}
   ];
   var TL={skip:["Lewati","Skip"],back:["Kembali","Back"],next:["Lanjut","Next"],done:["Selesai","Finish"],start:["Mulai","Start"],step:["Langkah","Step"],of:["dari","of"]};
