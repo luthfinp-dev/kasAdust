@@ -148,6 +148,7 @@ i[data-ic]{display:inline-flex;color:var(--sage-d)}
 .wlogo{display:inline-flex;width:56px;height:56px;align-items:center;justify-content:center;border-radius:50%;background:var(--chip);border:1px solid var(--glass-b)}
 .wlogo .ic{width:26px;height:26px}
 .wp{color:var(--muted);margin:0 0 18px}
+.pwhint{margin:6px 2px 0;font-size:.78rem;line-height:1.4;color:var(--muted)}
 .wmsg{font-weight:600;margin-bottom:16px;line-height:1.45}
 .gcard{max-width:560px}
 .gopts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
@@ -901,7 +902,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <input id="auEmail" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false">
       <label for="auPass">Password</label>
       <div class="pw"><input id="auPass" type="password" autocomplete="current-password"><button type="button" class="small" id="auPassToggle" aria-label="Tampilkan password">Lihat</button></div>
-      <div id="auPass2Box" hidden><label for="auPass2">Ulangi password</label><input id="auPass2" type="password" autocomplete="new-password"></div>
+      <div id="auPass2Box" hidden><div class="pwhint">Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.</div><label for="auPass2">Ulangi password</label><input id="auPass2" type="password" autocomplete="new-password"></div>
       <label class="rs-chk" style="margin-top:12px"><input type="checkbox" id="auRemember" checked>Tetap masuk di perangkat ini</label>
       <div class="err" id="auErr" role="alert"></div>
       <button type="submit" class="primary" id="auSubmit">Masuk</button>
@@ -925,6 +926,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <form id="rcForm" novalidate>
       <label for="rcPass">Password baru</label>
       <div class="pw"><input id="rcPass" type="password" autocomplete="new-password"><button type="button" class="small" id="rcToggle" aria-label="Tampilkan password">Lihat</button></div>
+      <div class="pwhint">Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.</div>
       <label for="rcPass2">Ulangi password baru</label>
       <input id="rcPass2" type="password" autocomplete="new-password">
       <div class="err" id="rcErr" role="alert"></div>
@@ -1353,6 +1355,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Isi nama kategori.":"Enter the category name.","Kategori dihapus":"Category deleted","Kategori ditambahkan":"Category added","Kategori itu sudah ada.":"That category already exists.",
 "Maksimal 40 kategori.":"Maximum 40 categories.","Minimal harus ada satu kategori.":"At least one category is required.","Belum dipakai":"Not used yet"
   };
+  Object.assign(EN,{"Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.":"At least 8 characters, with uppercase letters, lowercase letters, and numbers.","Password harus berisi huruf besar, huruf kecil, dan angka.":"The password must include uppercase letters, lowercase letters, and numbers.","Password terlalu lemah. Pakai minimal 8 karakter dengan huruf besar, huruf kecil, dan angka.":"The password is too weak. Use at least 8 characters with uppercase letters, lowercase letters, and numbers."});
   var LV={"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high"};
   function tt(x){return Object.prototype.hasOwnProperty.call(EN,x)?EN[x]:x}
   function pl(n,one,many){return n+(String(n)==="1"?one:many)}
@@ -2324,11 +2327,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     showPane("cfg");$("wBtns").innerHTML="";$("wMsg").textContent="Hubungkan ke Supabase.";
     $("cErr").textContent="";var c=getCfg();$("cUrl").value=c?c.url:"";$("cKey").value="";
   }
+  function pwErr(p){
+    if(p.length<8)return "Password minimal 8 karakter.";
+    if(!/[a-z]/.test(p)||!/[A-Z]/.test(p)||!/\d/.test(p))return "Password harus berisi huruf besar, huruf kecil, dan angka.";
+    return "";
+  }
   function authMsg(e){
     var c=(e&&(e.code||e.error_code))||"", m=String((e&&e.message)||"");
     if(c==="invalid_credentials"||/Invalid login credentials/i.test(m))return "Email atau password salah.";
     if(c==="user_already_exists"||/already registered/i.test(m))return "Email sudah terdaftar. Silakan masuk.";
-    if(c==="weak_password")return "Password terlalu lemah. Pakai minimal 8 karakter.";
+    if(c==="weak_password")return "Password terlalu lemah. Pakai minimal 8 karakter dengan huruf besar, huruf kecil, dan angka.";
     if(c==="email_not_confirmed")return "Email belum dikonfirmasi. Cek kotak masuk Anda.";
     if(c==="signup_disabled")return "Pendaftaran sedang dinonaktifkan.";
     if(c==="same_password"||/different from the old password/i.test(m))return "Password baru harus berbeda dari password lama.";
@@ -2444,7 +2452,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var em=$("auEmail").value.trim(), pw=$("auPass").value, reg=authMode==="reg";
     if(!EMAIL_RE.test(em)){$("auErr").textContent="Isi alamat email yang valid.";$("auEmail").focus();return}
     if(!pw){$("auErr").textContent="Isi password.";$("auPass").focus();return}
-    if(reg&&pw.length<8){$("auErr").textContent="Password minimal 8 karakter.";$("auPass").focus();return}
+    if(reg&&pwErr(pw)){$("auErr").textContent=pwErr(pw);$("auPass").focus();return}
     if(reg&&pw!==$("auPass2").value){$("auErr").textContent="Ulangi password dengan benar.";$("auPass2").focus();return}
     remember=$("auRemember").checked;
     try{localStorage.setItem("remember-me-v1",remember?"1":"0")}catch(x){}
@@ -2563,7 +2571,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     e.preventDefault();
     if(rcBusy)return;
     var p1=$("rcPass").value, p2=$("rcPass2").value;
-    if(p1.length<8){$("rcErr").textContent="Password minimal 8 karakter.";$("rcPass").focus();return}
+    if(pwErr(p1)){$("rcErr").textContent=pwErr(p1);$("rcPass").focus();return}
     if(p1!==p2){$("rcErr").textContent="Ulangi password dengan benar.";$("rcPass2").focus();return}
     rcBusy=true;$("rcSubmit").disabled=true;$("rcErr").textContent="";
     try{
