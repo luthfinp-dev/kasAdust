@@ -1294,7 +1294,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1626,7 +1626,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var cur=items.filter(function(t){return t.date.slice(0,7)===ym});
     var sp=cur.filter(function(t){return !nonSpend(t)});
     var tot=sp.reduce(function(s,t){return s+t.amount},0);
-    var sv=cur.reduce(function(s,t){return s+((isSave(t.category)||(t.category===GOALC&&nonSpend(t)&&gKindOf(gOf(t.tujuanId))===0&&t.asetId==="dompet"))?(t.tarik?0:t.amount):0)},0);
+    var sv=cur.reduce(function(s,t){return s+((isSave(t.category)||(t.category===GOALC&&t.setor&&nonSpend(t)&&gKindOf(gOf(t.tujuanId))===0&&t.asetId&&t.asetId!=="dompet"))?(t.tarik?0:t.amount):0)},0);
     var ext=sp.reduce(function(s,t){return s+((t.category===GOALC&&t.asetId&&t.asetId!=="dompet")?t.amount:0)},0);
     var sal=salTot(ym);
     return {sal:sal,tot:tot,saved:sv,ext:ext,left:sal>0?sal-tot-sv+ext:0};
@@ -2076,7 +2076,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function aDelta(t){
     var c=t.category, a=t.amount;
     if(c===SAVE||c===ASET||c===WD)return 0;
-    if(c===GOALC){var g=gOf(t.tujuanId);if(g&&g.debt)return -a;if(t.setor||t.pakai)return -a;return a}
+    if(c===GOALC){var g=gOf(t.tujuanId);if(g&&g.debt)return -a;if(t.pakai)return -a;if(t.setor)return 0;return a}
     return 0;
   }
   function sparkPath(p){
@@ -2703,7 +2703,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     }
     if(t&&t.category===GOALC){var gg=gOf(t.tujuanId),aa=assets.filter(function(x){return x.id===t.asetId})[0];var isNon=!!gg&&!gg.debt&&!gg.recv;
     if(isNon&&t.pakai){if(aa)aa.amount=Math.max(0,aa.amount-sign*t.amount);return}
-    if(isNon&&(t.setor||t.tarik)){var ds=(t.setor?1:-1)*sign*t.amount;gg.saved=Math.max(0,gg.saved+ds);if(aa)aa.amount=Math.max(0,aa.amount-ds);return}
+    if(isNon&&t.setor){gg.saved=Math.max(0,gg.saved+sign*t.amount);if(aa)aa.amount=Math.max(0,aa.amount+sign*t.amount);return}
+    if(isNon&&t.tarik){gg.saved=Math.max(0,gg.saved-sign*t.amount);if(aa)aa.amount=Math.max(0,aa.amount+sign*t.amount);return}
     if(gg)gg.saved=Math.max(0,gg.saved+sign*t.amount);if(aa)aa.amount=Math.max(0,aa.amount+(gg&&gg.debt?-1:1)*sign*t.amount);return}
     if(!t||!isSave(t.category))return;
     var a=assets.filter(function(x){return x.id===t.asetId})[0];
@@ -2778,9 +2779,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     fillSelect($("fGoal2"),[[""+"",gl.length?"Pilih tujuan":"Belum ada tujuan jenis ini"]].concat(gl.map(function(g){return [g.id,g.name]})),cg||"");
     var pk=fgk===0&&fdir==="t", opt=fgk===1||pk;
     fillSelect($("fAset2"),[["",opt?"Tanpa aset":(assets.length?"Pilih aset":"Belum ada aset")]].concat(assets.map(function(a){return [a.id,a.name]})),ca||(opt?"":"dompet"));
-    $("fAset2L").textContent=opt?"Dibayar dari aset (opsional)":fgk===2?"Masuk ke aset":"Dari aset";
+    $("fAset2L").textContent=opt?"Dibayar dari aset (opsional)":"Masuk ke aset";
     $("gDirBox").hidden=fgk!==0;var dbs=$("fDir").querySelectorAll("button");for(var j=0;j<dbs.length;j++)dbs[j].setAttribute("aria-pressed",String((dbs[j].getAttribute("data-d")==="t")===(fdir==="t")));
-    $("goalNote").textContent=fgk===1?"Dihitung sebagai pengeluaran, mengurangi sisa hutang dan aset yang dipilih.":fgk===2?"Piutang yang diterima masuk ke aset yang dipilih. Kalau masuk Dompet, otomatis jadi gaji tambahan bulan ini, dan mengurangi sisa piutang.":(fdir==="t"?"Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Setor: uang keluar dari aset atau dompet yang dipilih dan masuk ke tujuan. Dihitung sebagai tabungan, bukan pengeluaran.");
+    $("goalNote").textContent=fgk===1?"Dihitung sebagai pengeluaran, mengurangi sisa hutang dan aset yang dipilih.":fgk===2?"Piutang yang diterima masuk ke aset yang dipilih. Kalau masuk Dompet, otomatis jadi gaji tambahan bulan ini, dan mengurangi sisa piutang.":(fdir==="t"?"Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.");
     $("goalHint").textContent=gl.length?"":"Tambahkan dulu tujuan jenis ini di tab Aset > Kelola tujuan.";
   }
   $("fDir").addEventListener("click",function(e){var b=e.target.closest("button");if(b){fdir=b.getAttribute("data-d");toggleGoalBox("","")}});
