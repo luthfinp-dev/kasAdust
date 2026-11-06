@@ -2015,15 +2015,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var txs=items.map(function(t){return {d:t.date,v:aDelta(t)}}).filter(function(x){return x.v});
     for(var i=N-1;i>=0;i--){var day=daysAgo(i),v=T;txs.forEach(function(x){if(x.d>day)v-=x.v});vals.push(Math.max(0,v))}
     if(!assets.length||hideBal||vals.every(function(v){return v===vals[0]})){el.innerHTML="";return}
-    var W=300,H=70,pd=8,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=mx-mn||1;
-    var pts=vals.map(function(v,i){return [i*W/(N-1),pd+(1-(v-mn)/rg)*(H-2*pd)]});
+    var W=300,H=60,pd=10,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=mx-mn||1;
+    var pts=vals.map(function(v,i){return [16+i*(W-32)/(N-1),pd+(1-(v-mn)/rg)*(H-2*pd)]});
     var line=sparkPath(pts), last=pts[pts.length-1], uid2="sp"+Date.now().toString(36);
     el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Grafik total aset 30 hari terakhir">'
       +'<defs><linearGradient id="'+uid2+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sp)" stop-opacity=".28"/><stop offset="1" stop-color="var(--sp)" stop-opacity="0"/></linearGradient></defs>'
-      +'<path class="sp-area" d="'+line+' L'+W+','+H+' L0,'+H+' Z" fill="url(#'+uid2+')"/>'
+      +'<path class="sp-area" d="'+line+' L'+last[0].toFixed(1)+','+H+' L'+pts[0][0].toFixed(1)+','+H+' Z" fill="url(#'+uid2+')"/>'
       +'<path class="sp-line" pathLength="1" d="'+line+'"/>'
-      +'<circle class="sp-ring" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="4"/>'
-      +'<circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.2"/></svg>';
+      +'<circle class="sp-ring" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.4"/>'
+      +'<circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="2.4"/></svg>';
   }
   function renderAssets(){
     var tot=assets.reduce(function(s,a){return s+a.amount},0);
@@ -3511,17 +3511,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .sx-auto{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.92rem}
 .sx-auto small{display:block;color:var(--muted);font-size:.76rem;margin-top:2px}
 .sx-auto b{white-space:nowrap}
-.aspark{--sp:#2f7a55;--sp-g:rgba(47,122,85,.35);margin:10px -6px 0;height:70px}
+.aspark{--sp:#2f7a55;--sp-g:rgba(47,122,85,.3);margin:14px 14px 0;height:56px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .aspark{--sp:#8be3b2;--sp-g:rgba(139,227,178,.5)}}
 :root[data-theme="dark"] .aspark{--sp:#8be3b2;--sp-g:rgba(139,227,178,.5)}
 .aspark svg{width:100%;height:100%;display:block;overflow:visible}
+.aspark .sp-line{stroke-width:1.8}
 .sp-line{fill:none;stroke:var(--sp);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:spDraw 1.4s cubic-bezier(.22,.8,.3,1) forwards;filter:drop-shadow(0 0 4px var(--sp-g));vector-effect:non-scaling-stroke}
 @keyframes spDraw{to{stroke-dashoffset:0}}
 .sp-area{opacity:0;animation:spFade .8s .6s forwards}
 @keyframes spFade{to{opacity:1}}
-.sp-dot{fill:var(--sp);filter:drop-shadow(0 0 5px var(--sp));opacity:0;animation:spIn .3s 1.35s forwards}
+.sp-dot{fill:var(--sp);filter:drop-shadow(0 0 3px var(--sp-g));opacity:0;animation:spIn .3s 1.35s forwards}
 .sp-ring{fill:none;stroke:var(--sp);stroke-width:1.2;transform-box:fill-box;transform-origin:center;opacity:0;animation:spPulse 2.2s 1.4s ease-out infinite}
-@keyframes spPulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(4.2);opacity:0}}
+@keyframes spPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.6);opacity:0}}
 @keyframes spIn{to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.sp-line,.sp-area,.sp-dot{animation:none;opacity:1;stroke-dashoffset:0}.sp-ring{animation:none;opacity:0}}
 
