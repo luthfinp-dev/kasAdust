@@ -987,7 +987,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 
   <section class="grid3" data-t="home" aria-label="Ringkasan bulan ini">
     <div class="stat">
-      <div class="l"><i data-ic="wallet"></i><span id="lLbl">Sisa uang bulan ini</span><button type="button" class="eye" data-eye></button></div><div class="v" id="lVal">Belum diisi</div>
+      <div class="l"><i data-ic="wallet"></i><span id="lLbl">Dompetku</span><button type="button" class="eye" data-eye></button></div><div class="v" id="lVal">Belum diisi</div>
       <div class="n" id="lSal"></div>
       <div class="bar"><i id="lBar" style="width:0"></i></div>
       <div class="n" id="lUsed"></div>
@@ -1294,7 +1294,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1619,27 +1619,38 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     return Object.keys(m).map(function(k){return [k,m[k]]}).sort(function(a,b){return b[1]-a[1]});
   }
 
-  function ensureDompet(){if(!assets.some(function(a){return a.id==="dompet"}))assets.unshift({id:"dompet",name:"Dompet",amount:0})}
+  function ensureDompet(){var w=assets.filter(function(a){return a.id==="dompet"})[0];if(!w)assets.unshift({id:"dompet",name:"Dompetku",amount:0});else w.name="Dompetku"}
+  /* Dompetku = sisa uang bulan berjalan (gaji + tambahan - pengeluaran - tabungan), otomatis jadi aset */
+  function monthLeft(ym){
+    var cur=items.filter(function(t){return t.date.slice(0,7)===ym});
+    var sp=cur.filter(function(t){return !nonSpend(t)});
+    var tot=sp.reduce(function(s,t){return s+t.amount},0);
+    var sv=cur.reduce(function(s,t){return s+((isSave(t.category)||(t.category===GOALC&&nonSpend(t)&&gKindOf(gOf(t.tujuanId))===0&&t.asetId==="dompet"))?(t.tarik?0:t.amount):0)},0);
+    var ext=sp.reduce(function(s,t){return s+((t.category===GOALC&&t.asetId&&t.asetId!=="dompet")?t.amount:0)},0);
+    var sal=salTot(ym);
+    return {sal:sal,tot:tot,saved:sv,ext:ext,left:sal>0?sal-tot-sv+ext:0};
+  }
+  function syncWallet(){ensureDompet();var w=assets.filter(function(a){return a.id==="dompet"})[0];if(w)w.amount=Math.max(0,monthLeft(curYM).left)}
   function render(){
     ensureDompet();
     // dashboard (bulan berjalan)
     var cur=items.filter(function(t){return t.date.slice(0,7)===viewYM});
-    var spendCur=cur.filter(function(t){return !nonSpend(t)}), savedCur=cur.reduce(function(s,t){return s+((isSave(t.category)||(t.category===GOALC&&nonSpend(t)&&gKindOf(gOf(t.tujuanId))===0))?(t.tarik?0:t.amount):0)},0);
-    var tot=spendCur.reduce(function(s,t){return s+t.amount},0);
+    var spendCur=cur.filter(function(t){return !nonSpend(t)}), ml=monthLeft(viewYM), savedCur=ml.saved;
+    var tot=ml.tot;
     var top=sumBy(spendCur)[0];
-    var sal=salTot(viewYM), hasSal=sal>0, left=hasSal?sal-tot-savedCur:0, xsum=xtrSum(viewYM);
+    var sal=ml.sal, hasSal=sal>0, left=ml.left, xsum=xtrSum(viewYM);
     $("lMonth").textContent="("+monthLabel(viewYM)+")";
     $("lVal").textContent=hasSal?(hideBal?"Rp ••••••":rpS(left)):"Belum diisi";
     $("lVal").className="v"+(hasSal&&left<0&&!hideBal?" over":"");
     $("lSal").textContent=hasSal?"Gaji: "+mk(sal)+(xsum?" (termasuk tambahan "+mk(xsum)+")":""):"Klik Atur gaji untuk mengisi";
-    var used=hasSal?Math.round((tot+savedCur)/sal*100):0;
+    var used=hasSal?Math.round((tot-ml.ext+savedCur)/sal*100):0;
     $("lBar").style.width=(hideBal?0:Math.min(100,used))+"%";
     $("lUsed").textContent=hasSal?(left<0&&!hideBal?"Pengeluaran melebihi gaji":(hideBal?"••":used)+"% gaji terpakai"):"";
     $("lUsed").className="n"+(hasSal&&left<0&&!hideBal?" over":"");
     $("mTotal").textContent=rp(tot);
     $("mInfo").textContent=spendCur.length+" transaksi, terbesar: "+(top?top[0]:"belum ada");
     var tl=viewYM===curYM?" bulan ini":"";
-    $("lLbl").textContent="Sisa uang"+tl;$("mLbl").textContent="Total pengeluaran"+tl;
+    $("lLbl").textContent="Dompetku";$("mLbl").textContent="Total pengeluaran"+tl;
     $("ttlText").textContent=monthLabel(viewYM);
     renderGoals();setEyes();renderWeek();
     renderAssets();
@@ -2061,8 +2072,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   /* grafik total aset 30 hari: dihitung mundur dari saldo sekarang lewat riwayat transaksi */
   function aDelta(t){
     var c=t.category, a=t.amount;
-    if(c===SAVE||c===ASET)return a;
-    if(c===WD)return -a;
+    if(c===SAVE||c===ASET||c===WD)return 0;
     if(c===GOALC){var g=gOf(t.tujuanId);if(g&&g.debt)return -a;if(t.setor)return -a;return a}
     return 0;
   }
@@ -2104,6 +2114,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       +'<circle class="sp-halo" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="7"/><circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.6"/></svg>';
   }
   function renderAssets(){
+    syncWallet();
     var tot=assets.reduce(function(s,a){return s+a.amount},0);
     $("aTotal").textContent=mk(tot);
     sparkAset();
@@ -2117,7 +2128,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("aList").innerHTML=assets.length?assets.slice().sort(function(a,b){return b.amount-a.amount}).map(function(a){
       var p=tot?Math.round(a.amount/tot*1000)/10:0;
       var del=a.id==="dompet"?"":pendingAsset===a.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(a.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(a.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="a:"+a.id?" open":"")+'"'+ckAttr("a:"+a.id)+'><div class="top"><span>'+esc(a.name)+" ("+(hideBal?"••":String(p).replace(".",","))+'%)</span><span>'+mk(a.amount)+'</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="wd" data-id="'+esc(a.id)+'">'+ic("download")+'Ambil</button><button class="small" data-a="edit" data-id="'+esc(a.id)+'">'+ic("pen")+'Edit</button>'+del+'</div></div></div></div>';
+      return '<div class="cat xc'+(openCard==="a:"+a.id?" open":"")+'"'+ckAttr("a:"+a.id)+'><div class="top"><span>'+esc(a.name)+" ("+(hideBal?"••":String(p).replace(".",","))+'%)</span><span>'+mk(a.amount)+'</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="xd"><div class="xi"><div class="arow">'+(a.id==="dompet"?'<button class="small" data-a="sal" data-id="dompet">'+ic("pen")+'Tambah gaji</button>':'<button class="small" data-a="wd" data-id="'+esc(a.id)+'">'+ic("download")+'Ambil</button><button class="small" data-a="edit" data-id="'+esc(a.id)+'">'+ic("pen")+'Edit</button>'+del)+'</div></div></div></div>';
     }).join(""):'<div class="empty">Belum ada aset. Tambahkan di bawah.</div>';
   }
   function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popClose("asSheet")}
@@ -2210,7 +2221,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   $("aList").addEventListener("click",function(e){
     var b=e.target.closest("button");if(!b)return;
     var id=b.getAttribute("data-id"), act=b.getAttribute("data-a");
-    if(act==="edit"){
+    if(act==="sal"){
+      if(viewYM!==curYM){viewYM=curYM;pendingM=curYM;render()}
+      openSalary();
+    }else if(act==="edit"){
+      if(id==="dompet"){openSalary();return}
       var a=assets.filter(function(x){return x.id===id})[0];if(!a)return;
       editAsset=id;pendingAsset=null;
       $("aName").value=a.name;$("aAmt").value=nf.format(a.amount);$("aErr").textContent="";
@@ -2734,7 +2749,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("saveBox").hidden=!on;$("fGoalW").hidden=$("fCat").value!==SAVE;
     if(!on)return;
     var ca=aId!==undefined?aId:$("fAset").value, cg=gId!==undefined?gId:$("fGoal").value;
-    fillSelect($("fAset"),[["",assets.length?"Pilih aset":"Belum ada aset"]].concat(assets.map(function(a){return [a.id,a.name]})),ca||"");
+    fillSelect($("fAset"),[["",assets.length?"Pilih aset":"Belum ada aset"]].concat(assets.filter(function(a){return a.id!=="dompet"}).map(function(a){return [a.id,a.name]})),ca||"");
     fillSelect($("fGoal"),[["","Tanpa tujuan"]].concat(goals.filter(function(g){return !g.debt}).map(function(g){return [g.id,g.name]})),cg||"");
     $("saveHint").textContent=assets.length?"":"Tambahkan aset dulu di tab Aset.";
   }
@@ -2743,7 +2758,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("wdBox").hidden=!on;
     if(!on)return;
     var ca=aId!==undefined?aId:$("fWdAset").value;
-    fillSelect($("fWdAset"),[["",assets.length?"Pilih aset":"Belum ada aset"]].concat(assets.map(function(a){return [a.id,a.name+" \u00b7 "+rp(a.amount)]})),ca||"");
+    fillSelect($("fWdAset"),[["",assets.length?"Pilih aset":"Belum ada aset"]].concat(assets.filter(function(a){return a.id!=="dompet"}).map(function(a){return [a.id,a.name+" \u00b7 "+rp(a.amount)]})),ca||"");
     $("wdHint").textContent=assets.length?"":"Tambahkan aset dulu di tab Aset.";
   }
   var fgk=0, fdir="s";
@@ -3469,7 +3484,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     {tab:"home",el:"#btnMonth",t:["Ganti bulan","Switch month"],d:["Ketuk nama bulan untuk melihat dan mencatat data bulan lain. Tanggal hari ini ada di bawahnya.","Tap the month name to view and record other months. Today's date is right below it."]},
     {tab:"home",el:"#btnTheme",t:["Terang atau gelap","Light or dark"],d:["Geser saklar untuk mengganti mode. Pilihan tema warna ada di tab Pengaturan.","Flip the switch to change the mode. Color themes are in the Settings tab."]},
     {tab:"home",el:"#btnAvatar",t:["Profil","Profile"],d:["Ubah nama dan foto profil, atau reset data lewat menu ini.","Change your name and photo, or reset your data from this menu."]},
-    {tab:"home",el:".grid3 .stat:nth-child(1)",t:["Sisa uang bulan ini","Money left this month"],d:["Gaji dikurangi pengeluaran dan tabungan. Ikon mata menyembunyikan angka. Tombol Atur gaji untuk mengisi gaji, termasuk gaji tambahan.","Salary minus spending and savings. The eye icon hides the numbers. Use the salary button to enter your pay, including extra income."]},
+    {tab:"home",el:".grid3 .stat:nth-child(1)",t:["Dompetku","My Balance"],d:["Sisa uang bulan ini: gaji dikurangi pengeluaran dan tabungan. Otomatis muncul sebagai aset Dompetku di tab Aset. Ikon mata menyembunyikan angka. Tombol Atur gaji untuk mengisi gaji, termasuk gaji tambahan.","Your money left this month: salary minus spending and savings. It also shows up automatically as the My Balance asset in the Assets tab. The eye icon hides the numbers. Use the salary button to enter your pay, including extra income."]},
     {tab:"home",el:".grid3 .stat:nth-child(2)",t:["Total pengeluaran","Total spending"],d:["Jumlah pengeluaran bulan ini beserta kategori terbesarnya. Transfer dan tabungan tidak dihitung sebagai pengeluaran.","This month's spending and its biggest category. Transfers and savings are not counted as spending."]},
     {tab:"home",el:".grid3 .stat:nth-child(3)",t:["Aset","Assets"],d:["Total semua aset Anda. Ketuk Kelola aset untuk menambah atau mengubahnya.","The total of all your assets. Tap the manage button to add or edit them."]},
     {tab:"home",el:".grid3 .stat:nth-child(4)",t:["Tujuan","Goals"],d:["Pantau target seperti dana darurat atau liburan beserta persentase yang sudah tercapai.","Track targets such as an emergency fund or a trip, with how far along you are."]},
