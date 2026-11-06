@@ -2011,19 +2011,28 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function sparkAset(){
     var el=$("aSpark");if(!el)return;
-    var T=assets.reduce(function(s,a){return s+a.amount},0), N=30, vals=[];
-    var txs=items.map(function(t){return {d:t.date,v:aDelta(t)}}).filter(function(x){return x.v});
-    for(var i=N-1;i>=0;i--){var day=daysAgo(i),v=T;txs.forEach(function(x){if(x.d>day)v-=x.v});vals.push(Math.max(0,v))}
-    var held=vals[0];
-    vals=vals.map(function(v){var th=Math.max(500000,Math.abs(v)*0.1);if(Math.abs(v-held)>=th)held=v;return held});
-    if(!assets.length||hideBal||vals.every(function(v){return v===vals[0]})){el.innerHTML="";return}
-    var W=300,H=60,pd=10,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=mx-mn||1;
-    var pts=vals.map(function(v,i){return [16+i*(W-32)/(N-1),pd+(1-(v-mn)/rg)*(H-2*pd)]});
-    var line=sparkPath(pts), last=pts[pts.length-1], uid2="sp"+Date.now().toString(36);
+    var T=assets.reduce(function(s,a){return s+a.amount},0), N=30;
+    var from=daysAgo(N-1), today=daysAgo(0), fromT=new Date(from+"T00:00:00").getTime();
+    function ix(d){return Math.round((new Date(d+"T00:00:00").getTime()-fromT)/864e5)}
+    var v0=T-items.filter(function(t){return t.date>from}).reduce(function(s,t){return s+aDelta(t)},0);
+    var evs=items.filter(function(t){return t.date>from&&t.date<=today&&aDelta(t)}).sort(function(x,y){return x.date<y.date?-1:x.date>y.date?1:(x.ts||0)-(y.ts||0)});
+    var pts=[{i:0,v:v0}], run=v0;
+    evs.forEach(function(t){run+=aDelta(t);pts.push({i:Math.min(N-1,Math.max(0,ix(t.date))),v:run})});
+    var kept=[pts[0]];
+    for(var k=1;k<pts.length;k++){var ref=kept[kept.length-1].v, th=Math.max(500000,Math.abs(pts[k].v)*0.1);if(Math.abs(pts[k].v-ref)>=th)kept.push(pts[k])}
+    kept.push({i:N-1,v:T});
+    var vs=kept.map(function(p){return p.v});
+    if(!assets.length||hideBal||vs.every(function(v){return v===vs[0]})){el.innerHTML="";return}
+    var W=300,H=60,pd=10,mn=Math.min.apply(null,vs),mx=Math.max.apply(null,vs);
+    var lo=Math.max(0,mn-(mx-mn)*0.3), hi=mx+(mx-mn)*0.15, rg=hi-lo||1;
+    var pts2=kept.map(function(p){return [16+p.i*(W-32)/(N-1),pd+(1-(p.v-lo)/rg)*(H-2*pd)]});
+    var line="M"+pts2[0][0].toFixed(1)+","+pts2[0][1].toFixed(1);
+    for(var j=1;j<pts2.length;j++)line+=" L"+pts2[j][0].toFixed(1)+","+pts2[j][1].toFixed(1);
+    var last=pts2[pts2.length-1], uid2="sp"+Date.now().toString(36);
     el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Grafik total aset 30 hari terakhir">'
-      +'<defs><linearGradient id="'+uid2+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".34"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="0"/></linearGradient>'
+      +'<defs><linearGradient id="'+uid2+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".16"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="0"/></linearGradient>'
       +'<linearGradient id="'+uid2+'s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".05"/><stop offset=".55" style="stop-color:var(--sp)" stop-opacity=".85"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="1"/></linearGradient></defs>'
-      +'<path class="sp-area" d="'+line+' L'+last[0].toFixed(1)+','+H+' L'+pts[0][0].toFixed(1)+','+H+' Z" fill="url(#'+uid2+')"/>'
+      +'<path class="sp-area" d="'+line+' L'+last[0].toFixed(1)+','+H+' L'+pts2[0][0].toFixed(1)+','+H+' Z" fill="url(#'+uid2+')"/>'
       +'<path class="sp-line" pathLength="1" d="'+line+'" stroke="url(#'+uid2+'s)"/>'
       +'<circle class="sp-ring" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.4"/>'
       +'<circle class="sp-halo" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="7"/><circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.6"/></svg>';
