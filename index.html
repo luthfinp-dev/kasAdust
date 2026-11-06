@@ -1294,7 +1294,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1939,13 +1939,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function goalHistoryHtml(g){
     var h=(Array.isArray(g.history)?g.history:[]).map(function(x){return {type:x.type,amount:x.amount,date:x.date||"",desc:x.desc||"",ts:0}});
-    items.forEach(function(t){if(t.category===GOALC&&t.tujuanId===g.id&&(t.setor||t.tarik||t.pakai)){var a=assets.filter(function(x){return x.id===t.asetId})[0];h.push({type:t.setor?"setor":t.pakai?"pakai":"ambil",amount:t.amount,date:t.date,desc:t.pakai?(t.name+(a?" \u00b7 "+a.name:"")):(a?a.name:""),ts:t.ts||0})}});
+    items.forEach(function(t){var gk=gKindOf(g);
+      if(t.tujuanId!==g.id)return;
+      var a=assets.filter(function(x){return x.id===t.asetId})[0];
+      if(gk===0&&t.category===GOALC&&(t.setor||t.tarik||t.pakai)){h.push({type:t.setor?"setor":t.pakai?"pakai":"ambil",amount:t.amount,date:t.date,desc:t.pakai?(t.name+(a?" \u00b7 "+a.name:"")):(a?a.name:""),ts:t.ts||0})}
+      else if(gk===1&&(t.category===GOALC||t.category===DEBT)){h.push({type:"bayar",amount:t.amount,date:t.date,desc:(t.category===DEBT?t.name:"")+(a?(t.category===DEBT?" \u00b7 ":"")+a.name:""),ts:t.ts||0})}
+      else if(gk===2&&t.category===GOALC){h.push({type:"terima",amount:t.amount,date:t.date,desc:a?a.name:"",ts:t.ts||0})}});
     h.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:a.ts-b.ts});
     var rows=h.slice().reverse().map(function(x){
-      var positive=x.type==="setor";
-      return '<div class="srow"><div class="sinfo"><span>'+esc(positive?"Setor":x.type==="pakai"?"Dipakai":"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div><b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b></div>';
+      var positive=x.type==="setor"||x.type==="terima";
+      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima"}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div><b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b></div>';
     }).join("");
-    return '<div class="subs"><b>Riwayat saldo</b>'+(rows||'<div class="empty sm">Belum ada riwayat setor/dipakai.</div>')+'</div>';
+    return '<div class="subs"><b>Riwayat saldo</b>'+(rows||'<div class="empty sm">'+(gKindOf(g)===1?"Belum ada riwayat pembayaran.":gKindOf(g)===2?"Belum ada riwayat penerimaan.":"Belum ada riwayat setor/dipakai.")+'</div>')+'</div>';
   }
   function subsHtml(g){
     var subs=g.subs||[], sum=subs.reduce(function(s,x){return s+x.price},0);
