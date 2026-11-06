@@ -1242,7 +1242,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <div><label for="paAmt">Nominal (Rp)</label><input id="paAmt" inputmode="numeric" placeholder="0" autocomplete="off"></div>
       <div><label for="paDate">Tanggal</label><input id="paDate" type="date" min="1900-01-01" max="2199-12-31"></div>
       <div class="full"><label for="paNote">Catatan (opsional)</label><input id="paNote" maxlength="80" placeholder="Contoh: Pinjam lagi buat renovasi" autocomplete="off"></div>
-      <div class="full"><label for="paAset">Diambil dari aset (opsional)</label><select id="paAset"></select></div>
+      <div class="full"><label for="paAset" id="paAsetL">Diambil dari aset (opsional)</label><select id="paAset"></select></div>
     </div>
     <div class="err" id="paErr" role="alert"></div>
     <div class="row"><button type="button" class="primary" id="btnPaSave">Tambah</button><button type="button" id="btnPaCancel">Batal</button></div>
@@ -1306,7 +1306,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1640,7 +1640,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var tot=sp.reduce(function(s,t){return s+t.amount},0);
     var sv=cur.reduce(function(s,t){return s+((isSave(t.category)||(t.category===GOALC&&t.setor&&nonSpend(t)&&gKindOf(gOf(t.tujuanId))===0&&t.asetId&&t.asetId!=="dompet"))?(t.tarik?0:t.amount):0)},0);
     var ext=sp.reduce(function(s,t){return s+((t.category===GOALC&&t.asetId&&t.asetId!=="dompet")?t.amount:0)},0);
-    var lend=goals.reduce(function(a,g){return a+(Array.isArray(g.history)?g.history.reduce(function(b,h){return b+((h.type==="tambah"&&h.asetId==="dompet"&&String(h.date).slice(0,7)===ym)?h.amount:0)},0):0)},0);
+    var lend=goals.reduce(function(a,g){return a+(Array.isArray(g.history)?g.history.reduce(function(b,h){return b+((h.type==="tambah"&&h.asetId==="dompet"&&String(h.date).slice(0,7)===ym)?(g.debt?-h.amount:h.amount):0)},0):0)},0);
     var sal=salTot(ym);
     return {sal:sal,tot:tot,saved:sv,ext:ext,lend:lend,left:sal>0?sal-tot-sv+ext-lend:0};
   }
@@ -1657,7 +1657,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("lVal").textContent=hasSal?(hideBal?"Rp ••••••":rpS(left)):"Belum diisi";
     $("lVal").className="v"+(hasSal&&left<0&&!hideBal?" over":"");
     $("lSal").textContent=hasSal?"Gaji: "+mk(sal)+(xsum?" (termasuk tambahan "+mk(xsum)+")":""):"Klik Atur gaji untuk mengisi";
-    var used=hasSal?Math.round((tot-ml.ext+savedCur+ml.lend)/sal*100):0;
+    var used=hasSal?Math.max(0,Math.round((tot-ml.ext+savedCur+ml.lend)/sal*100)):0;
     $("lBar").style.width=(hideBal?0:Math.min(100,used))+"%";
     $("lUsed").textContent=hasSal?(left<0&&!hideBal?"Pengeluaran melebihi gaji":(hideBal?"••":used)+"% gaji terpakai"):"";
     $("lUsed").className="n"+(hasSal&&left<0&&!hideBal?" over":"");
@@ -1921,7 +1921,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k===2?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="Tambah piutang" title="Tambah piutang">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -1961,7 +1961,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     h.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:a.ts-b.ts});
     var rows=h.slice().reverse().map(function(x){
       var positive=x.type==="setor"||x.type==="terima", isAdd=x.type==="tambah";
-      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima",tambah:"Tambah piutang"}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div>'+(isAdd&&x.id?'<div class="sact"><b>+'+mk(x.amount)+'</b>'+(pendingPa===x.id?'<button class="small danger confirm" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button class="small danger icon" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Hapus tambahan piutang">'+ic("trash")+'</button>')+'</div>':'<b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b>')+'</div>';
+      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima",tambah:(g.debt?"Tambah hutang":"Tambah piutang")}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div>'+(isAdd&&x.id?'<div class="sact"><b>+'+mk(x.amount)+'</b>'+(pendingPa===x.id?'<button class="small danger confirm" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button class="small danger icon" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Hapus tambahan piutang">'+ic("trash")+'</button>')+'</div>':'<b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b>')+'</div>';
     }).join("");
     return '<div class="subs"><b>Riwayat saldo</b>'+(rows||'<div class="empty sm">'+(gKindOf(g)===1?"Belum ada riwayat pembayaran.":gKindOf(g)===2?"Belum ada riwayat penerimaan.":"Belum ada riwayat setor/dipakai.")+'</div>')+'</div>';
   }
@@ -1994,7 +1994,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
         pendingPa=null;
         if(g.target-pe.amount<Math.max(1,g.saved)){toast("Total piutang tidak boleh kurang dari yang sudah diterima");renderGoals();return}
         g.target-=pe.amount;
-        if(pe.asetId&&pe.asetId!=="dompet"){var ra=assets.filter(function(x){return x.id===pe.asetId})[0];if(ra)ra.amount+=pe.amount}
+        if(pe.asetId&&pe.asetId!=="dompet"){var ra=assets.filter(function(x){return x.id===pe.asetId})[0];if(ra)ra.amount=Math.max(0,ra.amount+(g.debt?-1:1)*pe.amount)}
         g.history=g.history.filter(function(x){return x.id!==id});save();render();
       }else{pendingPa=id;renderGoals();setTimeout(function(){if(pendingPa===id){pendingPa=null;renderGoals()}},4000)}
     }
@@ -2009,7 +2009,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   fmtIn($("paAmt"));
   function resetPa(){paCtx=null;$("paAmt").value="";$("paNote").value="";$("paErr").textContent="";popClose("paSheet")}
   function startPa(g){
-    paCtx=g.id;$("paTitle").textContent="Tambah piutang: "+g.name;
+    paCtx=g.id;$("paTitle").textContent=(g.debt?"Tambah hutang: ":"Tambah piutang: ")+g.name;$("paAsetL").textContent=g.debt?"Masuk ke aset (opsional)":"Diambil dari aset (opsional)";
     $("paAmt").value="";$("paNote").value="";$("paDate").value=ymd(new Date());$("paErr").textContent="";
     fillSelect($("paAset"),[["","Tanpa aset"]].concat(assets.map(function(a){return [a.id,a.name]})),"");
     popOpen("paSheet");
@@ -2021,10 +2021,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(!(amt>0)){$("paErr").textContent="Nominal harus lebih dari Rp 0.";$("paAmt").focus();return}
     if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){$("paErr").textContent="Tanggal tidak valid.";return}
     var as=aId?assets.filter(function(x){return x.id===aId})[0]:null;
-    if(as&&as.id!=="dompet"){if(amt>as.amount){$("paErr").textContent="Jumlah melebihi saldo aset.";return}as.amount-=amt}
+    if(as&&as.id!=="dompet"){if(g.debt){as.amount+=amt}else{if(amt>as.amount){$("paErr").textContent="Jumlah melebihi saldo aset.";return}as.amount-=amt}}
     g.target+=amt;g.history=Array.isArray(g.history)?g.history:[];
     var e={id:uid(),type:"tambah",amount:amt,date:d,desc:note};if(aId)e.asetId=aId;g.history.push(e);
-    openG={};openG[g.id]=true;save();resetPa();render();toast("Piutang ditambah",null,g.name+" \u00b7 "+rp(amt));
+    openG={};openG[g.id]=true;save();resetPa();render();toast(g.debt?"Hutang ditambah":"Piutang ditambah",null,g.name+" \u00b7 "+rp(amt));
   });
   $("btnSubCancel").addEventListener("click",resetSub);
   $("btnSubSave").addEventListener("click",function(){
@@ -3755,7 +3755,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 }
 @media (max-width:760px) and (max-height:700px){.ck{font-size:1.3rem}.calc-keys{gap:8px}.calc-disp{min-height:70px;font-size:2.9rem}}
 @media (prefers-reduced-motion:reduce){.calc{animation:none}}
-.gtr{display:inline-flex;align-items:center;gap:8px}.gadd{width:26px;height:26px;min-width:26px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:50%}
+.gtr{display:inline-flex;align-items:center;gap:8px}.cat .gadd{box-sizing:border-box;flex:0 0 28px;width:28px;height:28px;min-width:28px;max-width:28px;aspect-ratio:1/1;padding:0!important;margin:0;display:inline-flex;align-items:center;justify-content:center;border-radius:50%!important;line-height:0}.cat .gadd svg{width:16px;height:16px;display:block;margin:0}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
