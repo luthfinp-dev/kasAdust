@@ -1109,7 +1109,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   <section class="card" data-t="tx">
     <h2><i data-ic="list"></i>Semua transaksi</h2>
     <div class="filters norek" id="filters">
-      <div><label for="fMonth">Bulan</label><select id="fMonth"></select></div>
+      <div><label for="fMonth">Bulan</label>
+        <div class="mrow"><select id="fMonth"></select><span class="calw"><button type="button" class="calbtn" id="btnDay" aria-label="Pilih tanggal" title="Pilih tanggal"><i data-ic="cal"></i></button><input type="date" id="fDay" tabindex="-1" aria-hidden="true" min="1900-01-01" max="2199-12-31"></span></div>
+        <div class="daychip" id="dayChip" hidden><span id="dayTxt"></span><button type="button" id="btnDayX" aria-label="Hapus filter tanggal" title="Hapus filter tanggal">&times;</button></div></div>
       <div><label for="fCatF">Kategori</label><select id="fCatF"></select></div>
       <button type="button" id="btnReset">Reset filter</button>
     </div>
@@ -1306,7 +1308,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","Pilih tanggal":"Pick a date","Hapus filter tanggal":"Clear date filter","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1645,6 +1647,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     return {sal:sal,tot:tot,saved:sv,ext:ext,lend:lend,left:sal>0?sal-tot-sv+ext-lend:0};
   }
   function syncWallet(){ensureDompet();var w=assets.filter(function(a){return a.id==="dompet"})[0];if(w)w.amount=Math.max(0,monthLeft(curYM).left)}
+  var selDay="";
   function render(){
     ensureDompet();
     // dashboard (bulan berjalan)
@@ -1675,13 +1678,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var months={};months[curYM]=1;months[viewYM]=1;extraMonths.forEach(function(x){months[x]=1});items.forEach(function(t){months[t.date.slice(0,7)]=1});
     var mo=[["all","Semua bulan"]].concat(Object.keys(months).sort().reverse().map(function(m){return [m,monthLabel(m)]}));
     if(!months[selM]&&selM!=="all")selM=curYM;
+    if(selDay&&(selM==="all"||selDay.slice(0,7)!==selM))selDay="";
     fillSelect($("fMonth"),mo,selM);
+    $("dayChip").hidden=!selDay;if(selDay)$("dayTxt").textContent=dateLabel(selDay);$("btnDay").classList.toggle("on",!!selDay);$("fDay").value=selDay;
     var fcs=CATS.slice();items.forEach(function(t){if(fcs.indexOf(t.category)<0)fcs.push(t.category)});
     fillSelect($("fCatF"),[["all","Semua kategori"]].concat(sortCats(fcs).map(function(c){return [c,c]})),selC);
 
     var ord=new Map();items.forEach(function(t,i){ord.set(t,i)});
     var list=items.filter(function(t){
-      return (selM==="all"||t.date.slice(0,7)===selM)&&(selC==="all"||t.category===selC);
+      return (selM==="all"||t.date.slice(0,7)===selM)&&(!selDay||t.date===selDay)&&(selC==="all"||t.category===selC);
     }).sort(function(a,b){
       if(a.date!==b.date)return a.date<b.date?1:-1;
       var ta=a.ts||0, tb=b.ts||0;
@@ -1704,7 +1709,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var pct=ft?Math.round(g[1]/ft*100):0;
       return '<div class="cat"><div class="top"><span>'+esc(g[0])+" ("+pct+'%)</span><span>'+rp(g[1])+'</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
     }).join(""):'<div class="empty">Belum ada data.</div>';
-    $("catLabel").textContent="Total ("+(selM==="all"?"semua bulan":monthLabel(selM))+")";
+    $("catLabel").textContent="Total ("+(selDay?dateLabel(selDay):selM==="all"?"semua bulan":monthLabel(selM))+")";
     $("catTotal").textContent=rp(ft);
     $("savedNote").innerHTML=savedCur>0?'<span>Ditabung '+(viewYM===curYM?"bulan ini":monthLabel(viewYM))+'</span><span>'+mk(savedCur)+'</span>':"";
   }
@@ -1795,8 +1800,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   });
 
   $("btnCancel").addEventListener("click",function(){resetForm();closeTx()});
-  $("btnReset").addEventListener("click",function(){$("fMonth").value=viewYM;$("fCatF").value="all";render()});
-  $("fMonth").addEventListener("change",function(){var v=$("fMonth").value;if(v!=="all"){viewYM=v;pendingM=v}render()});
+  $("btnDay").addEventListener("click",function(){var el=$("fDay");try{if(el.showPicker){el.showPicker();return}}catch(e){}el.focus();el.click()});
+  $("fDay").addEventListener("change",function(){var v=this.value;if(/^\d{4}-\d{2}-\d{2}$/.test(v)){selDay=v;viewYM=v.slice(0,7);pendingM=viewYM}else selDay="";render()});
+  $("btnDayX").addEventListener("click",function(){selDay="";$("fDay").value="";render()});
+  $("btnReset").addEventListener("click",function(){selDay="";$("fMonth").value=viewYM;$("fCatF").value="all";render()});
+  $("fMonth").addEventListener("change",function(){selDay="";var v=$("fMonth").value;if(v!=="all"){viewYM=v;pendingM=v}render()});
   $("fCatF").addEventListener("change",render);
 
   $("rows").addEventListener("click",function(e){
@@ -3756,6 +3764,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 @media (max-width:760px) and (max-height:700px){.ck{font-size:1.3rem}.calc-keys{gap:8px}.calc-disp{min-height:70px;font-size:2.9rem}}
 @media (prefers-reduced-motion:reduce){.calc{animation:none}}
 .gtr{display:inline-flex;align-items:center;gap:8px}.cat .gadd{box-sizing:border-box;flex:0 0 28px;width:28px;height:28px;min-width:28px;max-width:28px;aspect-ratio:1/1;padding:0!important;margin:0;display:inline-flex;align-items:center;justify-content:center;border-radius:50%!important;line-height:0}.cat .gadd svg{width:16px;height:16px;display:block;margin:0}
+.mrow{display:flex;gap:8px;align-items:stretch}.mrow select{flex:1;min-width:0}
+.calw{position:relative;display:flex;flex:0 0 44px}.calbtn{width:44px;min-height:42px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:12px}.calbtn svg{width:18px;height:18px}.calbtn.on{border-color:var(--sage-d);color:var(--sage-d)}
+.calw input[type=date]{position:absolute;left:0;bottom:0;width:44px;height:1px;opacity:0;pointer-events:none;padding:0;border:0;min-height:0}
+.daychip{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 6px 4px 12px;border:1px solid var(--line);border-radius:999px;font-size:.86rem}
+.daychip button{width:22px;height:22px;min-height:0;min-width:22px;padding:0;border-radius:50%;line-height:1;display:inline-flex;align-items:center;justify-content:center;font-size:1rem}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
