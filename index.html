@@ -1908,7 +1908,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button><button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button><button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span><span>'+(hideBal?"••":p)+'%</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -2027,14 +2027,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var id=b.getAttribute("data-id"), act=b.getAttribute("data-a");
     if(act==="deposit"||act==="withdraw"){
       var dg0=goals.filter(function(x){return x.id===id})[0];
-      if(!dg0||gKindOf(dg0)!==0)return;
+      if(!dg0||(act==="withdraw"&&gKindOf(dg0)!==0))return;var dk=gKindOf(dg0);
       
-      fgk=0;fdir=act==="withdraw"?"t":"s";
+      fgk=dk;fdir=act==="withdraw"?"t":"s";
       resetForm();paintFCat(GOALC,GOALC);toggleSaveBox();toggleTrBox("","");toggleDebtBox();
-      fgk=0;fdir=act==="withdraw"?"t":"s";
-      toggleGoalBox(dg0.id,"dompet");toggleWdBox("");
-      $("formTitle").textContent=(act==="withdraw"?"Dipakai dari tujuan: ":"Setor ke tujuan: ")+dg0.name;
-      $("btnSave").textContent=act==="withdraw"?"Catat":"Setor";
+      fgk=dk;fdir=act==="withdraw"?"t":"s";
+      toggleGoalBox(dg0.id,dk===1?"":"dompet");toggleWdBox("");
+      $("formTitle").textContent=(act==="withdraw"?"Dipakai dari tujuan: ":["Setor ke tujuan: ","Bayar hutang: ","Terima piutang: "][dk])+dg0.name;
+      $("btnSave").textContent=act==="withdraw"?"Catat":dk===0?"Setor":"Tambah";
       openTx();return;
     }
     if(act==="edit"){
