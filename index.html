@@ -1113,7 +1113,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <h2><i data-ic="list"></i>Semua transaksi</h2>
     <div class="tseg" id="tSeg" role="group" aria-label="Jenis transaksi"><button type="button" data-t="all" aria-pressed="true">Semua</button><button type="button" data-t="in" aria-pressed="false">Pemasukan</button><button type="button" data-t="out" aria-pressed="false">Pengeluaran</button></div>
     <div class="filters norek" id="filters">
-      <span class="calw"><span class="calbtn" id="btnDay" aria-hidden="true"><i data-ic="cal"></i></span><input type="date" id="fDay" aria-label="Pilih tanggal" title="Pilih tanggal" min="1900-01-01" max="2199-12-31"></span>
+      <div class="calcol"><label for="fDay">Tanggal</label><span class="calw"><span class="calbtn" id="btnDay" aria-hidden="true"><i data-ic="cal"></i></span><input type="date" id="fDay" aria-label="Pilih tanggal" title="Pilih tanggal" min="1900-01-01" max="2199-12-31"></span></div>
       <div><label for="fMonth">Bulan</label><select id="fMonth"></select></div>
       <div><label for="fCatF">Kategori</label><select id="fCatF"></select></div>
       <div class="daychip" id="dayChip" hidden><span id="dayTxt"></span><button type="button" id="btnDayX" aria-label="Hapus filter tanggal" title="Hapus filter tanggal">&times;</button></div>
@@ -3869,10 +3869,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 @media (max-width:760px) and (max-height:700px){.ck{font-size:1.3rem}.calc-keys{gap:8px}.calc-disp{min-height:70px;font-size:2.9rem}}
 @media (prefers-reduced-motion:reduce){.calc{animation:none}}
 .gtr{display:inline-flex;align-items:center;gap:8px}.cat .gadd{box-sizing:border-box;flex:0 0 28px;width:28px;height:28px;min-width:28px;max-width:28px;aspect-ratio:1/1;padding:0!important;margin:0;display:inline-flex;align-items:center;justify-content:center;border-radius:50%!important;line-height:0}.cat .gadd svg{width:16px;height:16px;display:block;margin:0}
-#filters.filters{grid-template-columns:44px minmax(0,1fr) minmax(0,1fr);align-items:end;gap:10px}
+#filters.filters{grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);align-items:end;gap:10px}
 #filters select{width:100%;min-width:0;height:44px;min-height:44px}
 #filters #btnReset,#filters .daychip{grid-column:1/-1}
-@media (min-width:761px){#filters.filters{grid-template-columns:44px minmax(0,1fr) minmax(0,1fr) auto}#filters #btnReset{grid-column:auto}}
+@media (min-width:761px){#filters.filters{grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) auto}#filters #btnReset{grid-column:auto}}
+.calcol label{white-space:nowrap}
 .calw{position:relative;display:block;width:44px;height:44px}
 .calbtn{box-sizing:border-box;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--glass-b,var(--line));border-radius:12px;background:var(--field,var(--bg));color:var(--text)}
 .calbtn svg{width:18px;height:18px}.calbtn.on{border-color:var(--sage-d);color:var(--sage-d)}
