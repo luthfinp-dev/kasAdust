@@ -889,6 +889,22 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 @keyframes wspark{0%{opacity:1;transform:rotate(var(--a)) translateY(-44px) scale(1)}100%{opacity:0;transform:rotate(var(--a)) translateY(-70px) scale(.3)}}
 @keyframes wup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.wcheck.go,.wcheck.go path,.wcheck.go::before,.wcheck.go::after,.wcheck.go i,.wcard.conf.go .wmsg,.wcard.conf.go .wsub,.wcard.conf.go .wbtns{animation:none}.wcheck.go path{stroke-dashoffset:0}.wcheck i,.wcheck::before,.wcheck::after{display:none}}
+
+/* kedalaman: bayangan berlapis pada kartu */
+.card,.stat{background:linear-gradient(165deg,rgba(255,255,255,.34),transparent 55%),var(--glass);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset -3px -3px 10px -4px rgba(52,88,62,.40),0 1px 2px rgba(40,70,50,.10),0 14px 26px -10px rgba(60,100,72,.30),0 30px 50px -28px rgba(60,100,72,.26)}
+:root[data-theme="dark"] .card,:root[data-theme="dark"] .stat{background:linear-gradient(165deg,rgba(255,255,255,.07),transparent 55%),var(--glass);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -3px -3px 10px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.35),0 16px 30px -12px rgba(0,0,0,.55),0 34px 56px -30px rgba(0,0,0,.5)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .card,:root:not([data-theme="light"]) .stat{background:linear-gradient(165deg,rgba(255,255,255,.07),transparent 55%),var(--glass);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -3px -3px 10px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.35),0 16px 30px -12px rgba(0,0,0,.55),0 34px 56px -30px rgba(0,0,0,.5)}}
+.navbar{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset -2px -3px 9px -4px rgba(52,88,62,.38),0 1px 2px rgba(40,70,50,.12),0 18px 34px -12px rgba(60,100,72,.38)}
+/* rapikan HP: judul atas tidak terpotong, label kartu sejajar */
+@media (max-width:1000px){.stat .l{min-height:2.6em;align-items:flex-start}.stat .l i{margin-top:2px}}
+@media (max-width:480px){.brand{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25}}
+
+
+:root[data-theme="dark"] .navbar{box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -2px -3px 9px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.35),0 18px 34px -12px rgba(0,0,0,.55)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .navbar{box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -2px -3px 9px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.35),0 18px 34px -12px rgba(0,0,0,.55)}}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
