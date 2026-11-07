@@ -1018,7 +1018,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="stat">
       <div class="l"><i data-ic="up"></i>Total aset<button type="button" class="eye" data-eye></button></div><div class="v" id="aTotal">Rp 0</div>
       <div class="n" id="aInfo"></div>
-      <div class="aspark" id="aSpark" aria-hidden="true"></div>
+      <div class="aspark" id="aSpark"></div>
       <button type="button" class="small" id="btnAssets">Kelola aset</button>
     </div>
     <div class="stat">
@@ -1330,7 +1330,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Semua":"All","Pemasukan":"Income","Pengeluaran":"Spending","Tabungan & aset":"Savings & assets","Pindah uang":"Move money","Selisih":"Net","Gaji":"Salary","Pilih tanggal":"Pick a date","Hapus filter tanggal":"Clear date filter","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","7H":"7D","30H":"30D","90H":"90D","Belum ada perubahan":"No changes yet","Semua":"All","Pemasukan":"Income","Pengeluaran":"Spending","Tabungan & aset":"Savings & assets","Pindah uang":"Move money","Selisih":"Net","Gaji":"Salary","Pilih tanggal":"Pick a date","Hapus filter tanggal":"Clear date filter","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1446,6 +1446,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
    [/^(.+)% terkumpul$/,function(m){return m[1]+"% saved"}],
    [/^(Terkumpul|Sudah dibayar|Sudah diterima) (Rp .+)$/,function(m){return ({"Terkumpul":"Saved","Sudah dibayar":"Paid","Sudah diterima":"Received"})[m[1]]+" "+m[2]}],
    [/^(\d+|\u2022\u2022)% \u00b7 Sisa (Rp .+)$/,function(m){return m[1]+"% \u00b7 Left "+m[2]}],
+   [/^([\u25b2\u25bc]) (\d+,\d)% \u00b7 (\d+)H$/,function(m){return m[1]+" "+m[2]+"% \u00b7 "+m[3]+"D"}],
    [/^(.+)% menuju tujuan$/,function(m){return m[1]+"% toward goals"}],
    [/^Tercapai (\d+) dari (\d+) tujuan$/,function(m){return m[1]+" of "+m[2]+" goals achieved"}],
    [/^Target terkumpul ?(.*)$/,function(m){return ("Goal progress "+m[1]).trim()}],
@@ -2269,6 +2270,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     return '<div class="dn" role="img" aria-label="'+esc(label)+'"><svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="'+R+'" fill="none" stroke="var(--track)" stroke-width="12"/>'+g+'</svg><div class="ct">'+center+'</div></div>';
   }
   /* grafik total aset 30 hari: dihitung mundur dari saldo sekarang lewat riwayat transaksi */
+  (function(){var el=$("aSpark");if(el)el.addEventListener("click",function(e){var b=e.target.closest("button[data-n]");if(!b)return;sparkN=+b.getAttribute("data-n");try{localStorage.setItem("spark-n",String(sparkN))}catch(x){}sparkAset()})})();
   function aDelta(t){
     var c=t.category, a=t.amount;
     if(c===SAVE||c===ASET||c===WD)return 0;
@@ -2284,9 +2286,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     }
     return d;
   }
+  var sparkN=30;try{var sn0=+localStorage.getItem("spark-n");if(sn0===7||sn0===30||sn0===90)sparkN=sn0}catch(e){}
+  function spPanel(N,bd,body){
+    var rg=[7,30,90].map(function(n){return '<button type="button" data-n="'+n+'"'+(n===N?' class="on" aria-pressed="true"':' aria-pressed="false"')+'>'+n+'H</button>'}).join("");
+    return '<div class="spw"><div class="sphd"><div class="sprg" role="group" aria-label="Rentang grafik">'+rg+'</div>'+bd+'</div>'+body+'</div>';
+  }
   function sparkAset(){
     var el=$("aSpark");if(!el)return;
-    var T=assets.reduce(function(s,a){return s+a.amount},0), N=30;
+    var T=assets.reduce(function(s,a){return s+a.amount},0), N=sparkN;
     var from=daysAgo(N-1), today=daysAgo(0), fromT=new Date(from+"T00:00:00").getTime();
     function ix(d){return Math.round((new Date(d+"T00:00:00").getTime()-fromT)/864e5)}
     var v0=T-items.filter(function(t){return t.date>from}).reduce(function(s,t){return s+aDelta(t)},0);
@@ -2297,20 +2304,24 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     for(var k=1;k<pts.length;k++){var ref=kept[kept.length-1].v, th=Math.max(500000,Math.abs(pts[k].v)*0.1);if(Math.abs(pts[k].v-ref)>=th)kept.push(pts[k])}
     kept.push({i:N-1,v:T});
     var vs=kept.map(function(p){return p.v});
-    if(!assets.length||hideBal||vs.every(function(v){return v===vs[0]})){el.innerHTML="";return}
+    if(!assets.length||hideBal){el.innerHTML="";return}
+    if(vs.every(function(v){return v===vs[0]})){el.innerHTML=spPanel(N,"",'<div class="spempty">Belum ada perubahan</div>');return}
     var W=200,H=110,pd=12,mn=Math.min.apply(null,vs),mx=Math.max.apply(null,vs);
     var lo=Math.max(0,mn-(mx-mn)*0.04), hi=mx+(mx-mn)*0.08, rg=hi-lo||1;
     var pts2=kept.map(function(p){return [8+p.i*(W-16)/(N-1),pd+(1-(p.v-lo)/rg)*(H-2*pd)]});
     var line="M"+pts2[0][0].toFixed(1)+","+pts2[0][1].toFixed(1);
     for(var j=1;j<pts2.length;j++)line+=" L"+pts2[j][0].toFixed(1)+","+pts2[j][1].toFixed(1);
     var last=pts2[pts2.length-1], uid2="sp"+Date.now().toString(36);
-    el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Grafik total aset 30 hari terakhir">'
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Grafik total aset '+N+' hari terakhir">'
       +'<defs><linearGradient id="'+uid2+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".16"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="0"/></linearGradient>'
       +'<linearGradient id="'+uid2+'s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".05"/><stop offset=".55" style="stop-color:var(--sp)" stop-opacity=".85"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="1"/></linearGradient></defs>'
       +'<path class="sp-area" d="'+line+' L'+last[0].toFixed(1)+','+H+' L'+pts2[0][0].toFixed(1)+','+H+' Z" fill="url(#'+uid2+')"/>'
       +'<path class="sp-line" pathLength="1" d="'+line+'" stroke="url(#'+uid2+'s)"/>'
       +'<circle class="sp-ring" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.4"/>'
       +'<circle class="sp-halo" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="7"/><circle class="sp-dot" cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.6"/></svg>';
+    var pc=v0>0?(T-v0)/v0*100:null, up=T>=v0;
+    var bd=pc===null?"":'<span class="spbd '+(up?"up":"dn")+'">'+(up?"\u25b2":"\u25bc")+" "+Math.abs(pc).toFixed(1).replace(".",",")+"% \u00b7 "+N+"H</span>";
+    el.innerHTML=spPanel(N,bd,svg+'<div class="spax"><span>1</span><span>'+Math.round(N/2)+'</span><span>'+N+'</span></div>');
   }
   function renderAssets(){
     syncWallet();
@@ -3975,6 +3986,31 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 html.vt-theme .nav{view-transition-name:vt-nav}
 ::view-transition-group(vt-nav){animation-duration:.4s}
 ::view-transition-old(vt-nav),::view-transition-new(vt-nav){animation-duration:.4s;animation-timing-function:ease}
+/* grafik total aset: panel cekung (lebih gelap di mode terang, lebih terang di mode malam) */
+.aspark .spw{--sp:#fff;--sp-g:rgba(255,255,255,.5);--spt:rgba(255,255,255,.88);--sbad:rgba(0,0,0,.26);--sact:rgba(255,255,255,.24);--sup:#c9f7d3;--sdn:#ffc2b8;
+ position:relative;padding:8px 10px 6px;border-radius:16px;border:1px solid rgba(255,255,255,.55);
+ background:linear-gradient(180deg,#46604f,#587462);
+ box-shadow:inset 0 4px 12px rgba(0,0,0,.40),inset 0 -1px 0 rgba(255,255,255,.18),0 1px 0 rgba(255,255,255,.75)}
+:root[data-theme="dark"] .aspark .spw{--sp:#1f4d33;--sp-g:rgba(31,77,51,.35);--spt:#1f4d33;--sbad:rgba(31,77,51,.12);--sact:rgba(31,77,51,.18);--sup:#1d6b3b;--sdn:#a33a2b;
+ border:1px solid rgba(31,77,51,.30);background:linear-gradient(180deg,#bcd9c5,#d2e8d8);
+ box-shadow:inset 0 4px 10px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.55),0 1px 0 rgba(255,255,255,.12)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .aspark .spw{--sp:#1f4d33;--sp-g:rgba(31,77,51,.35);--spt:#1f4d33;--sbad:rgba(31,77,51,.12);--sact:rgba(31,77,51,.18);--sup:#1d6b3b;--sdn:#a33a2b;
+ border:1px solid rgba(31,77,51,.30);background:linear-gradient(180deg,#bcd9c5,#d2e8d8);
+ box-shadow:inset 0 4px 10px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.55),0 1px 0 rgba(255,255,255,.12)}}
+.sphd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 6px;margin-bottom:4px;min-width:0}
+.sprg{display:inline-flex;gap:2px;padding:2px;border-radius:99px;background:var(--sbad);flex:none}
+.sprg button{min-height:0;min-width:0;margin:0;padding:2px 7px;border:0;border-radius:99px;background:none;color:var(--spt);font-size:.64rem;font-weight:600;line-height:1.4;opacity:.8}
+.sprg button.on{background:var(--sact);opacity:1;font-weight:800}
+.spbd{font-size:.68rem;font-weight:800;color:var(--sup);white-space:nowrap;font-variant-numeric:tabular-nums}
+.spbd.dn{color:var(--sdn)}
+.spax{display:flex;justify-content:space-between;padding:2px 2px 0;font-size:.6rem;color:var(--spt);opacity:.8}
+.spempty{padding:18px 4px;text-align:center;font-size:.74rem;color:var(--spt);opacity:.85}
+.aspark .sp-halo{display:none}
+.sp-ring{stroke-width:1.6;vector-effect:non-scaling-stroke;animation:spRingB 2s 1.4s ease-out infinite}
+@keyframes spRingB{0%{transform:scale(1);opacity:.8}100%{transform:scale(3.6);opacity:0}}
+.sp-dot{transform-box:fill-box;transform-origin:center;animation:spIn .3s 1.35s forwards,spBeat 2s 1.65s ease-in-out infinite}
+@keyframes spBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.sp-ring{animation:none;opacity:0}.sp-dot{animation:none;opacity:1;transform:none}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
