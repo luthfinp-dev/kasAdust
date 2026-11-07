@@ -2299,7 +2299,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(noLocal)return;
     try{var ks=Object.keys(aHist).sort();while(ks.length>400)delete aHist[ks.shift()];localStorage.setItem("aset-hist-v1",JSON.stringify(aHist))}catch(e){}
   }
-  function clearAHist(){aHist={};aHistLoaded=true;try{localStorage.removeItem("aset-hist-v1")}catch(e){}}
+  function clearAHist(){aHist={};aHistLoaded=true;aAdj=[];aAdjLoaded=true;try{localStorage.removeItem("aset-hist-v1");localStorage.removeItem("aset-adj-v1")}catch(e){}}
+  /* catatan perubahan aset manual (tambah/edit/hapus), hanya di perangkat ini */
+  var aAdj=[], aAdjLoaded=false;
+  function adjLoad(){
+    if(aAdjLoaded)return;aAdjLoaded=true;aAdj=[];var o=loadKey("aset-adj-v1");
+    if(Array.isArray(o))o.forEach(function(x){if(isObj(x)&&/^\d{4}-\d{2}-\d{2}$/.test(x.d)&&isFinite(+x.a)&&+x.a!==0)aAdj.push({d:x.d,a:Math.round(+x.a)})});
+  }
+  function adjAset(delta){
+    delta=Math.round(delta);if(!delta)return;adjLoad();
+    aAdj.push({d:daysAgo(0),a:delta});if(aAdj.length>400)aAdj=aAdj.slice(-400);
+    if(!noLocal)try{localStorage.setItem("aset-adj-v1",JSON.stringify(aAdj))}catch(e){}
+  }
   function dU(){return I18N.lang()==="en"?"D":"H"}
   function spPanel(N,bd,body){
     return '<div class="spw"><div class="sphd"><span class="splb">'+N+' hari</span>'+bd+'</div>'+body+'</div>';
@@ -2316,6 +2327,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var days=[];for(var i=N-1;i>=0;i--)days.push(daysAgo(i));
     var keys=Object.keys(aHist).sort(), first=keys[0], fi=days.indexOf(first);
     var dm={};items.forEach(function(t){if(t.date>days[0]&&t.date<=first){var dv=aDelta(t);if(dv)dm[t.date]=(dm[t.date]||0)+dv}});
+    adjLoad();aAdj.forEach(function(x){if(x.d>days[0]&&x.d<=first)dm[x.d]=(dm[x.d]||0)+x.a});
     var vals=new Array(N), cur=aHist[first], j;
     if(fi>0){for(j=fi;j>=0;j--){vals[j]=Math.max(0,cur);cur=cur-(dm[days[j]]||0)}}
     var seed=null;keys.forEach(function(k){if(k<=days[0])seed=aHist[k]});
@@ -2450,8 +2462,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(!n){$("aErr").textContent="Isi nama aset.";$("aName").focus();return}
     if(v<=0&&!editAsset){$("aErr").textContent="Nominal harus lebih dari Rp 0.";$("aAmt").focus();return}
     if(editAsset==="dompet"){resetAsset();return}
-    if(editAsset){assets=assets.map(function(a){return a.id===editAsset?{id:a.id,name:n,amount:v}:a})}
-    else{assets.push({id:uid(),name:n,amount:v})}
+    if(editAsset){var oa=assets.filter(function(x){return x.id===editAsset})[0];if(oa)adjAset(v-oa.amount);assets=assets.map(function(a){return a.id===editAsset?{id:a.id,name:n,amount:v}:a})}
+    else{adjAset(v);assets.push({id:uid(),name:n,amount:v})}
     save();resetAsset();renderAssets();toast("Aset disimpan");
   });
   $("aList").addEventListener("click",function(e){
@@ -2474,7 +2486,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       openTx();
     }else if(act==="del"){
       if(id==="dompet"){toast("Dompet tidak bisa dihapus");return}
-      if(pendingAsset===id){var goneA=assets.filter(function(x){return x.id===id})[0];assets=assets.filter(function(x){return x.id!==id});pendingAsset=null;if(editAsset===id)resetAsset();save();renderAssets();toast("Aset dihapus",function(){if(goneA){assets.push(goneA);save();renderAssets()}},goneA?goneA.name:"","del")}
+      if(pendingAsset===id){var goneA=assets.filter(function(x){return x.id===id})[0];if(goneA)adjAset(-goneA.amount);assets=assets.filter(function(x){return x.id!==id});pendingAsset=null;if(editAsset===id)resetAsset();save();renderAssets();toast("Aset dihapus",function(){if(goneA){adjAset(goneA.amount);assets.push(goneA);save();renderAssets()}},goneA?goneA.name:"","del")}
       else{pendingAsset=id;renderAssets();setTimeout(function(){if(pendingAsset===id){pendingAsset=null;renderAssets()}},4000)}
     }
   });
