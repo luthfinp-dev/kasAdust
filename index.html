@@ -1119,13 +1119,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <div class="daychip" id="dayChip" hidden><span id="dayTxt"></span><button type="button" id="btnDayX" aria-label="Hapus filter tanggal" title="Hapus filter tanggal">&times;</button></div>
       <button type="button" id="btnReset">Reset filter</button>
     </div>
-    <div class="flow" id="flowSum"></div>
     <div class="tablebox">
       <table>
         <thead><tr><th>Tanggal</th><th>Nama</th><th>Kategori</th><th class="amt">Nominal</th><th></th></tr></thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
+    <div class="flow" id="flowSum"></div>
   </section>
   <section class="card acc" data-t="set" id="skinCard" data-grp="set">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="skinCard" data-acc="skinCard"><i data-ic="palette"></i>Tema<span class="accr"><span class="accsum" id="skAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
@@ -1715,7 +1715,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var tbs=$("tSeg").children;for(var ti=0;ti<tbs.length;ti++)tbs[ti].setAttribute("aria-pressed",String(tbs[ti].getAttribute("data-t")===selT));
     var incTot=baseRows.reduce(function(a,r){return a+(r.kind==="in"?(r.syn?r.amount:r.t.amount):0)},0);
     var outTot=baseRows.reduce(function(a,r){return a+(r.t&&r.kind==="out"&&!nonSpend(r.t)?r.t.amount:0)},0), net=incTot-outTot;
-    $("flowSum").innerHTML='<div class="gm"><span>Pemasukan</span><b class="inc">+'+rp(incTot)+'</b></div><div class="gm"><span>Pengeluaran</span><b>\u2212'+rp(outTot)+'</b></div><div class="gm"><span>Selisih</span><b'+(net>=0?' class="inc"':'')+'>'+(net>=0?"+":"\u2212")+rp(Math.abs(net))+'</b></div>';
+    var savTot=baseRows.reduce(function(a,r){var t=r.t;return a+(t&&(isSave(t.category)||(t.category===GOALC&&t.setor&&gKindOf(gOf(t.tujuanId))===0))?t.amount:0)},0);
+    net=incTot-outTot-savTot;
+    $("flowSum").innerHTML='<div class="fl in"><span>Pemasukan</span><b>+'+rp(incTot)+'</b></div><div class="fl out"><span>Pengeluaran</span><b>\u2212'+rp(outTot)+'</b></div><div class="fl sav"><span>Menabung</span><b>'+rp(savTot)+'</b></div><div class="fl net'+(net>=0?' pos':' neg')+'"><span>Selisih</span><b>'+(net>=0?"+":"\u2212")+rp(Math.abs(net))+'</b></div>';
 
     // tabel
     $("rows").innerHTML=list.length?list.map(function(r){
@@ -3907,6 +3909,23 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .tseg button[aria-pressed="true"]{border-color:var(--sage-d);color:var(--sage-d);font-weight:700}
 .flow{margin:10px 0 6px}.flow .gm{display:flex;justify-content:space-between;gap:10px}
 .flow .gm b{font-variant-numeric:tabular-nums}.flow .gm .inc,td.amt.in{color:var(--sage-d)}
+
+/* ringkasan transaksi di bawah daftar + rapikan layout */
+.flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 0}
+.flow .fl{display:flex;flex-direction:column;gap:2px;min-width:0;padding:10px 12px;border-radius:14px;background:var(--glass-2);border:1px solid var(--glass-b)}
+.flow .fl span{font-size:.78rem;color:var(--muted)}
+.flow .fl b{font-size:1rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flow .fl.in b,.flow .fl.net.pos b{color:var(--sage-d)}
+.flow .fl.out b,.flow .fl.net.neg b{color:var(--danger)}
+.flow .fl.net{background:var(--chip)}
+@media (min-width:761px){.flow{grid-template-columns:repeat(4,minmax(0,1fr))}.flow .fl{padding:12px 14px}}
+.tablebox{margin-top:12px}
+.calcol{display:flex;flex-direction:column;min-width:0}
+.calcol label{margin-bottom:5px}
+#filters.filters{gap:10px 12px}
+#filters #btnReset{min-height:40px;font-size:.9rem}
+@media (min-width:761px){#filters #btnReset{padding:0 18px;min-height:44px}}
+@media (max-width:420px){.flow .fl b{font-size:.92rem}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
