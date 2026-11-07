@@ -1005,12 +1005,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <button type="button" class="small" id="btnAssets">Kelola aset</button>
     </div>
     <div class="stat">
-      <div class="l"><i data-ic="target"></i>Tujuan<button type="button" class="eye" data-eye></button></div><div class="v" id="gTotal">Rp 0</div>
-      <div class="n" id="gTgt"></div>
-      <div class="n" id="gCount"></div>
-      <div class="bar"><i id="gBar" style="width:0"></i></div>
-      <div class="n" id="gPct"></div>
-      <div class="n" id="gDone"></div>
+      <div class="l"><i data-ic="target"></i>Tujuan<button type="button" class="eye" data-eye></button></div>
+      <div class="gcar" id="gCar" role="group" aria-roledescription="carousel" aria-label="Ringkasan tujuan">
+        <div class="gtrack" id="gTrack">
+          <div class="gsl"><div class="gsk"></div><div class="v"></div><div class="n gl1"></div><div class="bar"><i style="width:0"></i></div><div class="n gl2"></div></div>
+          <div class="gsl"><div class="gsk"></div><div class="v"></div><div class="n gl1"></div><div class="bar"><i style="width:0"></i></div><div class="n gl2"></div></div>
+          <div class="gsl"><div class="gsk"></div><div class="v"></div><div class="n gl1"></div><div class="bar"><i style="width:0"></i></div><div class="n gl2"></div></div>
+          <div class="gsl clone" aria-hidden="true" hidden></div>
+        </div>
+      </div>
+      <div class="gdots" id="gDots" hidden></div>
       <button type="button" class="small" id="btnGoals">Kelola tujuan</button>
     </div>
   </section>
@@ -1422,6 +1426,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
    [/^(\d+) bulan gaji$/,function(m){return pl(m[1]," salary month"," salary months")}],
    [/^dari target (.+)$/,function(m){return "of "+m[1]+" target"}],
    [/^(.+)% terkumpul$/,function(m){return m[1]+"% saved"}],
+   [/^(Terkumpul|Sudah dibayar|Sudah diterima) (Rp .+)$/,function(m){return ({"Terkumpul":"Saved","Sudah dibayar":"Paid","Sudah diterima":"Received"})[m[1]]+" "+m[2]}],
+   [/^(\d+|\u2022\u2022)% \u00b7 Sisa (Rp .+)$/,function(m){return m[1]+"% \u00b7 Left "+m[2]}],
    [/^(.+)% menuju tujuan$/,function(m){return m[1]+"% toward goals"}],
    [/^Tercapai (\d+) dari (\d+) tujuan$/,function(m){return m[1]+" of "+m[2]+" goals achieved"}],
    [/^Target terkumpul ?(.*)$/,function(m){return ("Goal progress "+m[1]).trim()}],
@@ -1902,18 +1908,90 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     }
     return '<div class="gdt'+cls+(g.start&&g.date?" two":"")+'">'+(g.start?'<span class="gds">'+ic("cal")+'<span>Tanggal '+dateLabel(g.start)+'</span></span>':'')+(g.date?'<span class="gdd">'+(g.start?'':ic("cal"))+'<span>'+GK[k].dl+" "+dateLabel(g.date)+'</span></span>':'')+(rel?'<b>'+rel+'</b>':'')+'</div>';
   }
+  /* ===== Carousel ringkasan Tujuan (scroll asli + snap, jadi tidak bentrok dengan geser antar-tab) ===== */
+  var car={idx:0,sig:"",raf:0,touch:false,t:0,len:0}, RM=!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function gW(){return $("gTrack").clientWidth||1}
+  function gSlides(){var a=[],n=$("gTrack").children;for(var i=0;i<n.length;i++)if(!n[i].hidden)a.push(n[i]);return a}
+  function gFade(){
+    if(RM)return;var w=gW(),x=$("gTrack").scrollLeft,a=gSlides();
+    for(var i=0;i<a.length;i++){var p=Math.min(1,Math.abs(x-i*w)/w);a[i].style.opacity=String(1-p*0.9)}
+  }
+  function gPause(){$("gCar").classList.toggle("paused",car.touch||document.hidden)}
+  function gDots(restart){
+    var b=$("gDots").children;
+    for(var i=0;i<b.length;i++){
+      var on=i===car.idx;b[i].setAttribute("aria-current",on?"true":"false");
+      if(on){if(restart||!b[i].classList.contains("on")){b[i].classList.remove("on");void b[i].offsetWidth}b[i].classList.add("on")}else b[i].classList.remove("on")
+    }
+  }
+  function gStop(){if(car.raf){cancelAnimationFrame(car.raf);car.raf=0}$("gTrack").classList.remove("anim")}
+  function gAnim(x,dur,done){
+    gStop();var tr=$("gTrack");
+    if(RM||dur<=0){tr.scrollLeft=x;gFade();done&&done();return}
+    var x0=tr.scrollLeft,t0=performance.now();tr.classList.add("anim");
+    car.raf=requestAnimationFrame(function step(now){
+      var p=Math.min(1,(now-t0)/dur),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+      tr.scrollLeft=x0+(x-x0)*e;gFade();
+      if(p<1)car.raf=requestAnimationFrame(step);else{car.raf=0;tr.classList.remove("anim");done&&done()}
+    });
+  }
+  function gAdvance(){
+    var n=car.len;if(n<2)return;var nx=car.idx+1,w=gW();
+    car.idx=nx%n;gDots(true);
+    gAnim(nx*w,900,function(){if(nx>=n){$("gTrack").scrollLeft=0;gFade()}});
+  }
+  function gGo(i){var n=car.len;if(i<0||i>=n)return;car.idx=i;gDots(true);gAnim(i*gW(),600)}
+  function fillGoalCar(by){
+    var tr=$("gTrack"),sl=tr.querySelectorAll(".gsl:not(.clone)"),vis=[],anyG=goals.length>0;
+    for(var i=0;i<3;i++){
+      var l=by[i],el=sl[i],show=l.length>0||(i===0&&!anyG);
+      el.hidden=!show;if(!show)continue;vis.push(i);
+      var tg=l.reduce(function(a,g){return a+g.target},0),sv=l.reduce(function(a,g){return a+g.saved},0);
+      var pct=tg?Math.min(100,Math.floor(sv/tg*100)):0,rem=Math.max(0,tg-sv);
+      el.querySelector(".gsk").textContent=GK[i].tab;
+      el.querySelector(".v").textContent=mk(tg);
+      el.querySelector(".gl1").textContent=l.length?GK[i].lS+" "+mk(sv):"Belum ada tujuan";
+      el.querySelector(".gl2").textContent=l.length?(hideBal?"\u2022\u2022":pct)+"% \u00b7 Sisa "+mk(rem):"";
+      el.querySelector(".bar i").style.width=hideBal?"0%":pct+"%";
+    }
+    var cl=tr.querySelector(".gsl.clone");
+    if(vis.length>1){cl.innerHTML=sl[vis[0]].innerHTML;cl.hidden=false}else{cl.innerHTML="";cl.hidden=true}
+    car.len=vis.length;
+    var sig=vis.join(",");
+    if(sig!==car.sig){
+      car.sig=sig;car.idx=0;gStop();tr.scrollLeft=0;
+      var d=$("gDots");d.hidden=vis.length<2;d.innerHTML="";
+      if(vis.length>1)vis.forEach(function(k,j){var b=document.createElement("button");b.type="button";b.setAttribute("data-i",j);b.setAttribute("aria-label",GK[k].tab);b.innerHTML="<span><i></i></span>";d.appendChild(b)});
+      gDots(true);
+    }
+    gFade();
+  }
+  (function(){
+    var tr=$("gTrack"),dots=$("gDots"),st=0;
+    dots.addEventListener("animationend",function(e){if(e.animationName==="gfill")gAdvance()});
+    dots.addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(b)gGo(+b.getAttribute("data-i"))});
+    function hold(){car.touch=true;gStop();gPause();clearTimeout(car.t)}
+    function release(){clearTimeout(car.t);car.t=setTimeout(function(){car.touch=false;gPause()},500)}
+    tr.addEventListener("pointerdown",hold);tr.addEventListener("touchstart",hold,{passive:true});
+    ["pointerup","pointercancel","touchend","touchcancel"].forEach(function(n){tr.addEventListener(n,release,{passive:true})});
+    tr.addEventListener("scroll",function(){
+      gFade();if(car.raf)return;
+      clearTimeout(st);st=setTimeout(function(){
+        var n=Math.round(tr.scrollLeft/gW());
+        if(n>=car.len&&car.len>1){tr.scrollLeft=0;n=0}
+        if(n!==car.idx&&n>=0&&n<car.len){car.idx=n;gDots(true)}
+      },140);
+    },{passive:true});
+    document.addEventListener("visibilitychange",gPause);
+    if(window.ResizeObserver)new ResizeObserver(function(){if(!car.raf){tr.scrollLeft=car.idx*gW();gFade()}}).observe(tr);
+  })();
   function renderGoals(){
     var by=[[],[],[]];goals.forEach(function(g){by[gKindOf(g)].push(g)});
     var sg=by[0];
     var tg0=sg.reduce(function(s,g){return s+g.target},0), sv0=sg.reduce(function(s,g){return s+g.saved},0);
     var op0=tg0?Math.min(100,Math.floor(sv0/tg0*100)):0;
-    $("gTotal").textContent=mk(sv0);
+    fillGoalCar(by);
     var dn=sg.filter(function(g){return g.saved>=g.target}).length;
-    $("gTgt").textContent=sg.length?"dari target "+mk(tg0):"Belum ada tujuan";
-    $("gCount").textContent=sg.length+" tujuan";
-    $("gPct").textContent=sg.length?(hideBal?"••":op0)+"% menuju tujuan":"";
-    $("gBar").style.width=hideBal?"0%":op0+"%";
-    $("gDone").textContent="Tercapai "+dn+" dari "+sg.length+" tujuan";
     var k=gTab, L=GK[k], list=by[k];
     for(var i=0;i<3;i++){
       var tb=$("gTabs").querySelector('.k'+i);tb.setAttribute("aria-selected",String(i===k));$("gtn"+i).textContent=by[i].length;
@@ -3773,6 +3851,22 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .calw input[type=date]{position:absolute;top:0;left:0;width:100%;height:100%;min-height:0;margin:0;padding:0;border:0;opacity:0;z-index:2;font-size:16px;-webkit-appearance:none;appearance:none;cursor:pointer}
 .daychip{justify-self:start;display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 12px;border:1px solid var(--line);border-radius:999px;font-size:.86rem}
 .daychip button{width:22px;height:22px;min-height:0;min-width:22px;padding:0;border-radius:50%;line-height:1;display:inline-flex;align-items:center;justify-content:center;font-size:1rem}
+.gcar{margin-top:4px}
+.gtrack{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gtrack::-webkit-scrollbar{display:none}
+.gtrack.anim{scroll-snap-type:none}
+.gsl{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;will-change:opacity}
+.gsk{color:var(--muted);font-size:.78rem;font-weight:600;letter-spacing:.02em;margin-top:6px}
+.gsl .v{margin-top:2px}
+.gdots{display:flex;justify-content:flex-start;align-items:center;margin:6px 0 2px -3px;--gdur:5s}
+.gdots button{min-height:0;min-width:0;border:0;background:none;padding:8px 3px;border-radius:0}
+.gdots button span{display:block;width:6px;height:6px;border-radius:99px;background:var(--track);overflow:hidden;position:relative;transition:width .35s ease}
+.gdots button.on span{width:28px}
+.gdots button i{position:absolute;inset:0;background:var(--sage-d);transform-origin:left center;transform:scaleX(0);border-radius:99px}
+.gdots button.on i{animation:gfill var(--gdur) linear forwards}
+.gcar.paused~.gdots button.on i{animation-play-state:paused}
+@keyframes gfill{to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.gdots button span{transition:none}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
