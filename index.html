@@ -3948,6 +3948,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 #filters #btnReset{min-height:40px;font-size:.9rem}
 @media (min-width:761px){#filters #btnReset{padding:0 18px;min-height:44px}}
 @media (max-width:420px){.flow .fl b{font-size:.92rem}}
+/* baris judul kartu: ikon + nama + mata rata kiri, tanpa tinggi paksa */
+.stat>.l,.stat .l{min-height:0!important;align-items:center;justify-content:flex-start;gap:10px;margin:0}
+.stat .l>span{flex:0 1 auto;min-width:0}
+.stat .eye{margin:0!important;flex:none}
+.stat>.l+.v{margin-top:10px}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
