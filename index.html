@@ -2183,7 +2183,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var ran=false;function run(){if(ran)return;ran=true;fn()}
     var rm=!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches);
     if(!rm&&document.startViewTransition&&!themeSwap._busy){
-      themeSwap._busy=true;var free=function(){themeSwap._busy=false};
+      var root=document.documentElement;root.classList.add("vt-theme");
+      themeSwap._busy=true;var free=function(){themeSwap._busy=false;root.classList.remove("vt-theme")};
       try{var vt=document.startViewTransition(run);vt.finished.then(free,free);return}catch(e){free()}
     }
     themeFade();run();
@@ -3970,6 +3971,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   ::view-transition-old(root),::view-transition-new(root){animation-duration:.4s;animation-timing-function:ease}
 }
 @media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+/* menu bawah (blur kaca) dipisah dari snapshot halaman supaya tidak berkedip saat ganti tema */
+html.vt-theme .nav{view-transition-name:vt-nav}
+::view-transition-group(vt-nav){animation-duration:.4s}
+::view-transition-old(vt-nav),::view-transition-new(vt-nav){animation-duration:.4s;animation-timing-function:ease}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
