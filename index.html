@@ -1111,6 +1111,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 
   <section class="card" data-t="tx">
     <h2><i data-ic="list"></i>Semua transaksi</h2>
+    <div class="tseg" id="tSeg" role="group" aria-label="Jenis transaksi"><button type="button" data-t="all" aria-pressed="true">Semua</button><button type="button" data-t="in" aria-pressed="false">Pemasukan</button><button type="button" data-t="out" aria-pressed="false">Pengeluaran</button></div>
     <div class="filters norek" id="filters">
       <span class="calw"><span class="calbtn" id="btnDay" aria-hidden="true"><i data-ic="cal"></i></span><input type="date" id="fDay" aria-label="Pilih tanggal" title="Pilih tanggal" min="1900-01-01" max="2199-12-31"></span>
       <div><label for="fMonth">Bulan</label><select id="fMonth"></select></div>
@@ -1118,6 +1119,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <div class="daychip" id="dayChip" hidden><span id="dayTxt"></span><button type="button" id="btnDayX" aria-label="Hapus filter tanggal" title="Hapus filter tanggal">&times;</button></div>
       <button type="button" id="btnReset">Reset filter</button>
     </div>
+    <div class="flow" id="flowSum"></div>
     <div class="tablebox">
       <table>
         <thead><tr><th>Tanggal</th><th>Nama</th><th>Kategori</th><th class="amt">Nominal</th><th></th></tr></thead>
@@ -1311,7 +1313,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","Pilih tanggal":"Pick a date","Hapus filter tanggal":"Clear date filter","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","Semua":"All","Pemasukan":"Income","Pengeluaran":"Spending","Selisih":"Net","Gaji":"Salary","Pilih tanggal":"Pick a date","Hapus filter tanggal":"Clear date filter","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
@@ -1652,7 +1654,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     return {sal:sal,tot:tot,saved:sv,ext:ext,lend:lend,left:sal>0?sal-tot-sv+ext-lend:0};
   }
   function syncWallet(){ensureDompet();var w=assets.filter(function(a){return a.id==="dompet"})[0];if(w)w.amount=Math.max(0,monthLeft(curYM).left)}
-  var selDay="";
+  var selDay="", selT="all";
   function render(){
     ensureDompet();
     // dashboard (bulan berjalan)
@@ -1690,26 +1692,47 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     fillSelect($("fCatF"),[["all","Semua kategori"]].concat(sortCats(fcs).map(function(c){return [c,c]})),selC);
 
     var ord=new Map();items.forEach(function(t,i){ord.set(t,i)});
-    var list=items.filter(function(t){
-      return (selM==="all"||t.date.slice(0,7)===selM)&&(!selDay||t.date===selDay)&&(selC==="all"||t.category===selC);
-    }).sort(function(a,b){
-      if(a.date!==b.date)return a.date<b.date?1:-1;
-      var ta=a.ts||0, tb=b.ts||0;
-      if(ta!==tb)return tb-ta;
-      return ord.get(b)-ord.get(a);
+    var baseRows=[];
+    items.forEach(function(t){
+      if((selM==="all"||t.date.slice(0,7)===selM)&&(!selDay||t.date===selDay)&&(selC==="all"||t.category===selC))baseRows.push({t:t,date:t.date,kind:flowKind(t)});
     });
+    if(selC==="all"){
+      var yms=selM==="all"?Object.keys(salaries).concat(Object.keys(extras)).filter(function(v,i,ar){return ar.indexOf(v)===i}):[selM];
+      yms.forEach(function(ym){
+        var d1=ym+"-01";if(selDay&&selDay!==d1)return;
+        var bs=salBase(ym);if(bs>0)baseRows.push({syn:true,key:"sal:"+ym,ym:ym,date:d1,name:"Gaji",cat:"Gaji",amount:bs,kind:"in"});
+        (extras[ym]||[]).forEach(function(x,i){baseRows.push({syn:true,key:"xs:"+ym+":"+i,ym:ym,date:d1,name:x.n||"Gaji tambahan",cat:"Gaji tambahan",amount:x.a,kind:"in"})});
+      });
+    }
+    var list=baseRows.filter(function(r){return selT==="all"||(selT==="in"?r.kind==="in":r.kind==="out")}).sort(function(a,b){
+      if(a.date!==b.date)return a.date<b.date?1:-1;
+      if(a.syn!==b.syn)return a.syn?1:-1;
+      if(a.syn)return 0;
+      var ta=a.t.ts||0, tb=b.t.ts||0;
+      if(ta!==tb)return tb-ta;
+      return ord.get(b.t)-ord.get(a.t);
+    });
+    var tbs=$("tSeg").children;for(var ti=0;ti<tbs.length;ti++)tbs[ti].setAttribute("aria-pressed",String(tbs[ti].getAttribute("data-t")===selT));
+    var incTot=baseRows.reduce(function(a,r){return a+(r.kind==="in"?(r.syn?r.amount:r.t.amount):0)},0);
+    var outTot=baseRows.reduce(function(a,r){return a+(r.t&&r.kind==="out"&&!nonSpend(r.t)?r.t.amount:0)},0), net=incTot-outTot;
+    $("flowSum").innerHTML='<div class="gm"><span>Pemasukan</span><b class="inc">+'+rp(incTot)+'</b></div><div class="gm"><span>Pengeluaran</span><b>\u2212'+rp(outTot)+'</b></div><div class="gm"><span>Selisih</span><b'+(net>=0?' class="inc"':'')+'>'+(net>=0?"+":"\u2212")+rp(Math.abs(net))+'</b></div>';
 
     // tabel
-    $("rows").innerHTML=list.length?list.map(function(t){
+    $("rows").innerHTML=list.length?list.map(function(r){
+      if(r.syn){
+        var sk="tx:"+r.key;
+        return '<tr class="txr'+(openCard===sk?" open":"")+'"'+ckAttr(sk)+'><td>'+dateLabel(r.date)+"</td><td>"+esc(r.name)+'</td><td><span class="tag">'+esc(r.cat)+'</span></td><td class="amt in">+'+rp(r.amount)+'</td><td class="act"><div class="xi"><div class="xr"><button class="small" data-a="sal" data-ym="'+esc(r.ym)+'">'+ic("pen")+'Atur gaji</button></div></div></td></tr>';
+      }
+      var t=r.t;
       var del=pendingDel===t.id
         ? '<button class="small danger confirm" data-a="del" data-id="'+esc(t.id)+'">Yakin hapus?</button>'
         : '<button class="small danger" data-a="del" data-id="'+esc(t.id)+'">'+ic("trash")+'Hapus</button>';
       var ck="tx:"+t.id;
-      return '<tr class="txr'+(openCard===ck?" open":"")+'"'+ckAttr(ck)+'><td>'+dateLabel(t.date)+"</td><td>"+esc(t.name)+saveSub(t)+'</td><td><span class="tag">'+esc(t.category)+'</span></td><td class="amt">'+rp(t.amount)+'</td><td class="act"><div class="xi"><div class="xr"><button class="small" data-a="edit" data-id="'+esc(t.id)+'">'+ic("pen")+'Edit</button>'+del+"</div></div></td></tr>";
+      return '<tr class="txr'+(openCard===ck?" open":"")+'"'+ckAttr(ck)+'><td>'+dateLabel(t.date)+"</td><td>"+esc(t.name)+saveSub(t)+'</td><td><span class="tag">'+esc(t.category)+'</span></td><td class="amt'+(r.kind==="in"?" in":"")+'">'+(r.kind==="in"?"+":r.kind==="out"?"\u2212":"")+rp(t.amount)+'</td><td class="act"><div class="xi"><div class="xr"><button class="small" data-a="edit" data-id="'+esc(t.id)+'">'+ic("pen")+'Edit</button>'+del+"</div></div></td></tr>";
     }).join(""):'<tr><td colspan="5" class="empty">Tidak ada transaksi untuk filter ini.</td></tr>';
 
     // ringkasan kategori (mengikuti filter)
-    var sl=list.filter(function(t){return !nonSpend(t)}), groups=sumBy(sl), ft=sl.reduce(function(s,t){return s+t.amount},0);
+    var sl=baseRows.filter(function(r){return r.t&&!nonSpend(r.t)&&r.kind==="out"}).map(function(r){return r.t}), groups=sumBy(sl), ft=sl.reduce(function(s,t){return s+t.amount},0);
     $("catList").innerHTML=groups.length?groups.map(function(g){
       var pct=ft?Math.round(g[1]/ft*100):0;
       return '<div class="cat"><div class="top"><span>'+esc(g[0])+" ("+pct+'%)</span><span>'+rp(g[1])+'</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
@@ -1806,14 +1829,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 
   $("btnCancel").addEventListener("click",function(){resetForm();closeTx()});
   $("fDay").addEventListener("change",function(){var v=this.value;if(/^\d{4}-\d{2}-\d{2}$/.test(v)){selDay=v;viewYM=v.slice(0,7);pendingM=viewYM}else selDay="";render()});
+  $("tSeg").addEventListener("click",function(e){var b=e.target.closest("button[data-t]");if(!b)return;selT=b.getAttribute("data-t");render()});
   $("btnDayX").addEventListener("click",function(){selDay="";$("fDay").value="";render()});
-  $("btnReset").addEventListener("click",function(){selDay="";$("fMonth").value=viewYM;$("fCatF").value="all";render()});
+  $("btnReset").addEventListener("click",function(){selDay="";selT="all";$("fMonth").value=viewYM;$("fCatF").value="all";render()});
   $("fMonth").addEventListener("change",function(){selDay="";var v=$("fMonth").value;if(v!=="all"){viewYM=v;pendingM=v}render()});
   $("fCatF").addEventListener("change",render);
 
   $("rows").addEventListener("click",function(e){
     var b=e.target.closest("button");if(!b)return;
     var id=b.getAttribute("data-id"), a=b.getAttribute("data-a");
+    if(a==="sal"){var sym=b.getAttribute("data-ym");viewYM=sym;pendingM=sym;render();openSalary();return}
     if(a==="edit"){
       var t=items.filter(function(x){return x.id===id})[0];if(!t)return;
       editId=id;pendingDel=null;
@@ -2307,7 +2332,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     });
     return out;
   }
-  function autoX(ym){return items.filter(function(t){if(t.date.slice(0,7)!==ym)return false;if(t.category===WD)return true;if(t.category!==GOALC||t.asetId!=="dompet")return false;var g=gOf(t.tujuanId);return !!t.tarik||!!(g&&g.recv)})}
+  function isXtr(t){if(t.category===WD)return true;if(t.category!==GOALC||t.asetId!=="dompet")return false;var g=gOf(t.tujuanId);return !!t.tarik||!!(g&&g.recv)}
+  function flowKind(t){if(isXtr(t))return "in";if(t.category===GOALC){var g=gOf(t.tujuanId);if(g&&g.recv)return "mv"}return "out"}
+  function autoX(ym){return items.filter(function(t){return t.date.slice(0,7)===ym&&isXtr(t)})}
   function xtrSum(ym){return (extras[ym]||[]).reduce(function(t,x){return t+x.a},0)+autoX(ym).reduce(function(t,x){return t+x.amount},0)}
   function salBase(ym){var b=salaries[ym];return typeof b==="number"&&b>0?b:0}
   function salTot(ym){return salBase(ym)+xtrSum(ym)}
@@ -3874,6 +3901,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .gcar.paused~.gfoot .gdots button.on i{animation-play-state:paused}
 @keyframes gfill{to{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){.gdots button span{transition:none}}
+.tseg{display:flex;gap:6px;margin:10px 0 4px}
+.tseg button{flex:1;min-width:0;min-height:38px;padding:6px 8px;font-size:.9rem;border-radius:12px}
+.tseg button[aria-pressed="true"]{border-color:var(--sage-d);color:var(--sage-d);font-weight:700}
+.flow{margin:10px 0 6px}.flow .gm{display:flex;justify-content:space-between;gap:10px}
+.flow .gm b{font-variant-numeric:tabular-nums}.flow .gm .inc,td.amt.in{color:var(--sage-d)}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
