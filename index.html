@@ -1014,8 +1014,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
           <div class="gsl clone" aria-hidden="true" hidden></div>
         </div>
       </div>
-      <div class="gdots" id="gDots" hidden></div>
-      <button type="button" class="small" id="btnGoals">Kelola tujuan</button>
+      <div class="gfoot"><button type="button" class="small" id="btnGoals">Kelola tujuan</button><div class="gdots" id="gDots" hidden></div></div>
     </div>
   </section>
 
@@ -1924,6 +1923,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       if(on){if(restart||!b[i].classList.contains("on")){b[i].classList.remove("on");void b[i].offsetWidth}b[i].classList.add("on")}else b[i].classList.remove("on")
     }
   }
+  function gBarGrow(el){if(RM||!el)return;var i=el.querySelector(".bar i");if(!i)return;i.classList.remove("gg");void i.offsetWidth;i.classList.add("gg")}
+  function gPulse(){if(RM)return;var d=$("gDots");d.classList.remove("pulse");void d.offsetWidth;d.classList.add("pulse")}
   function gStop(){if(car.raf){cancelAnimationFrame(car.raf);car.raf=0}$("gTrack").classList.remove("anim")}
   function gAnim(x,dur,done){
     gStop();var tr=$("gTrack");
@@ -1937,10 +1938,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function gAdvance(){
     var n=car.len;if(n<2)return;var nx=car.idx+1,w=gW();
-    car.idx=nx%n;gDots(true);
+    car.idx=nx%n;gDots(true);gBarGrow(gSlides()[nx]);if(nx>=n)gPulse();
     gAnim(nx*w,900,function(){if(nx>=n){$("gTrack").scrollLeft=0;gFade()}});
   }
-  function gGo(i){var n=car.len;if(i<0||i>=n)return;car.idx=i;gDots(true);gAnim(i*gW(),600)}
+  function gGo(i){var n=car.len;if(i<0||i>=n)return;car.idx=i;gDots(true);gBarGrow(gSlides()[i]);gAnim(i*gW(),600)}
   function fillGoalCar(by){
     var tr=$("gTrack"),sl=tr.querySelectorAll(".gsl:not(.clone)"),vis=[],anyG=goals.length>0;
     for(var i=0;i<3;i++){
@@ -1956,19 +1957,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     }
     var cl=tr.querySelector(".gsl.clone");
     if(vis.length>1){cl.innerHTML=sl[vis[0]].innerHTML;cl.hidden=false}else{cl.innerHTML="";cl.hidden=true}
-    car.len=vis.length;
+    car.len=vis.length;car.visK=vis;
     var sig=vis.join(",");
     if(sig!==car.sig){
       car.sig=sig;car.idx=0;gStop();tr.scrollLeft=0;
       var d=$("gDots");d.hidden=vis.length<2;d.innerHTML="";
       if(vis.length>1)vis.forEach(function(k,j){var b=document.createElement("button");b.type="button";b.setAttribute("data-i",j);b.setAttribute("aria-label",GK[k].tab);b.innerHTML="<span><i></i></span>";d.appendChild(b)});
-      gDots(true);
+      gDots(true);gBarGrow(sl[vis[0]]);
     }
     gFade();
   }
   (function(){
     var tr=$("gTrack"),dots=$("gDots"),st=0;
-    dots.addEventListener("animationend",function(e){if(e.animationName==="gfill")gAdvance()});
+    dots.addEventListener("animationend",function(e){if(e.animationName==="gfill")gAdvance();else if(e.animationName==="gpulse")dots.classList.remove("pulse")});
     dots.addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(b)gGo(+b.getAttribute("data-i"))});
     function hold(){car.touch=true;gStop();gPause();clearTimeout(car.t)}
     function release(){clearTimeout(car.t);car.t=setTimeout(function(){car.touch=false;gPause()},500)}
@@ -2139,7 +2140,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   });
   if(window.matchMedia){var mq=matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",paintTheme)}
   paintTheme();
-  $("btnGoals").addEventListener("click",function(){goTab("aset","goalPanel")});
+  $("btnGoals").addEventListener("click",function(){var kk=car.visK&&car.visK[car.idx];if(kk!==undefined&&kk!==gTab){gTab=kk;pendingGoal=null;try{localStorage.setItem("gtab-v1",String(gTab))}catch(x){}renderGoals()}goTab("aset","goalPanel")});
   $("btnGoalAdd").addEventListener("click",function(){editGoal=null;pendingGoal=null;setKind(gTab);$("gName").value="";$("gTarget").value="";$("gSaved").value="";$("gDate").value="";$("gDate0").value=ymd(new Date());$("gErr").textContent="";$("gFormTitle").textContent=GK[gTab].add;$("btnGoalSave").textContent=GK[gTab].add;popOpen("gsSheet")});
   $("btnGoalCancel").addEventListener("click",resetGoal);
   $("btnGoalSave").addEventListener("click",function(){
@@ -3858,13 +3859,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .gsl{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;will-change:opacity}
 .gsk{color:var(--muted);font-size:.78rem;font-weight:600;letter-spacing:.02em;margin-top:6px}
 .gsl .v{margin-top:2px}
-.gdots{display:flex;justify-content:flex-start;align-items:center;margin:6px 0 2px -3px;--gdur:5s}
-.gdots button{min-height:0;min-width:0;border:0;background:none;padding:8px 3px;border-radius:0}
-.gdots button span{display:block;width:6px;height:6px;border-radius:99px;background:var(--track);overflow:hidden;position:relative;transition:width .35s ease}
-.gdots button.on span{width:28px}
+.gfoot{display:flex;align-items:center;gap:6px;margin-top:12px;min-width:0}
+.gfoot #btnGoals{flex:0 0 auto;margin:0}
+.gdots{flex:1 1 0;min-width:0;display:flex;justify-content:center;align-items:center;margin:0;--gdur:5s;transform-origin:center}
+.gdots.pulse{animation:gpulse .7s ease}
+@keyframes gpulse{40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.bar i.gg{transform-origin:left center;animation:ggrow .85s cubic-bezier(.2,.7,.2,1) both}
+@keyframes ggrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.gdots button{min-height:0;min-width:0;margin:0;border:0;background:none;padding:10px 2px;border-radius:0}
+.gdots button span{display:block;width:5px;height:5px;border-radius:99px;background:var(--track);overflow:hidden;position:relative;transition:width .35s ease}
+.gdots button.on span{width:20px}
 .gdots button i{position:absolute;inset:0;background:var(--sage-d);transform-origin:left center;transform:scaleX(0);border-radius:99px}
 .gdots button.on i{animation:gfill var(--gdur) linear forwards}
-.gcar.paused~.gdots button.on i{animation-play-state:paused}
+.gcar.paused~.gfoot .gdots button.on i{animation-play-state:paused}
 @keyframes gfill{to{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){.gdots button span{transition:none}}
 </style>
