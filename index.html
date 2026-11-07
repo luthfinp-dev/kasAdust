@@ -1019,7 +1019,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <div class="l"><i data-ic="up"></i>Total aset<button type="button" class="eye" data-eye></button></div><div class="v" id="aTotal">Rp 0</div>
       <div class="n" id="aInfo"></div>
       <div class="aspark" id="aSpark"></div>
-      <div class="afoot"><button type="button" class="small" id="btnAssets">Kelola aset</button><button type="button" class="small arng" id="btnRng" aria-expanded="false" aria-controls="rngList" aria-label="Rentang grafik"><span id="rngLbl">30H</span><span aria-hidden="true">\u25be</span></button></div>
+      <div class="afoot"><button type="button" class="small" id="btnAssets">Kelola aset</button><button type="button" class="small arng" id="btnRng" aria-expanded="false" aria-controls="rngList" aria-label="Rentang grafik"><span id="rngLbl">30H</span></button></div>
       <div class="rnglist" id="rngList" hidden role="group" aria-label="Rentang grafik"><button type="button" data-n="7">7H</button><button type="button" data-n="30">30H</button><button type="button" data-n="90">90H</button></div>
     </div>
     <div class="stat">
@@ -2300,12 +2300,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     try{var ks=Object.keys(aHist).sort();while(ks.length>400)delete aHist[ks.shift()];localStorage.setItem("aset-hist-v1",JSON.stringify(aHist))}catch(e){}
   }
   function clearAHist(){aHist={};aHistLoaded=true;try{localStorage.removeItem("aset-hist-v1")}catch(e){}}
+  function dU(){return I18N.lang()==="en"?"D":"H"}
   function spPanel(N,bd,body){
     return '<div class="spw"><div class="sphd"><span class="splb">'+N+' hari</span>'+bd+'</div>'+body+'</div>';
   }
   function paintRng(){
-    var l=$("rngLbl");if(l)l.textContent=sparkN+"H";
-    var bs=$("rngList")?$("rngList").children:[];for(var i=0;i<bs.length;i++){var on=+bs[i].getAttribute("data-n")===sparkN;bs[i].classList.toggle("on",on);bs[i].setAttribute("aria-pressed",String(on))}
+    var l=$("rngLbl");if(l)l.textContent=sparkN+dU();
+    var bs=$("rngList")?$("rngList").children:[];for(var i=0;i<bs.length;i++){var on=+bs[i].getAttribute("data-n")===sparkN;bs[i].textContent=bs[i].getAttribute("data-n")+dU();bs[i].classList.toggle("on",on);bs[i].setAttribute("aria-pressed",String(on))}
   }
   function sparkAset(){
     var el=$("aSpark");if(!el)return;ensureAHist();paintRng();
@@ -2336,7 +2337,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var v0=vals[0], pc=v0>0?(vals[N-1]-v0)/v0*100:null, up=vals[N-1]>=v0, bd="";
     if(!hideBal&&pc!==null){
       var ap=Math.abs(pc);
-      bd=ap<0.05?'<span class="spbd flat">0% \u00b7 '+N+'H</span>':'<span class="spbd '+(up?"up":"dn")+'">'+(up?"\u25b2":"\u25bc")+" "+ap.toFixed(1).replace(".",",")+"% \u00b7 "+N+"H</span>";
+      bd=ap<0.05?'<span class="spbd flat">0% \u00b7 '+N+dU()+'</span>':'<span class="spbd '+(up?"up":"dn")+'">'+(up?"\u25b2":"\u25bc")+" "+ap.toFixed(1).replace(".",",")+"% \u00b7 "+N+dU()+"</span>";
     }
     el.innerHTML=spPanel(N,bd,svg+'<div class="spax"><span>1</span><span>'+Math.round(N/2)+'</span><span>'+N+'</span></div>');
   }
