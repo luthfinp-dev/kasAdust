@@ -2178,13 +2178,24 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("knob").innerHTML=ic(d?"moon":"sun");
   }
   function themeFade(){var r=document.documentElement;r.classList.add("tswap");clearTimeout(themeFade._t);themeFade._t=setTimeout(function(){r.classList.remove("tswap")},520)}
+  /* ganti terang/gelap dan skin: pudar seluruh halaman (View Transitions), cadangan: pudar per elemen */
+  function themeSwap(fn){
+    var ran=false;function run(){if(ran)return;ran=true;fn()}
+    var rm=!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if(!rm&&document.startViewTransition&&!themeSwap._busy){
+      themeSwap._busy=true;var free=function(){themeSwap._busy=false};
+      try{var vt=document.startViewTransition(run);vt.finished.then(free,free);return}catch(e){free()}
+    }
+    themeFade();run();
+  }
   $("btnTheme").addEventListener("click",function(){
-    themeFade();
-    var n=curDark()?"light":"dark";
-    document.documentElement.setAttribute("data-theme",n);
-    try{localStorage.setItem("tema-v1",n)}catch(e){}
-    if(mode==="db")save();
-    paintTheme();refreshDonut();
+    themeSwap(function(){
+      var n=curDark()?"light":"dark";
+      document.documentElement.setAttribute("data-theme",n);
+      try{localStorage.setItem("tema-v1",n)}catch(e){}
+      if(mode==="db")save();
+      paintTheme();refreshDonut();
+    });
   });
   if(window.matchMedia){var mq=matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",paintTheme)}
   paintTheme();
@@ -3602,10 +3613,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     paintTheme();paintSkin();fitStats();refreshDonut();
   }
   function pickSkin(sk){
-    themeFade();
-    try{localStorage.setItem("skin-v1",sk==="midnight"?"midnight":"original")}catch(e){}
-    applySkin(sk);
-    if(mode==="db")save();
+    themeSwap(function(){
+      try{localStorage.setItem("skin-v1",sk==="midnight"?"midnight":"original")}catch(e){}
+      applySkin(sk);
+      if(mode==="db")save();
+    });
   }
   document.querySelectorAll(".skin").forEach(function(b){
     b.addEventListener("click",function(){pickSkin(b.getAttribute("data-skin"))});
@@ -3954,6 +3966,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 .stat .eye{margin:0 0 0 auto!important;flex:none;min-width:0}
 .stat>.l{padding-right:0}
 .stat>.l+.v{margin-top:10px}
+@media (prefers-reduced-motion:no-preference){
+  ::view-transition-old(root),::view-transition-new(root){animation-duration:.4s;animation-timing-function:ease}
+}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
