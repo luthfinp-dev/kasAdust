@@ -1011,9 +1011,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <div class="moves" id="lMoves"></div>
       <button type="button" class="small" id="btnSalary">Atur gaji</button>
     </div>
-    <div class="stat">
+    <div class="stat" id="spCard">
       <div class="l"><i data-ic="out"></i><span id="mLbl">Total pengeluaran bulan ini</span></div><div class="v" id="mTotal">Rp 0</div>
       <div class="n" id="mInfo"></div>
+      <div class="spdw" id="spDw"><button type="button" class="spdots" id="spDots"><span></span><span></span><span></span></button></div>
       <div class="coinbox" id="coinBox" role="button" tabindex="0"><div class="cb-fill" id="cbFill"></div><span class="cb-hint" id="cbHint"></span><span class="cb-pct" id="cbPct"></span></div>
       <div class="mini" id="mMini"></div>
       <div class="streak" id="mStreak" hidden></div>
@@ -1697,9 +1698,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("lUsed").className="n"+(hasSal&&left<0&&!hideBal?" over":"");
     $("mTotal").textContent=rp(tot);
     $("mInfo").textContent=spendCur.length+" transaksi, terbesar: "+(top?top[0]:"belum ada");
-    paintSpend(tot,sal,hasSal);
     var tl=viewYM===curYM?" bulan ini":"";
-    $("lLbl").textContent="Dompetku";$("mLbl").textContent="Total pengeluaran"+tl;
+    $("lLbl").textContent="Dompetku";$("mLbl").textContent="Total pengeluaran"+tl;paintSpend(tot,sal,hasSal);
     $("ttlText").textContent=monthLabel(viewYM);
     renderGoals();setEyes();renderWeek();
     renderAssets();
@@ -2252,26 +2252,50 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       else{pendingGoal=id;renderGoals();setTimeout(function(){if(pendingGoal===id){pendingGoal=null;renderGoals()}},4000)}
     }
   });
+  var spMode=2;
   function paintSpend(tot,sal,hasSal){
     var box=$("coinBox");if(!box)return;
-    var en=I18N.lang()==="en", fp=0, lab="";
-    if(hasSal){var pc=tot>0?Math.min(100,Math.round(tot/sal*100)):0;fp=tot>0?Math.max(14,Math.min(78,pc*0.78)):0;lab=hideBal?"":pc+(en?"% of salary":"% dari gaji")}
-    else if(tot>0){fp=30}
-    $("cbFill").style.height=fp+"%";
-    $("cbPct").textContent=lab;
-    $("cbHint").textContent=en?"Tap for coin rain":"Ketuk untuk hujan koin";
-    box.setAttribute("aria-label",en?"Coin rain":"Hujan koin");
-    var pm=viewYM.split("-"), dim=new Date(+pm[0],+pm[1],0).getDate(), el=viewYM===curYM?new Date().getDate():(viewYM<curYM?dim:0);
-    var allMap={}, first="";
+    var en=I18N.lang()==="en", cur=viewYM===curYM, mode=cur?spMode:2;
+    var pm=viewYM.split("-"), dim=new Date(+pm[0],+pm[1],0).getDate(), el=cur?new Date().getDate():(viewYM<curYM?dim:0);
+    var allMap={}, cntMap={}, first="";
     items.forEach(function(t){
       if(!first||t.date<first)first=t.date;
       if(nonSpend(t))return;
-      allMap[t.date]=(allMap[t.date]||0)+t.amount;
+      allMap[t.date]=(allMap[t.date]||0)+t.amount;cntMap[t.date]=(cntMap[t.date]||0)+1;
     });
-    var avg=el>0?Math.round(tot/el):0, b2l, b2v;
-    if(viewYM===curYM){b2l=en?"Today":"Hari ini";b2v=allMap[ymd(new Date())]||0}
-    else{b2l=en?"Peak day":"Hari terboros";b2v=0;Object.keys(allMap).forEach(function(k){if(k.slice(0,7)===viewYM&&allMap[k]>b2v)b2v=allMap[k]})}
-    $("mMini").innerHTML='<div class="mi"><span>'+(en?"Avg/day":"Rata-rata/hari")+'</span><b>'+mk(avg)+'</b></div><div class="mi"><span>'+b2l+'</span><b>'+mk(b2v)+'</b></div>';
+    var avg=el>0?Math.round(tot/el):0, td=ymd(new Date()), tv=allMap[td]||0, tc=cntMap[td]||0;
+    var wk=0, wc=0, wpk=0;
+    for(var q=0;q<7;q++){var dk=daysAgo(q), a0=allMap[dk]||0;wk+=a0;wc+=cntMap[dk]||0;if(a0>wpk)wpk=a0}
+    var fp=0, lab="", labS="", m1, m2, l1=en?"Avg/day":"Rata-rata/hari", l2, v2;
+    if(mode===2){
+      if(hasSal){var pc=tot>0?Math.min(100,Math.round(tot/sal*100)):0;fp=tot>0?Math.max(14,Math.min(78,pc*0.78)):0;if(!hideBal){lab=pc+(en?"% of salary":"% dari gaji");labS=pc+"%"}}
+      else if(tot>0){fp=30}
+      m1=avg;
+      if(cur){l2=en?"Today":"Hari ini";v2=tv}
+      else{l2=en?"Peak day":"Hari terboros";v2=0;Object.keys(allMap).forEach(function(k){if(k.slice(0,7)===viewYM&&allMap[k]>v2)v2=allMap[k]})}
+    }else{
+      var v=mode===0?tv:wk, base=dailyLimit>0?dailyLimit*(mode===0?1:7):(avg>0?avg*(mode===0?2:14):0);
+      var pc2=base>0?Math.min(100,Math.round(v/base*100)):(v>0?50:0);
+      fp=v>0?Math.max(14,Math.min(78,pc2*0.78)):0;
+      if(dailyLimit>0&&!hideBal){lab=pc2+(en?"% of limit":"% dari batas");labS=pc2+"%"}
+      $("mTotal").textContent=rp(v);
+      $("mLbl").textContent=mode===0?(en?"Spending today":"Pengeluaran hari ini"):(en?"Spending, 7 days":"Pengeluaran 7 hari");
+      var cn=mode===0?tc:wc;
+      $("mInfo").textContent=mode===0?(cn?(en?cn+(cn===1?" transaction today":" transactions today"):cn+" transaksi hari ini"):(en?"No spending yet today":"Belum ada pengeluaran hari ini")):(en?cn+(cn===1?" transaction, last 7 days":" transactions, last 7 days"):cn+" transaksi, 7 hari terakhir");
+      if(mode===0){m1=avg;l2=en?"Daily limit":"Batas/hari";v2=dailyLimit>0?dailyLimit:-1}
+      else{m1=Math.round(wk/7);l2=en?"Peak day":"Hari terboros";v2=wpk}
+    }
+    $("cbFill").style.height=fp+"%";
+    var pe=$("cbPct");
+    if(lab){pe.innerHTML='<span class="pl"></span><span class="ps"></span>';pe.querySelector(".pl").textContent=lab;pe.querySelector(".ps").textContent=labS}else pe.innerHTML="";
+    $("cbHint").innerHTML='<span class="hl"></span><span class="hs"></span>';
+    $("cbHint").querySelector(".hl").textContent=en?"Tap for coin rain":"Ketuk untuk hujan koin";
+    $("cbHint").querySelector(".hs").textContent=en?"Tap":"Ketuk";
+    box.setAttribute("aria-label",en?"Coin rain":"Hujan koin");
+    $("mMini").innerHTML='<div class="mi"><span>'+l1+'</span><b>'+mk(m1)+'</b></div><div class="mi"><span>'+l2+'</span><b>'+(v2<0?"-":mk(v2))+'</b></div>';
+    $("spDw").hidden=!cur;$("spCard").classList.toggle("cyc",cur);
+    var dd=$("spDots").children;for(var di=0;di<dd.length;di++)dd[di].className=(di===(mode===2?2:mode))?"on":"";
+    $("spDots").setAttribute("aria-label",en?"Switch view: today, 7 days, month":"Ganti tampilan: hari ini, 7 hari, bulan");
     var st=$("mStreak");
     if(!first){st.hidden=true;return}
     var n=0;
@@ -2280,7 +2304,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var a=allMap[d]||0, ok=dailyLimit>0?a<=dailyLimit:a===0;
       if(!ok)break;n++;
     }
-    var t1,t2;
+    var t1,t1s,t2;
     if(dailyLimit>0){
       t1=n>0?(en?n+"-day saving streak":n+" hari hemat beruntun"):(en?"No streak yet":"Streak belum mulai");
       t2=n>0?(en?"Under your daily limit":"Di bawah batas harian"):(en?"Today is over the daily limit":"Hari ini melewati batas harian");
@@ -2288,10 +2312,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       t1=n>0?(en?n+(n===1?" day with no spending":" days with no spending"):n+" hari tanpa jajan"):(en?"No streak yet":"Streak belum mulai");
       t2=n>0?(en?"Set a daily limit for a saving streak":"Atur batas harian untuk streak hemat"):(en?"There is spending today":"Hari ini sudah ada pengeluaran");
     }
+    t1s=n>0?(en?n+(n===1?" day":" days"):n+" hari"):(en?"No streak":"Belum ada");
     st.hidden=false;st.className="streak"+(n>0?" on":"");
-    st.innerHTML='<span class="sfi">'+ic("flame")+'</span><span><b></b><small></small></span>';
-    st.querySelector("b").textContent=t1;st.querySelector("small").textContent=t2;
+    st.innerHTML='<span class="sfi">'+ic("flame")+'</span><span><b><span class="sl"></span><span class="ss"></span></b><small></small></span>';
+    st.querySelector(".sl").textContent=t1;st.querySelector(".ss").textContent=t1s;st.querySelector("small").textContent=t2;
   }
+  function spCycle(){if(viewYM!==curYM)return;spMode=(spMode+1)%3;render()}
+  $("spCard").addEventListener("click",function(e){if(e.target.closest("#coinBox,.spdw,.streak"))return;spCycle()});
+  $("spDots").addEventListener("click",spCycle);
   function coinRain(){
     var box=$("coinBox");if(!box)return;
     buzz();
@@ -4153,6 +4181,29 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .streak small{display:block;color:var(--muted);font-size:.76rem;line-height:1.3}
 @keyframes flick{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 @media (prefers-reduced-motion:reduce){.coin,.streak.on .sfi,.cb-fill.hit{animation:none}.cb-fill{transition:none}}
+/* kartu pengeluaran: ganti tampilan + padatkan di HP */
+.spdw{margin-top:8px}
+.spdw[hidden]{display:none}
+.spdots{display:inline-flex;align-items:center;gap:5px;min-height:0;padding:8px 6px;margin:-8px -6px;border:0;background:none;border-radius:99px}
+.spdots:hover{background:none}
+.spdots span{display:block;width:6px;height:6px;border-radius:99px;background:var(--track);transition:width .3s var(--ease),background .25s}
+.spdots span.on{width:18px;background:var(--sage-d)}
+#spCard.cyc{cursor:pointer}
+.cb-hint .hs,.cb-pct .ps,.streak .ss{display:none}
+@media (max-width:760px){
+  .coinbox{height:68px;margin-top:10px;border-radius:14px}
+  .cb-hint{top:6px;left:9px;right:auto;text-align:left;font-size:.66rem}
+  .cb-hint .hl,.cb-pct .pl,.streak .sl{display:none}
+  .cb-hint .hs,.cb-pct .ps,.streak .ss{display:inline}
+  .cb-pct{top:5px;right:6px;bottom:auto;padding:1px 7px;border-radius:99px;background:var(--glass-s);color:var(--text);text-shadow:none;border:1px solid var(--glass-b);font-size:.66rem}
+  .cb-pct:empty{display:none}
+  .mini{display:none}
+  .streak{padding:6px 9px;gap:8px;margin-top:8px;border-radius:12px}
+  .streak .sfi{width:24px;height:24px}
+  .streak .sfi .ic{width:14px;height:14px}
+  .streak small{display:none}
+  .streak b{font-size:.78rem}
+}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
