@@ -1014,6 +1014,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="stat">
       <div class="l"><i data-ic="out"></i><span id="mLbl">Total pengeluaran bulan ini</span></div><div class="v" id="mTotal">Rp 0</div>
       <div class="n" id="mInfo"></div>
+      <div class="coinbox" id="coinBox" role="button" tabindex="0"><div class="cb-fill" id="cbFill"></div><span class="cb-hint" id="cbHint"></span><span class="cb-pct" id="cbPct"></span></div>
+      <div class="mini" id="mMini"></div>
+      <div class="streak" id="mStreak" hidden></div>
     </div>
     <div class="stat">
       <div class="l"><i data-ic="up"></i>Total aset<button type="button" class="eye" data-eye></button></div><div class="v" id="aTotal">Rp 0</div>
@@ -1617,7 +1620,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var nf=new Intl.NumberFormat("id-ID");
   function rp(n){return "Rp "+nf.format(n)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-  var P={debt:'<circle cx="12" cy="12" r="9"/><path d="M9 15l6-6M10 9h5v5"/>',recv:'<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M14 15H9v-5"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',out:'<path d="M7 17 17 7"/><path d="M7 7h10v10"/>',up:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',pie:'<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',list:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',pen:'<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',chev:'<path d="m6 9 6 6 6-6"/>',check:'<path d="M20 6 9 17l-5-5"/>',cal:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',eye:'<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',sliders:'<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>',palette:'<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/>',chart:'<path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',camera:'<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',bank:'<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',download:'<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',upload:'<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'};
+  var P={flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',debt:'<circle cx="12" cy="12" r="9"/><path d="M9 15l6-6M10 9h5v5"/>',recv:'<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M14 15H9v-5"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',out:'<path d="M7 17 17 7"/><path d="M7 7h10v10"/>',up:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',pie:'<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',list:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',pen:'<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',chev:'<path d="m6 9 6 6 6-6"/>',check:'<path d="M20 6 9 17l-5-5"/>',cal:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',eye:'<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',sliders:'<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>',palette:'<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/>',chart:'<path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',camera:'<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',bank:'<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',download:'<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',upload:'<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'};
   function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+P[n]+'</svg>'}
   function pad(n){return n<10?"0"+n:""+n}
   function ymd(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
@@ -1694,6 +1697,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("lUsed").className="n"+(hasSal&&left<0&&!hideBal?" over":"");
     $("mTotal").textContent=rp(tot);
     $("mInfo").textContent=spendCur.length+" transaksi, terbesar: "+(top?top[0]:"belum ada");
+    paintSpend(tot,sal,hasSal);
     var tl=viewYM===curYM?" bulan ini":"";
     $("lLbl").textContent="Dompetku";$("mLbl").textContent="Total pengeluaran"+tl;
     $("ttlText").textContent=monthLabel(viewYM);
@@ -2248,6 +2252,66 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       else{pendingGoal=id;renderGoals();setTimeout(function(){if(pendingGoal===id){pendingGoal=null;renderGoals()}},4000)}
     }
   });
+  function paintSpend(tot,sal,hasSal){
+    var box=$("coinBox");if(!box)return;
+    var en=I18N.lang()==="en", fp=0, lab="";
+    if(hasSal){var pc=tot>0?Math.min(100,Math.round(tot/sal*100)):0;fp=tot>0?Math.max(14,Math.min(78,pc*0.78)):0;lab=hideBal?"":pc+(en?"% of salary":"% dari gaji")}
+    else if(tot>0){fp=30}
+    $("cbFill").style.height=fp+"%";
+    $("cbPct").textContent=lab;
+    $("cbHint").textContent=en?"Tap for coin rain":"Ketuk untuk hujan koin";
+    box.setAttribute("aria-label",en?"Coin rain":"Hujan koin");
+    var pm=viewYM.split("-"), dim=new Date(+pm[0],+pm[1],0).getDate(), el=viewYM===curYM?new Date().getDate():(viewYM<curYM?dim:0);
+    var allMap={}, first="";
+    items.forEach(function(t){
+      if(!first||t.date<first)first=t.date;
+      if(nonSpend(t))return;
+      allMap[t.date]=(allMap[t.date]||0)+t.amount;
+    });
+    var avg=el>0?Math.round(tot/el):0, b2l, b2v;
+    if(viewYM===curYM){b2l=en?"Today":"Hari ini";b2v=allMap[ymd(new Date())]||0}
+    else{b2l=en?"Peak day":"Hari terboros";b2v=0;Object.keys(allMap).forEach(function(k){if(k.slice(0,7)===viewYM&&allMap[k]>b2v)b2v=allMap[k]})}
+    $("mMini").innerHTML='<div class="mi"><span>'+(en?"Avg/day":"Rata-rata/hari")+'</span><b>'+mk(avg)+'</b></div><div class="mi"><span>'+b2l+'</span><b>'+mk(b2v)+'</b></div>';
+    var st=$("mStreak");
+    if(!first){st.hidden=true;return}
+    var n=0;
+    for(var i=0;i<365;i++){
+      var d=daysAgo(i);if(d<first)break;
+      var a=allMap[d]||0, ok=dailyLimit>0?a<=dailyLimit:a===0;
+      if(!ok)break;n++;
+    }
+    var t1,t2;
+    if(dailyLimit>0){
+      t1=n>0?(en?n+"-day saving streak":n+" hari hemat beruntun"):(en?"No streak yet":"Streak belum mulai");
+      t2=n>0?(en?"Under your daily limit":"Di bawah batas harian"):(en?"Today is over the daily limit":"Hari ini melewati batas harian");
+    }else{
+      t1=n>0?(en?n+(n===1?" day with no spending":" days with no spending"):n+" hari tanpa jajan"):(en?"No streak yet":"Streak belum mulai");
+      t2=n>0?(en?"Set a daily limit for a saving streak":"Atur batas harian untuk streak hemat"):(en?"There is spending today":"Hari ini sudah ada pengeluaran");
+    }
+    st.hidden=false;st.className="streak"+(n>0?" on":"");
+    st.innerHTML='<span class="sfi">'+ic("flame")+'</span><span><b></b><small></small></span>';
+    st.querySelector("b").textContent=t1;st.querySelector("small").textContent=t2;
+  }
+  function coinRain(){
+    var box=$("coinBox");if(!box)return;
+    buzz();
+    var fl=$("cbFill");fl.classList.remove("hit");void fl.offsetWidth;fl.classList.add("hit");
+    if(RM||box.querySelectorAll(".coin").length>50)return;
+    var H=box.clientHeight, W=box.clientWidth, fh=H*(parseFloat(fl.style.height)||0)/100;
+    for(var i=0;i<16;i++){
+      var c=document.createElement("span"), sz=16+Math.round(Math.random()*8);
+      c.className="coin";c.textContent="Rp";
+      c.style.setProperty("--s",sz+"px");c.style.left=Math.round(4+Math.random()*Math.max(1,W-sz-8))+"px";
+      c.style.setProperty("--dy",Math.max(20,Math.round(H+26-fh-sz-Math.random()*10))+"px");
+      c.style.setProperty("--r",Math.round(Math.random()*360-180)+"deg");
+      c.style.setProperty("--t",(1.5+Math.random()*.6).toFixed(2)+"s");
+      c.style.setProperty("--d",(i*0.05+Math.random()*0.1).toFixed(2)+"s");
+      c.addEventListener("animationend",function(){this.remove()});
+      box.appendChild(c);
+    }
+  }
+  $("coinBox").addEventListener("click",coinRain);
+  $("coinBox").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();coinRain()}});
   function paintToday(){$("today").textContent=new Date().toLocaleDateString(I18N.loc(),{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
   paintToday();
   paintFCat(CATS[0]);
@@ -4065,6 +4129,30 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 :root[data-skin="midnight"][data-theme="light"] .aspark .spw{--sp:#ec5b9a;--sp-g:rgba(236,91,154,.4);--spt:#24407f;--sbad:rgba(59,100,190,.14);--sact:rgba(59,130,246,.26);--sup:#1f5fc9;--sdn:#d9456f;
  border:1px solid rgba(59,100,190,.28);background:linear-gradient(180deg,#bcd3f7,#dbe8fc);
  box-shadow:inset 0 4px 10px rgba(40,70,150,.22),inset 0 1px 0 rgba(255,255,255,.6),0 1px 0 rgba(255,255,255,.7)}
+/* kartu pengeluaran: hujan koin, mini statistik, streak hemat */
+.coinbox{position:relative;height:92px;margin-top:12px;border-radius:16px;overflow:hidden;cursor:pointer;background:var(--chip);border:1px solid var(--glass-b);-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:transform .16s var(--ease)}
+.coinbox:active{transform:scale(.98)}
+.coinbox:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.cb-fill{position:absolute;left:0;right:0;bottom:0;height:0;transition:height .8s var(--ease);background:radial-gradient(circle at 50% 50%,rgba(255,245,190,.9) 0 26%,transparent 28%) 0 0/20px 20px,linear-gradient(180deg,#f3c34a,#c98a14)}
+.cb-fill.hit{animation:cbHit .45s var(--ease)}
+@keyframes cbHit{0%{transform:translateY(0)}35%{transform:translateY(-5px)}100%{transform:translateY(0)}}
+.cb-hint{position:absolute;top:8px;left:0;right:0;text-align:center;font-size:.72rem;font-weight:600;color:var(--muted);pointer-events:none}
+.cb-pct{position:absolute;right:10px;bottom:6px;font-size:.74rem;font-weight:800;color:#4a2f00;text-shadow:0 1px 0 rgba(255,255,255,.55);pointer-events:none}
+.coin{position:absolute;top:-26px;width:var(--s);height:var(--s);border-radius:50%;display:grid;place-items:center;font:800 calc(var(--s)*.36)/1 system-ui,sans-serif;color:#9a6208;background:radial-gradient(circle at 35% 30%,#fff3b8,#f4c542 48%,#d79a10);border:1.5px solid #b57a0c;box-shadow:0 2px 4px rgba(0,0,0,.28);pointer-events:none;animation:cfall var(--t) cubic-bezier(.4,0,.8,.6) var(--d) both}
+@keyframes cfall{0%{transform:translateY(0) rotate(0);opacity:1}72%{transform:translateY(var(--dy)) rotate(var(--r))}84%{transform:translateY(calc(var(--dy) - 14px)) rotate(calc(var(--r) + 25deg))}94%{transform:translateY(var(--dy)) rotate(var(--r));opacity:1}100%{transform:translateY(var(--dy)) rotate(var(--r));opacity:0}}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.mini .mi{min-width:0;padding:8px 10px;border-radius:12px;background:var(--glass-2);border:1px solid var(--glass-b)}
+.mini .mi span{display:block;font-size:.72rem;color:var(--muted)}
+.mini .mi b{display:block;font-size:.88rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.streak{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border-radius:14px;background:var(--glass-2);border:1px solid var(--glass-b)}
+.streak[hidden]{display:none}
+.streak .sfi{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(150,150,150,.16);color:var(--muted)}
+.streak .sfi .ic{width:18px;height:18px}
+.streak.on .sfi{background:rgba(240,150,40,.2);color:#e0802b;animation:flick 1.8s ease-in-out infinite}
+.streak b{display:block;font-size:.88rem;line-height:1.25}
+.streak small{display:block;color:var(--muted);font-size:.76rem;line-height:1.3}
+@keyframes flick{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@media (prefers-reduced-motion:reduce){.coin,.streak.on .sfi,.cb-fill.hit{animation:none}.cb-fill{transition:none}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
