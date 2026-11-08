@@ -505,6 +505,8 @@ select{text-overflow:ellipsis}
 @media (min-width:761px){.hr{margin-left:auto;margin-right:14px}}
 .moves{margin-top:10px;padding:8px 12px;border-radius:12px;background:var(--chip);border:1px solid var(--glass-b);font-size:.82rem}
 .moves:empty{display:none}
+.acchips{display:flex;gap:8px}.acchips button{flex:1;min-height:42px;border-radius:12px;border:1px solid var(--glass-b);background:var(--chip);color:inherit;font:inherit;cursor:pointer}.acchips button.on{background:var(--sage-d);color:#fff;border-color:transparent}
+.arow2{display:flex;justify-content:space-between;padding:4px 0}.arow2.dim{opacity:.7}.accset{display:grid;gap:6px;margin-top:8px}.accset label{font-size:.78rem;margin:0}.accset input{width:100%}
 .moves .mv-h{color:var(--muted);font-weight:600;margin-bottom:4px}
 .moves .mv{padding:3px 0}
 .moves .mv span{display:block}
@@ -1009,6 +1011,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       <div class="bar"><i id="lBar" style="width:0"></i></div>
       <div class="n" id="lUsed"></div>
       <div class="moves" id="lMoves"></div>
+      <button type="button" class="small" id="btnAcc">Rincian ▾</button>
+      <div class="moves" id="lAcc" hidden></div>
       <button type="button" class="small" id="btnSalary">Atur gaji</button>
     </div>
     <div class="stat">
@@ -1081,6 +1085,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
           <div><label for="fAmt">Nominal (Rp)</label><input id="fAmt" inputmode="numeric" placeholder="25.000" autocomplete="off"></div>
           <div><label for="fDate">Tanggal</label><input id="fDate" type="date" min="1900-01-01" max="2199-12-31"></div>
           <div class="full"><div class="lblrow"><label for="fCat">Kategori</label><button type="button" class="catset" id="btnCatSet" aria-label="Atur kategori" title="Atur kategori"><i data-ic="plus"></i></button></div><select id="fCat"></select></div>
+          <div class="full" id="acBox" hidden><label>Bayar pakai</label><input type="hidden" id="fAcct"><div class="acchips" id="acChips"><button type="button" data-ac="BCA">BCA</button><button type="button" data-ac="SeaBank">Seabank</button><button type="button" data-ac="Tunai">Cash</button></div></div>
           <div class="full" id="trBox" hidden>
             <div class="fields">
               <div><label for="fFrom">Dari (bank/dompet)</label><input id="fFrom" list="trOpts" maxlength="30" placeholder="Contoh: BCA" autocomplete="off"></div>
@@ -1793,9 +1798,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       return '<optgroup label="'+esc(g[0])+'">'+g[1].map(function(c){return '<option value="'+esc(c)+'"'+(c===sel?" selected":"")+'>'+esc(c)+'</option>'}).join("")+'</optgroup>';
     }).join("");
   }
+  var lastAcct="";try{lastAcct=localStorage.getItem("akun-terakhir-v1")||""}catch(e){}
   function resetForm(){
     editId=null;
-    $("form").reset();
+    $("form").reset();$("fAcct").value=lastAcct||"";
     $("fDate").value=ymd(new Date());
     if(CATS.indexOf(lastCat)<0)lastCat=CATS[0];
     fgk=0;paintFCat(lastCat);toggleSaveBox();toggleTrBox("","");toggleDebtBox();toggleGoalBox("","");toggleWdBox("");
@@ -1859,6 +1865,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(cat===GOALC&&fgk===0){if(fdir==="t")rec.pakai=true;else rec.setor=true}
     if(cat===DEBT&&dId)rec.tujuanId=dId;
     if(cat===TRF){rec.from=tFrom;rec.to=tTo}
+    var acv=$("fAcct").value;if(!$("acBox").hidden&&ACCTS.indexOf(acv)>=0){rec.acct=acv;lastAcct=acv;try{localStorage.setItem("akun-terakhir-v1",acv)}catch(e){}}
     if(editId){
       applySave(items.filter(function(t){return t.id===editId})[0],-1);
       items=items.map(function(t){return t.id===editId?rec:t});
@@ -1890,7 +1897,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var t=items.filter(function(x){return x.id===id})[0];if(!t)return;
       if(t.tambah){toast("Ubah lewat tujuan: hapus lalu tambah ulang");return}
       editId=id;pendingDel=null;
-      $("fName").value=t.name;$("fAmt").value=nf.format(t.amount);$("fDate").value=t.date;paintFCat(t.category,t.category);toggleSaveBox(t.asetId,t.tujuanId);toggleTrBox(t.from||"",t.to||"");toggleDebtBox(t.tujuanId);fdir=(t.tarik||t.pakai)?"t":"s";toggleGoalBox(t.tujuanId,t.asetId||"");toggleWdBox(t.asetId);
+      $("fName").value=t.name;$("fAcct").value=t.acct||"";$("fAmt").value=nf.format(t.amount);$("fDate").value=t.date;paintFCat(t.category,t.category);toggleSaveBox(t.asetId,t.tujuanId);toggleTrBox(t.from||"",t.to||"");toggleDebtBox(t.tujuanId);fdir=(t.tarik||t.pakai)?"t":"s";toggleGoalBox(t.tujuanId,t.asetId||"");toggleWdBox(t.asetId);
       $("formTitle").textContent="Edit transaksi";$("btnSave").textContent="Simpan perubahan";$("btnCancel").hidden=false;$("err").textContent="";
       openTx();render();
     }else if(a==="del"){
@@ -2631,7 +2638,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var d={}, m={};
     items.forEach(function(t){var k=t.date.slice(0,7);(m[k]=m[k]||[]).push(t)});
     Object.keys(m).forEach(function(k){d["tx-"+k]={items:m[k]}});
-    if(Object.keys(salaries).length||Object.keys(extras).length)d.gaji={v:salaries,x:extras};if(assets.length)d.aset={items:assets};if(goals.length)d.tujuan={items:goals};d.profil={nama:profil.nama||"",foto:profil.foto||""};d.kategori={items:userCats};
+    if(Object.keys(salaries).length||Object.keys(extras).length)d.gaji={v:salaries,x:extras};if(assets.length)d.aset={items:assets};if(goals.length)d.tujuan={items:goals};d.profil={nama:profil.nama||"",foto:profil.foto||"",rek:profil.rek||{}};d.kategori={items:userCats};
     d.pref={dailyLimit:dailyLimit,hideBal:hideBal,theme:userTheme()};
     return d;
   }
@@ -3096,6 +3103,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     return p.length?'<small class="sv">'+esc(p.join(", "))+'</small>':"";
   }
   function toggleTrBox(f,t){
+    toggleAcctBox();
     var on=$("fCat").value===TRF;
     $("trBox").hidden=!on;
     if(!on)return;
@@ -3105,6 +3113,43 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     items.forEach(function(x){if(x.category===TRF){if(x.from)o.push(x.from);if(x.to)o.push(x.to)}});
     $("trOpts").innerHTML=o.filter(function(v){var k=v.toLowerCase();if(seen[k])return false;seen[k]=1;return true}).map(function(v){return '<option value="'+esc(v)+'">'}).join("");
   }
+  var ACCTS=["BCA","SeaBank","Tunai"], ACL={BCA:"BCA",SeaBank:"Seabank",Tunai:"Cash"}, accOpen=false, accEdit=false;
+  function toggleAcctBox(){
+    var c=$("fCat").value, on=!isSave(c)&&[TRF,GOALC,WD,DEBT,ASET].indexOf(c)<0;
+    $("acBox").hidden=!on;if(!on)return;
+    var v=$("fAcct").value;
+    Array.prototype.forEach.call($("acChips").children,function(b){b.className=b.getAttribute("data-ac")===v?"on":""});
+  }
+  $("acChips").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var v=b.getAttribute("data-ac");$("fAcct").value=$("fAcct").value===v?"":v;toggleAcctBox()});
+  function acctOf(n){var l=String(n||"").toLowerCase();if(l==="cash"||l==="tunai")return "Tunai";for(var i=0;i<ACCTS.length;i++)if(ACCTS[i].toLowerCase()===l)return ACCTS[i];return ""}
+  function accBal(ym){
+    var base=(profil.rek&&profil.rek[ym])||{}, b={};
+    ACCTS.forEach(function(a){b[a]=base[a]||0});
+    items.forEach(function(t){
+      if(t.date.slice(0,7)!==ym)return;
+      if(t.category===TRF){var f=acctOf(t.from),o=acctOf(t.to);if(f)b[f]-=t.amount;if(o)b[o]+=t.amount}
+      else if(t.acct&&b[t.acct]!==undefined&&!nonSpend(t))b[t.acct]-=t.amount;
+    });
+    return b;
+  }
+  function renderAccs(){
+    var box=$("lAcc"),btn=$("btnAcc");if(!box||!btn)return;
+    btn.textContent=accOpen?"Rincian \u25b4":"Rincian \u25be";box.hidden=!accOpen;if(!accOpen)return;
+    var base=(profil.rek&&profil.rek[viewYM])||null, b=accBal(viewYM), sum=0, h="";
+    ACCTS.forEach(function(a){sum+=b[a];h+='<div class="arow2"><span>'+ACL[a]+'</span><span>'+mk(b[a])+'</span></div>'});
+    var rest=monthLeft(viewYM).left-sum;
+    if(base&&Math.abs(rest)>0)h+='<div class="arow2 dim"><span>Belum dialokasikan</span><span>'+mk(rest)+'</span></div>';
+    h+='<button type="button" class="small" data-acc="set">'+(accEdit?"Tutup":"Atur saldo awal")+'</button>';
+    if(accEdit){h+='<div class="accset">'+ACCTS.map(function(a){return '<div><label>'+ACL[a]+'</label><input data-acin="'+a+'" inputmode="numeric" autocomplete="off" value="'+(base&&base[a]?nf.format(base[a]):"")+'" placeholder="0"></div>'}).join("")+'<button type="button" class="small primary" data-acc="save">Simpan</button></div>'}
+    box.innerHTML=h;
+  }
+  $("btnAcc").addEventListener("click",function(){accOpen=!accOpen;renderAccs()});
+  $("lAcc").addEventListener("click",function(e){
+    var b=e.target.closest("button");if(!b)return;var k=b.getAttribute("data-acc");
+    if(k==="set"){accEdit=!accEdit;renderAccs()}
+    else if(k==="save"){var q={};Array.prototype.forEach.call($("lAcc").querySelectorAll("[data-acin]"),function(i){q[i.getAttribute("data-acin")]=num(i.value)});
+      if(!profil.rek)profil.rek={};profil.rek[viewYM]=q;accEdit=false;save();renderAccs();toast("Perubahan disimpan")}
+  });
   function renderMoves(){
     var g=Object.create(null), ks=[];
     items.forEach(function(t){
@@ -3114,7 +3159,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       g[k].a+=t.amount;
     });
     var h=ks.length?'<div class="mv-h">Uang dipindahkan ('+monthLabel(viewYM)+')</div>'+ks.map(function(k){return '<div class="mv"><span>'+esc(g[k].f)+' &rarr; '+esc(g[k].t)+'</span><span>'+mk(g[k].a)+'</span></div>'}).join(""):"";
-    $("lMoves").innerHTML=h;$("sMoves").innerHTML=h;
+    $("lMoves").innerHTML=h;$("sMoves").innerHTML=h;renderAccs();
   }
   function toggleSaveBox(aId,gId){
     var on=isSave($("fCat").value);
@@ -3327,7 +3372,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       if(typeof o.nama==="string")n=o.nama.trim().slice(0,30);
       if(typeof o.foto==="string"&&o.foto.length<200000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(o.foto))f=o.foto;
     }
-    return {nama:n,foto:f};
+    var rk={};if(o&&isObj(o.rek)){Object.keys(o.rek).forEach(function(k){var v=o.rek[k];if(/^\d{4}-\d{2}$/.test(k)&&isObj(v)){var q={};["BCA","SeaBank","Tunai"].forEach(function(a){q[a]=Math.max(0,cAmt(v[a]))});rk[k]=q}})}
+    return {nama:n,foto:f,rek:rk};
   }
   function dispName(){return profil.nama||(mode==="db"?String(theName).split("@")[0]:"")||"Pengguna"}
   function initials(n){
@@ -3660,6 +3706,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(cat===WD){var wa2=cId(o.asetId);if(wa2)r.asetId=wa2}
     if(cat===DEBT){var dg2=cId(o.tujuanId);if(dg2)r.tujuanId=dg2}
     if(cat===TRF){var tf=cStr(o.from,30), tt=cStr(o.to,30);if(tf)r.from=tf;if(tt)r.to=tt}
+    var ac=cStr(o.acct,20);if(ac&&["BCA","SeaBank","Tunai"].indexOf(ac)>=0&&cat!==TRF&&!isSave(cat))r.acct=ac;
     return r;
   }
   function cAmtS(x){var n=Math.round(+x);return isFinite(n)&&Math.abs(n)<=9999999999999?n:NaN}
