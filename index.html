@@ -517,7 +517,10 @@ select{text-overflow:ellipsis}
 .wdots button span{display:block;width:5px;height:5px;border-radius:99px;background:var(--track);transition:width .35s ease,background .35s ease}
 .wdots button.on span{width:20px;background:var(--sage-d)}
 .acch2{font-size:.82rem;color:var(--muted);margin:6px 0 8px}
-.arow2{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;margin-bottom:6px;border-radius:12px;background:var(--chip);border:1px solid var(--glass-b);font-size:.9rem}
+.arow2{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 0;font-size:.88rem}.arow2 .an{min-width:0;overflow-wrap:anywhere}.arow2 .av{white-space:nowrap;font-weight:600}
+#acSheet{z-index:90}.ac-list{max-height:min(44vh,340px);overflow:auto;margin:0 -4px;padding:0 4px;overscroll-behavior:contain;border-top:1px solid var(--line)}
+.ac-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:6px;margin:8px 0;align-items:center}.ac-row input{width:100%;min-width:0}.ac-row .small{margin:0}
+.ac-rest{margin:8px 0;font-size:.84rem;color:var(--muted)}
 .arow2.dim{opacity:.7}
 .afoot{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--glass-b)}
 .afoot .small{margin:0}.atot{margin-left:auto;font-weight:700;padding:6px 10px;border-radius:10px;background:var(--chip);font-size:.9rem}
@@ -1273,6 +1276,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="ct-add"><input id="ctIn" maxlength="30" placeholder="Kategori baru, mis. Anak" autocomplete="off" aria-label="Nama kategori baru"><button type="button" class="primary" id="btnCtAdd">Tambah</button></div>
     <div class="err" id="ctErr" role="alert"></div>
     <div class="row ct-act"><button type="button" id="btnCtDef">Kembalikan bawaan</button><button type="button" class="primary" id="btnCtDone">Selesai</button></div>
+  </section>
+  <div class="tov blur" id="acOv" hidden></div>
+  <section class="msheet pop" id="acSheet" role="dialog" aria-modal="true" aria-label="Atur rekening" hidden>
+    <h2><i data-ic="wallet"></i>Atur rekening</h2>
+    <div class="ct-note">Ubah nama, isi saldo bulan ini, atau hapus rekening. Transaksi lama tetap aman.</div>
+    <div class="ac-list" id="acList"></div>
+    <div class="ac-rest" id="acRest"></div>
+    <button type="button" class="small" id="btnAcAdd">+ Tambah rekening</button>
+    <div class="err" id="acErr" role="alert"></div>
+    <div class="row ct-act"><button type="button" id="btnAcCancel">Batal</button><button type="button" class="primary" id="btnAcSave">Simpan</button></div>
   </section>
   <div class="tov blur" id="sbOv" hidden></div>
   <section class="msheet pop" id="sbSheet" role="dialog" aria-modal="true" aria-label="Form sub-item" hidden>
@@ -2515,7 +2528,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function numS(x){var neg=/^\s*[-\u2212]/.test(String(x));var v=num(x);return neg?-v:v}
   $("aAmt").addEventListener("input",function(){var neg=/^\s*[-\u2212]/.test(this.value),d=this.value.replace(/\D/g,"").replace(/^0+/,"").slice(0,13);this.value=(neg?"-":"")+(d?nf.format(+d):"")});
   /* ===== popup blur (gaji, aset, tujuan, sub-item) ===== */
-  var POPS={salaryPanel:"salOv",asSheet:"asOv",gsSheet:"gsOv",sbSheet:"sbOv",paSheet:"paOv",ctSheet:"ctOv"}, popY=0;
+  var POPS={salaryPanel:"salOv",asSheet:"asOv",gsSheet:"gsOv",sbSheet:"sbOv",paSheet:"paOv",ctSheet:"ctOv",acSheet:"acOv"}, popY=0;
   function popOpen(id){
     var sh=$(id), ov=$(POPS[id]);if(!sh||!sh.hidden)return;
     popY=window.scrollY||window.pageYOffset||0;
@@ -2537,7 +2550,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   function popAll(now){for(var k in POPS)popClose(k,now)}
   Object.keys(POPS).forEach(function(id){$(POPS[id]).addEventListener("click",function(){
-    if(id==="salaryPanel"||id==="ctSheet")popClose(id);else if(id==="asSheet")resetAsset();else if(id==="gsSheet")resetGoal();else if(id==="paSheet")resetPa();else resetSub();
+    if(id==="salaryPanel"||id==="ctSheet"||id==="acSheet")popClose(id);else if(id==="asSheet")resetAsset();else if(id==="gsSheet")resetGoal();else if(id==="paSheet")resetPa();else resetSub();
   })});
   document.addEventListener("keydown",function(e){if(e.key!=="Escape")return;for(var k in POPS){if(!$(k).hidden){$(POPS[k]).click();return}}});
   function cleanXtr(o){
@@ -3139,13 +3152,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var al=(l==="cash"||l==="tunai")?"Tunai":(l==="seabank"?"SeaBank":(l==="bca"?"BCA":""));
     return al&&accById(al)?al:"";
   }
-  function accSplit(){
-    var L=accList(),sp=profil.split||{},has=L.some(function(a){return sp[a.id]>0}),r={};
-    L.forEach(function(a,i){r[a.id]=has?(sp[a.id]||0):(i===0?100:0)});return r;
-  }
+  function accBase(ym){var r=(profil.rek&&profil.rek[ym])||{},o={};accList().forEach(function(a){o[a.id]=typeof r[a.id]==="number"?r[a.id]:0});return o}
   function accBal(ym){
-    var L=accList(),sal=monthLeft(ym).sal,sp=accSplit(),b={};
-    L.forEach(function(a){b[a.id]=Math.round(sal*sp[a.id]/100)});
+    var b=accBase(ym);
     items.forEach(function(t){
       if(t.date.slice(0,7)!==ym)return;
       if(t.category===TRF){var f=acctOf(t.from),o=acctOf(t.to);if(f)b[f]-=t.amount;if(o)b[o]+=t.amount}
@@ -3162,64 +3171,70 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   $("acChips").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var v=b.getAttribute("data-ac");$("fAcct").value=$("fAcct").value===v?"":v;toggleAcctBox()});
   function renderAccs(){
     var box=$("lAcc");if(!box)return;
-    var L=accList(),b=accBal(viewYM),ml=monthLeft(viewYM),sum=0,h="";
-    if(accEdit&&accDraft){
-      h='<div class="acch2">Edit rekening</div><div class="note">Kolom % = bagian gaji bulan ini yang otomatis masuk ke rekening itu.</div>';
-      accDraft.forEach(function(d){h+='<div class="aed"><input data-an="'+esc(d.id)+'" value="'+esc(d.name)+'" maxlength="20" aria-label="Nama rekening"><input data-ap="'+esc(d.id)+'" value="'+d.pct+'" inputmode="numeric" maxlength="3" aria-label="Persen gaji" placeholder="%"><button type="button" class="small" data-del="'+esc(d.id)+'" aria-label="Hapus">'+(accDelId===d.id?"Yakin?":ic("trash"))+'</button></div>'});
-      if(accDraft.length<8)h+='<button type="button" class="small" data-acc="add">'+ic("plus")+'Tambah rekening</button>';
-      h+='<div class="err" id="accErr" role="alert"></div><div class="afoot"><button type="button" class="small primary" data-acc="save">Simpan</button><button type="button" class="small" data-acc="cancel">Batal</button></div>';
-    }else{
-      h='<div class="acch2">Rincian ('+monthLabel(viewYM)+')</div>';
-      L.forEach(function(a){sum+=b[a.id];h+='<div class="arow2"><span>'+esc(a.name)+'</span><span>'+mk(b[a.id])+'</span></div>'});
-      var rest=ml.left-sum;
-      if(Math.abs(rest)>0)h+='<div class="arow2 dim"><span>Belum dialokasikan</span><span>'+mk(rest)+'</span></div>';
-      h+='<div class="afoot"><button type="button" class="small" data-acc="edit">'+ic("pen")+'Edit</button><button type="button" class="small" data-acc="move">Pindah</button><span class="atot">'+mk(ml.left)+'</span></div>';
-    }
+    var L=accList(),b=accBal(viewYM),ml=monthLeft(viewYM),sum=0,h='<div class="acch2">Rincian ('+monthLabel(viewYM)+')</div>';
+    L.forEach(function(a){sum+=b[a.id];h+='<div class="arow2"><span class="an">'+esc(a.name)+'</span><span class="av">'+mk(b[a.id])+'</span></div>'});
+    var rest=ml.left-sum;
+    if(Math.abs(rest)>0)h+='<div class="arow2 dim"><span class="an">Belum dialokasikan</span><span class="av">'+mk(rest)+'</span></div>';
+    h+='<div class="afoot"><button type="button" class="small" data-acc="edit">'+ic("pen")+'Edit</button><button type="button" class="small" data-acc="move">Pindah</button></div>';
     box.innerHTML=h;
-  }
-  function accErr(m){var e=$("accErr");if(e)e.textContent=m}
-  function accSave(){
-    var seen={},sum=0,i,d;
-    for(i=0;i<accDraft.length;i++){
-      d=accDraft[i];d.name=d.name.trim();var k=d.name.toLowerCase();
-      if(!d.name){accErr("Nama rekening tidak boleh kosong.");return}
-      if(seen[k]){accErr("Nama rekening tidak boleh sama.");return}
-      seen[k]=1;sum+=d.pct;
-    }
-    if(sum>100){accErr("Total persen tidak boleh lebih dari 100.");return}
-    var old=accList().map(function(a){return {id:a.id,name:a.name}});
-    var tf=items.filter(function(t){return t.category===TRF}).map(function(t){return {t:t,f:acctOf(t.from),o:acctOf(t.to)}});
-    profil.acc=accDraft.map(function(x){return {id:x.id,name:x.name}});
-    profil.split={};accDraft.forEach(function(x){profil.split[x.id]=x.pct});
-    tf.forEach(function(r){if(r.f)r.t.from=accById(r.f)?accById(r.f).name:r.t.from;if(r.o)r.t.to=accById(r.o)?accById(r.o).name:r.t.to});
-    accEdit=false;accDraft=null;accDelId="";save();render();toast("Perubahan disimpan");
   }
   function accMove(){
     var L=accList();resetForm();paintFCat(TRF,TRF);toggleSaveBox();toggleTrBox(L[0]?L[0].name:"",L[1]?L[1].name:"");toggleDebtBox();toggleGoalBox("","");toggleWdBox("");openTx();
   }
-  $("lAcc").addEventListener("input",function(e){
-    var t=e.target;if(!accDraft)return;var n=t.getAttribute("data-an"),p=t.getAttribute("data-ap"),i;
+  function acErr(m){$("acErr").textContent=m||""}
+  function acRest(){
+    var sum=0;accDraft.forEach(function(d){sum+=d.bal});
+    var r=monthLeft(viewYM).left-sum;
+    $("acRest").textContent=r===0?"Semua saldo sudah dialokasikan.":"Belum dialokasikan: "+rpS(r);
+  }
+  function acList(){
+    $("acList").innerHTML=accDraft.map(function(d){return '<div class="ac-row"><input data-an="'+esc(d.id)+'" value="'+esc(d.name)+'" maxlength="20" aria-label="Nama rekening"><input data-ab="'+esc(d.id)+'" value="'+(d.bal?nf.format(d.bal):"")+'" inputmode="numeric" placeholder="Saldo" aria-label="Saldo bulan ini"><button type="button" class="small" data-del="'+esc(d.id)+'" aria-label="Hapus">'+(accDelId===d.id?"Yakin?":ic("trash"))+'</button></div>'}).join("");
+    acRest();
+  }
+  function acOpen(){
+    var b=accBal(viewYM);
+    accDraft=accList().map(function(a){return {id:a.id,name:a.name,bal:b[a.id]||0,isNew:false}});
+    accDelId="";acErr("");acList();popOpen("acSheet");
+  }
+  function acSave(){
+    var seen={},i,d,ym=viewYM;
     for(i=0;i<accDraft.length;i++){
-      if(n&&accDraft[i].id===n)accDraft[i].name=t.value;
-      if(p&&accDraft[i].id===p)accDraft[i].pct=Math.min(100,num(t.value));
+      d=accDraft[i];d.name=d.name.replace(/\s+/g," ").trim();var k=d.name.toLowerCase();
+      if(!d.name){acErr("Nama rekening tidak boleh kosong.");return}
+      if(seen[k]){acErr("Nama rekening tidak boleh sama.");return}
+      seen[k]=1;
     }
-  });
+    var cur=accBal(ym),base=accBase(ym),nr={};
+    var tf=items.filter(function(t){return t.category===TRF}).map(function(t){return {t:t,f:acctOf(t.from),o:acctOf(t.to)}});
+    accDraft.forEach(function(x){var flow=x.isNew?0:((cur[x.id]||0)-(base[x.id]||0));nr[x.id]=x.bal-flow});
+    if(!profil.rek)profil.rek={};profil.rek[ym]=nr;
+    profil.acc=accDraft.map(function(x){return {id:x.id,name:x.name}});
+    tf.forEach(function(r){var a1=r.f&&accById(r.f),a2=r.o&&accById(r.o);if(a1)r.t.from=a1.name;if(a2)r.t.to=a2.name});
+    popClose("acSheet");save();render();toast("Perubahan disimpan");
+  }
   $("lAcc").addEventListener("click",function(e){
-    var b=e.target.closest("button");if(!b)return;
-    var k=b.getAttribute("data-acc"),del=b.getAttribute("data-del");
-    if(k==="edit"){var sp=accSplit();accDraft=accList().map(function(a){return {id:a.id,name:a.name,pct:sp[a.id]||0}});accEdit=true;accDelId="";renderAccs()}
-    else if(k==="move")accMove();
-    else if(k==="cancel"){accEdit=false;accDraft=null;accDelId="";renderAccs()}
-    else if(k==="add"){accDraft.push({id:"a"+uid().replace(/[^A-Za-z0-9]/g,""),name:"Rekening "+(accDraft.length+1),pct:0});renderAccs()}
-    else if(k==="save")accSave();
-    else if(del){
-      if(accDelId!==del){accDelId=del;renderAccs();return}
-      if(accDraft.length<=1){accDelId="";renderAccs();accErr("Minimal harus ada satu rekening.");return}
-      var bal=accBal(viewYM)[del];
-      if(accById(del)&&bal){accDelId="";renderAccs();accErr("Saldo belum nol. Pindahkan dulu lewat tombol Pindah.");return}
-      accDraft=accDraft.filter(function(x){return x.id!==del});accDelId="";renderAccs();
-    }
+    var b=e.target.closest("button");if(!b)return;var k=b.getAttribute("data-acc");
+    if(k==="edit")acOpen();else if(k==="move")accMove();
   });
+  $("acList").addEventListener("input",function(e){
+    var t=e.target,n=t.getAttribute("data-an"),p=t.getAttribute("data-ab");
+    accDraft.forEach(function(d){if(n&&d.id===n)d.name=t.value;if(p&&d.id===p)d.bal=num(t.value)});
+    if(p)acRest();
+  });
+  $("acList").addEventListener("click",function(e){
+    var b=e.target.closest("button[data-del]");if(!b)return;var id=b.getAttribute("data-del"),d=accDraft.filter(function(x){return x.id===id})[0];
+    if(accDelId!==id){accDelId=id;acErr("");acList();return}
+    accDelId="";
+    if(accDraft.length<=1){acErr("Minimal harus ada satu rekening.");acList();return}
+    if(d&&d.bal){acErr("Saldo belum nol. Kosongkan saldonya atau pindahkan dulu lewat tombol Pindah.");acList();return}
+    accDraft=accDraft.filter(function(x){return x.id!==id});acErr("");acList();
+  });
+  $("btnAcAdd").addEventListener("click",function(){
+    if(accDraft.length>=8){acErr("Maksimal 8 rekening.");return}
+    accDraft.push({id:"a"+uid().replace(/[^A-Za-z0-9]/g,""),name:"Rekening "+(accDraft.length+1),bal:0,isNew:true});acErr("");acList();
+  });
+  $("btnAcSave").addEventListener("click",acSave);
+  $("btnAcCancel").addEventListener("click",function(){popClose("acSheet")});
   function wDots(){var b=$("wDots").children;for(var i=0;i<b.length;i++)b[i].className=i===wcar.idx?"on":"";$("btnSalary").hidden=wcar.idx!==0}
   $("wTrack").addEventListener("scroll",function(){var t=this,n=Math.round(t.scrollLeft/(t.clientWidth||1));if(n!==wcar.idx&&n>=0&&n<2){wcar.idx=n;wDots()}},{passive:true});
   $("wDots").addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(!b)return;var i=+b.getAttribute("data-i"),t=$("wTrack");wcar.idx=i;wDots();t.scrollTo({left:i*t.clientWidth,behavior:"smooth"})});
@@ -3319,7 +3334,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     clearTimeout(wkTimer);if(wkSel)wkTimer=setTimeout(function(){wkSel=null;renderWeek()},4000);
     renderWeek();
   });
-  var FIT_IDS=["ctSheet","txSheet","rsSheet","phSheet","salaryPanel","asSheet","gsSheet","sbSheet"];
+  var FIT_IDS=["acSheet","ctSheet","txSheet","rsSheet","phSheet","salaryPanel","asSheet","gsSheet","sbSheet"];
   function fitSheets(){
     var vv=window.visualViewport;
     FIT_IDS.forEach(function(id){
@@ -3446,6 +3461,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       if(typeof o.foto==="string"&&o.foto.length<200000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(o.foto))f=o.foto;
     }
     var rk={},ac=[],sp={};
+    if(o&&isObj(o.rek)){Object.keys(o.rek).forEach(function(k){var v=o.rek[k];if(/^\d{4}-\d{2}$/.test(k)&&isObj(v)){var q={};Object.keys(v).slice(0,12).forEach(function(a){var id=cId(a),n2=cAmtS(v[a]);if(id&&!isNaN(n2))q[id]=n2});rk[k]=q}})}
     if(o&&Array.isArray(o.acc)){o.acc.slice(0,8).forEach(function(a){if(isObj(a)){var id=cId(a.id),nm=cStr(a.name,20);if(id&&nm&&!ac.some(function(x){return x.id===id}))ac.push({id:id,name:nm})}})}
     if(o&&isObj(o.split)){Object.keys(o.split).slice(0,12).forEach(function(a){var id=cId(a),v=Math.round(+o.split[a]);if(id&&isFinite(v)&&v>=0&&v<=100)sp[id]=v})}
     return {nama:n,foto:f,rek:rk,acc:ac,split:sp};
@@ -3645,7 +3661,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     paintLang();
   });
   paintLang();
-  var PANELS=["ctSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet","paSheet"], FB={rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",ctSheet:"btnCatSet",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd",paSheet:"btnGoalAdd"}, opener={};
+  var PANELS=["acSheet","ctSheet","rsSheet","phSheet","pmSheet","txSheet","mSheet","salaryPanel","asSheet","gsSheet","sbSheet","paSheet"], FB={acSheet:"btnAdd",rsSheet:"btnAvatar",phSheet:"btnAvatar",pmSheet:"btnAvatar",txSheet:"btnAdd",ctSheet:"btnCatSet",mSheet:"btnMonth",salaryPanel:"btnSalary",asSheet:"btnAssetAdd",gsSheet:"btnGoalAdd",sbSheet:"btnGoalAdd",paSheet:"btnGoalAdd"}, opener={};
   PANELS.forEach(function(id){$(id).setAttribute("tabindex","-1")});
   function topPanel(){for(var i=0;i<PANELS.length;i++){var p=$(PANELS[i]);if(p&&!p.hidden)return p}return null}
   function focusables(p){
