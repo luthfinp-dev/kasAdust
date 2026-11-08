@@ -506,26 +506,19 @@ select{text-overflow:ellipsis}
 .moves{margin-top:10px;padding:8px 12px;border-radius:12px;background:var(--chip);border:1px solid var(--glass-b);font-size:.82rem}
 .moves:empty{display:none}
 .acchips{display:flex;gap:8px;flex-wrap:wrap}.acchips button{flex:1 1 28%;min-height:42px;border-radius:12px;border:1px solid var(--glass-b);background:var(--chip);color:inherit;font:inherit;cursor:pointer}.acchips button.on{background:var(--sage-d);color:#fff;border-color:transparent}
-.wcar{margin-top:6px}
-.wtrack{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.wtrack::-webkit-scrollbar{display:none}
-.wsl{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always}
-.wfoot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;min-height:44px}
-.wfoot .small{margin:0}
-.wdots{display:flex;align-items:center;margin-left:auto}
-.wdots button{min-height:0;min-width:0;margin:0;border:0;background:none;padding:10px 2px;border-radius:0}
-.wdots button span{display:block;width:5px;height:5px;border-radius:99px;background:var(--track);transition:width .35s ease,background .35s ease}
-.wdots button.on span{width:20px;background:var(--sage-d)}
+.wfoot{display:flex;gap:8px;margin-top:12px}
+.wfoot .small{flex:1 1 0;min-width:0;min-height:40px;margin:0;justify-content:center}
 .acch2{font-size:.82rem;color:var(--muted);margin:6px 0 8px}
 .arow2{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 0;font-size:.88rem}.arow2 .an{min-width:0;overflow-wrap:anywhere}.arow2 .av{white-space:nowrap;font-weight:600}
 #acSheet{z-index:90}.ac-list{max-height:min(44vh,340px);overflow:auto;margin:0 -4px;padding:0 4px;overscroll-behavior:contain;border-top:1px solid var(--line)}
 .ac-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:6px;margin:8px 0;align-items:center}.ac-row input{width:100%;min-width:0}.ac-row .small{margin:0}
-.ac-rest{margin:8px 0;font-size:.84rem;color:var(--muted)}
+.ac-rest{display:flex;justify-content:space-between;gap:8px;margin:10px 0 6px;font-size:.9rem;font-weight:600;font-variant-numeric:tabular-nums}.ac-rest.neg span:last-child{color:var(--danger,#c0392b)}
+.ac-act{display:flex;gap:8px;margin-top:12px}.ac-act button{flex:1 1 0;min-width:0;margin:0}
+.ac-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto}
 .arow2.dim{opacity:.7}
 .afoot{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--glass-b)}
 .afoot .small{margin:0}.atot{margin-left:auto;font-weight:700;padding:6px 10px;border-radius:10px;background:var(--chip);font-size:.9rem}
 .aed{display:grid;grid-template-columns:1fr 56px auto;gap:6px;margin-bottom:6px;align-items:center}.aed input{width:100%;min-width:0}.aed .small{margin:0}
-#lAcc .note{margin:0 0 8px;font-size:.78rem}
 .moves .mv-h{color:var(--muted);font-weight:600;margin-bottom:4px}
 .moves .mv{padding:3px 0}
 .moves .mv span{display:block}
@@ -1026,14 +1019,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   <section class="grid3" data-t="home" aria-label="Ringkasan bulan ini">
     <div class="stat">
       <div class="l"><i data-ic="wallet"></i><span id="lLbl">Dompetku</span><button type="button" class="eye" data-eye></button></div><div class="v" id="lVal">Belum diisi</div>
-      <div class="wcar"><div class="wtrack" id="wTrack">
-        <div class="wsl"><div class="n" id="lSal"></div>
-        <div class="bar"><i id="lBar" style="width:0"></i></div>
-        <div class="n" id="lUsed"></div>
-        <div class="moves" id="lMoves"></div></div>
-        <div class="wsl"><div id="lAcc"></div></div>
-      </div>
-      <div class="wfoot"><button type="button" class="small" id="btnSalary">Atur gaji</button><div class="wdots" id="wDots"><button type="button" class="on" data-i="0" aria-label="Tampilan 1"><span></span></button><button type="button" data-i="1" aria-label="Tampilan 2"><span></span></button></div></div></div>
+      <div class="n" id="lSal"></div>
+      <div class="bar"><i id="lBar" style="width:0"></i></div>
+      <div class="n" id="lUsed"></div>
+      <div class="wfoot"><button type="button" class="small" id="btnSalary">Atur gaji</button><button type="button" class="small" id="btnRinci">Rincian</button></div>
     </div>
     <div class="stat">
       <div class="l"><i data-ic="out"></i><span id="mLbl">Total pengeluaran bulan ini</span></div><div class="v" id="mTotal">Rp 0</div>
@@ -1278,14 +1267,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="row ct-act"><button type="button" id="btnCtDef">Kembalikan bawaan</button><button type="button" class="primary" id="btnCtDone">Selesai</button></div>
   </section>
   <div class="tov blur" id="acOv" hidden></div>
-  <section class="msheet pop" id="acSheet" role="dialog" aria-modal="true" aria-label="Atur rekening" hidden>
-    <h2><i data-ic="wallet"></i>Atur rekening</h2>
-    <div class="ct-note">Ubah nama, isi saldo bulan ini, atau hapus rekening. Transaksi lama tetap aman.</div>
+  <section class="msheet pop" id="acSheet" role="dialog" aria-modal="true" aria-label="Rincian" hidden>
+    <h2><i data-ic="wallet"></i><span>Rincian</span> &middot; <span id="acMonth"></span></h2>
     <div class="ac-list" id="acList"></div>
     <div class="ac-rest" id="acRest"></div>
     <button type="button" class="small" id="btnAcAdd">+ Tambah rekening</button>
     <div class="err" id="acErr" role="alert"></div>
-    <div class="row ct-act"><button type="button" id="btnAcCancel">Batal</button><button type="button" class="primary" id="btnAcSave">Simpan</button></div>
+    <div class="ac-act"><button type="button" id="btnAcMove">Pindah dana</button><button type="button" id="btnAcCancel">Batal</button><button type="button" class="primary" id="btnAcSave">Simpan</button></div>
   </section>
   <div class="tov blur" id="sbOv" hidden></div>
   <section class="msheet pop" id="sbSheet" role="dialog" aria-modal="true" aria-label="Form sub-item" hidden>
@@ -1461,6 +1449,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Maksimal 40 kategori.":"Maximum 40 categories.","Minimal harus ada satu kategori.":"At least one category is required.","Belum dipakai":"Not used yet"
   };
   Object.assign(EN,{"Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.":"At least 8 characters, with uppercase letters, lowercase letters, and numbers.","Password harus berisi huruf besar, huruf kecil, dan angka.":"The password must include uppercase letters, lowercase letters, and numbers.","Password terlalu lemah. Pakai minimal 8 karakter dengan huruf besar, huruf kecil, dan angka.":"The password is too weak. Use at least 8 characters with uppercase letters, lowercase letters, and numbers."});
+  Object.assign(EN,{"Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
   Object.assign(EN,{"Email terkonfirmasi":"Email confirmed","Lanjut ke aplikasi":"Continue to the app","sudah aktif. Akun Anda siap dipakai.":"is now active. Your account is ready."});
   var LV={"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high"};
   function tt(x){return Object.prototype.hasOwnProperty.call(EN,x)?EN[x]:x}
@@ -3143,7 +3132,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     items.forEach(function(x){if(x.category===TRF){if(x.from)o.push(x.from);if(x.to)o.push(x.to)}});
     $("trOpts").innerHTML=o.filter(function(v){var k=v.toLowerCase();if(seen[k])return false;seen[k]=1;return true}).map(function(v){return '<option value="'+esc(v)+'">'}).join("");
   }
-  var DEFACC=[{id:"BCA",name:"BCA"},{id:"SeaBank",name:"Seabank"},{id:"Tunai",name:"Cash"}], accEdit=false, accDraft=null, accDelId="", wcar={idx:0};
+  var DEFACC=[{id:"BCA",name:"BCA"},{id:"SeaBank",name:"Seabank"},{id:"Tunai",name:"Cash"}], accDraft=null, accDelId="";
   function accList(){return profil.acc&&profil.acc.length?profil.acc:DEFACC}
   function accById(id){return accList().filter(function(a){return a.id===id})[0]||null}
   function acctOf(n){
@@ -3169,15 +3158,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     $("acChips").innerHTML=accList().map(function(a){return '<button type="button" data-ac="'+esc(a.id)+'"'+(a.id===v?' class="on"':'')+'>'+esc(a.name)+'</button>'}).join("");
   }
   $("acChips").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var v=b.getAttribute("data-ac");$("fAcct").value=$("fAcct").value===v?"":v;toggleAcctBox()});
-  function renderAccs(){
-    var box=$("lAcc");if(!box)return;
-    var L=accList(),b=accBal(viewYM),ml=monthLeft(viewYM),sum=0,h='<div class="acch2">Rincian ('+monthLabel(viewYM)+')</div>';
-    L.forEach(function(a){sum+=b[a.id];h+='<div class="arow2"><span class="an">'+esc(a.name)+'</span><span class="av">'+mk(b[a.id])+'</span></div>'});
-    var rest=ml.left-sum;
-    if(Math.abs(rest)>0)h+='<div class="arow2 dim"><span class="an">Belum dialokasikan</span><span class="av">'+mk(rest)+'</span></div>';
-    h+='<div class="afoot"><button type="button" class="small" data-acc="edit">'+ic("pen")+'Edit</button><button type="button" class="small" data-acc="move">Pindah</button></div>';
-    box.innerHTML=h;
-  }
   function accMove(){
     var L=accList();resetForm();paintFCat(TRF,TRF);toggleSaveBox();toggleTrBox(L[0]?L[0].name:"",L[1]?L[1].name:"");toggleDebtBox();toggleGoalBox("","");toggleWdBox("");openTx();
   }
@@ -3185,7 +3165,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function acRest(){
     var sum=0;accDraft.forEach(function(d){sum+=d.bal});
     var r=monthLeft(viewYM).left-sum;
-    $("acRest").textContent=r===0?"Semua saldo sudah dialokasikan.":"Belum dialokasikan: "+rpS(r);
+    $("acRest").className="ac-rest"+(r<0?" neg":"");
+    $("acRest").innerHTML='<span>Belum dialokasikan</span><span>'+rpS(r)+'</span>';
   }
   function acList(){
     $("acList").innerHTML=accDraft.map(function(d){return '<div class="ac-row"><input data-an="'+esc(d.id)+'" value="'+esc(d.name)+'" maxlength="20" aria-label="Nama rekening"><input data-ab="'+esc(d.id)+'" value="'+(d.bal?nf.format(d.bal):"")+'" inputmode="numeric" placeholder="Saldo" aria-label="Saldo bulan ini"><button type="button" class="small" data-del="'+esc(d.id)+'" aria-label="Hapus">'+(accDelId===d.id?"Yakin?":ic("trash"))+'</button></div>'}).join("");
@@ -3194,14 +3175,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function acOpen(){
     var b=accBal(viewYM);
     accDraft=accList().map(function(a){return {id:a.id,name:a.name,bal:b[a.id]||0,isNew:false}});
-    accDelId="";acErr("");acList();popOpen("acSheet");
+    $("acMonth").textContent=monthLabel(viewYM);accDelId="";acErr("");acList();popOpen("acSheet");
   }
   function acSave(){
     var seen={},i,d,ym=viewYM;
     for(i=0;i<accDraft.length;i++){
       d=accDraft[i];d.name=d.name.replace(/\s+/g," ").trim();var k=d.name.toLowerCase();
-      if(!d.name){acErr("Nama rekening tidak boleh kosong.");return}
-      if(seen[k]){acErr("Nama rekening tidak boleh sama.");return}
+      if(!d.name){acErr("Nama kosong.");return}
+      if(seen[k]){acErr("Nama kembar.");return}
       seen[k]=1;
     }
     var cur=accBal(ym),base=accBase(ym),nr={};
@@ -3212,10 +3193,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     tf.forEach(function(r){var a1=r.f&&accById(r.f),a2=r.o&&accById(r.o);if(a1)r.t.from=a1.name;if(a2)r.t.to=a2.name});
     popClose("acSheet");save();render();toast("Perubahan disimpan");
   }
-  $("lAcc").addEventListener("click",function(e){
-    var b=e.target.closest("button");if(!b)return;var k=b.getAttribute("data-acc");
-    if(k==="edit")acOpen();else if(k==="move")accMove();
-  });
   $("acList").addEventListener("input",function(e){
     var t=e.target,n=t.getAttribute("data-an"),p=t.getAttribute("data-ab");
     accDraft.forEach(function(d){if(n&&d.id===n)d.name=t.value;if(p&&d.id===p)d.bal=num(t.value)});
@@ -3225,19 +3202,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var b=e.target.closest("button[data-del]");if(!b)return;var id=b.getAttribute("data-del"),d=accDraft.filter(function(x){return x.id===id})[0];
     if(accDelId!==id){accDelId=id;acErr("");acList();return}
     accDelId="";
-    if(accDraft.length<=1){acErr("Minimal harus ada satu rekening.");acList();return}
-    if(d&&d.bal){acErr("Saldo belum nol. Kosongkan saldonya atau pindahkan dulu lewat tombol Pindah.");acList();return}
+    if(accDraft.length<=1){acErr("Minimal satu rekening.");acList();return}
+    if(d&&d.bal){acErr("Saldo belum nol. Pindahkan dulu.");acList();return}
     accDraft=accDraft.filter(function(x){return x.id!==id});acErr("");acList();
   });
   $("btnAcAdd").addEventListener("click",function(){
-    if(accDraft.length>=8){acErr("Maksimal 8 rekening.");return}
+    if(accDraft.length>=8){acErr("Maksimal 8.");return}
     accDraft.push({id:"a"+uid().replace(/[^A-Za-z0-9]/g,""),name:"Rekening "+(accDraft.length+1),bal:0,isNew:true});acErr("");acList();
   });
   $("btnAcSave").addEventListener("click",acSave);
   $("btnAcCancel").addEventListener("click",function(){popClose("acSheet")});
-  function wDots(){var b=$("wDots").children;for(var i=0;i<b.length;i++)b[i].className=i===wcar.idx?"on":"";$("btnSalary").hidden=wcar.idx!==0}
-  $("wTrack").addEventListener("scroll",function(){var t=this,n=Math.round(t.scrollLeft/(t.clientWidth||1));if(n!==wcar.idx&&n>=0&&n<2){wcar.idx=n;wDots()}},{passive:true});
-  $("wDots").addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(!b)return;var i=+b.getAttribute("data-i"),t=$("wTrack");wcar.idx=i;wDots();t.scrollTo({left:i*t.clientWidth,behavior:"smooth"})});
+  $("btnRinci").addEventListener("click",acOpen);
+  $("btnAcMove").addEventListener("click",function(){popClose("acSheet");accMove()});
   function renderMoves(){
     var g=Object.create(null), ks=[];
     items.forEach(function(t){
@@ -3247,7 +3223,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       g[k].a+=t.amount;
     });
     var h=ks.length?'<div class="mv-h">Uang dipindahkan ('+monthLabel(viewYM)+')</div>'+ks.map(function(k){return '<div class="mv"><span>'+esc(g[k].f)+' &rarr; '+esc(g[k].t)+'</span><span>'+mk(g[k].a)+'</span></div>'}).join(""):"";
-    $("lMoves").innerHTML=h;$("sMoves").innerHTML=h;renderAccs();
+    $("sMoves").innerHTML=h;
   }
   function toggleSaveBox(aId,gId){
     var on=isSave($("fCat").value);
