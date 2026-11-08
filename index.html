@@ -3195,6 +3195,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   }
   $("acList").addEventListener("input",function(e){
     var t=e.target,n=t.getAttribute("data-an"),p=t.getAttribute("data-ab");
+    if(p){
+      var raw=t.value,neg=false,pos=t.selectionStart||0,dg=raw.slice(0,pos).replace(/\D/g,"").length,ds=raw.replace(/\D/g,"").replace(/^0+(?=\d)/,"");
+      var f=ds?(neg?"-":"")+nf.format(+ds):(neg?"-":"");
+      if(f!==raw){t.value=f;var c=0,i=0;if(dg>0){for(;i<f.length;i++){if(/\d/.test(f[i]))c++;if(c===dg){i++;break}}}else i=neg?1:0;try{t.setSelectionRange(i,i)}catch(x){}}
+    }
     accDraft.forEach(function(d){if(n&&d.id===n)d.name=t.value;if(p&&d.id===p)d.bal=num(t.value)});
     if(p)acRest();
   });
