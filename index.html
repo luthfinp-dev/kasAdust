@@ -510,11 +510,10 @@ select{text-overflow:ellipsis}
 .wfoot .small{flex:0 0 auto;min-width:92px;margin:0;justify-content:center;text-align:center}
 .acch2{font-size:.82rem;color:var(--muted);margin:6px 0 8px}
 .arow2{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 0;font-size:.88rem}.arow2 .an{min-width:0;overflow-wrap:anywhere}.arow2 .av{white-space:nowrap;font-weight:600}
-#acSheet{z-index:90}.ac-list{max-height:min(44vh,340px);overflow:auto;margin:0 -4px;padding:0 4px;overscroll-behavior:contain;border-top:1px solid var(--line)}
+#acSheet{z-index:90}.ac-list{max-height:min(44vh,340px);overflow:auto;margin:0 -4px;padding:0 4px;overscroll-behavior:contain}
 .ac-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:6px;margin:8px 0;align-items:center}.ac-row input{width:100%;min-width:0}.ac-row .small{margin:0}
-.ac-rest{display:flex;justify-content:space-between;gap:8px;margin:10px 0 6px;font-size:.9rem;font-weight:600;font-variant-numeric:tabular-nums}.ac-rest.neg span:last-child{color:var(--danger,#c0392b)}
-.ac-act{display:flex;gap:8px;margin-top:12px}.ac-act button{flex:1 1 0;min-width:0;margin:0}
-.ac-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto}
+.ac-rest.neg span:last-child{color:var(--danger,#c0392b)}
+.ac-row{gap:8px;margin:8px 0 0}
 .arow2.dim{opacity:.7}
 .afoot{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--glass-b)}
 .afoot .small{margin:0}.atot{margin-left:auto;font-weight:700;padding:6px 10px;border-radius:10px;background:var(--chip);font-size:.9rem}
@@ -1270,10 +1269,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   <section class="msheet pop" id="acSheet" role="dialog" aria-modal="true" aria-label="Rincian" hidden>
     <h2><i data-ic="wallet"></i><span>Rincian</span> &middot; <span id="acMonth"></span></h2>
     <div class="ac-list" id="acList"></div>
-    <div class="ac-rest" id="acRest"></div>
-    <button type="button" class="small" id="btnAcAdd">+ Tambah rekening</button>
+    <button type="button" class="small sx-add" id="btnAcAdd"><i data-ic="plus"></i>Tambah rekening</button>
+    <div class="ac-rest sx-tot" id="acRest"></div>
     <div class="err" id="acErr" role="alert"></div>
-    <div class="ac-act"><button type="button" id="btnAcMove">Pindah dana</button><button type="button" id="btnAcCancel">Batal</button><button type="button" class="primary" id="btnAcSave">Simpan</button></div>
+    <button type="button" class="small sx-add" id="btnAcMove"><i data-ic="swap"></i>Pindah dana</button>
+    <div class="row"><button type="button" class="primary" id="btnAcSave">Simpan</button><button type="button" id="btnAcCancel">Batal</button></div>
   </section>
   <div class="tov blur" id="sbOv" hidden></div>
   <section class="msheet pop" id="sbSheet" role="dialog" aria-modal="true" aria-label="Form sub-item" hidden>
@@ -1449,7 +1449,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Maksimal 40 kategori.":"Maximum 40 categories.","Minimal harus ada satu kategori.":"At least one category is required.","Belum dipakai":"Not used yet"
   };
   Object.assign(EN,{"Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.":"At least 8 characters, with uppercase letters, lowercase letters, and numbers.","Password harus berisi huruf besar, huruf kecil, dan angka.":"The password must include uppercase letters, lowercase letters, and numbers.","Password terlalu lemah. Pakai minimal 8 karakter dengan huruf besar, huruf kecil, dan angka.":"The password is too weak. Use at least 8 characters with uppercase letters, lowercase letters, and numbers."});
-  Object.assign(EN,{"Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
+  Object.assign(EN,{"Tambah rekening":"Add account","Nama rekening":"Account name","Saldo bulan ini":"Balance this month","Saldo":"Balance","Hapus":"Delete","Yakin?":"Sure?","Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
   Object.assign(EN,{"Email terkonfirmasi":"Email confirmed","Lanjut ke aplikasi":"Continue to the app","sudah aktif. Akun Anda siap dipakai.":"is now active. Your account is ready."});
   var LV={"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high"};
   function tt(x){return Object.prototype.hasOwnProperty.call(EN,x)?EN[x]:x}
@@ -3165,7 +3165,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   function acRest(){
     var sum=0;accDraft.forEach(function(d){sum+=d.bal});
     var r=monthLeft(viewYM).left-sum;
-    $("acRest").className="ac-rest"+(r<0?" neg":"");
+    $("acRest").className="ac-rest sx-tot"+(r<0?" neg":"");
     $("acRest").innerHTML='<span>Belum dialokasikan</span><span>'+rpS(r)+'</span>';
   }
   function acList(){
