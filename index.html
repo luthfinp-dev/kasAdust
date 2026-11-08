@@ -1108,12 +1108,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
             <div class="note" style="margin-top:8px">Transfer hanya memindahkan uang, tidak dihitung sebagai pengeluaran. Ketik sendiri nama bank atau dompetnya jika tidak ada di daftar.</div>
           </div>
           <div class="full" id="saveBox" hidden>
-            <label for="fAset">Tambah ke aset</label><select id="fAset"></select>
+            <label>Bayar pakai</label><input type="hidden" id="fSaveAcct"><div class="srcp" id="saveSrcP" style="margin-bottom:10px"></div><label for="fAset">Tambah ke aset</label><select id="fAset"></select>
             <div id="fGoalW"><label for="fGoal" style="margin-top:10px">Untuk tujuan non-hutang (opsional)</label><select id="fGoal"></select></div>
             <div class="err" id="saveHint"></div>
           </div>
           <div class="full" id="wdBox" hidden>
-            <label for="fWdAset">Ambil dari aset</label><select id="fWdAset"></select>
+            <label>Ambil dari aset</label><select id="fWdAset" hidden></select><div class="srcp" id="wdAsetP"></div><label style="margin-top:10px">Masuk ke rekening</label><input type="hidden" id="fWdAcct"><div class="srcp" id="wdAcctP"></div>
             <div class="note" style="margin-top:8px">Uang yang diambil mengurangi aset dan otomatis jadi gaji tambahan bulan ini, jadi menambah sisa uang bulan ini. Tidak dihitung pengeluaran.</div>
             <div class="err" id="wdHint"></div>
           </div>
@@ -1453,7 +1453,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 "Maksimal 40 kategori.":"Maximum 40 categories.","Minimal harus ada satu kategori.":"At least one category is required.","Belum dipakai":"Not used yet"
   };
   Object.assign(EN,{"Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.":"At least 8 characters, with uppercase letters, lowercase letters, and numbers.","Password harus berisi huruf besar, huruf kecil, dan angka.":"The password must include uppercase letters, lowercase letters, and numbers.","Password terlalu lemah. Pakai minimal 8 karakter dengan huruf besar, huruf kecil, dan angka.":"The password is too weak. Use at least 8 characters with uppercase letters, lowercase letters, and numbers."});
-  Object.assign(EN,{"Aset":"Assets","Bayar pakai":"Pay with","Masuk ke":"Goes into","Pilih sumber dana.":"Choose a source.","Saldo tidak cukup.":"Insufficient balance.","Belum ada aset.":"No assets yet.","Piutang yang diterima masuk ke pilihanmu. Kalau masuk Dompetku, otomatis jadi gaji tambahan bulan ini.":"Received receivables go into your choice. If into My Balance, it becomes extra salary this month.","Dihitung sebagai pengeluaran dan mengurangi sisa hutang. Saldo yang dipilih ikut berkurang.":"Counted as spending and reduces the remaining debt. The selected balance is reduced too.","Tambah rekening":"Add account","Nama rekening":"Account name","Saldo bulan ini":"Balance this month","Saldo":"Balance","Hapus":"Delete","Yakin?":"Sure?","Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
+  Object.assign(EN,{"Masuk ke rekening":"Into account","Pilih rekening Dompetku.":"Choose a My Balance account.","Pilih rekening penerima.":"Choose a receiving account.","Aset":"Assets","Bayar pakai":"Pay with","Masuk ke":"Goes into","Pilih sumber dana.":"Choose a source.","Saldo tidak cukup.":"Insufficient balance.","Belum ada aset.":"No assets yet.","Piutang yang diterima masuk ke pilihanmu. Kalau masuk Dompetku, otomatis jadi gaji tambahan bulan ini.":"Received receivables go into your choice. If into My Balance, it becomes extra salary this month.","Dihitung sebagai pengeluaran dan mengurangi sisa hutang. Saldo yang dipilih ikut berkurang.":"Counted as spending and reduces the remaining debt. The selected balance is reduced too.","Tambah rekening":"Add account","Nama rekening":"Account name","Saldo bulan ini":"Balance this month","Saldo":"Balance","Hapus":"Delete","Yakin?":"Sure?","Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
   Object.assign(EN,{"Email terkonfirmasi":"Email confirmed","Lanjut ke aplikasi":"Continue to the app","sudah aktif. Akun Anda siap dipakai.":"is now active. Your account is ready."});
   var LV={"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high"};
   function tt(x){return Object.prototype.hasOwnProperty.call(EN,x)?EN[x]:x}
@@ -1824,7 +1824,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   var lastAcct="";try{lastAcct=localStorage.getItem("akun-terakhir-v1")||""}catch(e){}
   function resetForm(){
     editId=null;
-    $("form").reset();$("fAcct").value=lastAcct||"";srcReset("g");
+    $("form").reset();$("fAcct").value=lastAcct||"";srcReset("g");$("fSaveAcct").value="";$("fWdAcct").value="";
     $("fDate").value=ymd(new Date());
     if(CATS.indexOf(lastCat)<0)lastCat=CATS[0];
     fgk=0;paintFCat(lastCat);toggleSaveBox();toggleTrBox("","");toggleDebtBox();toggleGoalBox("","");toggleWdBox("");
@@ -1867,6 +1867,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(isSave(cat)){
       aId=$("fAset").value;gId=cat===SAVE?$("fGoal").value:"";
       if(!aId&&cat!==GOALC){$("err").textContent=assets.length?"Pilih aset untuk menambah aset.":"Belum ada aset. Tambahkan aset dulu di tab Aset.";return}
+      var sAcc=$("fSaveAcct").value,sOld=editId?items.filter(function(x){return x.id===editId})[0]:null,sYm=date.slice(0,7);
+      if(!accById(sAcc)){$("err").textContent="Pilih rekening Dompetku.";pickShake("s");return}
+      var sHave=(accBal(sYm)[sAcc]||0)+(sOld&&isSave(sOld.category)&&sOld.acct===sAcc&&String(sOld.date).slice(0,7)===sYm?sOld.amount:0);
+      if(amt>sHave){$("err").textContent="Saldo tidak cukup.";pickShake("s");return}
     }
     var dId="";
     if(cat===DEBT){
@@ -1879,7 +1883,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       if(!wa){$("err").textContent=assets.length?"Pilih aset yang diambil.":"Belum ada aset. Tambahkan aset dulu di tab Aset.";return}
       var oldW=editId?items.filter(function(x){return x.id===editId})[0]:null;
       var avail=wa.amount+(oldW&&oldW.category===WD&&oldW.asetId===aId?oldW.amount:0);
-      if(amt>avail){$("err").textContent="Jumlah melebihi saldo aset.";return}
+      if(amt>avail){$("err").textContent="Saldo tidak cukup.";pickShake("wa");return}
+      if(!accById($("fWdAcct").value)){$("err").textContent="Pilih rekening penerima.";pickShake("wr");return}
       if(!name)name="Ambil dari "+wa.name;
     }
     if(cat===ASET&&!name){var an=assets.filter(function(x){return x.id===aId})[0];name=an?an.name:"Tambah aset"}
@@ -1888,6 +1893,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     if(oldTx){if(oldTx.ts)rec.ts=oldTx.ts}else rec.ts=Date.now();
     if(isSave(cat)||cat===GOALC||cat===WD){if(aId)rec.asetId=aId;if(gId)rec.tujuanId=gId}
     if(cat===GOALC&&fgk===0){if(fdir==="t")rec.pakai=true;else rec.setor=true}
+    if(isSave(cat)){rec.acct=$("fSaveAcct").value}
+    if(cat===WD){rec.acct=$("fWdAcct").value}
     if(cat===GOALC){var sa=$("fSrcAcct").value;if(aId==="dompet"&&accById(sa))rec.acct=sa;if(fgk===0&&fdir!=="t")rec.src=true}
     if(cat===DEBT&&dId)rec.tujuanId=dId;
     if(cat===TRF){rec.from=tFrom;rec.to=tTo}
@@ -1923,7 +1930,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
       var t=items.filter(function(x){return x.id===id})[0];if(!t)return;
       if(t.tambah){toast("Ubah lewat tujuan: hapus lalu tambah ulang");return}
       editId=id;pendingDel=null;
-      $("fName").value=t.name;$("fAcct").value=t.acct||"";$("fAmt").value=nf.format(t.amount);$("fDate").value=t.date;paintFCat(t.category,t.category);toggleSaveBox(t.asetId,t.tujuanId);toggleTrBox(t.from||"",t.to||"");toggleDebtBox(t.tujuanId);fdir=(t.tarik||t.pakai)?"t":"s";srcReset("g");$("fSrcAcct").value=t.acct||"";toggleGoalBox(t.tujuanId,t.asetId||"");toggleWdBox(t.asetId);
+      $("fName").value=t.name;$("fAcct").value=t.acct||"";$("fAmt").value=nf.format(t.amount);$("fDate").value=t.date;paintFCat(t.category,t.category);$("fSaveAcct").value=t.acct||"";$("fWdAcct").value=t.acct||"";toggleSaveBox(t.asetId,t.tujuanId);toggleTrBox(t.from||"",t.to||"");toggleDebtBox(t.tujuanId);fdir=(t.tarik||t.pakai)?"t":"s";srcReset("g");$("fSrcAcct").value=t.acct||"";toggleGoalBox(t.tujuanId,t.asetId||"");toggleWdBox(t.asetId);
       $("formTitle").textContent="Edit transaksi";$("btnSave").textContent="Simpan perubahan";$("btnCancel").hidden=false;$("err").textContent="";
       openTx();render();
     }else if(a==="del"){
@@ -3155,6 +3162,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     items.forEach(function(t){
       if(t.date.slice(0,7)!==ym)return;
       if(t.category===TRF){var f=acctOf(t.from),o=acctOf(t.to);if(f)b[f]-=t.amount;if(o)b[o]+=t.amount}
+      else if((isSave(t.category)||t.category===WD)&&t.acct&&b[t.acct]!==undefined){b[t.acct]+=t.category===WD?t.amount:-t.amount}
       else if(t.category===GOALC&&t.tambah&&t.acct&&b[t.acct]!==undefined){var g1=gOf(t.tujuanId);b[t.acct]+=(g1&&g1.debt?1:-1)*t.amount}
       else if(t.category===GOALC&&!t.tambah&&nonSpend(t)&&t.acct&&b[t.acct]!==undefined){var g2=gOf(t.tujuanId);if(t.src)b[t.acct]-=t.amount;else if(g2&&g2.recv&&!t.tarik)b[t.acct]+=t.amount}
       else if(t.acct&&b[t.acct]!==undefined&&!nonSpend(t))b[t.acct]-=t.amount;
@@ -3248,6 +3256,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     fillSelect($("fAset"),[["",assets.length?"Pilih aset":"Belum ada aset"]].concat(assets.filter(function(a){return a.id!=="dompet"}).map(function(a){return [a.id,a.name]})),ca||"");
     fillSelect($("fGoal"),[["","Tanpa tujuan"]].concat(goals.filter(function(g){return !g.debt}).map(function(g){return [g.id,g.name]})),cg||"");
     $("saveHint").textContent=assets.length?"":"Tambahkan aset dulu di tab Aset.";
+    pickRender("s");
   }
   function toggleWdBox(aId){
     var on=$("fCat").value===WD;
@@ -3256,7 +3265,24 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     var ca=aId!==undefined?aId:$("fWdAset").value;
     fillSelect($("fWdAset"),[["",assets.length?"Pilih aset":"Belum ada aset"]].concat(assets.filter(function(a){return a.id!=="dompet"}).map(function(a){return [a.id,a.name+" \u00b7 "+rp(a.amount)]})),ca||"");
     $("wdHint").textContent=assets.length?"":"Tambahkan aset dulu di tab Aset.";
+    pickRender("wa");pickRender("wr");
   }
+  /* ===== kartu pilihan sederhana: rekening Dompetku (s, wr) atau aset (wa) ===== */
+  function PKC(k){return k==="s"?{box:"saveSrcP",hid:"fSaveAcct",t:"acct"}:k==="wr"?{box:"wdAcctP",hid:"fWdAcct",t:"acct"}:{box:"wdAsetP",hid:"fWdAset",t:"aset"}}
+  function pickRender(k){
+    var P=PKC(k),box=$(P.box),hid=$(P.hid),cur=hid.value,L,b,h;if(!box)return;
+    if(P.t==="acct"){
+      L=accList();b=accBal(($("fDate").value||"").slice(0,7)||viewYM);
+      if(!accById(cur)){cur=accById(lastAcct)?lastAcct:(L[0]?L[0].id:"");hid.value=cur}
+      h=L.map(function(a){return '<button type="button" data-c="'+esc(a.id)+'"'+(a.id===cur?' class="on"':'')+'><span>'+esc(a.name)+'</span><small>'+mk(b[a.id]||0)+'</small></button>'}).join("");
+    }else{
+      L=assets.filter(function(a){return a.id!=="dompet"});
+      h=L.length?L.map(function(a){return '<button type="button" data-c="'+esc(a.id)+'"'+(a.id===cur?' class="on"':'')+'><span>'+esc(a.name)+'</span><small>'+mk(a.amount)+'</small></button>'}).join(""):'<div class="note">Belum ada aset.</div>';
+    }
+    box.innerHTML='<div class="acchips">'+h+'</div>';
+  }
+  ["s","wr","wa"].forEach(function(k){$(PKC(k).box).addEventListener("click",function(e){var b=e.target.closest("button[data-c]");if(!b)return;$(PKC(k).hid).value=b.getAttribute("data-c");pickRender(k)})});
+  function pickShake(k){var b=$(PKC(k).box);b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");try{if(navigator.vibrate)navigator.vibrate([60,40,60])}catch(e){}setTimeout(function(){b.classList.remove("shake")},500)}
   /* ===== pilih sumber/tujuan dana: kartu Aset atau Dompetku (rekening) ===== */
   function SP(k){return k==="g"?{box:"srcP",sel:"fAset2",acct:"fSrcAcct",ym:function(){return ($("fDate").value||"").slice(0,7)||viewYM}}:{box:"paSrcP",sel:"paAset",acct:"paSrcAcct",ym:function(){return ($("paDate").value||"").slice(0,7)||viewYM}}}
   function srcReset(k){var P=SP(k);$(P.box).removeAttribute("data-kind");$(P.acct).value=""}
