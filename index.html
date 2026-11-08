@@ -1665,10 +1665,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     return Object.keys(m).map(function(k){return [k,m[k]]}).sort(function(a,b){return b[1]-a[1]});
   }
 
-  var LOCKED={dompet:1,bank:1,cash:1};
+  var LOCKED={dompet:1};
   function ensureDompet(){
     var add=[];
-    [["dompet","Dompetku"],["bank","Bank"],["cash","Cash"]].forEach(function(k){
+    [["dompet","Dompetku"]].forEach(function(k){
       var f=assets.filter(function(x){return x.id===k[0]})[0];
       if(f){if(k[0]==="dompet")f.name="Dompetku"}else add.push({id:k[0],name:k[1],amount:0});
     });
@@ -2860,6 +2860,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
         loaded=true;enter();return;
       }
       clearAHist();items=[];salaries={};extras={};assets=[];goals=[];hideBal=false;dailyLimit=0;
+      assets=[{id:"bank",name:"Bank",amount:0},{id:"cash",name:"Cash",amount:0}];
       lastJson={};loaded=true;save();enter();
     }catch(e){
       mode=null;
