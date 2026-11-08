@@ -514,6 +514,7 @@ select{text-overflow:ellipsis}
 .ac-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:6px;margin:8px 0;align-items:center}.ac-row input{width:100%;min-width:0}.ac-row .small{margin:0}
 .ac-rest.neg span:last-child{color:var(--danger,#c0392b)}
 .ac-row{gap:8px;margin:8px 0 0}
+.ac-foot{align-items:center}.ac-foot #btnAcMove{margin:0 0 0 auto;flex:0 0 auto;white-space:nowrap}
 .arow2.dim{opacity:.7}
 .afoot{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--glass-b)}
 .afoot .small{margin:0}.atot{margin-left:auto;font-weight:700;padding:6px 10px;border-radius:10px;background:var(--chip);font-size:.9rem}
@@ -1272,8 +1273,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <button type="button" class="small sx-add" id="btnAcAdd"><i data-ic="plus"></i>Tambah rekening</button>
     <div class="ac-rest sx-tot" id="acRest"></div>
     <div class="err" id="acErr" role="alert"></div>
-    <button type="button" class="small sx-add" id="btnAcMove"><i data-ic="swap"></i>Pindah dana</button>
-    <div class="row"><button type="button" class="primary" id="btnAcSave">Simpan</button><button type="button" id="btnAcCancel">Batal</button></div>
+    <div class="row ac-foot"><button type="button" class="primary" id="btnAcSave">Simpan</button><button type="button" id="btnAcCancel">Batal</button><button type="button" class="small" id="btnAcMove"><i data-ic="swap"></i>Pindah dana</button></div>
   </section>
   <div class="tov blur" id="sbOv" hidden></div>
   <section class="msheet pop" id="sbSheet" role="dialog" aria-modal="true" aria-label="Form sub-item" hidden>
