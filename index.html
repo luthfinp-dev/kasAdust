@@ -4276,6 +4276,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 @keyframes calcIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}
 .calc-x{position:absolute;top:10px;right:12px;width:30px;height:30px;min-height:0;padding:0;border-radius:50%;font-size:1.2rem;line-height:1;background:transparent;border:0;color:var(--muted)}
 .calc-disp{min-height:84px;padding:34px 8px 10px;text-align:right;font-weight:300;font-size:3.4rem;line-height:1.05;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums;color:var(--text)}
+.calc-expr{padding:34px 8px 0;min-height:58px;text-align:right;font-size:1.05rem;font-weight:400;color:var(--muted);white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums}
+.calc-disp{padding-top:2px!important}.calc-disp.s4{font-size:1.5rem}
 .calc-disp.s1{font-size:2.8rem}.calc-disp.s2{font-size:2.3rem}.calc-disp.s3{font-size:1.9rem}
 .calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .ck{min-height:0;aspect-ratio:1;padding:0;border-radius:50%;font-size:1.55rem;font-weight:500;display:flex;align-items:center;justify-content:center;
@@ -4449,10 +4451,11 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
   <button type="button" class="calc-x" id="calcX" aria-label="Tutup">&times;</button>
+  <div class="calc-expr" id="calcExpr" data-notr></div>
   <div class="calc-disp" id="calcDisp" aria-live="polite" data-notr>0</div>
   <div class="calc-keys" data-notr>
+    <button type="button" class="ck fn" data-k="back" aria-label="Hapus"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg></button>
     <button type="button" class="ck fn" data-k="ac" id="calcAC">AC</button>
-    <button type="button" class="ck fn" data-k="neg" aria-label="Ubah tanda">&plusmn;</button>
     <button type="button" class="ck fn" data-k="pct" aria-label="Persen">%</button>
     <button type="button" class="ck op" data-k="/" aria-label="Bagi">&divide;</button>
     <button type="button" class="ck" data-k="7">7</button><button type="button" class="ck" data-k="8">8</button><button type="button" class="ck" data-k="9">9</button>
@@ -4461,7 +4464,8 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     <button type="button" class="ck op" data-k="-" aria-label="Kurang">&minus;</button>
     <button type="button" class="ck" data-k="1">1</button><button type="button" class="ck" data-k="2">2</button><button type="button" class="ck" data-k="3">3</button>
     <button type="button" class="ck op" data-k="+" aria-label="Tambah">+</button>
-    <button type="button" class="ck z" data-k="0">0</button>
+    <button type="button" class="ck" data-k="neg" aria-label="Ubah tanda">&plusmn;</button>
+    <button type="button" class="ck" data-k="0">0</button>
     <button type="button" class="ck" data-k="." id="calcDot" aria-label="Desimal">,</button>
     <button type="button" class="ck op" data-k="=" aria-label="Sama dengan">=</button>
   </div>
@@ -4471,8 +4475,8 @@ html.vt-theme .nav{view-transition-name:vt-nav}
   var btn=document.getElementById("btnCalc"),ov=document.getElementById("calcOv"),box=document.getElementById("calc"),
       disp=document.getElementById("calcDisp"),ac=document.getElementById("calcAC"),dot=document.getElementById("calcDot"),xb=document.getElementById("calcX");
   if(!btn||!box)return;
-  var cur="0",prev=null,op=null,fresh=true,lastOp=null,lastB=null,err=false,isOpen=false;
-  var sepG=".",sepD=",";
+  var cur="0",seq=[],seqD=[],fresh=true,err=false,isOpen=false,done=false,lastOp=null,lastB=null,exprTop="";
+  var sepG=".",sepD=",",SYM={"+":"+","-":"\u2212","*":"\u00d7","/":"\u00f7"};
   function seps(){
     try{var l=(window.I18N&&I18N.loc)?I18N.loc():"id-ID";
       var parts=new Intl.NumberFormat(l).formatToParts(1234567.5);
@@ -4480,7 +4484,6 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     }catch(e){}
   }
   function fmt(str){
-    if(err)return "Error";
     var neg=str.charAt(0)==="-";if(neg)str=str.slice(1);
     var ex="",ei=str.indexOf("e");if(ei>-1){ex=str.slice(ei);str=str.slice(0,ei)}
     var parts=str.split("."),ip=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,sepG);
@@ -4488,18 +4491,20 @@ html.vt-theme .nav{view-transition-name:vt-nav}
   }
   function paint(){
     seps();
-    var t=fmt(cur);disp.textContent=t;
-    var n=t.length;disp.className="calc-disp"+(n>13?" s3":n>10?" s2":n>7?" s1":"");
+    var big=err?"Error":((done||!seq.length)?fmt(cur):seqD.join("")+(fresh?"":fmt(cur)));
+    if(big.length>26)big="\u2026"+big.slice(-25);
+    disp.textContent=big;
+    var n=big.length;disp.className="calc-disp"+(n>20?" s4":n>13?" s3":n>10?" s2":n>7?" s1":"");
+    var top=done?exprTop:"";if(top.length>40)top="\u2026"+top.slice(-39);
+    document.getElementById("calcExpr").textContent=top;
     dot.textContent=sepD;
-    ac.textContent=(!err&&(cur!=="0"||!fresh)&&cur!=="0")||(!fresh&&cur==="0"&&op===null&&prev!==null)?"C":"AC";
-    var ops=box.querySelectorAll(".op");
-    for(var i=0;i<ops.length;i++){var k=ops[i].getAttribute("data-k");ops[i].classList.toggle("on",!!op&&fresh&&k===op)}
+    ac.textContent=(!err&&!fresh)?"C":"AC";
+    var ops=box.querySelectorAll(".op"),lo=(seq.length&&fresh&&!done)?seq[seq.length-1]:null;
+    for(var i=0;i<ops.length;i++){ops[i].classList.toggle("on",!!lo&&ops[i].getAttribute("data-k")===lo)}
   }
-  function num(){return parseFloat(cur)}
   function clean(v){
     if(!isFinite(v)){err=true;return "0"}
-    var r=Number(v.toPrecision(12));
-    var s=String(r);
+    var r=Number(v.toPrecision(12)),s=String(r);
     if(Math.abs(r)>=1e12||(Math.abs(r)<1e-6&&r!==0)){s=r.toExponential(8).replace(/\.?0+e/,"e")}
     else if(s.length>12){s=String(Number(r.toPrecision(9)))}
     return s;
@@ -4509,8 +4514,21 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     if(o==="/"){if(b===0){err=true;return 0}return a/b}
     return b;
   }
+  /* urutan operasi seperti kalkulator iPhone: x dan bagi lebih dulu */
+  function evalT(a){
+    var n=[a[0]],p=[],i,op,x,l;
+    for(i=1;i<a.length;i+=2){
+      op=a[i];x=a[i+1];
+      if(op==="*"||op==="/"){l=n.pop();n.push(calc(l,op,x));if(err)return 0}
+      else{p.push(op);n.push(x)}
+    }
+    var r=n[0];for(i=0;i<p.length;i++)r=calc(r,p[i],n[i+1]);
+    return r;
+  }
+  function reset(){cur="0";seq=[];seqD=[];fresh=true;err=false;done=false;lastOp=null;lastB=null;exprTop=""}
+  function startNew(){if(done){seq=[];seqD=[];done=false;exprTop="";fresh=true}}
   function digit(d){
-    if(err)reset();
+    if(err)reset();startNew();
     if(fresh){cur=d;fresh=false}else{
       var raw=cur.replace("-","").replace(".","");
       if(raw.length>=9)return;
@@ -4519,32 +4537,51 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     paint();
   }
   function dec(){
-    if(err)reset();
+    if(err)reset();startNew();
     if(fresh){cur="0.";fresh=false}else if(cur.indexOf(".")<0){cur+="."}
     paint();
   }
-  function reset(){cur="0";prev=null;op=null;fresh=true;lastOp=null;lastB=null;err=false}
   function setOp(o){
     if(err)return;
-    if(op&&!fresh){var r=calc(prev,op,num());cur=clean(r);if(err){paint();return}}
-    prev=num();op=o;fresh=true;lastOp=null;paint();
+    if(done){done=false;exprTop="";seq=[];seqD=[]}
+    if(seq.length&&fresh){seq[seq.length-1]=o;seqD[seqD.length-1]=SYM[o]}
+    else{seq.push(parseFloat(cur));seqD.push(fmt(cur));seq.push(o);seqD.push(SYM[o])}
+    fresh=true;paint();
   }
   function eq(){
     if(err)return;
     var r;
-    if(op){lastB=num();lastOp=op;r=calc(prev,op,lastB);op=null;prev=null}
-    else if(lastOp){r=calc(num(),lastOp,lastB)}
-    else return;
-    cur=clean(r);fresh=true;paint();
+    if(seq.length){
+      var b=parseFloat(cur);
+      r=evalT(seq.concat([b]));
+      exprTop=seqD.join("")+fmt(cur);
+      lastOp=seq[seq.length-1];lastB=b;
+      seq=[];seqD=[];
+    }else if(done&&lastOp){
+      var a=parseFloat(cur);r=calc(a,lastOp,lastB);
+      exprTop=fmt(cur)+SYM[lastOp]+fmt(clean(lastB));
+    }else return;
+    cur=clean(r);fresh=true;done=true;paint();
   }
   function clearKey(){
     if(ac.textContent==="C"&&!err){cur="0";fresh=true;paint();return}
     reset();paint();
   }
-  function neg(){if(err)return;if(cur==="0"&&fresh){cur="-0";fresh=false}else cur=cur.charAt(0)==="-"?cur.slice(1):"-"+cur;paint()}
-  function pct(){if(err)return;cur=clean(num()/100);fresh=true;paint()}
+  function neg(){
+    if(err)return;
+    if(cur==="0"&&fresh){cur="-0";fresh=false}
+    else{cur=cur.charAt(0)==="-"?cur.slice(1):"-"+cur;if(fresh&&seq.length)fresh=false}
+    paint();
+  }
+  function pct(){
+    if(err)return;
+    var x=parseFloat(cur),l=seq.length?seq[seq.length-1]:null;
+    if(l==="+"||l==="-"){var base=evalT(seq.slice(0,-1));x=base*x/100}else x=x/100;
+    if(done){done=false;exprTop="";seq=[];seqD=[]}
+    cur=clean(x);fresh=false;paint();
+  }
   function back(){
-    if(err||fresh)return;
+    if(err||fresh||done)return;
     cur=cur.length>1&&!(cur.length===2&&cur.charAt(0)==="-")?cur.slice(0,-1):"0";
     if(cur==="0"||cur==="-")fresh=true;
     paint();
@@ -4553,6 +4590,7 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     if(k>="0"&&k<="9"&&k.length===1)digit(k);
     else if(k===".")dec();
     else if(k==="ac")clearKey();
+    else if(k==="back")back();
     else if(k==="neg")neg();
     else if(k==="pct")pct();
     else if(k==="=")eq();
