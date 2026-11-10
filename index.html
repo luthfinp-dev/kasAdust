@@ -4747,12 +4747,12 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 </script>
 <script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
 <script>
-/* Animasi masuk: nominal naik dari 0, bar dan grafik terisi. Terpisah dari kode lama. */
+/* Animasi masuk: nominal utama naik dari 0, bar terisi, garis grafik aset tergambar. Terpisah dari kode lama. */
 (function(){
   var app=document.getElementById("app");if(!app)return;
   var DUR=1300,EASE="cubic-bezier(.22,1,.36,1)",last=0,wasVis=!app.hidden;
   var nf=new Intl.NumberFormat("id-ID"),TOK=/\d{1,3}(?:\.\d{3})+|\d+/g;
-  var TX="#lVal,#lSal,#lUsed,#mTotal,#mInfo,#aTotal,#aInfo,#cbPct span,#mMini,#wkMsg,#gTrack .gsl:not(.clone) .v,#gTrack .gsl:not(.clone) .gl1,#gTrack .gsl:not(.clone) .gl2";
+  var TX="#lVal,#mTotal,#aTotal,#gTrack .gsl:not(.clone) .v";
   function vis(el){return el.getClientRects().length>0}
   function prep(n){
     var s=n.nodeValue,parts=[],m,li=0;TOK.lastIndex=0;
@@ -4789,8 +4789,8 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     document.querySelectorAll("#app .wcol").forEach(function(el){if(vis(el))anim(el,{transform:"scaleY(0)",transformOrigin:"center bottom"},{transform:"scaleY(1)",transformOrigin:"center bottom"})});
     var cb=document.getElementById("cbFill");
     if(cb&&vis(cb)&&cb.style.height&&parseFloat(cb.style.height)>0)anim(cb,{height:"0%"},{height:cb.style.height});
-    var sp=document.getElementById("aSpark");
-    if(sp&&vis(sp))anim(sp,{clipPath:"inset(0 100% 0 0)"},{clipPath:"inset(0 0 0 0)"});
+    var ln=document.querySelector("#aSpark .sp-line");
+    if(ln&&ln.getClientRects().length&&ln.getTotalLength){var L=Math.ceil(ln.getTotalLength());if(L>0)anim(ln,{strokeDasharray:"0 "+L},{strokeDasharray:L+" "+L})}
     document.querySelectorAll("#app .dn-seg").forEach(function(sg){
       if(!sg.getClientRects().length)return;
       var d=getComputedStyle(sg).strokeDasharray;
