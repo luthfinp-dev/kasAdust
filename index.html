@@ -927,8 +927,48 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+#plk{position:fixed;inset:0;z-index:99990;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(60% 40% at 18% 14%,var(--t1,rgba(124,154,130,.28)),transparent 70%),radial-gradient(55% 40% at 86% 88%,var(--t3,rgba(143,196,170,.3)),transparent 70%),var(--glass-s,rgba(255,255,255,.88));-webkit-backdrop-filter:blur(26px) saturate(150%);backdrop-filter:blur(26px) saturate(150%);overscroll-behavior:contain;touch-action:manipulation}
+html.plk #plk,#plk.on{display:flex}
+html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
+.pk{width:100%;max-width:340px;text-align:center;padding:26px 20px 20px;border-radius:30px;background:var(--glass,rgba(255,255,255,.55));border:1px solid var(--glass-b,rgba(255,255,255,.8));box-shadow:var(--glass-sh,0 10px 32px rgba(0,0,0,.15)),inset 0 1px 0 rgba(255,255,255,.45);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%)}
+.pk-ic{width:54px;height:54px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;background:var(--chip,rgba(255,255,255,.6));border:1px solid var(--glass-b,rgba(255,255,255,.8));color:var(--sage-d)}
+.pk-ic svg{width:24px;height:24px}
+.pk-t{font-size:1.25rem;font-weight:800;color:var(--text)}
+.pk-s{color:var(--muted);font-size:.9rem;min-height:1.3em;margin-top:2px}
+.pk-d{display:flex;justify-content:center;gap:16px;margin:20px 0 6px}
+.pk-d i{width:14px;height:14px;border-radius:50%;border:2px solid var(--sage-d);transition:background .15s,transform .15s var(--ease,ease),border-color .15s}
+.pk-d i.f{background:var(--sage-d);transform:scale(1.12)}
+.pk-d.bad i{border-color:var(--danger);background:var(--danger)}
+.pk-d.shake{animation:pkShake .4s}
+@keyframes pkShake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.pk-e{min-height:1.4em;color:var(--danger);font-size:.85rem;font-weight:600;margin-bottom:8px}
+.pk-g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;justify-items:center}
+.pk-g button{width:68px;height:68px;min-height:0;padding:0;border-radius:50%;border:1px solid var(--glass-b,rgba(255,255,255,.8));background:var(--chip,rgba(255,255,255,.6));color:var(--text);font-size:1.55rem;font-weight:600;line-height:1;box-shadow:var(--glass-sh,0 6px 18px rgba(0,0,0,.12));-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;transition:transform .12s var(--ease,ease),background .15s;-webkit-tap-highlight-color:transparent}
+.pk-g button:active{transform:scale(.93);background:var(--hover,rgba(255,255,255,.9))}
+.pk-g button:disabled{opacity:.4;transform:none}
+.pk-g button svg{width:24px;height:24px}
+.pk-l{margin-top:14px;display:flex;justify-content:center;gap:18px}
+.pk-l button,.pk-fb button{min-height:0;background:none;border:0;color:var(--sage-d);font-weight:700;font-size:.92rem;padding:8px 10px}
+.pk-f p{margin:6px 0 16px;color:var(--text);line-height:1.5}
+.pk-fb{display:flex;flex-direction:column;gap:6px}
+.pk-fb #pkFok{background:var(--danger);color:#fff;border-radius:99px;padding:12px 14px}
+.pk.forgot .pk-d,.pk.forgot .pk-g,.pk.forgot .pk-l,.pk.forgot .pk-e{display:none}
+.pk-f[hidden]{display:none}
+@media (max-height:640px){.pk-g button{width:58px;height:58px}.pk{padding:18px 16px 14px}.pk-d{margin:12px 0 4px}}
+@media (prefers-reduced-motion:reduce){.pk-d.shake{animation:none}.pk-g button{transition:none}}
+</style>
 </head>
 <body>
+<script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
+<div id="plk" role="dialog" aria-modal="true" aria-labelledby="pkT"><div class="pk" id="pkBox">
+<div class="pk-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="3"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></div>
+<div class="pk-t" id="pkT"></div><div class="pk-s" id="pkS"></div>
+<div class="pk-d" id="pkD"><i></i><i></i><i></i><i></i></div><div class="pk-e" id="pkE" role="alert"></div>
+<div class="pk-g" id="pkG"><button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Hapus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5H9l-6 7 6 7h11a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z"/><path d="m13 9.5 5 5m0-5-5 5"/></svg></button></div>
+<div class="pk-l"><button type="button" id="pkForgot" hidden></button><button type="button" id="pkCancel" hidden></button></div>
+<div class="pk-f" id="pkF" hidden><p id="pkFp"></p><div class="pk-fb"><button type="button" id="pkFok"></button><button type="button" id="pkFno"></button></div></div>
+</div></div>
 <noscript><p style="padding:24px;font-family:sans-serif">Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.</p></noscript>
 <div class="welcome" id="gate" hidden><div class="wcard gcard">
   <div class="wlogo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
@@ -1185,6 +1225,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     <div class="setrow"><span>Akun</span><b id="setAcc">-</b></div>
     <div class="setrow"><span>Penyimpanan</span><b id="setMode">-</b></div>
     <div class="setrow"><span>Status</span><b id="setSt">-</b></div>
+    <div class="setrow"><span id="pinLbl">Kunci PIN</span><button type="button" class="sw" id="pinSw" role="switch" aria-checked="false" aria-labelledby="pinLbl"><span class="knob"></span></button></div>
+    <p class="note" id="pinNote" hidden style="margin-top:8px"></p>
+    <div class="row" id="pinRow" hidden><button type="button" class="small" id="pinChg">Ubah PIN</button></div>
     <div class="row"><button type="button" class="small" id="btnTour">Ulangi panduan</button><button type="button" class="small" id="btnWelcome">Keluar</button></div>
   </section>
   <section class="card acc collapsed" data-t="set" id="fbCard" data-grp="set">
@@ -4750,7 +4793,7 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 /* Animasi masuk: nominal utama naik dari 0, bar terisi, garis grafik aset tergambar. Terpisah dari kode lama. */
 (function(){
   var app=document.getElementById("app");if(!app)return;
-  var DUR=1300,EASE="cubic-bezier(.22,1,.36,1)",last=0,wasVis=!app.hidden;
+  var pend=false,DUR=1300,EASE="cubic-bezier(.22,1,.36,1)",last=0,wasVis=!app.hidden;
   var nf=new Intl.NumberFormat("id-ID"),TOK=/\d{1,3}(?:\.\d{3})+|\d+/g;
   var TX="#lVal,#mTotal,#aTotal,#gTrack .gsl:not(.clone) .v";
   function vis(el){return el.getClientRects().length>0}
@@ -4797,11 +4840,137 @@ html.vt-theme .nav{view-transition-name:vt-nav}
       if(d&&d!=="none")anim(sg,{strokeDasharray:"0 400"},{strokeDasharray:d});
     });
   }
+  window.addEventListener("pin-unlocked",function(){if(pend){pend=false;setTimeout(run,60)}});
   new MutationObserver(function(){
     if(!app.hidden){
-      if(!wasVis){wasVis=true;if(Date.now()-last>3000){last=Date.now();run()}}
+      if(!wasVis){wasVis=true;if(Date.now()-last>3000){last=Date.now();if(document.documentElement.classList.contains("plk"))pend=true;else run()}}
     }else wasVis=false;
   }).observe(app,{attributes:true,attributeFilter:["hidden"]});
+})();
+</script>
+<script>
+/* Kunci PIN 4 angka: tersimpan di perangkat (hash PBKDF2), bisa dihidupkan dan dimatikan di Pengaturan. */
+(function(){
+  var ROOT=document.documentElement,pk=document.getElementById("plk");
+  function openFail(){ROOT.classList.remove("plk")}
+  try{
+    if(!pk)return;
+    var KEY="pin-v1",hasC=!!(window.crypto&&crypto.subtle),S={mode:null,step:"a",buf:"",first:"",cb:null,sub:"",busy:false},hiddenAt=0,cdT=0;
+    function $(i){return document.getElementById(i)}
+    function en(){try{return !!(window.I18N&&I18N.lang()==="en")}catch(e){return false}}
+    function t(a,b){return en()?b:a}
+    function rec(){try{var r=JSON.parse(localStorage.getItem(KEY)||"null");return r&&r.h&&r.s?r:null}catch(e){return null}}
+    function put(r){try{localStorage.setItem(KEY,JSON.stringify(r));return true}catch(e){return false}}
+    function drop(){try{localStorage.removeItem(KEY)}catch(e){}}
+    function b64(u){var s="";for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s)}
+    function unb(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+    async function hash(pin,salt,it){var k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pin),"PBKDF2",false,["deriveBits"]);return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt:salt,iterations:it,hash:"SHA-256"},k,256))}
+    function same(a,b){if(a.length!==b.length)return false;var d=0;for(var i=0;i<a.length;i++)d|=a[i]^b[i];return d===0}
+    async function make(pin){var s=crypto.getRandomValues(new Uint8Array(16)),it=150000;return {v:1,s:b64(s),h:b64(await hash(pin,s,it)),i:it,f:0,u:0}}
+    async function check(pin){var r=rec();if(!r)return false;return same(await hash(pin,unb(r.s),r.i||150000),unb(r.h))}
+    function wait(){var r=rec();return r&&r.u>Date.now()?r.u-Date.now():0}
+    function delay(f){return f<5?0:[30,60,300][Math.min(f-5,2)]*1000}
+    function fmt(ms){var s=Math.ceil(ms/1000),m=Math.floor(s/60);return m+":"+(s%60<10?"0":"")+(s%60)}
+    function err(m){$("pkE").textContent=m||""}
+    function inertApp(on){["app","welcome","gate"].forEach(function(id){var e=$(id);if(e)e.toggleAttribute("inert",on)})}
+    function labels(){
+      $("pkForgot").textContent=t("Lupa PIN?","Forgot PIN?");$("pkCancel").textContent=t("Batal","Cancel");
+      $("pkFp").textContent=t("Kamu akan keluar dari akun, lalu masuk lagi. PIN di perangkat ini akan dihapus.","You will be signed out and then sign in again. The PIN on this device will be removed.");
+      $("pkFok").textContent=t("Keluar akun","Sign out");$("pkFno").textContent=t("Batal","Cancel");
+      $("pinLbl").textContent=t("Kunci PIN","PIN lock");$("pinChg").textContent=t("Ubah PIN","Change PIN");
+    }
+    function paint(){
+      pk.querySelectorAll("#pkD i").forEach(function(x,i){x.className=i<S.buf.length?"f":""});
+      var T,B;
+      if(S.mode==="unlock"){T=t("Masukkan PIN","Enter PIN");B=t("Buka kasAdust","Unlock kasAdust")}
+      else if(S.mode==="verify"){T=t("Masukkan PIN saat ini","Enter current PIN");B=S.sub||""}
+      else{T=S.step==="a"?t("Buat PIN baru","Create a new PIN"):t("Ulangi PIN","Repeat PIN");B=S.step==="a"?t("4 angka","4 digits"):t("Masukkan PIN yang sama","Enter the same PIN")}
+      $("pkT").textContent=T;$("pkS").textContent=B;
+      $("pkForgot").hidden=S.mode!=="unlock";$("pkCancel").hidden=S.mode==="unlock";
+    }
+    function tick(){
+      clearTimeout(cdT);cdT=0;
+      var w=S.mode==="new"?0:wait(),bs=pk.querySelectorAll("#pkG button");
+      bs.forEach(function(b){b.disabled=w>0});
+      if(w>0){err(t("Terlalu banyak percobaan. Coba lagi dalam ","Too many attempts. Try again in ")+fmt(w));cdT=setTimeout(tick,500)}
+    }
+    function forgotOff(){$("pkBox").classList.remove("forgot");$("pkF").hidden=true}
+    function openPad(mode,cb,sub){
+      S.mode=mode;S.step="a";S.buf="";S.first="";S.cb=cb||null;S.sub=sub||"";S.busy=false;
+      err("");forgotOff();labels();paint();pk.classList.add("on");inertApp(true);tick();
+    }
+    function close(){pk.classList.remove("on");if(!ROOT.classList.contains("plk"))inertApp(false);S.mode=null}
+    function unlock(){ROOT.classList.remove("plk");pk.classList.remove("on");inertApp(false);S.mode=null;try{window.dispatchEvent(new Event("pin-unlocked"))}catch(e){}}
+    function lockNow(){if(!rec()||!hasC)return;ROOT.classList.add("plk");openPad("unlock")}
+    function bad(msg){
+      var d=$("pkD");d.classList.add("bad","shake");S.busy=true;
+      try{navigator.vibrate&&navigator.vibrate([60,40,60])}catch(e){}
+      err(msg);
+      setTimeout(function(){d.classList.remove("bad","shake");S.buf="";S.busy=false;paint();if(S.mode!=="new")tick()},450);
+    }
+    function refresh(){
+      labels();var on=!!rec(),sw=$("pinSw");
+      if(sw)sw.setAttribute("aria-checked",String(on));
+      $("pinRow").hidden=!on;
+    }
+    async function complete(){
+      S.busy=true;var p=S.buf;
+      try{
+        if(S.mode==="new"){
+          if(S.step==="a"){S.first=p;S.step="b";S.buf="";err("");S.busy=false;paint()}
+          else if(p===S.first){
+            var r=await make(p),cb=S.cb;
+            if(put(r)){close();refresh();if(cb)cb()}else{err(t("Gagal menyimpan PIN di perangkat ini","Couldn't save the PIN on this device"));S.busy=false;S.buf="";S.step="a";S.first="";paint()}
+          }else{bad(t("PIN tidak sama. Ulangi dari awal.","PINs don't match. Start over."));S.step="a";S.first=""}
+          return;
+        }
+        if(!rec()){if(S.mode==="unlock")unlock();else close();return}
+        if(await check(p)){
+          var r2=rec();r2.f=0;r2.u=0;put(r2);var cb2=S.cb;
+          if(S.mode==="unlock")unlock();else close();
+          if(cb2)cb2();
+        }else{
+          var r3=rec();if(!r3){unlock();return}
+          r3.f=(r3.f||0)+1;var dl=delay(r3.f);if(dl)r3.u=Date.now()+dl;put(r3);
+          bad(r3.f<5?t("PIN salah. ","Wrong PIN. ")+(5-r3.f)+t(" percobaan lagi sebelum dijeda"," tries left before a pause"):"");
+        }
+      }catch(e){S.busy=false;S.buf="";paint();err(t("Terjadi kesalahan. Coba lagi.","Something went wrong. Try again."))}
+    }
+    function press(n){if(S.busy||!S.mode||(S.mode!=="new"&&wait()>0))return;if(S.buf.length<4){S.buf+=n;paint();if(S.buf.length===4)complete()}}
+    function del(){if(S.busy)return;S.buf=S.buf.slice(0,-1);paint()}
+    $("pkG").addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b.disabled)return;var k=b.getAttribute("data-k");if(k==="del")del();else press(k)});
+    document.addEventListener("keydown",function(e){
+      if(!pk.classList.contains("on"))return;
+      if(/^[0-9]$/.test(e.key)){e.preventDefault();press(e.key)}
+      else if(e.key==="Backspace"){e.preventDefault();del()}
+      else if(e.key==="Escape"&&S.mode&&S.mode!=="unlock"){close()}
+    });
+    $("pkCancel").addEventListener("click",function(){close()});
+    $("pkForgot").addEventListener("click",function(){$("pkBox").classList.add("forgot");$("pkF").hidden=false});
+    $("pkFno").addEventListener("click",forgotOff);
+    $("pkFok").addEventListener("click",function(){
+      drop();unlock();refresh();var lo=$("btnWelcome");if(lo)lo.click();
+    });
+    var sw=$("pinSw"),chg=$("pinChg"),note=$("pinNote"),lo2=$("btnWelcome");
+    if(sw)sw.addEventListener("click",function(){
+      note.hidden=true;
+      if(!hasC){note.textContent=t("Browser ini belum mendukung PIN (butuh koneksi aman HTTPS).","This browser doesn't support PIN (needs a secure HTTPS connection).");note.hidden=false;return}
+      if(rec())openPad("verify",function(){drop();refresh()},t("Masukkan PIN untuk mematikan","Enter PIN to turn off"));
+      else openPad("new",refresh);
+    });
+    if(chg)chg.addEventListener("click",function(){
+      openPad("verify",function(){setTimeout(function(){openPad("new",refresh)},0)},t("Masukkan PIN lama","Enter your current PIN"));
+    });
+    if(lo2)lo2.addEventListener("click",function(){drop();refresh()});
+    document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest('[data-tab="set"],#pmSettings'))setTimeout(refresh,0)});
+    document.addEventListener("visibilitychange",function(){
+      if(document.hidden)hiddenAt=Date.now();
+      else if(hiddenAt&&Date.now()-hiddenAt>10000&&rec()&&!ROOT.classList.contains("plk"))lockNow();
+    });
+    window.addEventListener("pageshow",function(e){if(e.persisted&&rec()&&!ROOT.classList.contains("plk"))lockNow()});
+    refresh();
+    if(ROOT.classList.contains("plk")){if(rec()&&hasC)openPad("unlock");else if(!rec())openFail();else openPad("unlock")}
+  }catch(e){openFail();try{document.getElementById("plk").classList.remove("on")}catch(_){}}
 })();
 </script>
 </body>
