@@ -1189,10 +1189,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   </section>
   <section class="card acc collapsed" data-t="set" id="fbCard" data-grp="set">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="fbCard" data-acc="fbCard"><i data-ic="chat"></i>Kritik &amp; saran<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
-    <p class="fb-intro">Ada yang bikin bingung, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.</p>
-    <div class="kseg fb-type" id="fbType" role="group" aria-label="Jenis masukan"><button type="button" data-v="saran" aria-pressed="true">Saran</button><button type="button" data-v="kritik" aria-pressed="false">Kritik</button><button type="button" data-v="bug" aria-pressed="false">Ada error</button></div>
+    <p class="fb-intro">Ada kritik, saran, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.</p>
     <label for="fbMsg">Pesan</label>
-    <textarea id="fbMsg" maxlength="1000" rows="4" placeholder="Contoh: Tolong tambah grafik per bulan" autocomplete="off"></textarea>
+    <textarea id="fbMsg" maxlength="1000" rows="4" placeholder="Contoh: Tolong tambah grafik per bulan, atau tombol ini bikin bingung" autocomplete="off"></textarea>
     <div class="fb-count" id="fbCount">0/1000</div>
     <div class="err" id="fbErr" role="alert"></div>
     <div class="row"><button type="button" class="primary" id="btnFb">Kirim masukan</button></div>
@@ -1465,7 +1464,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   Object.assign(EN,{"Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.":"At least 8 characters, with uppercase letters, lowercase letters, and numbers.","Password harus berisi huruf besar, huruf kecil, dan angka.":"The password must include uppercase letters, lowercase letters, and numbers.","Password terlalu lemah. Pakai minimal 8 karakter dengan huruf besar, huruf kecil, dan angka.":"The password is too weak. Use at least 8 characters with uppercase letters, lowercase letters, and numbers."});
   Object.assign(EN,{"Pilih rekening Bayar pakai.":"Choose a Pay with account.","Masuk ke rekening":"Into account","Pilih rekening Dompetku.":"Choose a My Balance account.","Pilih rekening penerima.":"Choose a receiving account.","Aset":"Assets","Bayar pakai":"Pay with","Masuk ke":"Goes into","Pilih sumber dana.":"Choose a source.","Saldo tidak cukup.":"Insufficient balance.","Belum ada aset.":"No assets yet.","Piutang yang diterima masuk ke pilihanmu. Kalau masuk Dompetku, otomatis jadi gaji tambahan bulan ini.":"Received receivables go into your choice. If into My Balance, it becomes extra salary this month.","Dihitung sebagai pengeluaran dan mengurangi sisa hutang. Saldo yang dipilih ikut berkurang.":"Counted as spending and reduces the remaining debt. The selected balance is reduced too.","Tambah rekening":"Add account","Nama rekening":"Account name","Saldo bulan ini":"Balance this month","Saldo":"Balance","Hapus":"Delete","Yakin?":"Sure?","Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
   Object.assign(EN,{"Email terkonfirmasi":"Email confirmed","Lanjut ke aplikasi":"Continue to the app","sudah aktif. Akun Anda siap dipakai.":"is now active. Your account is ready."});
-  Object.assign(EN,{"Kritik & saran":"Feedback","Ada yang bikin bingung, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.":"Confused by something, found an error, or have a feature idea? Write it here and it goes straight to the app maker.","Jenis masukan":"Feedback type","Saran":"Suggestion","Kritik":"Critique","Ada error":"Bug","Pesan":"Message","Kirim masukan":"Send feedback","Contoh: Tolong tambah grafik per bulan":"Example: Please add a monthly chart","Tulis minimal 5 karakter.":"Write at least 5 characters.","Masuk ke akun dulu untuk mengirim masukan.":"Sign in first to send feedback.","Gagal mengirim. Periksa koneksi lalu coba lagi.":"Failed to send. Check your connection and try again.","Terima kasih!":"Thank you!","Masukanmu sudah terkirim":"Your feedback has been sent"});
+  Object.assign(EN,{"Kritik & saran":"Feedback & suggestions","Ada kritik, saran, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.":"Got a critique, suggestion, bug, or feature idea? Write it here and it goes straight to the app maker.","Pesan":"Message","Kirim masukan":"Send feedback","Contoh: Tolong tambah grafik per bulan, atau tombol ini bikin bingung":"Example: Please add a monthly chart, or this button is confusing","Tulis minimal 5 karakter.":"Write at least 5 characters.","Masuk ke akun dulu untuk mengirim masukan.":"Sign in first to send feedback.","Gagal mengirim. Periksa koneksi lalu coba lagi.":"Failed to send. Check your connection and try again.","Terima kasih!":"Thank you!","Masukanmu sudah terkirim":"Your feedback has been sent"});
   var LV={"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high"};
   function tt(x){return Object.prototype.hasOwnProperty.call(EN,x)?EN[x]:x}
   function pl(n,one,many){return n+(String(n)==="1"?one:many)}
@@ -4207,11 +4206,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   },true);
 
   /* ===== kritik & saran: disimpan di akun pengguna (tabel dokumen, id saran-...) ===== */
-  var fbKind="saran", fbBusy=false;
-  $("fbType").addEventListener("click",function(e){
-    var b=e.target.closest("button[data-v]");if(!b)return;fbKind=b.getAttribute("data-v");
-    var bs=$("fbType").querySelectorAll("button");for(var i=0;i<bs.length;i++)bs[i].setAttribute("aria-pressed",String(bs[i]===b));
-  });
+  var fbBusy=false;
   $("fbMsg").addEventListener("input",function(){$("fbCount").textContent=this.value.length+"/1000";$("fbErr").textContent=""});
   $("btnFb").addEventListener("click",async function(){
     if(fbBusy)return;
@@ -4221,7 +4216,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
     fbBusy=true;$("btnFb").disabled=true;$("fbErr").textContent="";
     try{
       var now=new Date(), id="saran-"+now.getTime().toString(36)+Math.random().toString(36).slice(2,6);
-      var r=await sb.from("dokumen").upsert({user_id:theUid,id:id,data:{jenis:fbKind,pesan:m,email:theName,waktu:now.toISOString(),bahasa:I18N.lang(),layar:window.innerWidth+"x"+window.innerHeight}},{onConflict:"user_id,id"});
+      var r=await sb.from("dokumen").upsert({user_id:theUid,id:id,data:{jenis:"kritik-saran",pesan:m,email:theName,waktu:now.toISOString(),bahasa:I18N.lang(),layar:window.innerWidth+"x"+window.innerHeight}},{onConflict:"user_id,id"});
       if(r.error)throw r.error;
       $("fbMsg").value="";$("fbCount").textContent="0/1000";
       toast("Terima kasih!",null,"Masukanmu sudah terkirim");
