@@ -1182,8 +1182,8 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       </form>
     </section>
 
-    <section class="card" data-t="home">
-      <h2><i data-ic="pie"></i>Ringkasan per kategori</h2>
+    <section class="card acc" id="catPanel" data-t="home" data-grp="kat">
+      <h2 class="acch catacc" role="button" tabindex="0" aria-expanded="true" aria-controls="catPanel" data-acc="catPanel"><i data-ic="pie"></i>Ringkasan per kategori<span class="accr"><i class="accchev" data-ic="chev"></i></span><span class="catmini" id="catMini"></span></h2>
       <div id="catList"></div>
       <div class="total"><span id="catLabel">Total</span><span id="catTotal">Rp 0</span></div>
       <div class="gm" id="savedNote"></div>
@@ -1522,6 +1522,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   function pl(n,one,many){return n+(String(n)==="1"?one:many)}
   function cnt(s){var m=/^(\d+) transaksi, (\d+) aset, (\d+) tujuan, (\d+) bulan gaji$/.exec(s);return m?pl(m[1]," transaction"," transactions")+", "+pl(m[2]," asset"," assets")+", "+pl(m[3]," goal"," goals")+", "+pl(m[4]," salary month"," salary months"):s}
   function code(c){return c?" ("+c+")":""}
+  Object.assign(EN,{"Terbesar":"Largest","Menabung bulan ini":"Saved this month"});
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
    [/^Jatuh tempo (.+)$/,function(m){return "Due "+m[1]}],
@@ -1872,7 +1873,10 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     }).join(""):'<div class="empty">Belum ada data.</div>';
     $("catLabel").textContent="Total ("+(selDay?dateLabel(selDay):selM==="all"?"semua bulan":monthLabel(selM))+")";
     $("catTotal").textContent=rp(ft);
-    $("savedNote").innerHTML=savedCur>0?'<span>Ditabung '+(viewYM===curYM?"bulan ini":monthLabel(viewYM))+'</span><span>'+mk(savedCur)+'</span>':"";
+    $("savedNote").innerHTML='<span>Menabung '+(viewYM===curYM?"bulan ini":monthLabel(viewYM))+'</span><span>'+nbk(savedCur)+'</span>';
+    var big=sl.reduce(function(a,t){return !a||t.amount>a.amount?t:a},null);
+    function nbr(n){return rp(n).replace(/Rp /g,"Rp\u00a0")}
+    $("catMini").innerHTML='<span class="cm"><small class="cl">Total</small><b>'+nbr(ft)+'</b></span><span class="cm"><small class="cl">Menabung</small><b>'+nbk(savedCur)+'</b></span><span class="cm big"><small class="cl">Terbesar</small><b>'+(big?nbr(big.amount):"-")+'</b>'+(big?'<small class="cn">'+esc(big.name)+'</small>':"")+'</span>';
   }
 
   function paintFCat(sel,extra){
@@ -4644,6 +4648,17 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 /* nominal Rp tidak terputus */
 .cat .gm{flex-wrap:wrap}
 .cat .gm span{white-space:nowrap}
+
+/* ringkasan kategori: bisa dilipat, ringkasan kecil saat tertutup */
+.catacc{flex-wrap:wrap}
+.catacc .catmini{display:none;flex:1 0 100%;order:3;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;font-size:1rem;font-weight:400;cursor:default}
+.catacc[aria-expanded="false"] .catmini{display:grid}
+.catmini .cm{min-width:0;display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:12px;background:var(--glass-2);border:1px solid var(--glass-b)}
+.catmini .cl{font-size:.72rem;color:var(--muted);font-weight:400}
+.catmini .cm b{font-size:.88rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.catmini .cn{font-size:.74rem;color:var(--muted);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:640px){.catacc .catmini{grid-template-columns:repeat(2,minmax(0,1fr))}.catmini .cm.big{grid-column:1/-1}}
+#savedNote span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
