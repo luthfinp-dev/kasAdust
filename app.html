@@ -233,7 +233,7 @@ html.lock,html.lock body{overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 /* glass */
-:root{--muted:#4f5e52;--sage-d:#47674f;--line:rgba(71,103,79,.2);--glass:rgba(255,255,255,.55);--glass-2:rgba(240,247,241,.6);--glass-s:rgba(255,255,255,.88);--glass-b:rgba(255,255,255,.8);--glass-sh:0 10px 32px rgba(88,122,96,.18);--field:rgba(255,255,255,.72);--chip:rgba(255,255,255,.6);--hover:rgba(255,255,255,.9);--track:rgba(88,122,96,.16);--page:linear-gradient(160deg,#ffffff 0%,#f1f6f1 45%,#e2ece3 100%);--b1:#b7d2bb;--b2:#93b79b;--b3:#cdebdd;--t1:rgba(124,154,130,.28);--t2:rgba(190,215,196,.42);--t3:rgba(143,196,170,.3);--t4:rgba(172,202,150,.28)}
+:root{--muted:#4f5e52;--sage-d:#47674f;--line:rgba(71,103,79,.2);--glass:rgba(255,255,255,.55);--glass-2:rgba(240,247,241,.6);--glass-s:rgba(255,255,255,.88);--glass-b:rgba(255,255,255,.8);--glass-sh:0 6px 20px rgba(88,122,96,.10);--field:rgba(255,255,255,.72);--chip:rgba(255,255,255,.6);--hover:rgba(255,255,255,.9);--track:rgba(88,122,96,.16);--page:linear-gradient(160deg,#ffffff 0%,#f1f6f1 45%,#e2ece3 100%);--b1:#b7d2bb;--b2:#93b79b;--b3:#cdebdd;--t1:rgba(124,154,130,.28);--t2:rgba(190,215,196,.42);--t3:rgba(143,196,170,.3);--t4:rgba(172,202,150,.28)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--muted:#a9b9ad;--line:rgba(255,255,255,.1);--glass:rgba(30,44,35,.58);--glass-2:rgba(255,255,255,.06);--glass-s:rgba(22,33,26,.92);--glass-b:rgba(255,255,255,.13);--glass-sh:0 12px 36px rgba(0,0,0,.4);--field:rgba(255,255,255,.07);--chip:rgba(255,255,255,.09);--hover:rgba(255,255,255,.14);--track:rgba(255,255,255,.12);--page:linear-gradient(160deg,#0d1410 0%,#111b15 55%,#15231a 100%);--b1:#2c5538;--b2:#3b6c4a;--b3:#224538;--t1:rgba(143,173,149,.16);--t2:rgba(120,170,135,.13);--t3:rgba(100,170,150,.14);--t4:rgba(150,175,120,.13)}}
 :root[data-theme="dark"]{--muted:#a9b9ad;--line:rgba(255,255,255,.1);--glass:rgba(30,44,35,.58);--glass-2:rgba(255,255,255,.06);--glass-s:rgba(22,33,26,.92);--glass-b:rgba(255,255,255,.13);--glass-sh:0 12px 36px rgba(0,0,0,.4);--field:rgba(255,255,255,.07);--chip:rgba(255,255,255,.09);--hover:rgba(255,255,255,.14);--track:rgba(255,255,255,.12);--page:linear-gradient(160deg,#0d1410 0%,#111b15 55%,#15231a 100%);--b1:#2c5538;--b2:#3b6c4a;--b3:#224538;--t1:rgba(143,173,149,.16);--t2:rgba(120,170,135,.13);--t3:rgba(100,170,150,.14);--t4:rgba(150,175,120,.13)}
 body{background:var(--page);min-height:100vh}
@@ -413,7 +413,7 @@ select{text-overflow:ellipsis}
   --bg:#ffffff;--surface:#f3f6fd;--text:#18213d;--muted:#5b6688;--line:rgba(59,100,190,.16);
   --sage:#3b82f6;--sage-d:#1f5fc9;--sage-l:rgba(59,130,246,.14);--danger:#d9456f;--danger-l:#fbe6ec;
   --glass:rgba(255,255,255,.6);--glass-2:rgba(255,255,255,.65);--glass-s:rgba(255,255,255,.9);--glass-b:rgba(255,255,255,.85);
-  --glass-sh:0 10px 32px rgba(60,90,170,.16);
+  --glass-sh:0 6px 20px rgba(60,90,170,.09);
   --field:rgba(255,255,255,.78);--chip:rgba(59,130,246,.13);--hover:rgba(59,130,246,.2);--track:rgba(59,100,190,.14);
   --page:linear-gradient(160deg,#eef4ff 0%,#e6eefc 45%,#fbeaf3 100%);
   --b1:#bcd3f7;--b2:#f5c3dc;--b3:#cfe0fb;
@@ -911,12 +911,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 
 /* kedalaman: bayangan berlapis pada kartu */
 .card,.stat{background:linear-gradient(165deg,rgba(255,255,255,.34),transparent 55%),var(--glass);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset -2px -2px 8px -3px rgba(196,92,126,.30),0 1px 2px rgba(40,70,50,.10),0 14px 26px -10px rgba(60,100,72,.30),0 30px 50px -28px rgba(60,100,72,.26)}
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset -2px -2px 8px -3px rgba(196,92,126,.12),0 1px 2px rgba(40,70,50,.06),0 6px 14px -8px rgba(60,100,72,.14)}
 :root[data-theme="dark"] .card,:root[data-theme="dark"] .stat{background:linear-gradient(165deg,rgba(255,255,255,.07),transparent 55%),var(--glass);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -3px -3px 10px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.35),0 16px 30px -12px rgba(0,0,0,.55),0 34px 56px -30px rgba(0,0,0,.5)}
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -3px -3px 10px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.3),0 8px 18px -10px rgba(0,0,0,.4)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .card,:root:not([data-theme="light"]) .stat{background:linear-gradient(165deg,rgba(255,255,255,.07),transparent 55%),var(--glass);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -3px -3px 10px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.35),0 16px 30px -12px rgba(0,0,0,.55),0 34px 56px -30px rgba(0,0,0,.5)}}
-.navbar{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset -2px -2px 8px -3px rgba(196,92,126,.30),0 1px 2px rgba(40,70,50,.12),0 18px 34px -12px rgba(60,100,72,.38)}
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset -3px -3px 10px -4px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.3),0 8px 18px -10px rgba(0,0,0,.4)}}
+.navbar{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset -2px -2px 8px -3px rgba(196,92,126,.30),0 1px 2px rgba(40,70,50,.08),0 8px 18px -10px rgba(60,100,72,.2)}
 /* rapikan HP: judul atas tidak terpotong, label kartu sejajar */
 @media (max-width:1000px){.stat .l{min-height:2.6em;align-items:center}}
 @media (max-width:480px){.stat .l{min-height:4.4em}}
@@ -1221,42 +1221,67 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     </div>
     <div class="flow" id="flowSum"></div>
   </section>
-  <section class="card acc" data-t="set" id="skinCard" data-grp="set">
-    <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="skinCard" data-acc="skinCard"><i data-ic="palette"></i>Tema<span class="accr"><span class="accsum" id="skAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
-    <div class="skins" role="radiogroup" aria-label="Pilih tema">
+  <div class="sx" data-t="set" id="sxHead">
+    <h2 class="sx-title">Pengaturan</h2>
+    <p class="sx-sub">Akun, keamanan, tampilan, dan bantuan.</p>
+    <div class="sx-tabs" role="tablist" aria-label="Pengaturan">
+      <button type="button" role="tab" class="sx-tab on" data-sx="akun" aria-selected="true">Akun</button>
+      <button type="button" role="tab" class="sx-tab" data-sx="keamanan" aria-selected="false" tabindex="-1">Keamanan</button>
+      <button type="button" role="tab" class="sx-tab" data-sx="tampilan" aria-selected="false" tabindex="-1">Tampilan</button>
+      <button type="button" role="tab" class="sx-tab" id="sxtMasukan" data-sx="masukan" aria-selected="false" tabindex="-1">Masukan</button>
+    </div>
+  </div>
+  <div class="sx-panel" data-t="set" data-sx="akun" role="tabpanel">
+    <section class="card sxc">
+      <div class="sxc-t">Akun</div><div class="sxc-s">Kamu dan statusmu di aplikasi ini.</div>
+      <div class="srow"><div class="sr-l"><div class="sr-t">Akun</div><div class="sr-d">Akun yang sedang dipakai di perangkat ini.</div></div><b id="setAcc">-</b></div>
+      <div class="srow"><div class="sr-l"><div class="sr-t">Status</div><div class="sr-d">Status data akunmu.</div></div><b id="setSt">-</b></div>
+      <div class="srow"><div class="sr-l"><div class="sr-t">Panduan</div><div class="sr-d">Lihat lagi tur singkat aplikasi.</div></div><button type="button" class="small" id="btnTour">Ulangi panduan</button></div>
+      <div class="srow"><div class="sr-l"><div class="sr-t">Keluar</div><div class="sr-d">Ganti akun atau keluar dari perangkat ini.</div></div><button type="button" class="small" id="btnWelcome">Keluar</button></div>
+    </section>
+  </div>
+  <div class="sx-panel sx-off" data-t="set" data-sx="keamanan" role="tabpanel">
+    <section class="card sxc">
+      <div class="sxc-t">Masuk &amp; keamanan</div><div class="sxc-s">Cara kasAdust memastikan ini kamu.</div>
+      <div class="srow"><div class="sr-l"><div class="sr-t" id="pinLbl">Kunci PIN</div><div class="sr-d">Minta PIN setiap kali membuka aplikasi.</div></div><button type="button" class="sw" id="pinSw" role="switch" aria-checked="false" aria-labelledby="pinLbl"><span class="knob"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span></button></div>
+      <p class="note" id="pinNote" hidden></p>
+      <div class="srow" id="pinRow" hidden><div class="sr-l"><div class="sr-t">PIN</div><div class="sr-d">Ganti PIN dengan yang baru.</div></div><button type="button" class="small" id="pinChg">Ubah PIN</button></div>
+    </section>
+  </div>
+  <div class="sx-panel sx-off" data-t="set" data-sx="tampilan" role="tabpanel" id="sxpTampilan">
+    <section class="card sxc" id="skinCard">
+      <div class="sxc-t">Tema<span class="accsum" id="skAccSum" hidden></span></div><div class="sxc-s">Warna dan suasana aplikasi.</div>
+      <div class="skins" role="radiogroup" aria-label="Pilih tema">
       <button type="button" role="radio" class="skin" data-skin="original" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Original</span><span class="sk-sub">Putih dan hijau sage</span></button>
       <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Biru, pink, dan oranye</span></button>
     </div>
-  </section>
-  <section class="card acc collapsed" data-t="set" id="langCard" data-grp="set">
-    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="langCard" data-acc="langCard"><i data-ic="globe"></i>Bahasa<span class="accr"><span class="accsum" id="lgAccSum" data-notr></span><i class="accchev" data-ic="chev"></i></span></h2>
-    <div class="skins" role="radiogroup" aria-label="Pilih bahasa">
+    </section>
+    <section class="card sxc" id="langCard">
+      <div class="sxc-t">Bahasa<span class="accsum" id="lgAccSum" data-notr hidden></span></div><div class="sxc-s">Pilih bahasa tampilan aplikasi.</div>
+      <div class="skins" role="radiogroup" aria-label="Pilih bahasa">
       <button type="button" role="radio" class="lgopt" data-lang="en" aria-checked="true" tabindex="0"><span class="lg-badge" data-notr>EN</span><span class="sk-name" data-notr>English</span></button>
       <button type="button" role="radio" class="lgopt" data-lang="id" aria-checked="false" tabindex="-1"><span class="lg-badge" data-notr>ID</span><span class="sk-name" data-notr>Bahasa Indonesia</span></button>
     </div>
-  </section>
-  <section class="card acc collapsed" data-t="set" id="setCard" data-grp="set">
-    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="setCard" data-acc="setCard"><i data-ic="sliders"></i>Pengaturan<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
-    <div class="setrow"><span>Akun</span><b id="setAcc">-</b></div>
-    <div class="setrow"><span>Status</span><b id="setSt">-</b></div>
-    <div class="setrow"><span id="pinLbl">Kunci PIN</span><button type="button" class="sw" id="pinSw" role="switch" aria-checked="false" aria-labelledby="pinLbl"><span class="knob"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span></button></div>
-    <p class="note" id="pinNote" hidden style="margin-top:8px"></p>
-    <div class="row" id="pinRow" hidden><button type="button" class="small" id="pinChg">Ubah PIN</button></div>
-    <p class="acch2" style="margin-top:14px">Gaya geser navbar</p>
-    <div class="acchips" id="navModeChips" role="group" aria-label="Gaya geser navbar"><button type="button" data-nm="release" aria-pressed="true">Pindah saat lepas</button><button type="button" data-nm="live" aria-pressed="false">Pindah langsung</button><button type="button" data-nm="tap" aria-pressed="false">Ketuk saja</button></div>
-    <p class="acch2" style="margin-top:12px">Efek ikon</p>
-    <div class="acchips" id="navFxChips" role="group" aria-label="Efek ikon"><button type="button" data-fx="rainbow" aria-pressed="true">Tepi pelangi</button><button type="button" data-fx="tint" aria-pressed="false">Warna aksen</button></div>
-    <div class="row"><button type="button" class="small" id="btnTour">Ulangi panduan</button><button type="button" class="small" id="btnWelcome">Keluar</button></div>
-  </section>
-  <section class="card acc collapsed" data-t="set" id="fbCard" data-grp="set">
-    <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="fbCard" data-acc="fbCard"><i data-ic="chat"></i>Kritik &amp; saran<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
-    <p class="fb-intro">Ada kritik, saran, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.</p>
+    </section>
+    <section class="card sxc" id="setCard">
+      <div class="sxc-t">Navbar</div><div class="sxc-s">Atur cara geser dan efek ikon di navbar bawah.</div>
+      <p class="acch2">Gaya geser navbar</p>
+      <div class="acchips" id="navModeChips" role="group" aria-label="Gaya geser navbar"><button type="button" data-nm="release" aria-pressed="true">Pindah saat lepas</button><button type="button" data-nm="live" aria-pressed="false">Pindah langsung</button><button type="button" data-nm="tap" aria-pressed="false">Ketuk saja</button></div>
+      <p class="acch2">Efek ikon</p>
+      <div class="acchips" id="navFxChips" role="group" aria-label="Efek ikon"><button type="button" data-fx="rainbow" aria-pressed="true">Tepi pelangi</button><button type="button" data-fx="tint" aria-pressed="false">Warna aksen</button></div>
+    </section>
+  </div>
+  <div class="sx-panel sx-off" data-t="set" data-sx="masukan" role="tabpanel">
+    <section class="card sxc" id="fbCard">
+      <div class="sxc-t">Kritik &amp; saran</div><div class="sxc-s">Langsung sampai ke pembuat aplikasi.</div>
+      <p class="fb-intro">Ada kritik, saran, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.</p>
     <label for="fbMsg">Pesan</label>
     <textarea id="fbMsg" maxlength="1000" rows="4" placeholder="Contoh: Tolong tambah grafik per bulan, atau tombol ini bikin bingung" autocomplete="off"></textarea>
     <div class="fb-count" id="fbCount">0/1000</div>
     <div class="err" id="fbErr" role="alert"></div>
     <div class="row"><button type="button" class="primary" id="btnFb">Kirim masukan</button></div>
-  </section>
+    </section>
+  </div>
   <p class="note" id="storeNote" data-t="set" hidden></p>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   <nav class="nav" aria-label="Menu utama">
@@ -1541,6 +1566,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   function code(c){return c?" ("+c+")":""}
   Object.assign(EN,{"Terbesar":"Largest","Menabung bulan ini":"Saved this month"});
   Object.assign(EN,{"Gaya geser navbar":"Navbar swipe style","Pindah saat lepas":"Switch on release","Pindah langsung":"Switch instantly","Ketuk saja":"Tap only","Efek ikon":"Icon effect","Tepi pelangi":"Rainbow edge","Warna aksen":"Accent color"});
+  Object.assign(EN,{"Akun, keamanan, tampilan, dan bantuan.":"Account, security, appearance and help.","Keamanan":"Security","Tampilan":"Appearance","Masukan":"Feedback","Kamu dan statusmu di aplikasi ini.":"You and your status in this app.","Akun yang sedang dipakai di perangkat ini.":"The account in use on this device.","Status data akunmu.":"Your account data status.","Panduan":"Guide","Lihat lagi tur singkat aplikasi.":"Replay the short app tour.","Ganti akun atau keluar dari perangkat ini.":"Switch accounts or sign out on this device.","Masuk & keamanan":"Sign-in & security","Cara kasAdust memastikan ini kamu.":"How kasAdust knows it's you.","Minta PIN setiap kali membuka aplikasi.":"Ask for your PIN every time the app opens.","Ganti PIN dengan yang baru.":"Replace your PIN with a new one.","Warna dan suasana aplikasi.":"Colors and mood of the app.","Pilih bahasa tampilan aplikasi.":"Choose the app language.","Atur cara geser dan efek ikon di navbar bawah.":"How swiping and icon effects work on the bottom navbar.","Langsung sampai ke pembuat aplikasi.":"Goes straight to the app's maker."});
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
    [/^Jatuh tempo (.+)$/,function(m){return "Due "+m[1]}],
@@ -4378,6 +4404,23 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   /* Ubah ke true untuk menyalakan lagi kartu Kritik & saran */
   var FB_ENABLED=false, fbBusy=false;
   $("fbCard").hidden=!FB_ENABLED;
+  (function(){
+    var tabs=document.querySelectorAll(".sx-tab"),panels=document.querySelectorAll(".sx-panel");
+    function go(k){
+      tabs.forEach(function(t){var on=t.getAttribute("data-sx")===k;t.classList.toggle("on",on);t.setAttribute("aria-selected",on?"true":"false");t.tabIndex=on?0:-1});
+      panels.forEach(function(pn){pn.classList.toggle("sx-off",pn.getAttribute("data-sx")!==k)});
+    }
+    var mt=$("sxtMasukan");if(mt)mt.hidden=!FB_ENABLED;
+    tabs.forEach(function(t){
+      t.addEventListener("click",function(){go(t.getAttribute("data-sx"))});
+      t.addEventListener("keydown",function(e){
+        if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
+        var vis=Array.prototype.filter.call(tabs,function(x){return !x.hidden}),i=vis.indexOf(t);
+        var n=vis[(i+(e.key==="ArrowRight"?1:-1)+vis.length)%vis.length];e.preventDefault();n.focus();go(n.getAttribute("data-sx"));
+      });
+    });
+    go("akun");
+  })();
   $("fbMsg").addEventListener("input",function(){$("fbCount").textContent=this.value.length+"/1000";$("fbErr").textContent=""});
   $("btnFb").addEventListener("click",async function(){
     if(!FB_ENABLED||fbBusy)return;
@@ -4799,6 +4842,34 @@ html.vt-theme .nav{view-transition-name:vt-nav}
   header .hl .brand,header .hl .date{display:none}
   header .hl h1{margin:0}
 }
+
+/* Pengaturan: tab + kartu berisi baris (judul/deskripsi kiri, kontrol kanan) */
+.sx-title{font-size:1.7rem;font-weight:800;margin:0;line-height:1.15}
+.sx-sub{color:var(--muted);font-size:.92rem;margin:4px 0 14px}
+.sx-tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sx-tabs::-webkit-scrollbar{display:none}
+.sx-tab{flex:none;min-height:0;background:none;border:0;border-bottom:2px solid transparent;border-radius:0;margin-bottom:-1px;padding:10px 14px;color:var(--muted);font-weight:600;font-size:.92rem;box-shadow:none}
+.sx-tab:hover{background:none;color:var(--text)}
+.sx-tab.on{color:var(--text);border-bottom-color:var(--sage-d)}
+.sx-tab[hidden]{display:none}
+.sx-panel{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-bottom:14px}
+.sx-off{display:none!important}
+@media (min-width:900px){#sxpTampilan{grid-template-columns:repeat(2,minmax(0,1fr))}#sxpTampilan #setCard{grid-column:1/-1}}
+.sxc{padding:18px 18px 8px}
+.sxc-t{font-weight:800;font-size:1.02rem}
+.sxc-s{color:var(--muted);font-size:.84rem;margin:2px 0 6px}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.srow:first-of-type{margin-top:8px}
+.srow[hidden]{display:none}
+.sr-l{min-width:0}
+.sr-t{font-weight:700;font-size:.95rem}
+.sr-d{color:var(--muted);font-size:.82rem;margin-top:2px;line-height:1.35}
+.srow>b{font-weight:700;text-align:right;word-break:break-word;max-width:50%}
+.srow>.small{flex:none}
+.sxc .skins{margin:10px 0 14px}
+.sxc .acch2{margin:12px 0 8px}
+.sxc .acchips{margin-bottom:14px}
+.sxc .note{margin:0 0 12px}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
