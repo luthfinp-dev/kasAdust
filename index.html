@@ -163,6 +163,8 @@ html.lock,html.lock body{overflow:hidden}
 .sheet{display:flex;flex-direction:column;overflow:hidden;max-height:70vh;max-height:70dvh;overscroll-behavior:contain}
 #mList{overflow-y:auto;min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .mrow{min-height:48px}
+.mrw{display:flex;align-items:center;gap:6px}.mrw .mrow{flex:1;min-width:0}
+.mrw .mdel{flex:none;margin:0;min-height:40px;padding:6px 10px}
 .ttl,.mrow,.small,.sw{touch-action:manipulation}
 .addm{flex-wrap:wrap}
 .addm label{display:inline-flex;align-items:center;gap:6px;margin:0;color:var(--text);font-size:.92rem}
@@ -1049,7 +1051,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
 </div></div>
 <div class="wrap" id="app" data-tab="home" hidden>
   <header>
-    <div class="hl"><div class="brand">kasAdust</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1><div class="date" style="margin-top:2px"><i data-ic="cal"></i><span id="today"></span></div></div>
+    <div class="hl"><div class="brand">kasAdust</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1><div class="date" style="margin-top:2px"><span id="today"></span></div></div>
     <div class="hr"><button type="button" class="calcbtn" id="btnCalc" aria-haspopup="dialog" aria-expanded="false" aria-label="Kalkulator"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M7.9 2h8.2a3.4 3.4 0 0 1 3.4 3.4v13.2a3.4 3.4 0 0 1-3.4 3.4H7.9a3.4 3.4 0 0 1-3.4-3.4V5.4A3.4 3.4 0 0 1 7.9 2zM8.4 4.6h7.2a1.2 1.2 0 0 1 1.2 1.2v2a1.2 1.2 0 0 1-1.2 1.2H8.4A1.2 1.2 0 0 1 7.2 7.8v-2A1.2 1.2 0 0 1 8.4 4.6zM7.45 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0z"/></svg></button><button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button></div><button type="button" class="avatar" id="btnAvatar" aria-haspopup="dialog" aria-expanded="false" aria-label="Profil"><span class="avin" id="avIn"></span><span class="avdot" id="avDot" hidden></span><span class="avbadge" id="avBadge" hidden></span></button>
     <div id="mOverlay" class="ov" hidden></div>
     <div id="mSheet" class="sheet" role="dialog" aria-label="Pilih bulan" hidden>
@@ -1223,9 +1225,8 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   <section class="card acc collapsed" data-t="set" id="setCard" data-grp="set">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="setCard" data-acc="setCard"><i data-ic="sliders"></i>Pengaturan<span class="accr"><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="setrow"><span>Akun</span><b id="setAcc">-</b></div>
-    <div class="setrow"><span>Penyimpanan</span><b id="setMode">-</b></div>
     <div class="setrow"><span>Status</span><b id="setSt">-</b></div>
-    <div class="setrow"><span id="pinLbl">Kunci PIN</span><button type="button" class="sw" id="pinSw" role="switch" aria-checked="false" aria-labelledby="pinLbl"><span class="knob"></span></button></div>
+    <div class="setrow"><span id="pinLbl">Kunci PIN</span><button type="button" class="sw" id="pinSw" role="switch" aria-checked="false" aria-labelledby="pinLbl"><span class="knob"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span></button></div>
     <p class="note" id="pinNote" hidden style="margin-top:8px"></p>
     <div class="row" id="pinRow" hidden><button type="button" class="small" id="pinChg">Ubah PIN</button></div>
     <div class="row"><button type="button" class="small" id="btnTour">Ulangi panduan</button><button type="button" class="small" id="btnWelcome">Keluar</button></div>
@@ -1255,7 +1256,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   <section class="msheet pmenu" id="pmSheet" role="dialog" aria-modal="true" aria-label="Profil" hidden>
     <div class="pm-top">
       <div class="avatar big"><span class="avin" id="pmAvIn"></span></div>
-      <div style="min-width:0"><div class="pm-name" id="pmName"></div><div class="pm-sub" id="pmMode"></div><div class="pm-sub usertag" id="userTag"></div></div>
+      <div style="min-width:0"><div class="pm-name" id="pmName"></div><div class="pm-sub usertag" id="userTag"></div></div>
     </div>
     <div class="pm-status"><span class="sync" id="syncBox" hidden><span id="syncSt" role="status"></span><button type="button" class="small" id="btnRetry" hidden>Coba lagi</button></span></div>
     <div class="pm-list">
@@ -1537,8 +1538,8 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
    [/^(\d+) bulan gaji$/,function(m){return pl(m[1]," salary month"," salary months")}],
    [/^dari target (.+)$/,function(m){return "of "+m[1]+" target"}],
    [/^(.+)% terkumpul$/,function(m){return m[1]+"% saved"}],
-   [/^(Terkumpul|Sudah dibayar|Sudah diterima) (Rp .+)$/,function(m){return ({"Terkumpul":"Saved","Sudah dibayar":"Paid","Sudah diterima":"Received"})[m[1]]+" "+m[2]}],
-   [/^(\d+|\u2022\u2022)% \u00b7 Sisa (Rp .+)$/,function(m){return m[1]+"% \u00b7 Left "+m[2]}],
+   [/^(Terkumpul|Bayar|Terima|Sudah dibayar|Sudah diterima) (Rp\s.+)$/,function(m){return ({"Terkumpul":"Saved","Bayar":"Paid","Sudah dibayar":"Paid","Sudah diterima":"Received"})[m[1]]+" "+m[2]}],
+   [/^(\d+|\u2022\u2022)% \u00b7 Sisa (Rp\s.+)$/,function(m){return m[1]+"% \u00b7 Left "+m[2]}],
    [/^([\u25b2\u25bc]) (\d+,\d)% \u00b7 (\d+)H$/,function(m){return m[1]+" "+m[2]+"% \u00b7 "+m[3]+"D"}],
    [/^(\d+) hari$/,function(m){return m[1]+" days"}],
    [/^0% \u00b7 (\d+)H$/,function(m){return "0% \u00b7 "+m[1]+"D"}],
@@ -1547,8 +1548,8 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
    [/^Target terkumpul ?(.*)$/,function(m){return ("Goal progress "+m[1]).trim()}],
    [/^Total aset ?(.*)$/,function(m){return ("Total assets "+m[1]).trim()}],
    [/^Kurang (.+)$/,function(m){return "Remaining: "+m[1]}],
-   [/^Sudah terpakai (Rp .+)$/,function(m){return "Already used "+m[1]}],
-   [/^Sisa (Rp .+)$/,function(m){return "Remaining: "+m[1]}],
+   [/^Sudah terpakai (Rp\s.+)$/,function(m){return "Already used "+m[1]}],
+   [/^Sisa (Rp\s.+)$/,function(m){return "Remaining: "+m[1]}],
    [/^(\d+) hutang$/,function(m){return m[1]+" debt"+(m[1]==="1"?"":"s")}],
    [/^hutang: (.+)$/,function(m){return "debt: "+m[1]}],
    [/^(Rp \S+) dari (Rp \S+)$/,function(m){return m[1]+" of "+m[2]}],
@@ -1561,7 +1562,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
    [/^(.+), (tidak ada pengeluaran|rendah|sedang|tinggi|parah)$/,function(m){return m[1]+", "+LV[m[2]]}],
    [/^Hari ini melewati batas(?: \((\d+) dari 7 hari melewati batas\))?$/,function(m){return "Today is over the limit"+(m[1]?" ("+m[1]+" of 7 days over the limit)":"")}],
    [/^(\d+) dari 7 hari melewati batas$/,function(m){return m[1]+" of 7 days over the limit"}],
-   [/^Batas (Rp .+)\/hari$/,function(m){return "Limit "+m[1]+"/day"}],
+   [/^Batas (Rp\s.+)\/hari$/,function(m){return "Limit "+m[1]+"/day"}],
    [/^Transfer (.+) ke (.+)$/,function(m){return "Transfer "+m[1]+" to "+m[2]}],
    [/^tujuan: (.+)$/,function(m){return "goal: "+m[1]}],
    [/^Profil: (.+)$/,function(m){return "Profile: "+m[1]}],
@@ -1796,7 +1797,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     $("lMonth").textContent="("+monthLabel(viewYM)+")";
     $("lVal").textContent=hasSal?(hideBal?"Rp ••••••":rpS(left)):"Belum diisi";
     $("lVal").className="v"+(hasSal&&left<0&&!hideBal?" over":"");
-    $("lSal").textContent=hasSal?"Gaji: "+mk(sal)+(xsum?" (termasuk tambahan "+mk(xsum)+")":""):"Klik Atur gaji untuk mengisi";
+    $("lSal").textContent=hasSal?"Gaji: "+nbk(sal):"Klik Atur gaji untuk mengisi";
     var used=hasSal?Math.max(0,Math.round((tot-ml.ext+savedCur+ml.lend)/sal*100)):0;
     $("lBar").style.width=(hideBal?0:Math.min(100,used))+"%";
     $("lUsed").textContent=hasSal?(left<0&&!hideBal?"Pengeluaran melebihi gaji":(hideBal?"••":used)+"% gaji terpakai"):"";
@@ -2038,11 +2039,22 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     var p=pushed;pushed=false;
     if(p&&fromPop!==true){try{history.back()}catch(e){}}
   }
-  function openSheet(){
+  var pendingMD=null;
+  function mDeletable(k){
+    if(extraMonths.indexOf(k)<0||k===curYM)return false;
+    if(items.some(function(t){return t.date.slice(0,7)===k}))return false;
+    if(salaries[k]||(extras[k]&&extras[k].length))return false;
+    return true;
+  }
+  function renderMList(){
     var m=monthTotals();
     $("mList").innerHTML=Object.keys(m).sort().reverse().map(function(k){
-      return '<button type="button" class="mrow'+(k===viewYM?" on":"")+'" data-m="'+esc(k)+'"><span>'+monthLabel(k)+'<small>'+rp(m[k])+'</small></span>'+(k===viewYM?ic("check"):"")+'</button>';
+      var d=mDeletable(k)?'<button type="button" class="small danger mdel'+(pendingMD===k?" confirm":"")+'" data-md="'+esc(k)+'" aria-label="Hapus bulan '+esc(monthLabel(k))+'">'+(pendingMD===k?"Yakin hapus?":ic("trash"))+'</button>':"";
+      return '<div class="mrw"><button type="button" class="mrow'+(k===viewYM?" on":"")+'" data-m="'+esc(k)+'"><span>'+monthLabel(k)+'<small>'+rp(m[k])+'</small></span>'+(k===viewYM?ic("check"):"")+'</button>'+d+'</div>';
     }).join("");
+  }
+  function openSheet(){
+    pendingMD=null;renderMList();
     sheetY=window.scrollY||window.pageYOffset||0;
     $("mErr").textContent="";
     $("mSheet").hidden=false;$("mOverlay").hidden=false;$("btnMonth").setAttribute("aria-expanded","true");
@@ -2053,7 +2065,21 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   $("btnMonth").addEventListener("click",function(){if($("mSheet").hidden)openSheet();else closeSheet()});
   $("mOverlay").addEventListener("click",function(){closeSheet()});
   window.addEventListener("popstate",function(){if(!$("mSheet").hidden){pushed=false;closeSheet(true)}});
-  $("mList").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setView(b.getAttribute("data-m"))});
+  $("mList").addEventListener("click",function(e){
+    var d=e.target.closest("[data-md]");
+    if(d){
+      var k=d.getAttribute("data-md");
+      if(pendingMD!==k){pendingMD=k;renderMList();return}
+      pendingMD=null;
+      var wasView=viewYM===k;
+      extraMonths=extraMonths.filter(function(x){return x!==k});
+      if(wasView){viewYM=curYM;pendingM=curYM}
+      renderMList();render();
+      toast("Bulan dihapus",function(){if(extraMonths.indexOf(k)<0)extraMonths.push(k);if(wasView){viewYM=k;pendingM=k}if(!$("mSheet").hidden)renderMList();render()},monthLabel(k),"del");
+      return;
+    }
+    var b=e.target.closest(".mrow");if(b){pendingMD=null;setView(b.getAttribute("data-m"))}
+  });
   $("btnAddM").addEventListener("click",function(){
     var v=$("mAdd").value;
     if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(v)){$("mErr").textContent="Pilih bulan dulu, lalu tekan Tambah.";return}
@@ -2063,6 +2089,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   });
   document.addEventListener("keydown",function(e){if(e.key==="Escape")closeSheet()});
   function mk(n){return hideBal?"Rp ••••••":rpS(n)}
+  function nbk(n){return mk(n).replace(/Rp /g,"Rp\u00a0")}
   function setEyes(){
     document.querySelectorAll("[data-eye]").forEach(function(b){
       var t=hideBal?"Tampilkan saldo":"Sembunyikan saldo";
@@ -2072,9 +2099,9 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   }
   document.addEventListener("click",function(e){var b=e.target.closest("[data-eye]");if(!b)return;hideBal=!hideBal;save();render()});
   var GK=[
-    {tab:"Non-hutang",add:"Tambah tujuan",lT:"Total target",lS:"Terkumpul",lR:"Sisa target",lP:"terkumpul",dl:"Jatuh tempo",empty:"Belum ada tujuan. Tambahkan di bawah.",done:"Tercapai",left:"Kurang "},
-    {tab:"Hutang",add:"Tambah hutang",lT:"Total hutang",lS:"Sudah dibayar",lR:"Sisa hutang",lP:"dibayar",dl:"Jatuh tempo",empty:"Belum ada hutang. Tambahkan di bawah.",done:"Lunas",left:"Sisa "},
-    {tab:"Piutang",add:"Tambah piutang",lT:"Total piutang",lS:"Sudah diterima",lR:"Sisa piutang",lP:"diterima",dl:"Jatuh tempo",empty:"Belum ada piutang. Tambahkan di bawah.",done:"Lunas",left:"Sisa "}
+    {tab:"Non-hutang",add:"Tambah tujuan",lT:"Total target",lS:"Terkumpul",sh:"Terkumpul",lR:"Sisa target",lP:"terkumpul",dl:"Jatuh tempo",empty:"Belum ada tujuan. Tambahkan di bawah.",done:"Tercapai",left:"Kurang "},
+    {tab:"Hutang",add:"Tambah hutang",lT:"Total hutang",lS:"Sudah dibayar",sh:"Bayar",lR:"Sisa hutang",lP:"dibayar",dl:"Jatuh tempo",empty:"Belum ada hutang. Tambahkan di bawah.",done:"Lunas",left:"Sisa "},
+    {tab:"Piutang",add:"Tambah piutang",lT:"Total piutang",lS:"Sudah diterima",sh:"Terima",lR:"Sisa piutang",lP:"diterima",dl:"Jatuh tempo",empty:"Belum ada piutang. Tambahkan di bawah.",done:"Lunas",left:"Sisa "}
   ];
   var gTab=0;
   try{var gt0=+localStorage.getItem("gtab-v1");if(gt0===1||gt0===2)gTab=gt0}catch(e){}
@@ -2138,8 +2165,8 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       var pct=tg?Math.min(100,Math.floor(sv/tg*100)):0,rem=Math.max(0,tg-sv);
       el.querySelector(".gsk").textContent=GK[i].tab;
       el.querySelector(".v").textContent=mk(tg);
-      el.querySelector(".gl1").textContent=l.length?GK[i].lS+" "+mk(sv):"Belum ada tujuan";
-      el.querySelector(".gl2").textContent=l.length?(hideBal?"\u2022\u2022":pct)+"% \u00b7 Sisa "+mk(rem):"";
+      el.querySelector(".gl1").textContent=l.length?GK[i].sh+" "+nbk(sv):"Belum ada tujuan";
+      el.querySelector(".gl2").textContent=l.length?(hideBal?"\u2022\u2022":pct)+"%":"";
       el.querySelector(".bar i").style.width=hideBal?"0%":pct+"%";
     }
     var cl=tr.querySelector(".gsl.clone");
@@ -2194,7 +2221,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+mk(g.saved)+" dari "+mk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+mk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+nbk(g.saved)+" dari "+nbk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+nbk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -3491,7 +3518,6 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   var txY=0, txPushed=false;
   function paintSet(){
     $("setAcc").textContent=mode==="db"?theName:"Tanpa akun";
-    $("setMode").textContent=mode==="db"?"Database akun (otomatis)":"Lokal, hanya di browser ini";
     $("setSt").textContent=mode==="db"?($("syncSt").textContent||"Tersimpan"):"-";
   }
   function showTab(n){
@@ -3628,7 +3654,6 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     avFill($("avIn"));avFill($("pmAvIn"));avFill($("phAvIn"));
     $("btnAvatar").setAttribute("aria-label","Profil: "+dispName());
     $("pmName").textContent=dispName();
-    $("pmMode").textContent=mode==="db"?"Database (tersimpan otomatis)":"Lokal (hanya di browser ini)";
     $("userTag").textContent=mode==="db"?"Akun: "+theName:"";
     paintUpd();
     paintDot($("syncSt").textContent,!$("btnRetry").hidden);
@@ -4608,6 +4633,17 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .up-t{margin:8px 0 4px;font-weight:700}
 .up-item ul{margin:0;padding-left:18px;font-size:.9rem;line-height:1.55;color:var(--text)}
 @media (prefers-reduced-motion:reduce){.avbadge{animation:none}}
+
+/* saklar PIN: jelas on/off, ikut tema */
+#pinSw,#pinSw:hover{background:var(--track);border-color:var(--line)}
+#pinSw .knob{background:var(--bg)}
+#pinSw .knob .ic{width:14px;height:14px;color:var(--muted)}
+#pinSw[aria-checked="true"],#pinSw[aria-checked="true"]:hover{background:var(--sage-d);border-color:var(--sage-d)}
+#pinSw[aria-checked="true"] .knob .ic{color:var(--sage-d)}
+#pinSw:focus-visible{outline:2px solid var(--sage-d);outline-offset:2px}
+/* nominal Rp tidak terputus */
+.cat .gm{flex-wrap:wrap}
+.cat .gm span{white-space:nowrap}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
@@ -4912,7 +4948,7 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     }
     function refresh(){
       labels();var on=!!rec(),sw=$("pinSw");
-      if(sw)sw.setAttribute("aria-checked",String(on));
+      if(sw){sw.setAttribute("aria-checked",String(on));var kn=sw.querySelector(".knob");if(kn)kn.innerHTML=on?ic("check"):'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>'}
       $("pinRow").hidden=!on;
     }
     async function complete(){
