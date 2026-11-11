@@ -3627,8 +3627,8 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     }
     function nearest(g,x){var best=g.bs[0],d=1e9;g.bs.forEach(function(t){var dd=Math.abs(t.c-x);if(dd<d){d=dd;best=t}});return best}
     function place(l,w,anim){lens.classList.toggle("settle",!!anim);lens.style.transform="translateX("+l+"px)";lens.style.width=w+"px"}
-    function point(g,tab){g.bs.forEach(function(t){t.el.classList.toggle("pk",t.tab===tab)})}
-    function clearPoint(){bar.classList.remove("dragging");bar.querySelectorAll(".nb.pk").forEach(function(b){b.classList.remove("pk")})}
+    function point(g,tab){g.bs.forEach(function(t){t.el.classList.toggle("nbOn",t.tab===tab)})}
+    function clearPoint(){bar.classList.remove("dragging");bar.querySelectorAll(".nb.nbOn").forEach(function(b){b.classList.remove("nbOn")})}
     function tick(){
       raf=0;if(!st||!st.drag)return;
       var g=st.g,x=lx-g.left,f=g.bs[0],l=g.bs[g.bs.length-1];
@@ -4748,9 +4748,9 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 
 /* navbar geser: ikon ikut berinteraksi */
 .nb i{transition:color .15s ease}
-.navbar.dragging .nb[aria-selected="true"]:not(.pk){color:var(--muted);background:none}
-.navbar.dragging .nb.pk{color:var(--sage-d)}
-.navbar.fx-tint.dragging .nb:not(.pk){opacity:.5}
+.navbar.dragging .nb[aria-selected="true"]:not(.nbOn){color:var(--muted);background:none}
+.navbar.dragging .nb.nbOn{color:var(--sage-d)}
+.navbar.fx-tint.dragging .nb:not(.nbOn){opacity:.5}
 .nbLens{will-change:transform,width}
 
 /* gelembung kaca (glassmorphism) dengan tepi pelangi tipis di ujung, ala app mobile gim */
@@ -4762,6 +4762,12 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 
 /* gelembung: pil lonjong seukuran satu tab, tetap di dalam navbar */
 .nbLens{top:5px;bottom:5px;height:auto;margin-top:0;border-radius:999px}
+
+/* gelembung hanya di dalam navbar: navbar jadi acuan posisi & memotong apa pun yang keluar */
+.navbar{position:relative;overflow:hidden;isolation:isolate}
+.navbar .nb{position:relative;z-index:1}
+.nbLens,:root[data-theme="dark"] .nbLens{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -6px 12px -8px rgba(0,0,0,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nbLens{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -6px 12px -8px rgba(0,0,0,.35)}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
