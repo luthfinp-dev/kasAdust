@@ -5019,7 +5019,7 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest('[data-tab="set"],#pmSettings'))setTimeout(refresh,0)});
     document.addEventListener("visibilitychange",function(){
       if(document.hidden)hiddenAt=Date.now();
-      else if(hiddenAt&&Date.now()-hiddenAt>5000&&rec()&&!ROOT.classList.contains("plk"))lockNow();
+      else if(hiddenAt&&Date.now()-hiddenAt>3000&&rec()&&!ROOT.classList.contains("plk"))lockNow();
     });
     window.addEventListener("pageshow",function(e){if(e.persisted&&rec()&&!ROOT.classList.contains("plk"))lockNow()});
     refresh();
