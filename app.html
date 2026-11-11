@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>kasAdust</title>
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -4433,6 +4433,11 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     if(window.MutationObserver)new MutationObserver(ini).observe(n,{childList:true,characterData:true,subtree:true});
     ini();
   })();
+  (function(){
+    var stop=function(e){e.preventDefault()};
+    ["gesturestart","gesturechange","gestureend"].forEach(function(ev){document.addEventListener(ev,stop,{passive:false})});
+    document.addEventListener("touchmove",function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
+  })();
   $("fbMsg").addEventListener("input",function(){$("fbCount").textContent=this.value.length+"/1000";$("fbErr").textContent=""});
   $("btnFb").addEventListener("click",async function(){
     if(!FB_ENABLED||fbBusy)return;
@@ -4463,12 +4468,16 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
      pengguna baru tidak melihat angka untuk update lama. */
   var UPD_BASE=0, UPD_KEY="update-seen-v1";
   var UPDATES=[
-    {id:1,v:"1.1",d:"2026-11-10",
-     t:["Kunci PIN dan log update","PIN lock and update log"],
+    {id:1,v:"1.1",d:"2026-11-11",
+     t:["Kunci PIN, tampilan baru, dan perbaikan","PIN lock, a fresh look, and fixes"],
      p:[["Kunci PIN 4 angka di Pengaturan. Bisa dihidupkan dan dimatikan, dan PIN hanya tersimpan di perangkatmu.","A 4-digit PIN lock in Settings. Turn it on or off; the PIN is stored only on your device."],
         ["Salah PIN berkali-kali membuat app dijeda sementara. Kalau lupa PIN, keluar akun lalu masuk lagi.","Too many wrong tries pause the app for a while. If you forget your PIN, sign out and sign in again."],
         ["Menu Yang baru di profil untuk melihat riwayat update.","A What's new item in the profile menu to see the update history."],
-        ["Angka merah di foto profil menandakan ada update yang belum dibaca.","A red number on your avatar shows unread updates."]]}
+        ["Angka merah di foto profil menandakan ada update yang belum dibaca.","A red number on your avatar shows unread updates."],
+        ["Halaman Pengaturan dirapikan: kartu profil, baris lebih kompak, dan tombol seragam.","Settings page tidied up: profile card, more compact rows, and consistent buttons."],
+        ["Bayangan kartu dibuat lebih tipis, terutama di mode terang.","Card shadows are softer, especially in light mode."],
+        ["Aplikasi tidak bisa lagi dizoom di HP.","Pinch and double-tap zoom is turned off on phones."],
+        ["Bar tujuan di Beranda tidak lagi beranimasi dua kali.","Goal bars on Home no longer animate twice."]]}
   ];
   function updSeen(){
     var v=null;try{v=localStorage.getItem(UPD_KEY)}catch(e){}
@@ -4951,6 +4960,10 @@ html.vt-theme .nav{view-transition-name:vt-nav}
   .sx-pn{font-size:1.05rem}
   .sx-panel[data-sx="keamanan"]{max-width:820px}
 }
+/* tanpa zoom di layar sentuh (pinch / ketuk dua kali) */
+html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* bar tujuan di beranda: satu animasi saja (jangan diulang saat kelas tabin dilepas) */
+#app.tabin .gsl .bar i.gg{animation:ggrow .85s cubic-bezier(.2,.7,.2,1) both}
 /* saklar PIN mengikuti gaya saklar baru */
 #pinSw,#pinSw:hover{border-color:transparent}
 #pinSw .knob{background:#fff}
