@@ -1231,11 +1231,16 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       <button type="button" role="tab" class="sx-tab" id="sxtMasukan" data-sx="masukan" aria-selected="false" tabindex="-1">Masukan</button>
     </div>
   </div>
-  <div class="sx-panel" data-t="set" data-sx="akun" role="tabpanel">
+  <div class="sx-panel sx-acc" data-t="set" data-sx="akun" role="tabpanel">
+    <section class="card sxc sx-prof">
+      <div class="sx-head">
+        <div class="sx-av" id="sxAv" data-notr aria-hidden="true">-</div>
+        <div class="sx-who"><div class="sx-pn" id="setAcc">-</div><div class="sx-ps">Akun yang sedang dipakai di perangkat ini.</div></div>
+      </div>
+      <div class="sx-kv"><span>Status</span><b id="setSt">-</b></div>
+    </section>
     <section class="card sxc">
       <div class="sxc-t">Akun</div><div class="sxc-s">Kamu dan statusmu di aplikasi ini.</div>
-      <div class="srow"><div class="sr-l"><div class="sr-t">Akun</div><div class="sr-d">Akun yang sedang dipakai di perangkat ini.</div></div><b id="setAcc">-</b></div>
-      <div class="srow"><div class="sr-l"><div class="sr-t">Status</div><div class="sr-d">Status data akunmu.</div></div><b id="setSt">-</b></div>
       <div class="srow"><div class="sr-l"><div class="sr-t">Panduan</div><div class="sr-d">Lihat lagi tur singkat aplikasi.</div></div><button type="button" class="small" id="btnTour">Ulangi panduan</button></div>
       <div class="srow"><div class="sr-l"><div class="sr-t">Keluar</div><div class="sr-d">Ganti akun atau keluar dari perangkat ini.</div></div><button type="button" class="small" id="btnWelcome">Keluar</button></div>
     </section>
@@ -4421,6 +4426,13 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     });
     go("akun");
   })();
+  (function(){
+    var n=$("setAcc"),av=$("sxAv");if(!n||!av)return;
+    function ini(){var w=(n.textContent||"").trim().split(/\s+/).filter(Boolean);
+      av.textContent=w.length&&/[A-Za-z0-9\u00C0-\u024F]/.test(w[0].charAt(0))?(w[0].charAt(0)+(w[1]?w[1].charAt(0):"")).toUpperCase():"-"}
+    if(window.MutationObserver)new MutationObserver(ini).observe(n,{childList:true,characterData:true,subtree:true});
+    ini();
+  })();
   $("fbMsg").addEventListener("input",function(){$("fbCount").textContent=this.value.length+"/1000";$("fbErr").textContent=""});
   $("btnFb").addEventListener("click",async function(){
     if(!FB_ENABLED||fbBusy)return;
@@ -4870,6 +4882,81 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .sxc .acch2{margin:12px 0 8px}
 .sxc .acchips{margin-bottom:14px}
 .sxc .note{margin:0 0 12px}
+/* ===== Pengaturan v2: kompak, baris sejajar, kartu kaca (gaya Verdelo) ===== */
+.sx-title{font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
+.sx-sub{font-size:.8rem;margin:3px 0 12px}
+.sx-tabs{gap:0;margin-bottom:14px}
+.sx-tab{padding:9px 13px;font-size:.82rem;font-weight:600;white-space:nowrap}
+.sx-tab.on{border-bottom-color:var(--sage)}
+.sx-panel{gap:12px}
+.sxc{padding:16px 18px 6px;border-radius:26px}
+.sxc-t{font-size:.92rem;font-weight:700;line-height:1.25}
+.sxc-s{font-size:.76rem;line-height:1.35;margin:2px 0 8px}
+.sx-panel>.card{margin-bottom:0}
+.srow{padding:11px 0;gap:12px;min-height:54px;border-top:0;border-bottom:0}
+.srow+.srow,.sxc .note+.srow{border-top:1px solid var(--line)}
+.sxc>.srow:last-child{padding-bottom:13px}
+.sr-t{font-size:.86rem;font-weight:600;line-height:1.25}
+.sr-d{font-size:.74rem;margin-top:2px;line-height:1.35}
+.srow>b{font-size:.84rem;font-weight:700;max-width:55%}
+.sxc .small{flex:none;min-height:32px;padding:6px 14px;font-size:.78rem;font-weight:600;line-height:1.2;border-radius:12px;white-space:nowrap;background:var(--chip)}
+.sxc .small:hover{background:var(--hover)}
+/* switch: trek aksen saat hidup, kenop terang saat mati */
+.sxc .sw,.sxc .sw:hover{width:46px;height:26px;border:0;background:var(--track)}
+.sxc .sw .knob{width:20px;height:20px;top:3px;left:3px;background:#fff}
+.sxc .sw .knob .ic{width:12px;height:12px}
+.sxc .sw[aria-checked="true"],.sxc .sw[aria-checked="true"]:hover{background:var(--sage)}
+.sxc .sw[aria-checked="true"] .knob{transform:translateX(20px);background:var(--bg)}
+/* kartu profil */
+.sx-panel.sx-acc{align-items:start}
+.sx-prof{padding:16px 18px}
+.sx-head{display:flex;align-items:center;gap:14px;min-width:0}
+.sx-who{min-width:0;flex:1}
+.sx-av{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--sage-l);color:var(--sage-d);border:1.5px solid var(--sage);font-weight:700;font-size:1rem;letter-spacing:.02em}
+.sx-pn{font-weight:700;font-size:.95rem;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sx-ps{color:var(--muted);font-size:.74rem;line-height:1.35;margin-top:2px}
+.sx-kv{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:.8rem}
+.sx-kv span{color:var(--muted)}
+.sx-kv b{font-weight:700;text-align:right}
+/* tema, bahasa, navbar */
+.sxc .skins,.sxc .skins{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0 14px}
+.sxc .skin{padding:10px;gap:4px;border-radius:16px}
+.sxc .sw-prev i{width:18px;height:18px}
+.sxc .sk-name{font-size:.82rem;font-weight:600;line-height:1.25}
+.sxc .sk-sub{font-size:.7rem;line-height:1.3}
+.sxc .lgopt{padding:10px;gap:8px;border-radius:16px}
+.sxc .lg-badge{width:28px;height:28px;font-size:.7rem}
+.sxc .acch2{font-size:.76rem;margin:12px 0 8px}
+.sxc .acchips{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin-bottom:14px}
+.sxc .acchips button{flex:initial;min-height:36px;padding:6px 4px;border-radius:12px;font-size:.72rem;font-weight:600;line-height:1.2;text-align:center;background:var(--chip);color:var(--text);border:1.5px solid var(--glass-b)}
+.sxc .acchips button.on,.sxc .acchips button[aria-pressed="true"]{background:var(--chip);color:var(--text);border-color:var(--sage)}
+@media (max-width:520px){
+  #langCard .skins{grid-template-columns:minmax(0,1fr)}
+  #navModeChips{grid-auto-flow:row;grid-template-columns:minmax(0,1fr)}
+}
+@media (min-width:761px){
+  .sx-title{font-size:1.7rem}.sx-sub{font-size:.88rem}
+  .sx-tab{font-size:.88rem;padding:10px 16px}
+  .sxc{padding:18px 22px 6px}.sxc-t{font-size:1rem}.sxc-s{font-size:.8rem}
+  .sr-t{font-size:.92rem}.sr-d{font-size:.78rem}.srow>b{font-size:.9rem}
+  .sxc .small{font-size:.82rem}
+  .sxc .acchips button{font-size:.8rem}
+  .sxc .sk-name{font-size:.9rem}.sxc .sk-sub{font-size:.76rem}
+}
+@media (min-width:900px){
+  .sx-panel.sx-acc{grid-template-columns:minmax(240px,300px) minmax(0,1fr)}
+  .sx-prof{padding:22px}
+  .sx-head{flex-direction:column;text-align:center;gap:12px}
+  .sx-av{width:72px;height:72px;font-size:1.25rem}
+  .sx-pn{font-size:1.05rem}
+  .sx-panel[data-sx="keamanan"]{max-width:820px}
+}
+/* saklar PIN mengikuti gaya saklar baru */
+#pinSw,#pinSw:hover{border-color:transparent}
+#pinSw .knob{background:#fff}
+#pinSw .knob .ic{width:12px;height:12px}
+#pinSw[aria-checked="true"],#pinSw[aria-checked="true"]:hover{background:var(--sage);border-color:transparent}
+#pinSw[aria-checked="true"] .knob{background:var(--bg)}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
