@@ -1,7 +1,7 @@
-/* Service worker: hanya cache kerangka aplikasi. Data (Supabase) tidak pernah di-cache. */
-var VERSION = "bydust-v2";
+/* Service worker: hanya cache kerangka aplikasi (app.html). Data (Supabase) tidak pernah di-cache. */
+var VERSION = "kasadust-v2";
 var LIB = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js";
-var SHELL = ["./", "index.html", "manifest.json", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
+var SHELL = ["app.html", "manifest.json", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
@@ -29,6 +29,11 @@ self.addEventListener("activate", function (e) {
   );
 });
 
+function cacheApp(r) {
+  if (r && r.ok) { var cp = r.clone(); caches.open(VERSION).then(function (c) { c.put("app.html", cp); }); }
+  return r;
+}
+
 self.addEventListener("fetch", function (e) {
   var req = e.request;
   if (req.method !== "GET") return;
@@ -51,18 +56,20 @@ self.addEventListener("fetch", function (e) {
   if (url.origin !== self.location.origin) return;
   if (url.pathname === "/sw.js") return;
 
-  // Halaman aplikasi (/ dan /index.html): network-first, jatuh ke cache saat offline.
-  // Halaman lain (mis. /landing.html) tidak disentuh, supaya tidak menimpa cache aplikasi.
   if (req.mode === "navigate") {
-    if (url.pathname !== "/" && url.pathname !== "/index.html") return;
-    e.respondWith(
-      fetch(req).then(function (r) {
-        if (r && r.ok) { var cp = r.clone(); caches.open(VERSION).then(function (c) { c.put("index.html", cp); }); }
-        return r;
-      }).catch(function () {
-        return caches.match("index.html").then(function (hit) { return hit || caches.match("./"); });
-      })
-    );
+    // Halaman aplikasi: network-first, jatuh ke cache saat offline.
+    if (url.pathname === "/app.html") {
+      e.respondWith(
+        fetch(req).then(cacheApp).catch(function () { return caches.match("app.html"); })
+      );
+      return;
+    }
+    // Alamat utama: normalnya landing. Hanya saat offline (misal shortcut lama yang mulai dari "/"), tampilkan aplikasi.
+    if (url.pathname === "/") {
+      e.respondWith(
+        fetch(req).catch(function () { return caches.match("app.html"); })
+      );
+    }
     return;
   }
 

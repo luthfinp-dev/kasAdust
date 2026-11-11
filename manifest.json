@@ -1,10 +1,10 @@
 {
-  "name": "kasAdust",
-  "short_name": "kasAdust",
+  "name": "Pencatatan Pengeluaran By adusT",
+  "short_name": "bydust",
   "description": "Catat pengeluaran, gaji, aset, dan tujuan Anda dengan tenang dan rapi.",
   "lang": "id",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "/app.html",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#012b1a",
@@ -29,5 +29,12 @@
       "purpose": "maskable"
     }
   ],
-  "id": "./"
+  "id": "./",
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://www.kasadust.my.id/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false
 }
