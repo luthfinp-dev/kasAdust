@@ -4957,7 +4957,7 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     }
     function refresh(){
       labels();var on=!!rec(),sw=$("pinSw");
-      if(sw){sw.setAttribute("aria-checked",String(on));var kn=sw.querySelector(".knob");if(kn)kn.innerHTML=on?ic("check"):'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>'}
+      if(sw){sw.setAttribute("aria-checked",String(on));var kn=sw.querySelector(".knob");if(kn)kn.innerHTML=on?'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>':'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>'}
       $("pinRow").hidden=!on;
     }
     async function complete(){
@@ -5011,7 +5011,7 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     if(lo2)lo2.addEventListener("click",function(){drop();refresh()});
     document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest('[data-tab="set"],#pmSettings'))setTimeout(refresh,0)});
     window.addEventListener("pageshow",function(e){if(e.persisted&&rec()&&!ROOT.classList.contains("plk"))lockNow()});
-    refresh();
+    try{refresh()}catch(e){}
     if(ROOT.classList.contains("plk")){if(rec()&&hasC)openPad("unlock");else if(!rec())openFail();else openPad("unlock")}
   }catch(e){openFail();try{document.getElementById("plk").classList.remove("on")}catch(_){}}
 })();
