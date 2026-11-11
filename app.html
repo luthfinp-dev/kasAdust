@@ -966,7 +966,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
 .pk-f p{margin:6px 0 16px;color:var(--text);line-height:1.5}
 .pk-fb{display:flex;flex-direction:column;gap:6px}
 .pk-fb #pkFok{background:var(--danger);color:#fff;border-radius:99px;padding:12px 14px}
-.pk.forgot .pk-d,.pk.forgot .pk-g,.pk.forgot .pk-l,.pk.forgot .pk-e{display:none}
+.pk.forgot .pk-d,.pk.forgot .pk-g,.pk.forgot .pk-l,.pk.forgot .pk-e,.pk.forgot .pk-s{display:none}
 .pk-f[hidden]{display:none}
 @media (max-height:640px){.pk-g button{width:58px;height:58px}.pk{padding:18px 16px 14px}.pk-d{margin:12px 0 4px}}
 @media (prefers-reduced-motion:reduce){.pk-d.shake{animation:none}.pk-g button{transition:none}}
@@ -975,11 +975,12 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
 <div id="plk" role="dialog" aria-modal="true" aria-labelledby="pkT"><div class="pk" id="pkBox">
-<div class="pk-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="3"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></div>
+<div class="pk-ic logo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
+<div class="pk-brand">kasAdust</div><div class="pk-tag" id="pkTag"></div>
 <div class="pk-t" id="pkT"></div><div class="pk-s" id="pkS"></div>
 <div class="pk-d" id="pkD"><i></i><i></i><i></i><i></i></div><div class="pk-e" id="pkE" role="alert"></div>
 <div class="pk-g" id="pkG"><button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Hapus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5H9l-6 7 6 7h11a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z"/><path d="m13 9.5 5 5m0-5-5 5"/></svg></button></div>
-<div class="pk-l"><button type="button" id="pkForgot" hidden></button><button type="button" id="pkCancel" hidden></button></div>
+<div class="pk-l"><button type="button" id="pkBack" hidden></button><button type="button" id="pkCancel" hidden></button><button type="button" id="pkForgot" hidden></button></div>
 <div class="pk-f" id="pkF" hidden><p id="pkFp"></p><div class="pk-fb"><button type="button" id="pkFok"></button><button type="button" id="pkFno"></button></div></div>
 </div></div>
 <noscript><p style="padding:24px;font-family:sans-serif">Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di browser Anda.</p></noscript>
@@ -4768,6 +4769,15 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .navbar .nb{position:relative;z-index:1}
 .nbLens,:root[data-theme="dark"] .nbLens{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -6px 12px -8px rgba(0,0,0,.35)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nbLens{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -6px 12px -8px rgba(0,0,0,.35)}}
+
+/* layar PIN: logo + nama + subjudul, tombol bawah kiri/kanan */
+.pk-ic.logo{width:58px;height:58px;border-radius:19px;margin-bottom:8px}
+.pk-ic.logo svg{width:28px;height:28px}
+.pk-brand{font-size:1.02rem;font-weight:800;letter-spacing:.01em;color:var(--text)}
+.pk-tag{font-size:.78rem;color:var(--muted);margin:1px 0 14px}
+.pk-l{justify-content:space-between;gap:8px}
+.pk-l button{max-width:50%}
+@media (max-height:700px){.pk-ic.logo{width:46px;height:46px;border-radius:15px;margin-bottom:6px}.pk-ic.logo svg{width:22px;height:22px}.pk-tag{margin-bottom:8px}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
@@ -5036,7 +5046,7 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     function err(m){$("pkE").textContent=m||""}
     function inertApp(on){["app","welcome","gate"].forEach(function(id){var e=$(id);if(e)e.toggleAttribute("inert",on)})}
     function labels(){
-      $("pkForgot").textContent=t("Lupa PIN?","Forgot PIN?");$("pkCancel").textContent=t("Batal","Cancel");
+      $("pkForgot").textContent=t("Lupa PIN?","Forgot PIN?");$("pkCancel").textContent=t("Batal","Cancel");$("pkBack").textContent=t("Kembali ke login","Back to login");$("pkTag").textContent=t("Manajemen Kas","Expense Tracker");
       $("pkFp").textContent=t("Kamu akan keluar dari akun, lalu masuk lagi. PIN di perangkat ini akan dihapus.","You will be signed out and then sign in again. The PIN on this device will be removed.");
       $("pkFok").textContent=t("Keluar akun","Sign out");$("pkFno").textContent=t("Batal","Cancel");
       $("pinLbl").textContent=t("Kunci PIN","PIN lock");$("pinChg").textContent=t("Ubah PIN","Change PIN");
@@ -5044,11 +5054,11 @@ html.vt-theme .nav{view-transition-name:vt-nav}
     function paint(){
       pk.querySelectorAll("#pkD i").forEach(function(x,i){x.className=i<S.buf.length?"f":""});
       var T,B;
-      if(S.mode==="unlock"){T=t("Masukkan PIN","Enter PIN");B=t("Buka kasAdust","Unlock kasAdust")}
+      if(S.mode==="unlock"){T=t("Selamat datang kembali","Welcome back");B=t("Masukkan PIN","Enter PIN")}
       else if(S.mode==="verify"){T=t("Masukkan PIN saat ini","Enter current PIN");B=S.sub||""}
       else{T=S.step==="a"?t("Buat PIN baru","Create a new PIN"):t("Ulangi PIN","Repeat PIN");B=S.step==="a"?t("4 angka","4 digits"):t("Masukkan PIN yang sama","Enter the same PIN")}
       $("pkT").textContent=T;$("pkS").textContent=B;
-      $("pkForgot").hidden=S.mode!=="unlock";$("pkCancel").hidden=S.mode==="unlock";
+      $("pkForgot").hidden=S.mode!=="unlock";$("pkBack").hidden=S.mode!=="unlock";$("pkCancel").hidden=S.mode==="unlock";
     }
     function tick(){
       clearTimeout(cdT);cdT=0;
@@ -5108,7 +5118,12 @@ html.vt-theme .nav{view-transition-name:vt-nav}
       else if(e.key==="Escape"&&S.mode&&S.mode!=="unlock"){close()}
     });
     $("pkCancel").addEventListener("click",function(){close()});
-    $("pkForgot").addEventListener("click",function(){$("pkBox").classList.add("forgot");$("pkF").hidden=false});
+    $("pkForgot").addEventListener("click",function(){
+      $("pkFp").textContent=t("Kamu akan keluar dari akun, lalu masuk lagi. PIN di perangkat ini akan dihapus.","You will be signed out and then sign in again. The PIN on this device will be removed.");
+      $("pkBox").classList.add("forgot");$("pkF").hidden=false});
+    $("pkBack").addEventListener("click",function(){
+      $("pkFp").textContent=t("Keluar dari akun ini untuk masuk dengan akun lain? PIN di perangkat ini akan dihapus.","Sign out of this account to log in with another one? The PIN on this device will be removed.");
+      $("pkBox").classList.add("forgot");$("pkF").hidden=false});
     $("pkFno").addEventListener("click",forgotOff);
     $("pkFok").addEventListener("click",function(){
       drop();unlock();refresh();var lo=$("btnWelcome");if(lo)lo.click();
