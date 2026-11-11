@@ -935,7 +935,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
   box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -8px 16px -10px rgba(0,0,0,.22),0 10px 24px -10px rgba(0,0,0,.4);
   transition:opacity .16s ease}
 .nbLens.on{opacity:1}
-.nbLens.settle{transition:opacity .2s ease .1s,left .26s var(--ease),width .26s var(--ease)}
+.nbLens.settle{transition:opacity .2s ease .1s,transform .26s var(--ease),width .26s var(--ease)}
 :root[data-theme="dark"] .nbLens{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07));border-color:rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -8px 16px -10px rgba(0,0,0,.5),0 10px 24px -10px rgba(0,0,0,.65)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nbLens{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07));border-color:rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -8px 16px -10px rgba(0,0,0,.5),0 10px 24px -10px rgba(0,0,0,.65)}}
 @media (prefers-reduced-motion:reduce){.nbLens,.nbLens.settle{transition:none}}
@@ -1242,6 +1242,10 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     <div class="setrow"><span id="pinLbl">Kunci PIN</span><button type="button" class="sw" id="pinSw" role="switch" aria-checked="false" aria-labelledby="pinLbl"><span class="knob"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span></button></div>
     <p class="note" id="pinNote" hidden style="margin-top:8px"></p>
     <div class="row" id="pinRow" hidden><button type="button" class="small" id="pinChg">Ubah PIN</button></div>
+    <p class="acch2" style="margin-top:14px">Gaya geser navbar</p>
+    <div class="acchips" id="navModeChips" role="group" aria-label="Gaya geser navbar"><button type="button" data-nm="release" aria-pressed="true">Pindah saat lepas</button><button type="button" data-nm="live" aria-pressed="false">Pindah langsung</button><button type="button" data-nm="tap" aria-pressed="false">Ketuk saja</button></div>
+    <p class="acch2" style="margin-top:12px">Efek ikon</p>
+    <div class="acchips" id="navFxChips" role="group" aria-label="Efek ikon"><button type="button" data-fx="scale" aria-pressed="true">Membesar</button><button type="button" data-fx="tint" aria-pressed="false">Warna aksen</button></div>
     <div class="row"><button type="button" class="small" id="btnTour">Ulangi panduan</button><button type="button" class="small" id="btnWelcome">Keluar</button></div>
   </section>
   <section class="card acc collapsed" data-t="set" id="fbCard" data-grp="set">
@@ -1536,6 +1540,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   function cnt(s){var m=/^(\d+) transaksi, (\d+) aset, (\d+) tujuan, (\d+) bulan gaji$/.exec(s);return m?pl(m[1]," transaction"," transactions")+", "+pl(m[2]," asset"," assets")+", "+pl(m[3]," goal"," goals")+", "+pl(m[4]," salary month"," salary months"):s}
   function code(c){return c?" ("+c+")":""}
   Object.assign(EN,{"Terbesar":"Largest","Menabung bulan ini":"Saved this month"});
+  Object.assign(EN,{"Gaya geser navbar":"Navbar swipe style","Pindah saat lepas":"Switch on release","Pindah langsung":"Switch instantly","Ketuk saja":"Tap only","Efek ikon":"Icon effect","Membesar":"Grow","Warna aksen":"Accent color"});
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
    [/^Jatuh tempo (.+)$/,function(m){return "Due "+m[1]}],
@@ -3597,50 +3602,76 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     if(p&&fromPop!==true){try{history.back()}catch(e){}}
   }
   document.querySelector(".navbar").addEventListener("click",function(e){var b=e.target.closest(".nb");if(b)showTab(b.getAttribute("data-tab"))});
-  /* geser jari di navbar: gelembung mengikuti jari, tab berganti saat jari pindah tab */
+  /* geser jari di navbar: gelembung + ikon mengikuti jari; gaya & efek bisa dipilih di Pengaturan */
   (function(){
     var bar=document.querySelector(".navbar");
-    if(!bar||!window.PointerEvent)return;
+    if(!bar)return;
+    var MODES=["release","live","tap"],mode="release",fx={scale:true,tint:false};
+    try{var m0=localStorage.getItem("nav-mode");if(MODES.indexOf(m0)>=0)mode=m0;var f0=localStorage.getItem("nav-fx");if(f0!==null){var fa=f0.split(",");fx={scale:fa.indexOf("scale")>=0,tint:fa.indexOf("tint")>=0}}}catch(e){}
+    function paintPrefs(){
+      bar.classList.toggle("fx-scale",!!fx.scale);bar.classList.toggle("fx-tint",!!fx.tint);
+      document.querySelectorAll("#navModeChips button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-nm")===mode);b.setAttribute("aria-pressed",b.getAttribute("data-nm")===mode?"true":"false")});
+      document.querySelectorAll("#navFxChips button").forEach(function(b){var on=!!fx[b.getAttribute("data-fx")];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")});
+    }
+    function savePrefs(){try{localStorage.setItem("nav-mode",mode);localStorage.setItem("nav-fx",Object.keys(fx).filter(function(k){return fx[k]}).join(","))}catch(e){}}
+    var mc=$("navModeChips"),fc=$("navFxChips");
+    if(mc)mc.addEventListener("click",function(e){var b=e.target.closest("button[data-nm]");if(!b)return;mode=b.getAttribute("data-nm");savePrefs();paintPrefs()});
+    if(fc)fc.addEventListener("click",function(e){var b=e.target.closest("button[data-fx]");if(!b)return;var k=b.getAttribute("data-fx");fx[k]=!fx[k];savePrefs();paintPrefs()});
+    paintPrefs();
+    if(!window.PointerEvent)return;
     var lens=document.createElement("span");lens.className="nbLens";lens.setAttribute("aria-hidden","true");
     bar.insertBefore(lens,bar.firstChild);
-    var st=null,swallow=0,hideT=0,PADX=6;
+    var st=null,swallow=0,hideT=0,PADX=6,raf=0,lx=0;
     function geo(){
       var br=bar.getBoundingClientRect();
-      var bs=Array.prototype.map.call(bar.querySelectorAll(".nb"),function(b){var r=b.getBoundingClientRect();return {tab:b.getAttribute("data-tab"),l:r.left-br.left,w:r.width,c:r.left-br.left+r.width/2}});
+      var bs=Array.prototype.map.call(bar.querySelectorAll(".nb"),function(b){var r=b.getBoundingClientRect();return {el:b,tab:b.getAttribute("data-tab"),l:r.left-br.left,w:r.width,c:r.left-br.left+r.width/2}});
       return {bs:bs,left:br.left};
     }
     function nearest(g,x){var best=g.bs[0],d=1e9;g.bs.forEach(function(t){var dd=Math.abs(t.c-x);if(dd<d){d=dd;best=t}});return best}
-    function place(l,w,anim){lens.classList.toggle("settle",!!anim);lens.style.left=l+"px";lens.style.width=w+"px"}
+    function place(l,w,anim){lens.classList.toggle("settle",!!anim);lens.style.transform="translateX("+l+"px)";lens.style.width=w+"px"}
+    function point(g,tab){g.bs.forEach(function(t){t.el.classList.toggle("pk",t.tab===tab)})}
+    function clearPoint(){bar.classList.remove("dragging");bar.querySelectorAll(".nb.pk").forEach(function(b){b.classList.remove("pk")})}
+    function tick(){
+      raf=0;if(!st||!st.drag)return;
+      var g=st.g,x=lx-g.left,f=g.bs[0],l=g.bs[g.bs.length-1];
+      var w=f.w+PADX*2,mn=f.l-PADX,mx=l.l+l.w+PADX-w;
+      place(Math.max(mn,Math.min(mx,x-w/2)),w,false);
+      var t=nearest(g,x);
+      if(t.tab!==st.cur){
+        st.cur=t.tab;point(g,t.tab);
+        if(mode==="live"){
+          if($("app").getAttribute("data-tab")!==t.tab){showTab(t.tab);try{navigator.vibrate&&navigator.vibrate(6)}catch(_){}}
+        }else{try{navigator.vibrate&&navigator.vibrate(4)}catch(_){}}
+      }
+    }
     bar.addEventListener("pointerdown",function(e){
-      if(st||(e.pointerType==="mouse"&&e.button!==0))return;
+      if(mode==="tap"||st||(e.pointerType==="mouse"&&e.button!==0))return;
       clearTimeout(hideT);
       var g=geo(),t=nearest(g,e.clientX-g.left);
-      st={id:e.pointerId,x0:e.clientX,drag:false,g:g,cur:t.tab};
-      place(t.l-PADX,t.w+PADX*2,false);lens.classList.add("on");
+      st={id:e.pointerId,x0:e.clientX,drag:false,g:g,cur:t.tab,from:$("app").getAttribute("data-tab")};
+      lens.style.left="0px";place(t.l-PADX,t.w+PADX*2,false);lens.classList.add("on");
     });
     bar.addEventListener("pointermove",function(e){
       if(!st||e.pointerId!==st.id)return;
       if(!st.drag){
         if(Math.abs(e.clientX-st.x0)<6)return;
-        st.drag=true;try{bar.setPointerCapture(e.pointerId)}catch(_){}
+        st.drag=true;bar.classList.add("dragging");point(st.g,st.cur);
+        try{bar.setPointerCapture(e.pointerId)}catch(_){}
       }
-      var g=st.g,x=e.clientX-g.left,f=g.bs[0],l=g.bs[g.bs.length-1];
-      var w=f.w+PADX*2,mn=f.l-PADX,mx=l.l+l.w+PADX-w;
-      place(Math.max(mn,Math.min(mx,x-w/2)),w,false);
-      var t=nearest(g,x);
-      if(t.tab!==st.cur){
-        st.cur=t.tab;
-        if($("app").getAttribute("data-tab")!==t.tab){showTab(t.tab);try{navigator.vibrate&&navigator.vibrate(6)}catch(_){}}
-      }
+      lx=e.clientX;if(!raf)raf=requestAnimationFrame(tick);
     });
     function finish(e){
       if(!st||e.pointerId!==st.id)return;
-      var s=st;st=null;
+      var s=st,cancel=e.type==="pointercancel";st=null;
+      if(raf){cancelAnimationFrame(raf);raf=0}
       try{bar.releasePointerCapture(e.pointerId)}catch(_){}
       if(s.drag){
         swallow=Date.now()+350;
-        var t=s.g.bs.filter(function(b){return b.tab===s.cur})[0];
+        var dest=cancel?s.from:s.cur;
+        var t=s.g.bs.filter(function(b){return b.tab===dest})[0];
         if(t)place(t.l-PADX,t.w+PADX*2,true);
+        if(mode==="release"&&!cancel&&dest!==$("app").getAttribute("data-tab")){showTab(dest);try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}
+        clearPoint();
         hideT=setTimeout(function(){lens.classList.remove("on")},140);
       }else lens.classList.remove("on");
     }
@@ -4716,6 +4747,15 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .catmini .cn{font-size:.74rem;color:var(--muted);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:640px){.catacc .catmini{grid-template-columns:repeat(2,minmax(0,1fr))}.catmini .cm.big{grid-column:1/-1}}
 #savedNote span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* navbar geser: ikon ikut berinteraksi */
+.nb i{transition:transform .18s var(--ease),color .15s ease}
+.navbar.dragging .nb[aria-selected="true"]:not(.pk){color:var(--muted);background:none}
+.navbar.dragging .nb.pk{color:var(--sage-d)}
+.navbar.fx-scale.dragging .nb.pk i{transform:translateY(-4px) scale(1.28)}
+.navbar.fx-tint.dragging .nb:not(.pk){opacity:.5}
+.navbar.fx-tint.dragging .nb.pk{background:var(--chip)}
+.nbLens{will-change:transform,width}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
