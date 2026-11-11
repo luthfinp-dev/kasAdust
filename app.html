@@ -1245,7 +1245,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     <p class="acch2" style="margin-top:14px">Gaya geser navbar</p>
     <div class="acchips" id="navModeChips" role="group" aria-label="Gaya geser navbar"><button type="button" data-nm="release" aria-pressed="true">Pindah saat lepas</button><button type="button" data-nm="live" aria-pressed="false">Pindah langsung</button><button type="button" data-nm="tap" aria-pressed="false">Ketuk saja</button></div>
     <p class="acch2" style="margin-top:12px">Efek ikon</p>
-    <div class="acchips" id="navFxChips" role="group" aria-label="Efek ikon"><button type="button" data-fx="scale" aria-pressed="true">Membesar</button><button type="button" data-fx="tint" aria-pressed="false">Warna aksen</button></div>
+    <div class="acchips" id="navFxChips" role="group" aria-label="Efek ikon"><button type="button" data-fx="rainbow" aria-pressed="true">Tepi pelangi</button><button type="button" data-fx="tint" aria-pressed="false">Warna aksen</button></div>
     <div class="row"><button type="button" class="small" id="btnTour">Ulangi panduan</button><button type="button" class="small" id="btnWelcome">Keluar</button></div>
   </section>
   <section class="card acc collapsed" data-t="set" id="fbCard" data-grp="set">
@@ -1540,7 +1540,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   function cnt(s){var m=/^(\d+) transaksi, (\d+) aset, (\d+) tujuan, (\d+) bulan gaji$/.exec(s);return m?pl(m[1]," transaction"," transactions")+", "+pl(m[2]," asset"," assets")+", "+pl(m[3]," goal"," goals")+", "+pl(m[4]," salary month"," salary months"):s}
   function code(c){return c?" ("+c+")":""}
   Object.assign(EN,{"Terbesar":"Largest","Menabung bulan ini":"Saved this month"});
-  Object.assign(EN,{"Gaya geser navbar":"Navbar swipe style","Pindah saat lepas":"Switch on release","Pindah langsung":"Switch instantly","Ketuk saja":"Tap only","Efek ikon":"Icon effect","Membesar":"Grow","Warna aksen":"Accent color"});
+  Object.assign(EN,{"Gaya geser navbar":"Navbar swipe style","Pindah saat lepas":"Switch on release","Pindah langsung":"Switch instantly","Ketuk saja":"Tap only","Efek ikon":"Icon effect","Tepi pelangi":"Rainbow edge","Warna aksen":"Accent color"});
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
    [/^Jatuh tempo (.+)$/,function(m){return "Due "+m[1]}],
@@ -3606,14 +3606,14 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   (function(){
     var bar=document.querySelector(".navbar");
     if(!bar)return;
-    var MODES=["release","live","tap"],mode="release",fx={scale:true,tint:false};
-    try{var m0=localStorage.getItem("nav-mode");if(MODES.indexOf(m0)>=0)mode=m0;var f0=localStorage.getItem("nav-fx");if(f0!==null){var fa=f0.split(",");fx={scale:fa.indexOf("scale")>=0,tint:fa.indexOf("tint")>=0}}}catch(e){}
+    var MODES=["release","live","tap"],mode="release",fx={rainbow:true,tint:false};
+    try{var m0=localStorage.getItem("nav-mode");if(MODES.indexOf(m0)>=0)mode=m0;var f0=localStorage.getItem("nav-fx2");if(f0!==null){var fa=f0.split(",");fx={rainbow:fa.indexOf("rainbow")>=0,tint:fa.indexOf("tint")>=0}}}catch(e){}
     function paintPrefs(){
-      bar.classList.toggle("fx-scale",!!fx.scale);bar.classList.toggle("fx-tint",!!fx.tint);
+      bar.classList.toggle("fx-rainbow",!!fx.rainbow);bar.classList.toggle("fx-tint",!!fx.tint);
       document.querySelectorAll("#navModeChips button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-nm")===mode);b.setAttribute("aria-pressed",b.getAttribute("data-nm")===mode?"true":"false")});
       document.querySelectorAll("#navFxChips button").forEach(function(b){var on=!!fx[b.getAttribute("data-fx")];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")});
     }
-    function savePrefs(){try{localStorage.setItem("nav-mode",mode);localStorage.setItem("nav-fx",Object.keys(fx).filter(function(k){return fx[k]}).join(","))}catch(e){}}
+    function savePrefs(){try{localStorage.setItem("nav-mode",mode);localStorage.setItem("nav-fx2",Object.keys(fx).filter(function(k){return fx[k]}).join(","))}catch(e){}}
     var mc=$("navModeChips"),fc=$("navFxChips");
     if(mc)mc.addEventListener("click",function(e){var b=e.target.closest("button[data-nm]");if(!b)return;mode=b.getAttribute("data-nm");savePrefs();paintPrefs()});
     if(fc)fc.addEventListener("click",function(e){var b=e.target.closest("button[data-fx]");if(!b)return;var k=b.getAttribute("data-fx");fx[k]=!fx[k];savePrefs();paintPrefs()});
@@ -4749,13 +4749,19 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 #savedNote span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
 
 /* navbar geser: ikon ikut berinteraksi */
-.nb i{transition:transform .18s var(--ease),color .15s ease}
+.nb i{transition:color .15s ease}
 .navbar.dragging .nb[aria-selected="true"]:not(.pk){color:var(--muted);background:none}
 .navbar.dragging .nb.pk{color:var(--sage-d)}
-.navbar.fx-scale.dragging .nb.pk i{transform:translateY(-4px) scale(1.28)}
 .navbar.fx-tint.dragging .nb:not(.pk){opacity:.5}
 .navbar.fx-tint.dragging .nb.pk{background:var(--chip)}
 .nbLens{will-change:transform,width}
+
+/* gelembung kaca (glassmorphism) dengan tepi pelangi tipis di ujung, ala app mobile gim */
+.nbLens{-webkit-backdrop-filter:blur(5px) saturate(1.7) brightness(1.08);backdrop-filter:blur(5px) saturate(1.7) brightness(1.08)}
+.nbLens::before,.nbLens::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .2s ease}
+.nbLens::before{padding:1.5px;background:linear-gradient(90deg,rgba(255,70,140,.9),rgba(255,176,48,.75) 13%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(70,214,255,.75) 87%,rgba(150,96,255,.9));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.nbLens::after{background:radial-gradient(ellipse 26% 78% at 3% 50%,rgba(255,80,150,.30),rgba(255,176,48,.12) 55%,transparent 75%),radial-gradient(ellipse 26% 78% at 97% 50%,rgba(70,200,255,.30),rgba(150,96,255,.14) 55%,transparent 75%)}
+.navbar.fx-rainbow .nbLens::before,.navbar.fx-rainbow .nbLens::after{opacity:1}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
