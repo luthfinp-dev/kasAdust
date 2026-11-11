@@ -4784,6 +4784,16 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .pk-l{margin-top:26px}
 .pk-l button{font-size:.9rem;font-weight:400;color:var(--muted)}
 @media (max-height:700px){.pk-d{margin-top:18px}.pk-l{margin-top:16px}}
+
+/* HP: brand lebih kontras & sedikit turun; tanggal hari ini di sebelah kasAdust (desktop tidak berubah) */
+@media (max-width:760px){
+  header .hl{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:6px;align-items:baseline;padding-top:12px}
+  header .hl .brand{grid-column:1;grid-row:1;margin:0;font-size:.9rem;font-weight:700;color:var(--text);opacity:.95;white-space:nowrap;overflow:visible}
+  header .hl h1{grid-column:1/-1;grid-row:2;margin-top:2px}
+  header .hl .date{grid-column:2;grid-row:1;margin:0!important;font-size:.8rem!important;min-width:0;display:flex;align-items:baseline}
+  header .hl .date::before{content:"\00b7";margin-right:6px;color:var(--muted)}
+  header .hl .date #today{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
