@@ -1063,6 +1063,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
 </div></div>
 <div class="wrap" id="app" data-tab="home" hidden>
   <header>
+    <div class="hmeta" aria-hidden="false"><span class="hm-b">kasAdust</span><span class="hm-dot" aria-hidden="true">&middot;</span><span class="hm-d" id="today2"></span></div>
     <div class="hl"><div class="brand">kasAdust</div><h1><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1><div class="date" style="margin-top:2px"><span id="today"></span></div></div>
     <div class="hr"><button type="button" class="calcbtn" id="btnCalc" aria-haspopup="dialog" aria-expanded="false" aria-label="Kalkulator"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M7.9 2h8.2a3.4 3.4 0 0 1 3.4 3.4v13.2a3.4 3.4 0 0 1-3.4 3.4H7.9a3.4 3.4 0 0 1-3.4-3.4V5.4A3.4 3.4 0 0 1 7.9 2zM8.4 4.6h7.2a1.2 1.2 0 0 1 1.2 1.2v2a1.2 1.2 0 0 1-1.2 1.2H8.4A1.2 1.2 0 0 1 7.2 7.8v-2A1.2 1.2 0 0 1 8.4 4.6zM7.45 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0z"/></svg></button><button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button></div><button type="button" class="avatar" id="btnAvatar" aria-haspopup="dialog" aria-expanded="false" aria-label="Profil"><span class="avin" id="avIn"></span><span class="avdot" id="avDot" hidden></span><span class="avbadge" id="avBadge" hidden></span></button>
     <div id="mOverlay" class="ov" hidden></div>
@@ -2506,7 +2507,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   }
   $("coinBox").addEventListener("click",coinRain);
   $("coinBox").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();coinRain()}});
-  function paintToday(){$("today").textContent=new Date().toLocaleDateString(I18N.loc(),{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+  function paintToday(){var d=new Date().toLocaleDateString(I18N.loc(),{weekday:"long",day:"numeric",month:"long",year:"numeric"});$("today").textContent=d;var t2=$("today2");if(t2)t2.textContent=d}
   paintToday();
   paintFCat(CATS[0]);
   function rpS(n){return n<0?"-"+rp(-n):rp(n)}
@@ -4785,14 +4786,18 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .pk-l button{font-size:.9rem;font-weight:400;color:var(--muted)}
 @media (max-height:700px){.pk-d{margin-top:18px}.pk-l{margin-top:16px}}
 
-/* HP: brand lebih kontras & sedikit turun; tanggal hari ini di sebelah kasAdust (desktop tidak berubah) */
+/* HP: baris atas "kasAdust · tanggal lengkap", di bawahnya bulan + kalkulator + tema + avatar sejajar tengah (desktop tidak berubah) */
+.hmeta{display:none}
 @media (max-width:760px){
-  header .hl{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:6px;align-items:baseline;padding-top:12px}
-  header .hl .brand{grid-column:1;grid-row:1;margin:0;font-size:.9rem;font-weight:700;color:var(--text);opacity:.95;white-space:nowrap;overflow:visible}
-  header .hl h1{grid-column:1/-1;grid-row:2;margin-top:2px}
-  header .hl .date{grid-column:2;grid-row:1;margin:0!important;font-size:.8rem!important;min-width:0;display:flex;align-items:baseline}
-  header .hl .date::before{content:"\00b7";margin-right:6px;color:var(--muted)}
-  header .hl .date #today{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .hmeta{display:flex;align-items:baseline;gap:5px;grid-column:1/-1;grid-row:1;min-width:0;padding-top:12px;margin-bottom:2px;white-space:nowrap}
+  .hm-b{font-size:.9rem;font-weight:700;color:var(--text);opacity:.95;flex:none}
+  .hm-dot{color:var(--muted);flex:none}
+  .hm-d{font-size:.82rem;color:var(--muted)}
+  header .hl{grid-row:2;align-self:center}
+  header .hr{grid-row:2;align-self:center}
+  header .avatar:not(.big){grid-row:2;align-self:center}
+  header .hl .brand,header .hl .date{display:none}
+  header .hl h1{margin:0}
 }
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
