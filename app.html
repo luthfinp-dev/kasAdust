@@ -183,11 +183,11 @@ html.lock,html.lock body{overflow:hidden}
 .navbar{pointer-events:auto;display:grid;grid-template-columns:1fr 1fr 76px 1fr 1fr;align-items:center;width:100%;max-width:520px;height:66px;padding:0 8px;background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);border-radius:999px}
 .navgap{display:block}
 .nb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:48px;padding:6px 2px;border:0;background:none;color:var(--muted);border-radius:18px;touch-action:manipulation}
-.nb:hover{background:var(--chip)}
+.nb:hover{background:none}
 .nb span{font-size:.66rem;font-weight:600;white-space:nowrap}
 .nb i[data-ic]{color:inherit}
 .nb .ic{width:22px;height:22px}
-.nb[aria-selected="true"]{color:var(--sage-d);background:var(--chip)}
+.nb[aria-selected="true"]{color:var(--sage-d);background:none}
 .fab{position:absolute;left:50%;top:-20px;transform:translateX(-50%);width:60px;height:60px;min-height:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:auto;background:#fff;color:#47674f;border:2px solid var(--sage);box-shadow:0 10px 24px rgba(88,122,96,.38),0 0 0 6px rgba(255,255,255,.4);touch-action:manipulation}
 .fab:hover{background:#fff}
 .fab i[data-ic]{color:inherit}
@@ -3619,7 +3619,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     if(!window.PointerEvent)return;
     var lens=document.createElement("span");lens.className="nbLens";lens.setAttribute("aria-hidden","true");
     bar.insertBefore(lens,bar.firstChild);
-    var st=null,swallow=0,hideT=0,PADX=6,raf=0,lx=0;
+    var st=null,swallow=0,hideT=0,PADX=0,raf=0,lx=0;
     function geo(){
       var br=bar.getBoundingClientRect();
       var bs=Array.prototype.map.call(bar.querySelectorAll(".nb"),function(b){var r=b.getBoundingClientRect();return {el:b,tab:b.getAttribute("data-tab"),l:r.left-br.left,w:r.width,c:r.left-br.left+r.width/2}});
@@ -4759,6 +4759,9 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .nbLens::before{padding:1.5px;background:linear-gradient(90deg,rgba(255,70,140,.9),rgba(255,176,48,.75) 13%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(70,214,255,.75) 87%,rgba(150,96,255,.9));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 .nbLens::after{background:radial-gradient(ellipse 26% 78% at 3% 50%,rgba(255,80,150,.30),rgba(255,176,48,.12) 55%,transparent 75%),radial-gradient(ellipse 26% 78% at 97% 50%,rgba(70,200,255,.30),rgba(150,96,255,.14) 55%,transparent 75%)}
 .navbar.fx-rainbow .nbLens::before,.navbar.fx-rainbow .nbLens::after{opacity:1}
+
+/* gelembung: pil lonjong seukuran satu tab, tetap di dalam navbar */
+.nbLens{top:5px;bottom:5px;height:auto;margin-top:0;border-radius:999px}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
