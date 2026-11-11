@@ -1,5 +1,5 @@
 /* Service worker: hanya cache kerangka aplikasi. Data (Supabase) tidak pernah di-cache. */
-var VERSION = "bydust-v1";
+var VERSION = "bydust-v2";
 var LIB = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js";
 var SHELL = ["./", "index.html", "manifest.json", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 
@@ -51,8 +51,10 @@ self.addEventListener("fetch", function (e) {
   if (url.origin !== self.location.origin) return;
   if (url.pathname === "/sw.js") return;
 
-  // Halaman: network-first, jatuh ke cache saat offline.
+  // Halaman aplikasi (/ dan /index.html): network-first, jatuh ke cache saat offline.
+  // Halaman lain (mis. /landing.html) tidak disentuh, supaya tidak menimpa cache aplikasi.
   if (req.mode === "navigate") {
+    if (url.pathname !== "/" && url.pathname !== "/index.html") return;
     e.respondWith(
       fetch(req).then(function (r) {
         if (r && r.ok) { var cp = r.clone(); caches.open(VERSION).then(function (c) { c.put("index.html", cp); }); }

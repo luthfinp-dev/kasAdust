@@ -1,6 +1,6 @@
 {
-  "name": "Pencatatan Pengeluaran By adusT",
-  "short_name": "bydust",
+  "name": "kasAdust",
+  "short_name": "kasAdust",
   "description": "Catat pengeluaran, gaji, aset, dan tujuan Anda dengan tenang dan rapi.",
   "lang": "id",
   "start_url": "./",
