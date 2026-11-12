@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="kasAdust">
-<script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1");if(k==="fluted"){r.setAttribute("data-skin","fluted");if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}else if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}catch(e){}</script>
+<script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1"),b=localStorage.getItem("bg-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t);if(b==="fluted"){r.setAttribute("data-bg","fluted");if(!r.hasAttribute("data-theme"))r.setAttribute("data-theme",matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}}catch(e){}</script>
 <script>window.__dip=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dip=e});window.addEventListener("appinstalled",function(){window.__dip=null;try{localStorage.setItem("pwa-installed-v1","1")}catch(e){}});try{if(matchMedia("(display-mode: standalone)").matches||navigator.standalone===true)localStorage.setItem("pwa-installed-v1","1")}catch(e){}</script>
 <style>
 :root{
@@ -937,13 +937,20 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 :root[data-theme="dark"] .nbLens{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07));border-color:rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -8px 16px -10px rgba(0,0,0,.5),0 10px 24px -10px rgba(0,0,0,.65)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nbLens{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07));border-color:rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -8px 16px -10px rgba(0,0,0,.5),0 10px 24px -10px rgba(0,0,0,.65)}}
 @media (prefers-reduced-motion:reduce){.nbLens,.nbLens.settle{transition:none}}
-/* ===== tema Fluted Glass (garis kaca bergelombang) ===== */
-:root[data-skin="fluted"]{--bg:#f1f7f2;--fg1:rgba(143,186,160,.55);--fg2:rgba(88,140,104,.30);--fs:rgba(38,78,54,.24);--fh:rgba(255,255,255,.92);--fm:rgba(255,255,255,0)}
-@media (prefers-color-scheme:dark){:root[data-skin="fluted"]:not([data-theme="light"]){color-scheme:dark;--bg:#0c120e;--fg1:rgba(60,140,96,.38);--fg2:rgba(40,110,80,.26);--fs:rgba(0,0,0,.6);--fh:rgba(170,230,190,.12);--fm:rgba(255,255,255,0)}}
-:root[data-skin="fluted"][data-theme="dark"]{color-scheme:dark;--bg:#0c120e;--fg1:rgba(60,140,96,.38);--fg2:rgba(40,110,80,.26);--fs:rgba(0,0,0,.6);--fh:rgba(170,230,190,.12);--fm:rgba(255,255,255,0)}
-:root[data-skin="fluted"] body::before{opacity:1;background:radial-gradient(60vmax 50vmax at 18% 12%,var(--fg1),transparent 70%),radial-gradient(52vmax 46vmax at 88% 88%,var(--fg2),transparent 70%)}
-:root[data-skin="fluted"] body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(90deg,var(--fs) 0%,var(--fh) 34%,var(--fm) 60%,var(--fs) 100%);background-size:44px 100%}
+/* ===== Background: Fluted Glass (terpisah dari warna tema) ===== */
+.sxc-sub{font-size:.82rem;color:var(--muted);margin:14px 0 6px;font-weight:600}
+.bgopt{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px;border-radius:16px;text-align:left;background:var(--glass-2,transparent);border:1.5px solid var(--glass-b,var(--line));min-height:0;font:inherit;color:inherit;cursor:pointer}
+.bgopt:hover{background:var(--hover,var(--surface))}
+.bgopt[aria-checked="true"]{border-color:var(--sage);background:var(--chip,var(--sage-l))}
+.bgopt .sk-name{font-weight:600}
+.bgopt .sk-sub{font-size:.8rem;color:var(--muted)}
 .p-flu i:nth-child(1){background:#f1f7f2}.p-flu i:nth-child(2){background:#7c9a82}.p-flu i:nth-child(3){background:#2e4a39}
+:root[data-bg="fluted"]{--fg1:rgba(143,186,160,.55);--fg2:rgba(88,140,104,.30);--fs:rgba(38,78,54,.24);--fh:rgba(255,255,255,.92);--fm:rgba(255,255,255,0)}
+:root[data-bg="fluted"][data-theme="dark"]{--fg1:rgba(60,140,96,.38);--fg2:rgba(40,110,80,.26);--fs:rgba(0,0,0,.6);--fh:rgba(170,230,190,.12);--fm:rgba(255,255,255,0)}
+:root[data-bg="fluted"][data-skin="midnight"]{--fg1:rgba(2,151,222,.42);--fg2:rgba(252,115,77,.24);--fs:rgba(20,70,110,.26);--fh:rgba(255,255,255,.92);--fm:rgba(255,255,255,0)}
+:root[data-bg="fluted"][data-skin="midnight"][data-theme="dark"]{--fg1:rgba(2,151,222,.40);--fg2:rgba(252,115,77,.20);--fs:rgba(0,0,0,.62);--fh:rgba(120,200,240,.12);--fm:rgba(255,255,255,0)}
+:root[data-bg="fluted"][data-theme] body::before{opacity:1;background:radial-gradient(60vmax 50vmax at 18% 12%,var(--fg1),transparent 70%),radial-gradient(52vmax 46vmax at 88% 88%,var(--fg2),transparent 70%)}
+:root[data-bg="fluted"] body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(90deg,var(--fs) 0%,var(--fh) 34%,var(--fm) 60%,var(--fs) 100%);background-size:44px 100%}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1263,11 +1270,16 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   <div class="sx-panel sx-off" data-t="set" data-sx="tampilan" role="tabpanel" id="sxpTampilan">
     <section class="card sxc" id="skinCard">
       <div class="sxc-t">Tema<span class="accsum" id="skAccSum" hidden></span></div><div class="sxc-s">Warna dan suasana aplikasi.</div>
-      <div class="skins" role="radiogroup" aria-label="Pilih tema">
+      <div class="sxc-sub">Warna</div>
+      <div class="skins" role="radiogroup" aria-label="Pilih warna">
       <button type="button" role="radio" class="skin" data-skin="original" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Original</span><span class="sk-sub">Putih dan hijau sage</span></button>
       <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Biru, pink, dan oranye</span></button>
-      <button type="button" role="radio" class="skin" data-skin="fluted" aria-checked="false" tabindex="-1"><span class="sw-prev p-flu"><i></i><i></i><i></i></span><span class="sk-name">Fluted Glass</span><span class="sk-sub">Garis kaca bergelombang</span></button>
-    </div>
+      </div>
+      <div class="sxc-sub">Background</div>
+      <div class="skins" role="radiogroup" aria-label="Pilih background">
+      <button type="button" role="radio" class="bgopt" data-bg="default" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Default</span><span class="sk-sub">Foto latar awal</span></button>
+      <button type="button" role="radio" class="bgopt" data-bg="fluted" aria-checked="false" tabindex="-1"><span class="sw-prev p-flu"><i></i><i></i><i></i></span><span class="sk-name">Fluted Glass</span><span class="sk-sub">Garis kaca bergelombang</span></button>
+      </div>
     </section>
     <section class="card sxc" id="langCard">
       <div class="sxc-t">Bahasa<span class="accsum" id="lgAccSum" data-notr hidden></span></div><div class="sxc-s">Pilih bahasa tampilan aplikasi.</div>
@@ -4196,7 +4208,8 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("rsSheet").hidden)closeRs()});
 
   var skin="original";
-  try{var __sk=localStorage.getItem("skin-v1");if(__sk==="midnight"||__sk==="fluted")skin=__sk}catch(e){}
+  try{if(localStorage.getItem("skin-v1")==="midnight")skin="midnight"}catch(e){}
+  var bgv="default";try{if(localStorage.getItem("bg-v1")==="fluted")bgv="fluted"}catch(e){}
   function userTheme(){
     if(skin==="midnight"){try{var t=localStorage.getItem("tema-v1");return (t==="dark"||t==="light")?t:null}catch(e){return null}}
     return document.documentElement.getAttribute("data-theme")||null;
@@ -4208,11 +4221,12 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       b.setAttribute("aria-checked",on?"true":"false");b.setAttribute("tabindex",on?"0":"-1");
     });
     $("btnTheme").disabled=false;
-    $("skAccSum").textContent=skin==="fluted"?"Fluted Glass":mid?"Midnight Electric":"Original";
+    document.querySelectorAll(".bgopt").forEach(function(b){var on=b.getAttribute("data-bg")===bgv;b.setAttribute("aria-checked",on?"true":"false");b.setAttribute("tabindex",on?"0":"-1")});
+    $("skAccSum").textContent=(mid?"Midnight Electric":"Original")+(bgv==="fluted"?" · Fluted":"");
   }
   function refreshDonut(){try{if(typeof renderAssets==="function")renderAssets()}catch(e){}}
   function applySkin(sk){
-    skin=(sk==="midnight"||sk==="fluted")?sk:"original";
+    skin=sk==="midnight"?"midnight":"original";
     var r=document.documentElement;
     r.setAttribute("data-skin",skin);
     if(skin==="midnight"){
@@ -4222,15 +4236,29 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       var t=null;try{t=localStorage.getItem("tema-v1")}catch(e){}
       if(t==="dark"||t==="light")r.setAttribute("data-theme",t);else r.removeAttribute("data-theme");
     }
-    paintTheme();paintSkin();fitStats();refreshDonut();
+    applyBgAttr();paintTheme();paintSkin();fitStats();refreshDonut();
+  }
+  function applyBgAttr(){
+    var r=document.documentElement;bgv=bgv==="fluted"?"fluted":"default";
+    if(bgv==="fluted"){r.setAttribute("data-bg","fluted");if(!r.hasAttribute("data-theme"))r.setAttribute("data-theme",matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
+    else r.removeAttribute("data-bg");
+  }
+  function pickBg(v){
+    themeSwap(function(){
+      bgv=v==="fluted"?"fluted":"default";
+      try{localStorage.setItem("bg-v1",bgv)}catch(e){}
+      applyBgAttr();paintTheme();paintSkin();
+      if(mode==="db")save();
+    });
   }
   function pickSkin(sk){
     themeSwap(function(){
-      try{localStorage.setItem("skin-v1",(sk==="midnight"||sk==="fluted")?sk:"original")}catch(e){}
+      try{localStorage.setItem("skin-v1",sk==="midnight"?"midnight":"original")}catch(e){}
       applySkin(sk);
       if(mode==="db")save();
     });
   }
+  document.querySelectorAll(".bgopt").forEach(function(b){b.addEventListener("click",function(){pickBg(b.getAttribute("data-bg"))})});
   document.querySelectorAll(".skin").forEach(function(b){
     b.addEventListener("click",function(){pickSkin(b.getAttribute("data-skin"))});
     b.addEventListener("keydown",function(e){
