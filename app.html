@@ -971,6 +971,144 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
 @media (max-height:640px){.pk-g button{width:58px;height:58px}.pk{padding:18px 16px 14px}.pk-d{margin:12px 0 4px}}
 @media (prefers-reduced-motion:reduce){.pk-d.shake{animation:none}.pk-g button{transition:none}}
 </style>
+<style>
+/* ===== kasAdust · Grainy Glass + Soft Gradient (visual only) ===== */
+:root{
+  --gl-acc1:#3b82f6;--gl-acc2:#06b6d4;--gl-acc3:#6366f1;--gl-acc4:#5eead4;
+
+  --bg:#f5f8ff;--surface:rgba(255,255,255,.5);--line:rgba(30,58,138,.10);--text:#16213a;--muted:#5b6b86;
+  --sage:#3b82f6;--sage-d:#2563eb;--sage-l:rgba(59,130,246,.10);--danger:#e11d48;--danger-l:rgba(225,29,72,.08);
+  --gl-fill:linear-gradient(145deg,rgba(255,255,255,.80),rgba(255,255,255,.52));
+  --gl-b:rgba(255,255,255,.9);--gl-hi:rgba(255,255,255,1);--gl-sh:0 12px 34px rgba(59,90,160,.14);
+  --gl-glow:rgba(59,130,246,.22);--gl-input:rgba(255,255,255,.7);--gl-hover:rgba(59,130,246,.06);
+  --gl-tag:rgba(59,130,246,.12);--gl-tag-t:#1d4ed8;--gg-grain:.035;
+}
+:root[data-theme="dark"]{
+  --gl-acc1:#3b82f6;--gl-acc2:#06b6d4;--gl-acc3:#6366f1;--gl-acc4:#5eead4;
+
+  --bg:#0b1220;--surface:rgba(255,255,255,.04);--line:rgba(255,255,255,.08);--text:#e9f1ff;--muted:#8fa3bf;
+  --sage:#5eead4;--sage-d:#67e8f9;--sage-l:rgba(94,234,212,.10);--danger:#fb7185;--danger-l:rgba(251,113,133,.12);
+  --gl-fill:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025));
+  --gl-b:rgba(255,255,255,.11);--gl-hi:rgba(255,255,255,.14);--gl-sh:0 16px 40px rgba(2,6,23,.45);
+  --gl-glow:rgba(56,189,248,.20);--gl-input:rgba(255,255,255,.05);--gl-hover:rgba(255,255,255,.06);
+  --gl-tag:rgba(94,234,212,.12);--gl-tag-t:#5eead4;--gg-grain:.08;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --gl-acc1:#3b82f6;--gl-acc2:#06b6d4;--gl-acc3:#6366f1;--gl-acc4:#5eead4;
+
+  --bg:#0b1220;--surface:rgba(255,255,255,.04);--line:rgba(255,255,255,.08);--text:#e9f1ff;--muted:#8fa3bf;
+  --sage:#5eead4;--sage-d:#67e8f9;--sage-l:rgba(94,234,212,.10);--danger:#fb7185;--danger-l:rgba(251,113,133,.12);
+  --gl-fill:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025));
+  --gl-b:rgba(255,255,255,.11);--gl-hi:rgba(255,255,255,.14);--gl-sh:0 16px 40px rgba(2,6,23,.45);
+  --gl-glow:rgba(56,189,248,.20);--gl-input:rgba(255,255,255,.05);--gl-hover:rgba(255,255,255,.06);
+  --gl-tag:rgba(94,234,212,.12);--gl-tag-t:#5eead4;--gg-grain:.08;
+  color-scheme:dark;
+}}
+
+body{
+  background:
+    radial-gradient(60vmax 42vmax at 10% -8%,var(--gl-glow),transparent 70%),
+    radial-gradient(50vmax 40vmax at 100% 18%,rgba(99,102,241,.16),transparent 70%),
+    radial-gradient(44vmax 36vmax at 0% 100%,rgba(94,234,212,.10),transparent 70%),
+    linear-gradient(180deg,var(--bg),var(--bg)) !important;
+  background-attachment:fixed;color:var(--text);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:var(--gg-grain);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+h1{background:linear-gradient(90deg,var(--text) 0%,var(--gl-acc4) 140%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{color:var(--text)}
+
+.card,.sheet,.sxc{
+  background:var(--gl-fill);border:1px solid var(--gl-b);border-radius:22px;
+  box-shadow:var(--gl-sh),inset 0 1px 0 var(--gl-hi);
+  backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+}
+.card{padding:22px}
+.stat{
+  --tint:#3b82f6;border-radius:22px;border:1px solid var(--gl-b);
+  background:linear-gradient(145deg,color-mix(in srgb,var(--tint) 26%,transparent),rgba(255,255,255,.02)),var(--gl-fill);
+  box-shadow:var(--gl-sh),inset 0 1px 0 var(--gl-hi);
+  backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+}
+.grid3 .stat:nth-child(2){--tint:#6366f1}
+.grid3 .stat:nth-child(3){--tint:#06b6d4}
+.grid3 .stat:nth-child(4){--tint:#5eead4}
+.stat .v{text-shadow:0 0 22px var(--gl-glow)}
+
+input,select{background:var(--gl-input);border:1px solid var(--gl-b);border-radius:14px;color:var(--text);backdrop-filter:blur(10px)}
+input:focus,select:focus{outline:none;border-color:var(--gl-acc2);box-shadow:0 0 0 3px var(--gl-glow)}
+button{background:var(--gl-input);border:1px solid var(--gl-b);border-radius:14px;color:var(--text);backdrop-filter:blur(10px);transition:background .2s,box-shadow .2s,transform .15s}
+button:hover{background:var(--gl-hover)}
+button:active{transform:scale(.98)}
+button:focus-visible{outline:2px solid var(--gl-acc2);outline-offset:2px}
+.primary{background:linear-gradient(135deg,var(--gl-acc1),var(--gl-acc2));border-color:transparent;color:#fff;box-shadow:0 8px 22px var(--gl-glow)}
+.primary:hover{background:linear-gradient(135deg,var(--gl-acc3),var(--gl-acc2));border-color:transparent;box-shadow:0 10px 26px var(--gl-glow)}
+.danger{border-color:color-mix(in srgb,var(--danger) 45%,transparent)}
+
+table{background:transparent}
+th,td{border-bottom:1px solid var(--line)}
+th{color:var(--muted)}
+tbody tr:hover td{background:var(--gl-hover);transition:background .2s}
+.tag{background:var(--gl-tag);color:var(--gl-tag-t);border:1px solid var(--gl-b)}
+.bar{background:rgba(127,140,165,.18)}
+.bar i{background:linear-gradient(90deg,var(--gl-acc3),var(--gl-acc2));box-shadow:0 0 12px var(--gl-glow)}
+.total{border-top:1px solid var(--line)}
+.ov{background:rgba(3,7,18,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.nb[aria-selected="true"]{background:linear-gradient(135deg,rgba(59,130,246,.28),rgba(94,234,212,.16));box-shadow:0 0 18px var(--gl-glow);color:var(--text)}
+.empty{color:var(--muted)}
+.err{color:var(--danger)}
+
+/* ===== Tema Fluted Glass (navy + electric blue) ===== */
+:root[data-skin="fluted"]{
+  color-scheme:dark;
+  --bg:#02040b;--surface:rgba(255,255,255,.035);--line:rgba(160,200,255,.10);--text:#eef5ff;--muted:#8097bf;
+  --sage:#7fb8ff;--sage-d:#9fd0ff;--sage-l:rgba(47,139,255,.14);--danger:#ff8a9b;--danger-l:rgba(255,138,155,.12);
+  --gl-fill:linear-gradient(145deg,rgba(190,220,255,.10),rgba(120,160,255,.03));
+  --gl-b:rgba(170,205,255,.16);--gl-hi:rgba(220,235,255,.18);--gl-sh:0 18px 44px rgba(0,4,20,.6);
+  --gl-glow:rgba(47,139,255,.32);--gl-input:rgba(180,210,255,.06);--gl-hover:rgba(180,210,255,.08);
+  --gl-tag:rgba(127,184,255,.14);--gl-tag-t:#9fd0ff;--gl-acc1:#1d4ed8;--gl-acc2:#2f8bff;--gl-acc3:#0a3fd6;--gl-acc4:#9fd0ff;
+  --gg-grain:.09;
+}
+:root[data-skin="fluted"] body{
+  background:
+    radial-gradient(60vmax 40vmax at 100% 0%,rgba(59,130,246,.85),transparent 70%),
+    radial-gradient(55vmax 38vmax at 20% 100%,rgba(30,79,216,.9),transparent 70%),
+    radial-gradient(50vmax 45vmax at 0% 10%,rgba(47,139,255,.45),transparent 70%),
+    radial-gradient(80vmax 60vmax at 45% 45%,#02040b 0%,transparent 75%),
+    #02040b !important;
+  background-attachment:fixed;
+}
+:root[data-skin="fluted"] body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:repeating-linear-gradient(90deg,
+    rgba(255,255,255,.10) 0px,rgba(255,255,255,.02) 3px,
+    rgba(0,0,0,.28) 6px,rgba(0,0,0,.05) 9px,
+    rgba(255,255,255,0) 11px,rgba(255,255,255,0) 16px);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.6) 100%);
+  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.6) 100%);
+  opacity:.85;
+}
+:root[data-skin="fluted"] h1{background:linear-gradient(90deg,#eef5ff 0%,#9fd0ff 140%);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-skin="fluted"] .card,:root[data-skin="fluted"] .sheet,:root[data-skin="fluted"] .sxc{
+  background:linear-gradient(145deg,rgba(190,220,255,.11),rgba(120,160,255,.03));
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+}
+:root[data-skin="fluted"] .stat{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--tint) 34%,transparent),rgba(120,160,255,.03));
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+}
+:root[data-skin="fluted"] .grid3 .stat:nth-child(1){--tint:#2f8bff}
+:root[data-skin="fluted"] .grid3 .stat:nth-child(2){--tint:#1d4ed8}
+:root[data-skin="fluted"] .grid3 .stat:nth-child(3){--tint:#60a5fa}
+:root[data-skin="fluted"] .grid3 .stat:nth-child(4){--tint:#9fd0ff}
+:root[data-skin="fluted"] .bar i{background:linear-gradient(90deg,#1d4ed8,#9fd0ff)}
+:root[data-skin="fluted"] .primary{background:linear-gradient(135deg,#1d4ed8,#2f8bff);color:#fff}
+:root[data-skin="fluted"] .primary:hover{background:linear-gradient(135deg,#2f8bff,#9fd0ff);color:#02040b}
+/* ===== end ===== */
+</style>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
@@ -1267,6 +1405,11 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       <button type="button" role="radio" class="lgopt" data-lang="en" aria-checked="true" tabindex="0"><span class="lg-badge" data-notr>EN</span><span class="sk-name" data-notr>English</span></button>
       <button type="button" role="radio" class="lgopt" data-lang="id" aria-checked="false" tabindex="-1"><span class="lg-badge" data-notr>ID</span><span class="sk-name" data-notr>Bahasa Indonesia</span></button>
     </div>
+    </section>
+    <section class="card sxc" id="fluteCard">
+      <h2>Tema Fluted Glass</h2>
+      <div class="sr-d">Navy gelap dengan biru elektrik dan tekstur kaca bergaris.</div>
+      <div class="row"><button type="button" class="small" id="fluteBtn" aria-pressed="false">Aktifkan</button></div>
     </section>
     <section class="card sxc" id="setCard">
       <div class="sxc-t">Navbar</div><div class="sxc-s">Atur cara geser dan efek ikon di navbar bawah.</div>
@@ -5336,6 +5479,25 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjus
     try{refresh()}catch(e){}
     if(ROOT.classList.contains("plk")){if(rec()&&hasC)openPad("unlock");else if(!rec())openFail();else openPad("unlock")}
   }catch(e){openFail();try{document.getElementById("plk").classList.remove("on")}catch(_){}}
+})();
+</script>
+
+<script>
+(function(){
+  var K="flute-v1",root=document.documentElement,B=document.getElementById("fluteBtn");
+  function paint(on){if(B){B.textContent=on?"Matikan":"Aktifkan";B.setAttribute("aria-pressed",String(on));}}
+  function on(){return root.getAttribute("data-skin")==="fluted"}
+  function set(v){
+    if(v){if(root.getAttribute("data-skin")!=="midnight")root.setAttribute("data-skin","fluted")}
+    else if(root.getAttribute("data-skin")==="fluted")root.removeAttribute("data-skin");
+    paint(on());
+  }
+  try{if(localStorage.getItem(K)==="1")set(true)}catch(e){}
+  paint(on());
+  if(B)B.addEventListener("click",function(){
+    var v=!on();set(v);
+    try{localStorage.setItem(K,v?"1":"0")}catch(e){}
+  });
 })();
 </script>
 </body>
