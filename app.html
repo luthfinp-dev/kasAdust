@@ -951,6 +951,23 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 :root[data-bg="fluted"][data-skin="midnight"][data-theme="dark"]{--fg1:rgba(2,151,222,.40);--fg2:rgba(252,115,77,.20);--fs:rgba(0,0,0,.62);--fh:rgba(120,200,240,.12);--fm:rgba(255,255,255,0)}
 :root[data-bg="fluted"][data-theme] body::before{opacity:1;background:radial-gradient(60vmax 50vmax at 18% 12%,var(--fg1),transparent 70%),radial-gradient(52vmax 46vmax at 88% 88%,var(--fg2),transparent 70%)}
 :root[data-bg="fluted"] body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(90deg,var(--fs) 0%,var(--fh) 34%,var(--fm) 60%,var(--fs) 100%);background-size:44px 100%}
+/* ===== Kartu ringkasan dashboard: glass + inner glow + grain (per warna tema) ===== */
+:root{--ka:#9cc8ea;--kb:#f2b49c;--kc:#9edbbd;--kd:#f1d28e;--gr:.14}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-skin="midnight"]){--ka:#3f86c8;--kb:#d9735a;--kc:#3fb883;--kd:#d9a23f;--gr:.22}}
+:root[data-theme="dark"]:not([data-skin="midnight"]){--ka:#3f86c8;--kb:#d9735a;--kc:#3fb883;--kd:#d9a23f;--gr:.22}
+:root[data-skin="midnight"]{--ka:#0297DE;--kb:#FC734D;--kc:#22c55e;--kd:#f5a524;--gr:.16}
+:root[data-skin="midnight"][data-theme="dark"]{--ka:#1aa7ff;--kb:#ff7f57;--kc:#2ee57a;--kd:#ffb830;--gr:.24}
+.grid3 .stat{position:relative;isolation:isolate;overflow:hidden;--k:var(--ka)}
+.grid3 .stat:nth-child(2){--k:var(--kb)}
+.grid3 .stat:nth-child(3){--k:var(--kc)}
+.grid3 .stat:nth-child(4){--k:var(--kd)}
+.grid3 .stat:nth-child(n){
+  background:linear-gradient(160deg,color-mix(in srgb,var(--k) 24%,transparent) 0%,transparent 60%),var(--glass);
+  border:1px solid color-mix(in srgb,var(--k) 38%,transparent);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 0 0 1px color-mix(in srgb,var(--k) 22%,transparent),inset 0 -30px 60px -34px color-mix(in srgb,var(--k) 85%,transparent),0 18px 40px -22px color-mix(in srgb,var(--k) 80%,transparent)}
+.grid3 .stat::before{content:"";position:absolute;top:-35%;left:-25%;width:85%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--k) 60%,transparent),transparent);filter:blur(10px);z-index:0;pointer-events:none}
+.grid3 .stat::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;opacity:var(--gr);mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");background-size:180px 180px}
+.grid3 .stat>*{position:relative;z-index:1}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
