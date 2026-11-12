@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="kasAdust">
-<script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1"),b=localStorage.getItem("bg-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t);if(b==="fluted"){r.setAttribute("data-bg","fluted");if(!r.hasAttribute("data-theme"))r.setAttribute("data-theme",matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}}catch(e){}</script>
+<script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}catch(e){}</script>
 <script>window.__dip=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dip=e});window.addEventListener("appinstalled",function(){window.__dip=null;try{localStorage.setItem("pwa-installed-v1","1")}catch(e){}});try{if(matchMedia("(display-mode: standalone)").matches||navigator.standalone===true)localStorage.setItem("pwa-installed-v1","1")}catch(e){}</script>
 <style>
 :root{
@@ -937,34 +937,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 :root[data-theme="dark"] .nbLens{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07));border-color:rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -8px 16px -10px rgba(0,0,0,.5),0 10px 24px -10px rgba(0,0,0,.65)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nbLens{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07));border-color:rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -8px 16px -10px rgba(0,0,0,.5),0 10px 24px -10px rgba(0,0,0,.65)}}
 @media (prefers-reduced-motion:reduce){.nbLens,.nbLens.settle{transition:none}}
-/* ===== Background: Fluted Glass (terpisah dari warna tema) ===== */
-.sxc-sub{font-size:.82rem;color:var(--muted);margin:14px 0 6px;font-weight:600}
-.bgopt{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px;border-radius:16px;text-align:left;background:var(--glass-2,transparent);border:1.5px solid var(--glass-b,var(--line));min-height:0;font:inherit;color:inherit;cursor:pointer}
-.bgopt:hover{background:var(--hover,var(--surface))}
-.bgopt[aria-checked="true"]{border-color:var(--sage);background:var(--chip,var(--sage-l))}
-.bgopt .sk-name{font-weight:600}
-.bgopt .sk-sub{font-size:.8rem;color:var(--muted)}
-.p-flu i:nth-child(1){background:#f1f7f2}.p-flu i:nth-child(2){background:#7c9a82}.p-flu i:nth-child(3){background:#2e4a39}
-:root[data-bg="fluted"]{--fg1:rgba(143,186,160,.55);--fg2:rgba(88,140,104,.30);--fs:rgba(38,78,54,.24);--fh:rgba(255,255,255,.92);--fm:rgba(255,255,255,0)}
-:root[data-bg="fluted"][data-theme="dark"]{--fg1:rgba(60,140,96,.38);--fg2:rgba(40,110,80,.26);--fs:rgba(0,0,0,.6);--fh:rgba(170,230,190,.12);--fm:rgba(255,255,255,0)}
-:root[data-bg="fluted"][data-skin="midnight"]{--fg1:rgba(2,151,222,.42);--fg2:rgba(252,115,77,.24);--fs:rgba(20,70,110,.26);--fh:rgba(255,255,255,.92);--fm:rgba(255,255,255,0)}
-:root[data-bg="fluted"][data-skin="midnight"][data-theme="dark"]{--fg1:rgba(2,151,222,.40);--fg2:rgba(252,115,77,.20);--fs:rgba(0,0,0,.62);--fh:rgba(120,200,240,.12);--fm:rgba(255,255,255,0)}
-:root[data-bg="fluted"][data-theme] body::before{opacity:1;background:radial-gradient(60vmax 50vmax at 18% 12%,var(--fg1),transparent 70%),radial-gradient(52vmax 46vmax at 88% 88%,var(--fg2),transparent 70%)}
-:root[data-bg="fluted"] body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(90deg,var(--fs) 0%,var(--fh) 34%,var(--fm) 60%,var(--fs) 100%);background-size:44px 100%}
-/* ===== Kartu ringkasan dashboard: glass + inner glow + grain (per warna tema) ===== */
-:root{--ka:#9cc8ea;--kb:#f2b49c;--kc:#9edbbd;--kd:#f1d28e;--gr:.14}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-skin="midnight"]){--ka:#3f86c8;--kb:#d9735a;--kc:#3fb883;--kd:#d9a23f;--gr:.22}}
-:root[data-theme="dark"]:not([data-skin="midnight"]){--ka:#3f86c8;--kb:#d9735a;--kc:#3fb883;--kd:#d9a23f;--gr:.22}
-:root[data-skin="midnight"]{--ka:#0297DE;--kb:#FC734D;--kc:#22c55e;--kd:#f5a524;--gr:.16}
-:root[data-skin="midnight"][data-theme="dark"]{--ka:#1aa7ff;--kb:#ff7f57;--kc:#2ee57a;--kd:#ffb830;--gr:.24}
-.grid3 .stat{position:relative;isolation:isolate;overflow:hidden;--k:var(--ka)}
-.grid3 .stat:nth-child(n){
-  background:linear-gradient(160deg,color-mix(in srgb,var(--k) 18%,transparent) 0%,transparent 60%),var(--glass);
-  border:1px solid color-mix(in srgb,var(--k) 38%,transparent);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 0 0 1px color-mix(in srgb,var(--k) 22%,transparent),inset 0 -30px 60px -28px color-mix(in srgb,var(--k) 100%,transparent),0 18px 40px -22px color-mix(in srgb,var(--k) 80%,transparent)}
-.grid3 .stat::before{content:"";position:absolute;top:0;left:14%;right:14%;height:2px;border-radius:0 0 2px 2px;background:linear-gradient(90deg,transparent,var(--k),transparent);z-index:0;pointer-events:none}
-.grid3 .stat::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;opacity:var(--gr);mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");background-size:180px 180px}
-.grid3 .stat>*{position:relative;z-index:1}
+/* ===== Kartu 2-4 dashboard: hijau polos (tanpa glow/grain/garis) ===== */
+.grid3 .stat:nth-child(n+2){background:linear-gradient(150deg,var(--glass) 25%,color-mix(in srgb,#22a064 24%,transparent))}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1284,16 +1258,10 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   <div class="sx-panel sx-off" data-t="set" data-sx="tampilan" role="tabpanel" id="sxpTampilan">
     <section class="card sxc" id="skinCard">
       <div class="sxc-t">Tema<span class="accsum" id="skAccSum" hidden></span></div><div class="sxc-s">Warna dan suasana aplikasi.</div>
-      <div class="sxc-sub">Warna</div>
-      <div class="skins" role="radiogroup" aria-label="Pilih warna">
+      <div class="skins" role="radiogroup" aria-label="Pilih tema">
       <button type="button" role="radio" class="skin" data-skin="original" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Original</span><span class="sk-sub">Putih dan hijau sage</span></button>
       <button type="button" role="radio" class="skin" data-skin="midnight" aria-checked="false" tabindex="-1"><span class="sw-prev p-mid"><i></i><i></i><i></i></span><span class="sk-name">Midnight Electric</span><span class="sk-sub">Biru, pink, dan oranye</span></button>
-      </div>
-      <div class="sxc-sub">Background</div>
-      <div class="skins" role="radiogroup" aria-label="Pilih background">
-      <button type="button" role="radio" class="bgopt" data-bg="default" aria-checked="true" tabindex="0"><span class="sw-prev p-orig"><i></i><i></i><i></i></span><span class="sk-name">Default</span><span class="sk-sub">Foto latar awal</span></button>
-      <button type="button" role="radio" class="bgopt" data-bg="fluted" aria-checked="false" tabindex="-1"><span class="sw-prev p-flu"><i></i><i></i><i></i></span><span class="sk-name">Fluted Glass</span><span class="sk-sub">Garis kaca bergelombang</span></button>
-      </div>
+    </div>
     </section>
     <section class="card sxc" id="langCard">
       <div class="sxc-t">Bahasa<span class="accsum" id="lgAccSum" data-notr hidden></span></div><div class="sxc-s">Pilih bahasa tampilan aplikasi.</div>
@@ -1794,7 +1762,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
   var nf=new Intl.NumberFormat("id-ID");
   function rp(n){return "Rp "+nf.format(n)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-  var P={flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',debt:'<circle cx="12" cy="12" r="9"/><path d="M9 15l6-6M10 9h5v5"/>',recv:'<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M14 15H9v-5"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',chat:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',out:'<path d="M7 7 17 17"/><path d="M17 7v10H7"/>',up:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',pie:'<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',list:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',pen:'<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',chev:'<path d="m6 9 6 6 6-6"/>',check:'<path d="M20 6 9 17l-5-5"/>',cal:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',eye:'<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',sliders:'<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>',palette:'<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/>',chart:'<path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',camera:'<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',bank:'<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',download:'<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',upload:'<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'};
+  var P={flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',debt:'<circle cx="12" cy="12" r="9"/><path d="M9 15l6-6M10 9h5v5"/>',recv:'<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M14 15H9v-5"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',chat:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',out:'<path d="M7 17 17 7"/><path d="M7 7h10v10"/>',up:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',pie:'<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',list:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',pen:'<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',chev:'<path d="m6 9 6 6 6-6"/>',check:'<path d="M20 6 9 17l-5-5"/>',cal:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',eye:'<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',sliders:'<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>',palette:'<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/>',chart:'<path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',camera:'<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',bank:'<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',download:'<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',upload:'<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'};
   function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+P[n]+'</svg>'}
   function pad(n){return n<10?"0"+n:""+n}
   function ymd(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
@@ -4223,7 +4191,6 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
 
   var skin="original";
   try{if(localStorage.getItem("skin-v1")==="midnight")skin="midnight"}catch(e){}
-  var bgv="default";try{if(localStorage.getItem("bg-v1")==="fluted")bgv="fluted"}catch(e){}
   function userTheme(){
     if(skin==="midnight"){try{var t=localStorage.getItem("tema-v1");return (t==="dark"||t==="light")?t:null}catch(e){return null}}
     return document.documentElement.getAttribute("data-theme")||null;
@@ -4235,8 +4202,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       b.setAttribute("aria-checked",on?"true":"false");b.setAttribute("tabindex",on?"0":"-1");
     });
     $("btnTheme").disabled=false;
-    document.querySelectorAll(".bgopt").forEach(function(b){var on=b.getAttribute("data-bg")===bgv;b.setAttribute("aria-checked",on?"true":"false");b.setAttribute("tabindex",on?"0":"-1")});
-    $("skAccSum").textContent=(mid?"Midnight Electric":"Original")+(bgv==="fluted"?" · Fluted":"");
+    $("skAccSum").textContent=mid?"Midnight Electric":"Original";
   }
   function refreshDonut(){try{if(typeof renderAssets==="function")renderAssets()}catch(e){}}
   function applySkin(sk){
@@ -4250,20 +4216,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       var t=null;try{t=localStorage.getItem("tema-v1")}catch(e){}
       if(t==="dark"||t==="light")r.setAttribute("data-theme",t);else r.removeAttribute("data-theme");
     }
-    applyBgAttr();paintTheme();paintSkin();fitStats();refreshDonut();
-  }
-  function applyBgAttr(){
-    var r=document.documentElement;bgv=bgv==="fluted"?"fluted":"default";
-    if(bgv==="fluted"){r.setAttribute("data-bg","fluted");if(!r.hasAttribute("data-theme"))r.setAttribute("data-theme",matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
-    else r.removeAttribute("data-bg");
-  }
-  function pickBg(v){
-    themeSwap(function(){
-      bgv=v==="fluted"?"fluted":"default";
-      try{localStorage.setItem("bg-v1",bgv)}catch(e){}
-      applyBgAttr();paintTheme();paintSkin();
-      if(mode==="db")save();
-    });
+    paintTheme();paintSkin();fitStats();refreshDonut();
   }
   function pickSkin(sk){
     themeSwap(function(){
@@ -4272,7 +4225,6 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       if(mode==="db")save();
     });
   }
-  document.querySelectorAll(".bgopt").forEach(function(b){b.addEventListener("click",function(){pickBg(b.getAttribute("data-bg"))})});
   document.querySelectorAll(".skin").forEach(function(b){
     b.addEventListener("click",function(){pickSkin(b.getAttribute("data-skin"))});
     b.addEventListener("keydown",function(e){
