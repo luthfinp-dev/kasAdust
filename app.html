@@ -1086,7 +1086,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     <div class="stat">
       <div class="l"><i data-ic="out"></i><span id="mLbl">Total pengeluaran bulan ini</span></div><div class="v" id="mTotal">Rp 0</div>
       <div class="n" id="mInfo"></div>
-      <div class="coinbox" id="coinBox" role="button" tabindex="0"><div class="cb-fill" id="cbFill"></div><span class="cb-hint" id="cbHint"></span><span class="cb-pct" id="cbPct"></span></div>
+      <div class="coinbox" id="coinBox" role="button" tabindex="0"><div class="fire" id="cbFill"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path class="fa" d="M0 100 L0 62 C18 52 24 32 44 10 C50 36 60 42 70 30 C80 14 94 6 100 0 C106 22 116 36 126 42 C140 32 150 16 166 6 C162 32 180 46 200 62 L200 100 Z"/><path class="fb" d="M18 100 C24 72 50 62 60 36 C70 60 90 66 100 46 C110 66 136 72 146 42 C160 70 182 84 182 100 Z"/><path class="fc" d="M58 100 C64 86 80 80 90 66 C96 86 110 90 116 100 Z"/></svg></div><div class="sparks" id="sparks" aria-hidden="true"></div></div>
       <div class="mini" id="mMini"></div>
       <div class="streak" id="mStreak" hidden></div>
     </div>
@@ -2490,11 +2490,9 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     if(cur){l2=en?"Today":"Hari ini";v2=tv}
     else{l2=en?"Peak day":"Hari terboros";v2=0;Object.keys(allMap).forEach(function(k){if(k.slice(0,7)===viewYM&&allMap[k]>v2)v2=allMap[k]})}
     $("cbFill").style.height=fp+"%";
-    var pe=$("cbPct");
-    if(lab){pe.innerHTML='<span class="pl"></span><span class="ps"></span>';pe.querySelector(".pl").textContent=lab;pe.querySelector(".ps").textContent=labS}else pe.innerHTML="";
-    $("cbHint").innerHTML='<span class="hl"></span><span class="hs"></span>';
-    $("cbHint").querySelector(".hl").textContent=en?"Tap for coin rain":"Ketuk untuk hujan koin";
-    $("cbHint").querySelector(".hs").textContent=en?"Tap":"Ketuk";
+    box.style.setProperty("--dim",hasSal&&sal>0?Math.min(1,tot/sal).toFixed(3):"0");
+    if(cur&&window._cbPrev!==undefined&&tot>window._cbPrev){var fe=$("cbFill");fe.classList.remove("pop");void fe.offsetWidth;fe.classList.add("pop");if(typeof sparkBurst==="function")sparkBurst()}
+    window._cbPrev=tot;
     box.setAttribute("aria-label",en?"Coin rain":"Hujan koin");
     $("mMini").innerHTML='<div class="mi"><span>'+l1+'</span><b>'+mk(m1)+'</b></div><div class="mi"><span>'+l2+'</span><b>'+(v2<0?"-":mk(v2))+'</b></div>';
     var st=$("mStreak");
@@ -2518,24 +2516,15 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     st.innerHTML='<span class="sfi">'+ic("flame")+'</span><span><b><span class="sl"></span><span class="ss"></span></b><small></small></span>';
     st.querySelector(".sl").textContent=t1;st.querySelector(".ss").textContent=t1s;st.querySelector("small").textContent=t2;
   }
+  function spkEl(left,dy,t,d,big){var c=document.createElement("span");c.className="spk"+(big?" big":"");c.style.left=left+"%";c.style.setProperty("--dy",dy+"px");c.style.setProperty("--t",t+"s");c.style.setProperty("--d",d+"s");return c}
+  function sparkBurst(){var sp=$("sparks");if(!sp||RM||sp.querySelectorAll(".big").length>30)return;for(var i=0;i<14;i++){var c=spkEl(Math.round(10+Math.random()*80),-(40+Math.random()*50),(0.7+Math.random()*0.5).toFixed(2),(i*0.03).toFixed(2),true);c.addEventListener("animationend",function(){this.remove()});sp.appendChild(c)}}
+  function mkIdleSparks(){var sp=$("sparks");if(!sp||sp.childElementCount)return;for(var i=0;i<9;i++){sp.appendChild(spkEl(Math.round(4+Math.random()*90),-60,(1.6+Math.random()*1.2).toFixed(2),(Math.random()*2.5).toFixed(2),false))}}
   function coinRain(){
-    var box=$("coinBox");if(!box)return;
     buzz();
-    var fl=$("cbFill");fl.classList.remove("hit");void fl.offsetWidth;fl.classList.add("hit");
-    if(RM||box.querySelectorAll(".coin").length>50)return;
-    var H=box.clientHeight, W=box.clientWidth, fh=H*(parseFloat(fl.style.height)||0)/100;
-    for(var i=0;i<16;i++){
-      var c=document.createElement("span"), sz=16+Math.round(Math.random()*8);
-      c.className="coin";c.textContent="Rp";
-      c.style.setProperty("--s",sz+"px");c.style.left=Math.round(4+Math.random()*Math.max(1,W-sz-8))+"px";
-      c.style.setProperty("--dy",Math.max(20,Math.round(H+26-fh-sz-Math.random()*10))+"px");
-      c.style.setProperty("--r",Math.round(Math.random()*360-180)+"deg");
-      c.style.setProperty("--t",(1.5+Math.random()*.6).toFixed(2)+"s");
-      c.style.setProperty("--d",(i*0.05+Math.random()*0.1).toFixed(2)+"s");
-      c.addEventListener("animationend",function(){this.remove()});
-      box.appendChild(c);
-    }
+    var fl=$("cbFill");fl.classList.remove("pop");void fl.offsetWidth;fl.classList.add("pop");
+    sparkBurst();
   }
+  mkIdleSparks();
   $("coinBox").addEventListener("click",coinRain);
   $("coinBox").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();coinRain()}});
   function paintToday(){var d=new Date().toLocaleDateString(I18N.loc(),{weekday:"long",day:"numeric",month:"long",year:"numeric"});$("today").textContent=d;var t2=$("today2");if(t2)t2.textContent=d}
@@ -4725,13 +4714,25 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .coinbox{position:relative;height:92px;margin-top:12px;border-radius:16px;overflow:hidden;cursor:pointer;background:var(--chip);border:1px solid var(--glass-b);-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:transform .16s var(--ease)}
 .coinbox:active{transform:scale(.98)}
 .coinbox:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
-.cb-fill{position:absolute;left:0;right:0;bottom:0;height:0;transition:height .8s var(--ease);background:radial-gradient(circle at 50% 50%,rgba(255,245,190,.9) 0 26%,transparent 28%) 0 0/20px 20px,linear-gradient(180deg,#f3c34a,#c98a14)}
-.cb-fill.hit{animation:cbHit .45s var(--ease)}
-@keyframes cbHit{0%{transform:translateY(0)}35%{transform:translateY(-5px)}100%{transform:translateY(0)}}
+.fire{position:absolute;left:0;right:0;bottom:0;height:0;transition:height .9s var(--ease);filter:brightness(calc(1 - var(--dim,0) * .55));transform-origin:50% 100%}
+.fire svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible;animation:fidle 2.6s ease-in-out infinite;transform-origin:50% 100%}
+.fire .fa{fill:var(--f1)}
+.fire .fb{fill:var(--f2)}
+.fire .fc{fill:var(--f3)}
+.fire .fb{animation:fidle2 1.9s ease-in-out -.6s infinite;transform-origin:50% 100%}
+.fire.pop{animation:firePop .6s var(--ease)}
+
+@keyframes firePop{0%{transform:translateY(0)}30%{transform:translateY(-10px) scaleY(1.08)}100%{transform:translateY(0)}}
+@keyframes fidle{0%,100%{transform:scaleX(1) scaleY(1)}50%{transform:scaleX(1.035) scaleY(1.03)}}
+@keyframes fidle2{0%,100%{transform:skewX(0deg)}50%{transform:skewX(-2.5deg) scaleY(1.04)}}
 .cb-hint{position:absolute;top:8px;left:0;right:0;text-align:center;font-size:.72rem;font-weight:600;color:var(--muted);pointer-events:none}
 .cb-pct{position:absolute;right:10px;bottom:6px;font-size:.74rem;font-weight:800;color:#4a2f00;text-shadow:0 1px 0 rgba(255,255,255,.55);pointer-events:none}
-.coin{position:absolute;top:-26px;width:var(--s);height:var(--s);border-radius:50%;display:grid;place-items:center;font:800 calc(var(--s)*.36)/1 system-ui,sans-serif;color:#9a6208;background:radial-gradient(circle at 35% 30%,#fff3b8,#f4c542 48%,#d79a10);border:1.5px solid #b57a0c;box-shadow:0 2px 4px rgba(0,0,0,.28);pointer-events:none;animation:cfall var(--t) cubic-bezier(.4,0,.8,.6) var(--d) both}
-@keyframes cfall{0%{transform:translateY(0) rotate(0);opacity:1}72%{transform:translateY(var(--dy)) rotate(var(--r))}84%{transform:translateY(calc(var(--dy) - 14px)) rotate(calc(var(--r) + 25deg))}94%{transform:translateY(var(--dy)) rotate(var(--r));opacity:1}100%{transform:translateY(var(--dy)) rotate(var(--r));opacity:0}}
+.sparks{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.spk{position:absolute;bottom:0;width:3px;height:3px;border-radius:50%;background:var(--f3);box-shadow:0 0 6px var(--f2);opacity:0;animation:spkUp var(--t) ease-out var(--d) infinite}
+.spk.big{width:4px;height:4px;animation:spkBurst var(--t) cubic-bezier(.2,.7,.3,1) var(--d) both}
+@keyframes spkUp{0%{transform:translateY(0) scale(1);opacity:0}15%{opacity:1}100%{transform:translateY(-78px) scale(.4);opacity:0}}
+@keyframes spkBurst{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translateY(var(--dy)) scale(.3);opacity:0}}
+
 .mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .mini .mi{min-width:0;padding:8px 10px;border-radius:12px;background:var(--glass-2);border:1px solid var(--glass-b)}
 .mini .mi span{display:block;font-size:.72rem;color:var(--muted)}
@@ -4745,6 +4746,11 @@ html.vt-theme .nav{view-transition-name:vt-nav}
 .streak small{display:block;color:var(--muted);font-size:.76rem;line-height:1.3}
 @keyframes flick{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 @media (prefers-reduced-motion:reduce){.coin,.streak.on .sfi,.cb-fill.hit{animation:none}.cb-fill{transition:none}}
+.coinbox{background:#000;border-color:rgba(255,255,255,.06);--f1:#d9441a;--f2:#ff8a2a;--f3:#ffd27a}
+:root[data-theme="light"] .coinbox{--f1:#c9a227;--f2:#f5cf5a;--f3:#fff6cf}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .coinbox{--f1:#c9a227;--f2:#f5cf5a;--f3:#fff6cf}}
+:root[data-skin="midnight"][data-theme="light"] .coinbox{--f1:#2f6fe0;--f2:#7fb0fa;--f3:#e6f0ff}
+:root[data-skin="midnight"][data-theme="dark"] .coinbox{--f1:#0a6fa8;--f2:#4DB9F0;--f3:#dff4ff}
 /* kartu pengeluaran: ganti tampilan + padatkan di HP */
 .cb-hint .hs,.cb-pct .ps,.streak .ss{display:none}
 @media (max-width:760px){
