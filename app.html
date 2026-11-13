@@ -963,6 +963,26 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 #goalPanel #gTabs{display:flex;gap:4px;padding:4px;margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:999px}
 #goalPanel #gTabs .gtab{flex:1 1 0;min-width:0;min-height:40px;border:0;background:none;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
 #goalPanel #gTabs .gtab[aria-selected="true"]{background:var(--bg);color:var(--sage-d);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+
+/* ---- Ringkasan tujuan: kartu seperti thermostat ---- */
+#gDonut{display:flex;flex-direction:column;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:20px 16px 18px;margin-bottom:14px}
+.kgauge{position:relative;width:min(230px,80%);margin:0 auto}
+.kgauge svg{display:block;width:100%;height:auto;overflow:visible}
+.kgauge path{fill:none;stroke-width:10;stroke-linecap:round}
+.kgauge .kt{stroke:var(--line)}
+.kgauge .kp{stroke-dasharray:100 100;stroke-dashoffset:calc(100 - var(--p,0));animation:gIn .9s cubic-bezier(.2,.7,.2,1) both}
+.kgauge .kk{fill:var(--bg);stroke:var(--sage);stroke-width:3;animation:kIn .3s ease .8s both}
+@keyframes gIn{from{stroke-dashoffset:100}to{stroke-dashoffset:calc(100 - var(--p,0))}}
+@keyframes kIn{from{opacity:0}to{opacity:1}}
+.kgauge .kc{position:absolute;left:0;right:0;bottom:2px;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kgauge .kc b{font-size:1.8rem;font-variant-numeric:tabular-nums}
+.kgauge .kc small{color:var(--muted);font-size:.8rem;margin-top:2px}
+.dleg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.dleg .dst{background:var(--bg);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+/* ---- Tab jenis: pill penuh ---- */
+#goalPanel #gTabs{border-radius:999px!important;overflow:hidden}
+#goalPanel #gTabs .gtab{border-radius:999px!important}
+@media (prefers-reduced-motion:reduce){.kgauge .kp,.kgauge .kk{animation:none}}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -997,6 +1017,20 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
 @media (max-height:640px){.pk-g button{width:58px;height:58px}.pk{padding:18px 16px 14px}.pk-d{margin:12px 0 4px}}
 @media (prefers-reduced-motion:reduce){.pk-d.shake{animation:none}.pk-g button{transition:none}}
 </style>
+<script>
+window.__kg=0;
+window.kring=function(p,label,hide){
+  var n=++window.__kg, id='kgg'+n;
+  var pv=hide?0:p, ang=Math.PI*(1-pv/100), x=60+50*Math.cos(ang), y=62-50*Math.sin(ang);
+  var knob=pv>0?'<circle class="kk" cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="6.5"/>':'';
+  return '<div class="kgauge"><svg viewBox="0 0 120 70" aria-hidden="true">'+
+    '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="0">'+
+    '<stop offset="0" style="stop-color:var(--sage-d)"/><stop offset="1" style="stop-color:var(--sage)"/></linearGradient></defs>'+
+    '<path class="kt" d="M10 62 A50 50 0 0 1 110 62"/>'+
+    '<path class="kp" pathLength="100" stroke="url(#'+id+')" style="--p:'+pv+'" d="M10 62 A50 50 0 0 1 110 62"/>'+knob+
+    '</svg><div class="kc"><b>'+(hide?"••":pv)+'%</b><small>'+label+'</small></div></div>';
+};
+</script>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
@@ -2295,12 +2329,12 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
     var op=tg?Math.min(100,Math.floor(sv/tg*100)):0;
     $("gAccSum").textContent=list.length?(hideBal?"••":op)+"% "+L.lP:"Kosong";
     var segCol=k===0?"var(--sage-d)":"var(--gc)";
-    $("gDonut").innerHTML=list.length?ring(hideBal?[]:[{v:sv,c:segCol}],tg,'<b class="big">'+(hideBal?"••":op)+'%</b><small>'+L.lP+'</small>',L.lP+" "+(hideBal?"":op+"%"))+'<div class="dleg"><div class="dst"><span>'+L.lT+'</span><b>'+mk(tg)+'</b></div><div class="dst"><span>'+L.lS+'</span><b>'+mk(sv)+'</b></div><div class="dst"><span>'+L.lR+'</span><b>'+mk(Math.max(0,tg-sv))+'</b></div></div>':"";
+    $("gDonut").innerHTML=list.length?kring(op,L.lP,hideBal)+'<div class="dleg"><div class="dst"><span>'+L.lT+'</span><b>'+mk(tg)+'</b></div><div class="dst"><span>'+L.lS+'</span><b>'+mk(sv)+'</b></div><div class="dst"><span>'+L.lR+'</span><b>'+mk(Math.max(0,tg-sv))+'</b></div></div>':"";
     $("gList").innerHTML=list.length?list.map(function(g){
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="gauge" aria-hidden="true"><svg viewBox="0 0 120 72"><path class="gt" d="M10 62 A50 50 0 0 1 110 62"/><path class="gp" pathLength="100" style="--p:'+(hideBal?0:p)+'" d="M10 62 A50 50 0 0 1 110 62"/></svg><span class="gpct">'+(hideBal?"••":p)+'%</span></div><div class="gm"><span>'+nbk(g.saved)+" dari "+nbk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+nbk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="gm"><span>'+nbk(g.saved)+" dari "+nbk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+nbk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
