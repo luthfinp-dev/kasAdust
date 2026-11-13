@@ -18,6 +18,7 @@
 <meta name="apple-mobile-web-app-title" content="kasAdust">
 <script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}catch(e){}</script>
 <script>window.__dip=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dip=e});window.addEventListener("appinstalled",function(){window.__dip=null;try{localStorage.setItem("pwa-installed-v1","1")}catch(e){}});try{if(matchMedia("(display-mode: standalone)").matches||navigator.standalone===true)localStorage.setItem("pwa-installed-v1","1")}catch(e){}</script>
+<script>try{var r=document.documentElement;if(localStorage.getItem("nav-pos")==="side"){r.setAttribute("data-navpos","side");if(localStorage.getItem("nav-open")==="1")r.setAttribute("data-navopen","1")}}catch(e){}</script>
 <style>
 :root{
   box-sizing:border-box;
@@ -1413,7 +1414,9 @@ var KIC=["target","debt","recv"];
     </div>
     </section>
     <section class="card sxc" id="setCard">
-      <div class="sxc-t">Navbar</div><div class="sxc-s">Atur cara geser dan efek ikon di navbar bawah.</div>
+      <div class="sxc-t">Navbar</div><div class="sxc-s">Atur posisi, cara geser, dan efek ikon navbar.</div>
+      <p class="acch2">Posisi navbar</p>
+      <div class="acchips" id="navPosChips" role="group" aria-label="Posisi navbar"><button type="button" data-np="bottom" aria-pressed="true">Bawah</button><button type="button" data-np="side" aria-pressed="false">Samping</button></div>
       <p class="acch2">Gaya geser navbar</p>
       <div class="acchips" id="navModeChips" role="group" aria-label="Gaya geser navbar"><button type="button" data-nm="release" aria-pressed="true">Pindah saat lepas</button><button type="button" data-nm="live" aria-pressed="false">Pindah langsung</button><button type="button" data-nm="tap" aria-pressed="false">Ketuk saja</button></div>
       <p class="acch2">Efek ikon</p>
@@ -1442,6 +1445,10 @@ var KIC=["target","debt","recv"];
       <button type="button" role="tab" class="nb" data-tab="set" aria-selected="false"><i data-ic="sliders"></i><span>Pengaturan</span></button>
     </div>
     <button type="button" class="fab" id="btnAdd" aria-label="Tambah pengeluaran"><i data-ic="plus"></i></button>
+    <div class="navctl">
+      <button type="button" class="navtg" id="navExpand" aria-expanded="false" aria-label="Buka label menu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button type="button" class="navtg" id="navFlip" aria-label="Pindah navbar ke bawah"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 15h18"/></svg></button>
+    </div>
   </nav>
   <div class="tov" id="pmOv" hidden></div>
   <section class="msheet pmenu" id="pmSheet" role="dialog" aria-modal="true" aria-label="Profil" hidden>
@@ -1708,6 +1715,7 @@ var KIC=["target","debt","recv"];
   Object.assign(EN,{"Email terkonfirmasi":"Email confirmed","Lanjut ke aplikasi":"Continue to the app","sudah aktif. Akun Anda siap dipakai.":"is now active. Your account is ready."});
   Object.assign(EN,{"Kritik & saran":"Feedback & suggestions","Ada kritik, saran, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.":"Got a critique, suggestion, bug, or feature idea? Write it here and it goes straight to the app maker.","Pesan":"Message","Kirim masukan":"Send feedback","Contoh: Tolong tambah grafik per bulan, atau tombol ini bikin bingung":"Example: Please add a monthly chart, or this button is confusing","Tulis minimal 5 karakter.":"Write at least 5 characters.","Masuk ke akun dulu untuk mengirim masukan.":"Sign in first to send feedback.","Gagal mengirim. Periksa koneksi lalu coba lagi.":"Failed to send. Check your connection and try again.","Terima kasih!":"Thank you!","Masukanmu sudah terkirim":"Your feedback has been sent"});
   Object.assign(EN,{"Tunggu sebentar sebelum mengirim lagi.":"Please wait a moment before sending again.","Batas 3 masukan per hari tercapai. Coba lagi besok.":"Daily limit of 3 feedback messages reached. Try again tomorrow.","Pesan yang sama sudah terkirim.":"This message was already sent.","Yang baru":"What's new","Tutup":"Close"});
+  Object.assign(EN,{"Atur posisi, cara geser, dan efek ikon navbar.":"Set the position, swipe style, and icon effect of the navbar.","Posisi navbar":"Navbar position","Bawah":"Bottom","Samping":"Side","Buka label menu":"Show menu labels","Ciutkan menu":"Collapse menu","Pindah navbar ke bawah":"Move navbar to the bottom"});
   var LV={"tidak ada pengeluaran":"no spending","rendah":"low","sedang":"medium","tinggi":"high","parah":"very high"};
   function tt(x){return Object.prototype.hasOwnProperty.call(EN,x)?EN[x]:x}
   function pl(n,one,many){return n+(String(n)==="1"?one:many)}
@@ -3785,13 +3793,14 @@ var KIC=["target","debt","recv"];
     var lens=document.createElement("span");lens.className="nbLens";lens.setAttribute("aria-hidden","true");
     bar.insertBefore(lens,bar.firstChild);
     var st=null,swallow=0,hideT=0,PADX=0,raf=0,lx=0;
+    function vert(){return document.documentElement.getAttribute("data-navpos")==="side"}
     function geo(){
-      var br=bar.getBoundingClientRect();
-      var bs=Array.prototype.map.call(bar.querySelectorAll(".nb"),function(b){var r=b.getBoundingClientRect();return {el:b,tab:b.getAttribute("data-tab"),l:r.left-br.left,w:r.width,c:r.left-br.left+r.width/2}});
-      return {bs:bs,left:br.left};
+      var v=vert(),br=bar.getBoundingClientRect();
+      var bs=Array.prototype.map.call(bar.querySelectorAll(".nb"),function(b){var r=b.getBoundingClientRect(),a=v?r.top-br.top:r.left-br.left,z=v?r.height:r.width;return {el:b,tab:b.getAttribute("data-tab"),l:a,w:z,c:a+z/2}});
+      return {bs:bs,left:v?br.top:br.left,v:v};
     }
     function nearest(g,x){var best=g.bs[0],d=1e9;g.bs.forEach(function(t){var dd=Math.abs(t.c-x);if(dd<d){d=dd;best=t}});return best}
-    function place(l,w,anim){lens.classList.toggle("settle",!!anim);lens.style.transform="translateX("+l+"px)";lens.style.width=w+"px"}
+    function place(l,w,anim){var v=vert();lens.classList.toggle("settle",!!anim);lens.style.transform=v?"translateY("+l+"px)":"translateX("+l+"px)";lens.style.width=v?"":w+"px";lens.style.height=v?w+"px":""}
     function point(g,tab){g.bs.forEach(function(t){t.el.classList.toggle("nbOn",t.tab===tab)})}
     function clearPoint(){bar.classList.remove("dragging");bar.querySelectorAll(".nb.nbOn").forEach(function(b){b.classList.remove("nbOn")})}
     function tick(){
@@ -3810,18 +3819,18 @@ var KIC=["target","debt","recv"];
     bar.addEventListener("pointerdown",function(e){
       if(mode==="tap"||st||(e.pointerType==="mouse"&&e.button!==0))return;
       clearTimeout(hideT);
-      var g=geo(),t=nearest(g,e.clientX-g.left);
-      st={id:e.pointerId,x0:e.clientX,drag:false,g:g,cur:t.tab,from:$("app").getAttribute("data-tab")};
-      lens.style.left="0px";place(t.l-PADX,t.w+PADX*2,false);lens.classList.add("on");
+      var g=geo(),ax=g.v?e.clientY:e.clientX,t=nearest(g,ax-g.left);
+      st={id:e.pointerId,x0:ax,drag:false,g:g,cur:t.tab,from:$("app").getAttribute("data-tab")};
+      lens.style.left=g.v?"5px":"0px";place(t.l-PADX,t.w+PADX*2,false);lens.classList.add("on");
     });
     bar.addEventListener("pointermove",function(e){
       if(!st||e.pointerId!==st.id)return;
       if(!st.drag){
-        if(Math.abs(e.clientX-st.x0)<6)return;
+        if(Math.abs((st.g.v?e.clientY:e.clientX)-st.x0)<6)return;
         st.drag=true;bar.classList.add("dragging");point(st.g,st.cur);
         try{bar.setPointerCapture(e.pointerId)}catch(_){}
       }
-      lx=e.clientX;if(!raf)raf=requestAnimationFrame(tick);
+      lx=st.g.v?e.clientY:e.clientX;if(!raf)raf=requestAnimationFrame(tick);
     });
     function finish(e){
       if(!st||e.pointerId!==st.id)return;
@@ -3841,6 +3850,41 @@ var KIC=["target","debt","recv"];
     bar.addEventListener("pointerup",finish);
     bar.addEventListener("pointercancel",finish);
     bar.addEventListener("click",function(e){if(Date.now()<swallow){e.stopPropagation();e.preventDefault()}},true);
+  })();
+
+  /* posisi navbar: bawah (horizontal) <-> samping (vertikal), label bisa dibuka/ditutup */
+  (function(){
+    var root=document.documentElement,pos="bottom",open=false;
+    try{pos=localStorage.getItem("nav-pos")==="side"?"side":"bottom";open=localStorage.getItem("nav-open")==="1"}catch(e){}
+    var fl=$("navFlip"),ex=$("navExpand"),chips=$("navPosChips");
+    if(!fl||!ex)return;
+    function paint(){
+      if(pos==="side")root.setAttribute("data-navpos","side");else root.removeAttribute("data-navpos");
+      if(pos==="side"&&open)root.setAttribute("data-navopen","1");else root.removeAttribute("data-navopen");
+      ex.setAttribute("aria-expanded",open?"true":"false");
+      ex.setAttribute("aria-label",open?"Ciutkan menu":"Buka label menu");
+      if(chips)chips.querySelectorAll("button[data-np]").forEach(function(b){var on=b.getAttribute("data-np")===pos;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")});
+    }
+    function save(){try{localStorage.setItem("nav-pos",pos);localStorage.setItem("nav-open",open?"1":"0")}catch(e){}}
+    var busy=false;
+    function setPos(p){
+      if(p===pos||busy)return;
+      var rm=false;try{rm=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}
+      var run=function(){pos=p;save();paint()};
+      if(!rm&&document.startViewTransition){
+        busy=true;root.classList.add("vt-navpos");
+        var free=function(){busy=false;root.classList.remove("vt-navpos")};
+        try{var vt=document.startViewTransition(run);vt.finished.then(free,free);return}catch(e){free()}
+      }
+      run();
+    }
+    ex.addEventListener("click",function(){open=!open;save();paint()});
+    fl.addEventListener("click",function(){setPos("bottom")});
+    if(chips)chips.addEventListener("click",function(e){var b=e.target.closest("button[data-np]");if(b)setPos(b.getAttribute("data-np"))});
+    function narrow(){return window.innerWidth<700}
+    document.querySelector(".nav").addEventListener("click",function(e){if(pos==="side"&&open&&narrow()&&e.target.closest(".nb")){open=false;save();paint()}});
+    document.addEventListener("pointerdown",function(e){if(pos==="side"&&open&&narrow()&&!e.target.closest(".nav")){open=false;save();paint()}},true);
+    paint();
   })();
 
   (function(){
@@ -5119,6 +5163,44 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjus
 #pinSw .knob .ic{width:12px;height:12px}
 #pinSw[aria-checked="true"],#pinSw[aria-checked="true"]:hover{background:var(--sage);border-color:transparent}
 #pinSw[aria-checked="true"] .knob{background:var(--bg)}
+</style>
+<style>
+/* ===== navbar bisa vertikal (samping) atau horizontal (bawah) ===== */
+.navctl{display:none}
+.navtg{width:34px;height:34px;min-height:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:auto;color:var(--sage-d);background:var(--glass);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);border:1px solid var(--glass-b);box-shadow:var(--glass-sh)}
+.navtg .ic{width:16px;height:16px;transition:transform .3s var(--ease)}
+.nb span{transition:opacity .2s ease .12s}
+
+html[data-navpos="side"] .nav{left:calc(10px + env(safe-area-inset-left,0px));right:auto;bottom:auto;top:50%;transform:translateY(-50%);display:block;width:max-content;padding:0}
+html[data-navpos="side"] .navbar{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto 76px auto auto;width:66px;max-width:none;height:auto;padding:8px 0;border-radius:34px;transition:width .32s var(--ease)}
+html[data-navpos="side"][data-navopen="1"] .navbar{width:184px}
+html[data-navpos="side"] .nb{flex-direction:row;justify-content:center;gap:12px;min-height:50px;margin:2px 8px;padding:0}
+html[data-navpos="side"] .nb span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;opacity:0}
+html[data-navpos="side"][data-navopen="1"] .nb{justify-content:flex-start;padding:0 14px}
+html[data-navpos="side"][data-navopen="1"] .nb span{position:static;width:auto;height:auto;overflow:visible;clip:auto;opacity:1;font-size:.84rem}
+html[data-navpos="side"] .navbar .nb[aria-selected="true"]{transform:none;border-radius:999px}
+html[data-navpos="side"] .fab{left:33px;top:50%;transform:translate(-50%,-50%)}
+html[data-navpos="side"] .fab:active{transform:translate(-50%,-50%) scale(.93)}
+html[data-navpos="side"] .navctl{display:flex;flex-direction:column;gap:8px;position:absolute;left:16px;top:calc(100% + 10px)}
+html[data-navpos="side"][data-navopen="1"] #navExpand .ic{transform:rotate(180deg)}
+html[data-navpos="side"] .wrap{padding-left:calc(92px + env(safe-area-inset-left,0px));padding-bottom:calc(56px + env(safe-area-inset-bottom,0px));transition:padding-left .32s var(--ease)}
+@media (min-width:900px){html[data-navpos="side"][data-navopen="1"] .wrap{padding-left:calc(210px + env(safe-area-inset-left,0px))}}
+html[data-navpos="side"] .toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+@media (max-height:520px){html[data-navpos="side"] .navctl{top:8px;left:calc(100% + 8px)}}
+
+/* gelembung kaca geser versi vertikal */
+html[data-navpos="side"] .nbLens{top:0;bottom:auto;right:5px;width:auto;height:0;border-radius:999px}
+.nbLens.settle{transition:opacity .2s ease .1s,transform .26s var(--ease),width .26s var(--ease),height .26s var(--ease)}
+html[data-navpos="side"] .nbLens::before{background:linear-gradient(180deg,rgba(255,70,140,.9),rgba(255,176,48,.75) 13%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(70,214,255,.75) 87%,rgba(150,96,255,.9))}
+html[data-navpos="side"] .nbLens::after{background:radial-gradient(ellipse 78% 26% at 50% 3%,rgba(255,80,150,.30),rgba(255,176,48,.12) 55%,transparent 75%),radial-gradient(ellipse 78% 26% at 50% 97%,rgba(70,200,255,.30),rgba(150,96,255,.14) 55%,transparent 75%)}
+
+/* animasi berubah bentuk bawah <-> samping */
+html.vt-navpos .navbar{view-transition-name:vt-navbar}
+html.vt-navpos .fab{view-transition-name:vt-navfab}
+html.vt-navpos::view-transition-group(root){animation-duration:.5s}
+::view-transition-group(vt-navbar),::view-transition-group(vt-navfab){animation-duration:.5s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+::view-transition-old(vt-navbar),::view-transition-new(vt-navbar){width:100%;height:100%;object-fit:fill}
+@media (prefers-reduced-motion:reduce){html[data-navpos="side"] .navbar,html[data-navpos="side"] .wrap,.nb span,.navtg .ic{transition:none}}
 </style>
 <div id="calcOv" class="calc-ov" hidden></div>
 <div id="calc" class="calc" role="dialog" aria-modal="true" aria-label="Kalkulator" tabindex="-1" hidden>
