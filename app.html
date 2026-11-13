@@ -1040,12 +1040,10 @@ window.kring=function(p,label,hide){
 #goalPanel .kgauge .kc b{font-size:1.5rem}
 #goalPanel .kgauge .kc small{font-size:.74rem}
 #goalPanel #gTabs{display:flex;gap:4px;padding:4px;margin:0 0 12px;background:var(--surface);border:1px solid var(--line);border-radius:999px;overflow:hidden}
-#goalPanel #gTabs .gtab{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:6px;row-gap:0;align-items:center;justify-items:start;text-align:left;flex:1 1 0;min-width:0;min-height:48px;padding:6px 8px;border:0;border-radius:999px;background:none;font-size:.74rem;font-weight:600;text-transform:none;letter-spacing:0;white-space:nowrap}
-#goalPanel #gTabs .gtab .gti{grid-column:1;grid-row:1/3;width:24px;height:24px;border-radius:8px}
+#goalPanel #gTabs .gtab{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;text-align:center;flex:1 1 0;min-width:0;min-height:48px;padding:6px 8px;border:0;border-radius:999px;background:none;font-size:.74rem;font-weight:600;text-transform:none;letter-spacing:0;white-space:nowrap}
+#goalPanel #gTabs .gtab .gti{flex:none;width:24px;height:24px;border-radius:8px}
 #goalPanel #gTabs .gtab .gti .ic{width:14px;height:14px}
-#goalPanel #gTabs .gtab .gtl{grid-column:2;grid-row:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:.74rem;line-height:1.2}
-#goalPanel #gTabs .gtab .gpc{grid-column:2;grid-row:2;font-size:.68rem;font-weight:700;line-height:1.1;color:var(--tc);font-variant-numeric:tabular-nums}
-#goalPanel #gTabs .gtab .gtn{top:4px;right:6px}
+#goalPanel #gTabs .gtab .gtl{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:.74rem;line-height:1.2}
 #goalPanel #gTabs .k0{--tc:#2f7fe0;--tcl:rgba(47,127,224,.16)}
 #goalPanel #gTabs .k1{--tc:#e5484d;--tcl:rgba(229,72,77,.16)}
 #goalPanel #gTabs .k2{--tc:#22a06b;--tcl:rgba(34,160,107,.16)}
@@ -1232,9 +1230,9 @@ var KIC=["target","debt","recv"];
     <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="goalPanel" data-acc="goalPanel"><i data-ic="target"></i>Kelola tujuan<span class="accr"><span class="accsum" id="gAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="donut" id="gDonut"></div>
     <div class="gtabs" id="gTabs" role="tablist" aria-label="Jenis tujuan">
-      <button type="button" role="tab" class="gtab k0" data-k="0" aria-selected="true"><span class="gti" data-ic="target"></span><span class="gtl">Non-hutang</span><span class="gpc" id="gpc0"></span><em class="gtn" id="gtn0">0</em></button>
-      <button type="button" role="tab" class="gtab k1" data-k="1" aria-selected="false"><span class="gti" data-ic="debt"></span><span class="gtl">Hutang</span><span class="gpc" id="gpc1"></span><em class="gtn" id="gtn1">0</em></button>
-      <button type="button" role="tab" class="gtab k2" data-k="2" aria-selected="false"><span class="gti" data-ic="recv"></span><span class="gtl">Piutang</span><span class="gpc" id="gpc2"></span><em class="gtn" id="gtn2">0</em></button>
+      <button type="button" role="tab" class="gtab k0" data-k="0" aria-selected="true"><span class="gti" data-ic="target"></span><span class="gtl">Non-hutang</span></button>
+      <button type="button" role="tab" class="gtab k1" data-k="1" aria-selected="false"><span class="gti" data-ic="debt"></span><span class="gtl">Hutang</span></button>
+      <button type="button" role="tab" class="gtab k2" data-k="2" aria-selected="false"><span class="gti" data-ic="recv"></span><span class="gtl">Piutang</span></button>
     </div>
     <div class="gtot" id="gTot"></div>
     <div id="gList"></div>
@@ -2371,8 +2369,7 @@ var KIC=["target","debt","recv"];
     var dn=sg.filter(function(g){return g.saved>=g.target}).length;
     var k=gTab, L=GK[k], list=by[k];
     for(var i=0;i<3;i++){
-      var tb=$("gTabs").querySelector('.k'+i);tb.setAttribute("aria-selected",String(i===k));$("gtn"+i).textContent=by[i].length;var tI=by[i].reduce(function(a,g){return a+g.target},0),vI=by[i].reduce(function(a,g){return a+Math.min(g.saved,g.target)},0);$("gpc"+i).textContent=by[i].length?(hideBal?"••":(tI?Math.min(100,Math.floor(vI/tI*100)):0))+"%":"–";
-    }
+      var tb=$("gTabs").querySelector('.k'+i);tb.setAttribute("aria-selected",String(i===k));var tI=by[i].reduce(function(a,g){return a+g.target},0),vI=by[i].reduce(function(a,g){return a+Math.min(g.saved,g.target)},0);    }
     $("goalPanel").className=$("goalPanel").className.replace(/\bgk\d\b/g,"").replace(/\s+/g," ").trim()+" gk"+k;
     var tg=list.reduce(function(s,g){return s+g.target},0), sv=list.reduce(function(s,g){return s+Math.min(g.saved,g.target)},0);
     var op=tg?Math.min(100,Math.floor(sv/tg*100)):0;
