@@ -1031,6 +1031,54 @@ window.kring=function(p,label,hide){
     '</svg><div class="kc"><b>'+(hide?"••":pv)+'%</b><small>'+label+'</small></div></div>';
 };
 </script>
+<style id="goal-ui-v2">
+#goalPanel.gk0{--gc:#2f7fe0;--gc2:#6cc4ff;--gcl:rgba(47,127,224,.16)}
+#goalPanel.gk1{--gc:#e5484d;--gc2:#ff8a7a;--gcl:rgba(229,72,77,.16)}
+#goalPanel.gk2{--gc:#22a06b;--gc2:#5fe0a0;--gcl:rgba(34,160,107,.16)}
+#goalPanel #gDonut{padding:14px 10px 10px;margin:0 0 12px;gap:4px;border-radius:22px;background:var(--surface)}
+#goalPanel .kgauge{width:min(190px,78%)}
+#goalPanel .kgauge .kc b{font-size:1.5rem}
+#goalPanel .kgauge .kc small{font-size:.74rem}
+#goalPanel #gTabs{display:flex;gap:4px;padding:4px;margin:0 0 12px;background:var(--surface);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+#goalPanel #gTabs .gtab{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:6px;row-gap:0;align-items:center;justify-items:start;text-align:left;flex:1 1 0;min-width:0;min-height:48px;padding:6px 8px;border:0;border-radius:999px;background:none;font-size:.74rem;font-weight:600;text-transform:none;letter-spacing:0;white-space:nowrap}
+#goalPanel #gTabs .gtab .gti{grid-column:1;grid-row:1/3;width:24px;height:24px;border-radius:8px}
+#goalPanel #gTabs .gtab .gti .ic{width:14px;height:14px}
+#goalPanel #gTabs .gtab .gtl{grid-column:2;grid-row:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:.74rem;line-height:1.2}
+#goalPanel #gTabs .gtab .gpc{grid-column:2;grid-row:2;font-size:.68rem;font-weight:700;line-height:1.1;color:var(--tc);font-variant-numeric:tabular-nums}
+#goalPanel #gTabs .gtab .gtn{top:4px;right:6px}
+#goalPanel #gTabs .k0{--tc:#2f7fe0;--tcl:rgba(47,127,224,.16)}
+#goalPanel #gTabs .k1{--tc:#e5484d;--tcl:rgba(229,72,77,.16)}
+#goalPanel #gTabs .k2{--tc:#22a06b;--tcl:rgba(34,160,107,.16)}
+#goalPanel #gTabs .gtab[aria-selected="true"]{background:var(--bg);color:var(--text);border-color:var(--tc);box-shadow:0 2px 10px -4px var(--tc)}
+#goalPanel #gTot{margin:0 0 12px}
+#goalPanel #gTot .dleg{gap:8px}
+#goalPanel #gTot .dst{background:var(--surface);border-radius:14px;padding:9px 10px;min-width:0}
+#goalPanel #gTot .dst span{font-size:.68rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#goalPanel #gTot .dst b{font-size:.8rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.3}
+#goalPanel .cat{margin-bottom:10px;padding:12px 14px;border-radius:16px}
+#goalPanel .cat .top{align-items:center;font-size:.86rem}
+#goalPanel .cat .gm{font-size:.76rem}
+#goalPanel .gtt{display:flex;align-items:center;gap:8px;min-width:0;font-weight:600}
+#goalPanel .gtt .ic{width:16px;height:16px;flex:none;color:var(--gc)}
+#goalPanel .gtx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#goalPanel .cat .top>span:last-child{font-size:.82rem;font-weight:700;color:var(--gc)}
+#goalPanel #btnGoalAdd{background:var(--gc);border-color:var(--gc);color:#fff;width:100%}
+@media (max-width:380px){#goalPanel #gTabs .gtab{padding:6px 5px;column-gap:4px}#goalPanel #gTabs .gtab .gtl{font-size:.68rem}}
+</style>
+<script>
+window.__gg=0;
+window.goalGauge=function(p,label,hide,k){
+  var n=++window.__gg, id='ggg'+n, c=[["#2f7fe0","#6cc4ff"],["#e5484d","#ff8a7a"],["#22a06b","#5fe0a0"]][k]||["#2f7fe0","#6cc4ff"];
+  var pv=hide?0:p, ang=Math.PI*(1-pv/100), x=60+50*Math.cos(ang), y=62-50*Math.sin(ang);
+  var knob=pv>0?'<circle class="kk" style="stroke:'+c[0]+'" cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="6.5"/>':'';
+  return '<div class="kgauge"><svg viewBox="0 0 120 70" aria-hidden="true">'+
+    '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="'+c[0]+'"/><stop offset="1" stop-color="'+c[1]+'"/></linearGradient></defs>'+
+    '<path class="kt" d="M10 62 A50 50 0 0 1 110 62"/>'+
+    '<path class="kp" pathLength="100" stroke="url(#'+id+')" style="--p:'+pv+'" d="M10 62 A50 50 0 0 1 110 62"/>'+knob+
+    '</svg><div class="kc"><b>'+(hide?"••":pv)+'%</b><small>'+label+'</small></div></div>';
+};
+var KIC=["target","debt","recv"];
+</script>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
@@ -1182,12 +1230,13 @@ window.kring=function(p,label,hide){
 
   <section class="card acc collapsed" id="goalPanel" data-t="aset" data-grp="aset">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="false" aria-controls="goalPanel" data-acc="goalPanel"><i data-ic="target"></i>Kelola tujuan<span class="accr"><span class="accsum" id="gAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
-    <div class="gtabs" id="gTabs" role="tablist" aria-label="Jenis tujuan">
-      <button type="button" role="tab" class="gtab k0" data-k="0" aria-selected="true"><span class="gti" data-ic="target"></span><span class="gtl">Non-hutang</span><em class="gtn" id="gtn0">0</em></button>
-      <button type="button" role="tab" class="gtab k1" data-k="1" aria-selected="false"><span class="gti" data-ic="debt"></span><span class="gtl">Hutang</span><em class="gtn" id="gtn1">0</em></button>
-      <button type="button" role="tab" class="gtab k2" data-k="2" aria-selected="false"><span class="gti" data-ic="recv"></span><span class="gtl">Piutang</span><em class="gtn" id="gtn2">0</em></button>
-    </div>
     <div class="donut" id="gDonut"></div>
+    <div class="gtabs" id="gTabs" role="tablist" aria-label="Jenis tujuan">
+      <button type="button" role="tab" class="gtab k0" data-k="0" aria-selected="true"><span class="gti" data-ic="target"></span><span class="gtl">Non-hutang</span><span class="gpc" id="gpc0"></span><em class="gtn" id="gtn0">0</em></button>
+      <button type="button" role="tab" class="gtab k1" data-k="1" aria-selected="false"><span class="gti" data-ic="debt"></span><span class="gtl">Hutang</span><span class="gpc" id="gpc1"></span><em class="gtn" id="gtn1">0</em></button>
+      <button type="button" role="tab" class="gtab k2" data-k="2" aria-selected="false"><span class="gti" data-ic="recv"></span><span class="gtl">Piutang</span><span class="gpc" id="gpc2"></span><em class="gtn" id="gtn2">0</em></button>
+    </div>
+    <div class="gtot" id="gTot"></div>
     <div id="gList"></div>
     <div class="row addrow"><button type="button" class="primary" id="btnGoalAdd">Tambah tujuan</button></div>
   </section>
@@ -2322,19 +2371,20 @@ window.kring=function(p,label,hide){
     var dn=sg.filter(function(g){return g.saved>=g.target}).length;
     var k=gTab, L=GK[k], list=by[k];
     for(var i=0;i<3;i++){
-      var tb=$("gTabs").querySelector('.k'+i);tb.setAttribute("aria-selected",String(i===k));$("gtn"+i).textContent=by[i].length;
+      var tb=$("gTabs").querySelector('.k'+i);tb.setAttribute("aria-selected",String(i===k));$("gtn"+i).textContent=by[i].length;var tI=by[i].reduce(function(a,g){return a+g.target},0),vI=by[i].reduce(function(a,g){return a+Math.min(g.saved,g.target)},0);$("gpc"+i).textContent=by[i].length?(hideBal?"••":(tI?Math.min(100,Math.floor(vI/tI*100)):0))+"%":"–";
     }
     $("goalPanel").className=$("goalPanel").className.replace(/\bgk\d\b/g,"").replace(/\s+/g," ").trim()+" gk"+k;
     var tg=list.reduce(function(s,g){return s+g.target},0), sv=list.reduce(function(s,g){return s+Math.min(g.saved,g.target)},0);
     var op=tg?Math.min(100,Math.floor(sv/tg*100)):0;
     $("gAccSum").textContent=list.length?(hideBal?"••":op)+"% "+L.lP:"Kosong";
     var segCol=k===0?"var(--sage-d)":"var(--gc)";
-    $("gDonut").innerHTML=list.length?kring(op,L.lP,hideBal)+'<div class="dleg"><div class="dst"><span>'+L.lT+'</span><b>'+mk(tg)+'</b></div><div class="dst"><span>'+L.lS+'</span><b>'+mk(sv)+'</b></div><div class="dst"><span>'+L.lR+'</span><b>'+mk(Math.max(0,tg-sv))+'</b></div></div>':"";
+    $("gDonut").innerHTML=list.length?goalGauge(op,L.lP,hideBal,k):"";
+    $("gTot").innerHTML=list.length?'<div class="dleg"><div class="dst"><span>'+L.lT+'</span><b>'+mk(tg)+'</b></div><div class="dst"><span>'+L.lS+'</span><b>'+mk(sv)+'</b></div><div class="dst"><span>'+L.lR+'</span><b>'+mk(Math.max(0,tg-sv))+'</b></div></div>':"";
     $("gList").innerHTML=list.length?list.map(function(g){
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="gm"><span>'+nbk(g.saved)+" dari "+nbk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+nbk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span class="gtt">'+ic(KIC[k])+'<span class="gtx">'+esc(g.name)+'</span></span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="gm"><span>'+nbk(g.saved)+" dari "+nbk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+nbk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -5463,17 +5513,5 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjus
 })();
 </script>
 
-<script>
-(function(){
-  function moveTabs(){
-    var gt = document.getElementById('gTabs'), gl = document.getElementById('gList');
-    if(gt && gl && gl.nextSibling !== gt) gl.parentNode.insertBefore(gt, gl.nextSibling);
-  }
-  moveTabs();
-  var t = null;
-  new MutationObserver(function(){ if(t) return; t = setTimeout(function(){ t = null; moveTabs(); }, 0); })
-    .observe(document.getElementById('goalPanel') || document.body, { childList: true, subtree: true });
-})();
-</script>
 </body>
 </html>
