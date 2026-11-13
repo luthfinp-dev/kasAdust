@@ -940,12 +940,29 @@ input[type="date"]::-webkit-calendar-picker-indicator{margin:0 0 0 4px;padding:0
 
 /* ---- Scroll fadeUp: berulang setiap masuk layar (sedang: 24px / 600ms) ---- */
 @media (prefers-reduced-motion:no-preference){
-  .fu{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
+  .fu{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
   .fu.fu-in{opacity:1;transform:none}
 }
 /* ---- Bar grafik naik dari 0 setiap kali ditampilkan / dibuka ---- */
 .bar i.rp{transform-origin:left;animation:barIn .7s cubic-bezier(.2,.7,.2,1) both}
 @media (prefers-reduced-motion:reduce){.bar i.rp{animation:none}}
+
+/* ---- Panel tujuan: sudut membulat (tidak full) ---- */
+#goalPanel{border-radius:20px;overflow:hidden}
+/* ---- Gauge progres tujuan ---- */
+.gauge{position:relative;width:min(180px,72%);margin:4px auto 6px}
+.gauge svg{display:block;width:100%;height:auto;overflow:visible}
+.gauge path{fill:none;stroke-width:9;stroke-linecap:round}
+.gauge .gt{stroke:var(--sage-l)}
+.gauge .gp{stroke:var(--sage);stroke-dasharray:100 100;stroke-dashoffset:calc(100 - var(--p,0))}
+.gauge .gp.rp{animation:gIn .8s cubic-bezier(.2,.7,.2,1) both}
+.gauge .gpct{position:absolute;left:0;right:0;bottom:0;text-align:center;font-weight:700;font-size:1.25rem;font-variant-numeric:tabular-nums}
+@keyframes gIn{from{stroke-dashoffset:100}to{stroke-dashoffset:calc(100 - var(--p,0))}}
+@media (prefers-reduced-motion:reduce){.gauge .gp.rp{animation:none}}
+/* ---- Tab jenis tujuan: pindah ke bawah, gaya segmented ---- */
+#goalPanel #gTabs{display:flex;gap:4px;padding:4px;margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:999px}
+#goalPanel #gTabs .gtab{flex:1 1 0;min-width:0;min-height:40px;border:0;background:none;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+#goalPanel #gTabs .gtab[aria-selected="true"]{background:var(--bg);color:var(--sage-d);box-shadow:0 1px 4px rgba(0,0,0,.14)}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -2283,7 +2300,7 @@ html.plk #app,html.plk #welcome,html.plk #gate{visibility:hidden}
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="gm"><span>'+nbk(g.saved)+" dari "+nbk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+nbk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top"><span>'+esc(g.name)+'</span>'+(k>=1?'<span class="gtr"><span>'+(hideBal?"••":p)+'%</span><button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button></span>':'<span>'+(hideBal?"••":p)+'%</span>')+'</div><div class="gauge" aria-hidden="true"><svg viewBox="0 0 120 72"><path class="gt" d="M10 62 A50 50 0 0 1 110 62"/><path class="gp" pathLength="100" style="--p:'+(hideBal?0:p)+'" d="M10 62 A50 50 0 0 1 110 62"/></svg><span class="gpct">'+(hideBal?"••":p)+'%</span></div><div class="gm"><span>'+nbk(g.saved)+" dari "+nbk(g.target)+'</span><span'+(done?' class="ok"':'')+'>'+(done?L.done:L.left+nbk(g.target-g.saved))+'</span></div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -5357,43 +5374,71 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjus
 <script>
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  function restartBars(root){
-    (root||document).querySelectorAll('.bar i').forEach(function(i){
-      i.classList.remove('rp'); void i.offsetWidth; i.classList.add('rp');
-    });
-  }
-  var SEL = 'h1,.sub,h2,.card,.stat,.cat,.note,.grid3>*,.two>*,.tablebox,table tbody tr,.total';
-  var EX  = '#plk,.ov,.sheet,[role="dialog"],[aria-modal="true"]';
   if(!('IntersectionObserver' in window)) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      var on = e.isIntersecting;
-      e.target.classList.toggle('fu-in', on);
-      if(on && e.target.querySelector('.bar i')) restartBars(e.target);
-    });
-  }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
-  function scan(){
-    document.querySelectorAll(SEL).forEach(function(el){
-      if(el.classList.contains('fu') || el.closest(EX)) return;
-      el.classList.add('fu');
-      io.observe(el);
-    });
-  }
-  var queued = false;
-  function queue(){
-    if(queued) return; queued = true;
-    requestAnimationFrame(function(){ queued = false; scan(); });
-  }
-  scan();
-  new MutationObserver(queue).observe(document.body, { childList: true, subtree: true });
 
-  // Buka/tutup akordeon, kartu aset/tujuan: grafik bergerak lagi
+  // Restart bar dalam satu batch: satu reflow untuk semua bar
+  function restartBars(root){
+    var bars = root.querySelectorAll('.bar i, .gauge .gp');
+    if(!bars.length) return;
+    for(var k=0;k<bars.length;k++) bars[k].classList.remove('rp');
+    void root.offsetWidth;
+    for(var k2=0;k2<bars.length;k2++) bars[k2].classList.add('rp');
+  }
+
+  // Tabel transaksi tidak ikut fadeUp
+  var SEL = 'h1,.sub,h2,.card,.stat,.cat,.note,.grid3>*,.two>*,.tablebox,.total';
+  var EX  = '#plk,.ov,.sheet,[role="dialog"],[aria-modal="true"]';
+
+  var io = new IntersectionObserver(function(entries){
+    for(var i=0;i<entries.length;i++){
+      var e = entries[i], on = e.isIntersecting;
+      e.target.classList.toggle('fu-in', on);
+      if(on && e.target.querySelector && e.target.querySelector('.bar i, .gauge .gp')) restartBars(e.target);
+    }
+  }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+
+  function track(el){
+    if(!el.matches || !el.matches(SEL)) return;
+    if(el.classList.contains('fu') || el.closest(EX)) return;
+    el.classList.add('fu');
+    io.observe(el);
+  }
+
+  // Awal: pindai sekali
+  document.querySelectorAll(SEL).forEach(track);
+
+  // Berikutnya: hanya node yang baru ditambahkan, bukan seluruh halaman
+  new MutationObserver(function(muts){
+    for(var m=0;m<muts.length;m++){
+      var added = muts[m].addedNodes;
+      for(var a=0;a<added.length;a++){
+        var n = added[a];
+        if(n.nodeType !== 1) continue;
+        track(n);
+        if(n.querySelectorAll) n.querySelectorAll(SEL).forEach(track);
+      }
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+
+  // Buka/tutup panel aset/tujuan: hanya bar di panel yang diklik
   document.addEventListener('click', function(e){
-    if(!e.target.closest('.acch,[data-acc],[data-ck],.xc,.cat')) return;
-    setTimeout(function(){
-      document.querySelectorAll('#assetPanel, #goalPanel, .open').forEach(function(r){ restartBars(r) });
-    }, 60);
+    var panel = e.target.closest && e.target.closest('#assetPanel,#goalPanel');
+    if(!panel) return;
+    setTimeout(function(){ restartBars(panel); }, 60);
   }, true);
+})();
+</script>
+
+<script>
+(function(){
+  function moveTabs(){
+    var gt = document.getElementById('gTabs'), gl = document.getElementById('gList');
+    if(gt && gl && gl.nextSibling !== gt) gl.parentNode.insertBefore(gt, gl.nextSibling);
+  }
+  moveTabs();
+  var t = null;
+  new MutationObserver(function(){ if(t) return; t = setTimeout(function(){ t = null; moveTabs(); }, 0); })
+    .observe(document.getElementById('goalPanel') || document.body, { childList: true, subtree: true });
 })();
 </script>
 </body>
