@@ -1037,6 +1037,7 @@ window.kring=function(p,label,hide){
 #goalPanel.gk2{--gc:#22a06b;--gc2:#5fe0a0;--gcl:rgba(34,160,107,.16)}
 #goalPanel #gDonut{padding:14px 10px 10px;margin:0 0 12px;gap:4px;border-radius:22px;background:var(--surface)}
 #goalPanel .kgauge{width:min(190px,78%)}
+#goalPanel .kgauge .kp,#goalPanel .kgauge .kk{animation:none}
 #goalPanel .kgauge .kc b{font-size:1.5rem}
 #goalPanel .kgauge .kc small{font-size:.74rem}
 #goalPanel #gTabs{display:flex;gap:4px;padding:4px;margin:0 0 12px;background:var(--surface);border:1px solid var(--line);border-radius:999px;overflow:hidden}
@@ -1067,13 +1068,36 @@ window.kring=function(p,label,hide){
 window.__gg=0;
 window.goalGauge=function(p,label,hide,k){
   var n=++window.__gg, id='ggg'+n, c=[["#2f7fe0","#6cc4ff"],["#e5484d","#ff8a7a"],["#22a06b","#5fe0a0"]][k]||["#2f7fe0","#6cc4ff"];
-  var pv=hide?0:p, ang=Math.PI*(1-pv/100), x=60+50*Math.cos(ang), y=62-50*Math.sin(ang);
-  var knob=pv>0?'<circle class="kk" style="stroke:'+c[0]+'" cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="6.5"/>':'';
-  return '<div class="kgauge"><svg viewBox="0 0 120 70" aria-hidden="true">'+
+  var pv=hide?0:Math.max(0,Math.min(100,p));
+  return '<div class="kgauge" data-p="'+pv+'" data-h="'+(hide?1:0)+'"><svg viewBox="0 0 120 70" aria-hidden="true">'+
     '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="'+c[0]+'"/><stop offset="1" stop-color="'+c[1]+'"/></linearGradient></defs>'+
     '<path class="kt" d="M10 62 A50 50 0 0 1 110 62"/>'+
-    '<path class="kp" pathLength="100" stroke="url(#'+id+')" style="--p:'+pv+'" d="M10 62 A50 50 0 0 1 110 62"/>'+knob+
-    '</svg><div class="kc"><b>'+(hide?"••":pv)+'%</b><small>'+label+'</small></div></div>';
+    '<path class="kp" pathLength="100" stroke="url(#'+id+')" stroke-dasharray="100 100" stroke-dashoffset="100" d="M10 62 A50 50 0 0 1 110 62"/>'+
+    '<circle class="kk" cx="10" cy="62" r="6.5" style="stroke:'+c[0]+';display:none"/>'+
+    '</svg><div class="kc"><b>0%</b><small>'+label+'</small></div></div>';
+};
+window.animGoalGauge=function(root){
+  var el=root&&root.querySelector('.kgauge'); if(!el)return;
+  var target=+el.getAttribute('data-p')||0, hide=el.getAttribute('data-h')==='1';
+  var path=el.querySelector('.kp'), knob=el.querySelector('.kk'), b=el.querySelector('.kc b');
+  function paint(v){
+    path.style.strokeDashoffset=String(100-v);
+    var a=Math.PI*(1-v/100), x=60+50*Math.cos(a), y=62-50*Math.sin(a);
+    knob.setAttribute('cx',x.toFixed(2)); knob.setAttribute('cy',y.toFixed(2));
+    knob.style.display=v>0.5?'':'none';
+    b.textContent=(hide?'••':Math.round(v))+'%';
+  }
+  paint(0);
+  var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(rm||target===0){paint(target);return}
+  var t0=null, D=800;
+  function step(ts){
+    if(t0===null)t0=ts;
+    var q=Math.min(1,(ts-t0)/D), e=1-Math.pow(1-q,3);
+    paint(target*e);
+    if(q<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
 };
 var KIC=["target","debt","recv"];
 </script>
@@ -2383,7 +2407,7 @@ var KIC=["target","debt","recv"];
     var op=tg?Math.min(100,Math.floor(sv/tg*100)):0;
     $("gAccSum").textContent=list.length?(hideBal?"••":op)+"% "+L.lP:"Kosong";
     var segCol=k===0?"var(--sage-d)":"var(--gc)";
-    $("gDonut").innerHTML=list.length?goalGauge(op,L.lP,hideBal,k):"";
+    $("gDonut").innerHTML=list.length?goalGauge(op,L.lP,hideBal,k):"";animGoalGauge($("gDonut"));
     $("gTot").innerHTML=list.length?'<div class="dleg"><div class="dst"><span>'+L.lT+'</span><b>'+mk(tg)+'</b></div><div class="dst"><span>'+L.lS+'</span><b>'+mk(sv)+'</b></div><div class="dst"><span>'+L.lR+'</span><b>'+mk(Math.max(0,tg-sv))+'</b></div></div>':"";
     $("gList").innerHTML=list.length?list.map(function(g){
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
@@ -2753,8 +2777,7 @@ var KIC=["target","debt","recv"];
       +'<linearGradient id="'+uid2+'s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".05"/><stop offset=".55" style="stop-color:var(--sp)" stop-opacity=".85"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="1"/></linearGradient></defs>'
       +'<path class="sp-area" d="'+line+' L'+lp[0].toFixed(1)+','+H+' L'+pts[0][0].toFixed(1)+','+H+' Z" fill="url(#'+uid2+')"/>'
       +'<path class="sp-line" pathLength="1" d="'+line+'" stroke="url(#'+uid2+'s)"/>'
-      +'<circle class="sp-ring" cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="3.4"/>'
-      +'<circle class="sp-halo" cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="7"/><circle class="sp-dot" cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="3.6"/></svg>';
+      +'</svg>';
     var v0=vals[0], pc=v0>0?(vals[N-1]-v0)/v0*100:null, up=vals[N-1]>=v0, bd="";
     if(!hideBal&&pc!==null){
       var ap=Math.abs(pc);
@@ -5514,6 +5537,7 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjus
     var panel = e.target.closest && e.target.closest('#assetPanel,#goalPanel');
     if(!panel) return;
     setTimeout(function(){ restartBars(panel); }, 60);
+    if(panel.id==='goalPanel' && e.target.closest('.acch')){var gd=document.getElementById('gDonut');setTimeout(function(){ if(gd&&window.animGoalGauge) animGoalGauge(gd); }, 60);}
   }, true);
 })();
 </script>
