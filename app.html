@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-PjcdPLSJ39IXyrAbtvjhV/vae6AGBSTEn4iUYXMFQRw=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-OLElq7JoewifS/2yUKwr4PtMARr97tTp56RWIlBzJ/g=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-PjcdPLSJ39IXyrAbtvjhV/vae6AGBSTEn4iUYXMFQRw=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -5721,31 +5721,42 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 <script>
 (function(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var played=false;
-  function play(){
-    var app=document.getElementById("app"), fab=document.getElementById("btnAdd");
-    if(played||!app||app.hidden||!fab) return;
-    var r=fab.getBoundingClientRect(); if(!r.width) return;
-    played=true;
-    var ov=document.createElement("div"); ov.id="intro"; ov.setAttribute("aria-hidden","true");
-    ov.innerHTML='<div class="ilogo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>';
-    document.body.appendChild(ov);
-    var logo=ov.firstChild, lr=logo.getBoundingClientRect();
-    var dx=(r.left+r.width/2)-(lr.left+lr.width/2), dy=(r.top+r.height/2)-(lr.top+lr.height/2), sc=r.width/lr.width;
-    var fabBg=getComputedStyle(fab).backgroundColor||"#fff";
-    var done=function(){ov.classList.add("out");setTimeout(function(){ov.remove()},450)};
-    var a=logo.animate([
-      {transform:"translate(0px,0px) scale(1)",borderRadius:"30px",backgroundColor:"var(--sage-d)"},
-      {transform:"translate(0px,0px) scale(1.06)",borderRadius:"30px",offset:.3},
-      {transform:"translate("+dx+"px,"+dy+"px) scale("+sc+")",borderRadius:"50%",backgroundColor:fabBg}
-    ],{duration:1100,delay:600,easing:"cubic-bezier(.65,0,.25,1)",fill:"forwards"});
-    a.onfinish=function(){setTimeout(done,150)};
+  var ov=document.createElement("div"); ov.id="intro"; ov.setAttribute("aria-hidden","true");
+  ov.innerHTML='<div class="ilogo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div><div class="ibar"><i></i></div>';
+  document.body.appendChild(ov);
+  var app=document.getElementById("app"), fab=document.getElementById("btnAdd"), t0=Date.now(), finished=false;
+  function shown(el){ return !!(el && el.getClientRects().length) }
+  function isReady(){
+    if(shown(app)) return true;
+    var panes=["authBox","cfgBox","fgBox","rcBox"];
+    for(var i=0;i<panes.length;i++){ if(shown(document.getElementById(panes[i]))) return true }
+    var wl=document.getElementById("welcome"), wm=document.getElementById("wMsg");
+    if(shown(wl)&&wm&&wm.textContent&&!/Memeriksa|Memuat|Memulihkan|Checking|Loading|Restor/i.test(wm.textContent)) return true;
+    return false;
   }
-  var app=document.getElementById("app");
-  if(app){
-    new MutationObserver(function(){ if(!app.hidden) play(); }).observe(app,{attributes:true,attributeFilter:["hidden"]});
-    if(!app.hidden) setTimeout(play,60);
+  function fadeOut(){
+    ov.classList.add("out");
+    setTimeout(function(){ov.remove()},450);
   }
+  function finish(){
+    if(finished) return; finished=true;
+    var bar=ov.querySelector(".ibar");
+    bar.style.transition="opacity .2s"; bar.style.opacity="0";
+    var r=fab&&fab.getBoundingClientRect();
+    var toApp=!!(app&&!app.hidden&&r&&r.width);
+    if(!toApp){ setTimeout(fadeOut,220); return }
+    setTimeout(function(){
+      var logo=ov.querySelector(".ilogo"), lr=logo.getBoundingClientRect();
+      var dx=(r.left+r.width/2)-(lr.left+lr.width/2), dy=(r.top+r.height/2)-(lr.top+lr.height/2), sc=r.width/lr.width;
+      var a=logo.animate([
+        {transform:"translate(0px,0px) scale(1)",borderRadius:"30px"},
+        {transform:"translate(0px,0px) scale(1.06)",borderRadius:"30px",offset:.3},
+        {transform:"translate("+dx+"px,"+dy+"px) scale("+sc+")",borderRadius:"50%"}
+      ],{duration:1000,easing:"cubic-bezier(.65,0,.25,1)",fill:"forwards"});
+      a.onfinish=function(){setTimeout(fadeOut,120)};
+    },220);
+  }
+  var iv=setInterval(function(){ if(isReady()||Date.now()-t0>15000){clearInterval(iv);finish()} },120);
 })();
 </script>
 <style id="dark-gradients">
@@ -5767,6 +5778,14 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 :root[data-theme="dark"]:not([data-skin="midnight"]),:root:not([data-theme="light"]):not([data-skin="midnight"]){--is1:#0c140f;--is2:#23402f;--is3:#16281c}
 :root[data-skin="midnight"][data-theme="light"]{--is1:#f1f6fd;--is2:#cfe0fb;--is3:#f9d6e6}
 :root[data-skin="midnight"][data-theme="dark"],:root[data-skin="midnight"]:not([data-theme="light"]){--is1:#02070A;--is2:#0b4a72;--is3:#8a3a1c}
+</style>
+<style id="intro-loadbar">
+#intro{flex-direction:column}
+#intro .ibar{width:64px;height:3px;border-radius:99px;overflow:hidden;background:rgba(127,127,127,.22);margin-top:30px;position:absolute;top:calc(50% + 86px);left:50%;transform:translateX(-50%)}
+#intro .ibar i{display:block;width:40%;height:100%;border-radius:99px;background:var(--sage-d);animation:ibarSlide 1.1s ease-in-out infinite}
+:root[data-skin="midnight"] #intro .ibar i{background:#FC734D}
+@keyframes ibarSlide{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
+@media (prefers-reduced-motion:reduce){#intro .ibar i{animation:none;width:100%;opacity:.5}}
 </style>
 </body>
 </html>
