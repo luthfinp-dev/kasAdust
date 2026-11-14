@@ -5706,5 +5706,11 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #app section[data-t="tx"],#app section[data-t="tx"] *{animation:none!important;transition:none!important}
 #app section[data-t="tx"].fu,#app section[data-t="tx"] .fu{opacity:1!important;transform:none!important}
 </style>
+<style id="fix-spark-height">
+/* kunci tinggi kotak grafik aset: kolom tidak ikut memanjang, hanya garis yang berubah */
+#aSpark,#aSpark .spw{flex:none!important;height:auto!important;min-height:0!important;max-height:none!important;align-self:flex-start!important}
+#aSpark .spw{display:block}
+#aSpark svg{height:120px!important;max-height:120px!important;width:100%!important}
+</style>
 </body>
 </html>
