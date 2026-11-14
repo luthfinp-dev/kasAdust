@@ -5856,5 +5856,17 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .mz-pill-on{animation:floatPillAnim 1.45s cubic-bezier(.2,.8,.25,1) forwards}
 @media (prefers-reduced-motion:reduce){.mz-wrap,.mz-wrap *,.mz-pill{animation:none!important}}
 </style>
+<style id="mz-polish">
+/* pill notifikasi lebih kecil di HP */
+.mz-pill{padding:2px 7px;font-size:8px;line-height:1.4;white-space:nowrap;width:max-content;top:18px;border-radius:999px}
+/* kotak maskot versi gelap */
+:root:not([data-theme="light"]) .mz.santai{--mz1:#16324c;--mz2:#1d3f5e;--mz3:#0f2236;box-shadow:inset 0 2px 8px rgba(255,255,255,.04),0 8px 24px -6px rgba(0,0,0,.45)}
+:root:not([data-theme="light"]) .mz.hemat{--mz1:#17372a;--mz2:#1f4a36;--mz3:#10251b;box-shadow:inset 0 2px 8px rgba(255,255,255,.04),0 8px 24px -6px rgba(0,0,0,.45)}
+:root:not([data-theme="light"]) .mz.boros{--mz1:#3d1820;--mz2:#521f29;--mz3:#2a1016;box-shadow:inset 0 2px 8px rgba(255,255,255,.04),0 8px 24px -6px rgba(0,0,0,.45)}
+:root:not([data-theme="light"]) .mz-pill{background:rgba(15,23,42,.92);border-color:rgba(255,255,255,.12)}
+:root:not([data-theme="light"]) .mz-pill.santai{color:#93c5fd}
+:root:not([data-theme="light"]) .mz-pill.hemat{color:#6ee7b7}
+:root:not([data-theme="light"]) .mz-pill.boros{color:#fda4af}
+</style>
 </body>
 </html>
