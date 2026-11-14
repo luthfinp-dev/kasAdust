@@ -2832,7 +2832,7 @@ var KIC=["target","debt","recv"];
   function stackCards(){return $("aCarousel").querySelectorAll(".vc")}
   function stackPlace(rise){var cs=stackCards(),n=cs.length;for(var i=0;i<n;i++){var c=cs[i],k=(i-stackCur+n)%n;if(c===rise)k=2;c.style.zIndex=String(10-k);c.style.transform="translateY("+(k*14)+"px) scale("+(1-k*.05)+")";c.style.opacity=k===0?"1":k===1?".55":k===2?".3":"0";c.style.pointerEvents=k===0?"auto":"none"}}
   function stackNext(){var cs=stackCards(),n=cs.length;if(stackBusy||n<2)return;stackBusy=true;var f=cs[stackCur];f.style.zIndex="30";f.style.transform="translateY(130%)";f.style.opacity="0";f.style.pointerEvents="none";setTimeout(function(){f.style.transition="none";f.style.transform="translateY(70px) scale(.95)";f.style.opacity="0";void f.offsetWidth;f.style.transition="";stackCur=(stackCur+1)%n;stackPlace(f);setTimeout(function(){stackBusy=false},520)},460)}
-  function renderStack(){var el=$("aCarousel");if(!assets.length){el.className="";el.innerHTML='<div class="empty">Belum ada aset.</div>';stackCur=0;return}el.className="vstack";if(stackCur>=assets.length)stackCur=0;el.innerHTML=assets.map(function(a){return '<div class="vc"><div class="vc-nm">'+esc(a.name)+'</div><div class="vc-am">'+mk(a.amount)+'</div></div>'}).join("");stackPlace(null);if(!stackInit){stackInit=true;var st=null;el.addEventListener("pointerdown",function(e){st={x:e.clientX,y:e.clientY}});el.addEventListener("pointerup",function(e){if(!st)return;var dx=e.clientX-st.x,dy=e.clientY-st.y;st=null;if(Math.abs(dx)>30||Math.abs(dy)>30||(Math.abs(dx)<8&&Math.abs(dy)<8))stackNext()})}}
+  function renderStack(){var el=$("aCarousel");if(!assets.length){el.className="";el.innerHTML='<div class="empty">Belum ada aset.</div>';stackCur=0;return}el.className="vstack";if(stackCur>=assets.length)stackCur=0;el.innerHTML=assets.map(function(a){return '<div class="vc"><div class="vc-nm">'+esc(a.name)+'</div><div class="vc-am">'+mk(a.amount)+'</div></div>'}).join("");stackPlace(null);if(!stackInit){stackInit=true;var st=null;el.addEventListener("pointerdown",function(e){st={x:e.clientX,y:e.clientY,t:Date.now(),done:false};try{el.setPointerCapture(e.pointerId)}catch(_){}});el.addEventListener("pointermove",function(e){if(!st||st.done)return;var dx=e.clientX-st.x,dy=e.clientY-st.y;if(Math.abs(dy)>36&&Math.abs(dx)<Math.abs(dy)){st.done=true;stackNext()}});el.addEventListener("pointerup",function(e){if(!st)return;var dx=e.clientX-st.x,dy=e.clientY-st.y,dt=Date.now()-st.t;var wasDone=st.done;st=null;if(!wasDone&&Math.abs(dx)<8&&Math.abs(dy)<8&&dt<300)stackNext()});el.addEventListener("pointercancel",function(){st=null})}}
   function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popClose("asSheet")}
   fmtIn($("sIn"));
   function numS(x){var neg=/^\s*[-\u2212]/.test(String(x));var v=num(x);return neg?-v:v}
@@ -3912,6 +3912,7 @@ var KIC=["target","debt","recv"];
     }
     document.addEventListener("touchstart",function(e){
       live=false;
+      if(!false)return; // swipe antar halaman dinonaktifkan; pindah lewat navbar
       if(e.touches.length!==1||$("app").hidden||document.documentElement.classList.contains("lock")||(typeof topPanel==="function"&&topPanel()))return;
       var t=e.target;
       if(!t||!t.closest||t.closest("input,textarea,select,[contenteditable=true],.sheet,.msheet,.tov,.ov,#tour,.navbar,.fab"))return;
@@ -5670,8 +5671,8 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 </style>
 <style id="vstack-cards">
 #aDonut{display:none!important}
-.vstack{position:relative;height:190px;max-width:340px;margin:4px auto 16px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
-.vc{position:absolute;left:0;right:0;top:0;height:190px;border-radius:24px;padding:22px 22px 20px;display:flex;flex-direction:column;justify-content:space-between;background:var(--glass);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);color:var(--text);transform-origin:50% 0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .45s ease;cursor:pointer;will-change:transform,opacity}
+.vstack{position:relative;height:190px;max-width:340px;margin:4px auto 16px;touch-action:none;user-select:none;-webkit-user-select:none}
+.vc{position:absolute;left:0;right:0;top:0;height:190px;border-radius:24px;padding:22px 22px 20px;display:flex;flex-direction:column;justify-content:space-between;background:var(--glass);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);color:var(--text);transform-origin:50% 0;transition:transform .65s cubic-bezier(.22,.8,.25,1),opacity .8s cubic-bezier(.33,0,.2,1);cursor:pointer;backface-visibility:hidden}
 .vc-nm{font-size:.9rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vc-am{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;word-break:break-word}
 </style>
@@ -5692,6 +5693,10 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #aList{position:relative;z-index:5}
 #aList .cat{background:var(--glass);border-radius:14px;padding:12px 14px;margin-bottom:8px;position:relative;z-index:5}
 #assetPanel .vstack{z-index:1}
+</style>
+<style id="vstack-smooth">
+.vstack{touch-action:none}
+.vc{transition:transform .65s cubic-bezier(.22,.8,.25,1),opacity .8s cubic-bezier(.33,0,.2,1)}
 </style>
 </body>
 </html>
