@@ -5698,5 +5698,13 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .vstack{touch-action:none}
 .vc{transition:transform .65s cubic-bezier(.22,.8,.25,1),opacity .8s cubic-bezier(.33,0,.2,1)}
 </style>
+<style id="fix-layout-tx">
+/* grafik sparkline di kartu Total aset: tinggi tetap seperti sebelumnya, tidak ikut memanjang */
+#aSpark{flex:none;min-height:0}
+#aSpark svg{height:auto!important;max-height:120px;width:100%}
+/* halaman Transaksi: tampil langsung tanpa animasi fade-in */
+#app section[data-t="tx"],#app section[data-t="tx"] *{animation:none!important;transition:none!important}
+#app section[data-t="tx"].fu,#app section[data-t="tx"] .fu{opacity:1!important;transform:none!important}
+</style>
 </body>
 </html>
