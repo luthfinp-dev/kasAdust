@@ -1261,7 +1261,7 @@ var KIC=["target","debt","recv"];
     <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="assetPanel" data-acc="assetPanel"><i data-ic="up"></i>Kelola aset<span class="accr"><span class="accsum" id="aAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="acar-wrap">
       <div class="acar-h"><span>Aset kamu</span><button type="button" class="small" id="btnAssetQuick" aria-label="Tambah aset baru">+ Tambah</button></div>
-      <div class="acar" id="aCarousel"></div>
+      <div class="vstack" id="aCarousel"></div>
     </div>
     <div class="donut" id="aDonut"></div>
     <div id="aList"></div>
@@ -2821,13 +2821,18 @@ var KIC=["target","debt","recv"];
     }).join("")+'</div>':"";
     $("aInfo").textContent=assets.length?assets.length+" aset":"Belum ada aset";
     $("aAccSum").textContent=assets.length?mk(tot):"Kosong";
-    $("aCarousel").innerHTML=assets.length?assets.map(function(a){return '<div class="acar-c"><div class="nm">'+esc(a.name)+'</div><div class="am">'+mk(a.amount)+'</div></div>'}).join(""):'<div class="empty acar-empty">Belum ada aset.</div>';
+    renderStack();
     $("aList").innerHTML=assets.length?assets.slice().sort(function(a,b){return b.amount-a.amount}).map(function(a){
       var p=ptot?Math.round(Math.max(0,a.amount)/ptot*1000)/10:0;
       var del=LOCKED[a.id]?"":pendingAsset===a.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(a.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(a.id)+'">'+ic("trash")+'Hapus</button>';
       return '<div class="cat xc'+(openCard==="a:"+a.id?" open":"")+'"'+ckAttr("a:"+a.id)+'><div class="top"><span>'+esc(a.name)+" ("+(hideBal?"••":String(p).replace(".",","))+'%)</span><span>'+mk(a.amount)+'</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="xd"><div class="xi"><div class="arow">'+(a.id==="dompet"?'<button class="small" data-a="sal" data-id="dompet">'+ic("pen")+'Tambah gaji</button>':'<button class="small" data-a="wd" data-id="'+esc(a.id)+'">'+ic("download")+'Ambil</button><button class="small" data-a="edit" data-id="'+esc(a.id)+'">'+ic("pen")+'Edit</button>'+del)+'</div></div></div></div>';
     }).join(""):'<div class="empty">Belum ada aset. Tambahkan di bawah.</div>';
   }
+  var stackCur=0, stackBusy=false, stackInit=false;
+  function stackCards(){return $("aCarousel").querySelectorAll(".vc")}
+  function stackPlace(rise){var cs=stackCards(),n=cs.length;for(var i=0;i<n;i++){var c=cs[i],k=(i-stackCur+n)%n;if(c===rise)k=2;c.style.zIndex=String(10-k);c.style.transform="translateY("+(k*14)+"px) scale("+(1-k*.05)+")";c.style.opacity=k<3?"1":"0";c.style.pointerEvents=k===0?"auto":"none"}}
+  function stackNext(){var cs=stackCards(),n=cs.length;if(stackBusy||n<2)return;stackBusy=true;var f=cs[stackCur];f.style.zIndex="30";f.style.transform="translateY(130%)";f.style.opacity="0";f.style.pointerEvents="none";setTimeout(function(){f.style.transition="none";f.style.transform="translateY(70px) scale(.95)";f.style.opacity="0";void f.offsetWidth;f.style.transition="";stackCur=(stackCur+1)%n;stackPlace(f);setTimeout(function(){stackBusy=false},520)},460)}
+  function renderStack(){var el=$("aCarousel");if(!assets.length){el.className="";el.innerHTML='<div class="empty">Belum ada aset.</div>';stackCur=0;return}el.className="vstack";if(stackCur>=assets.length)stackCur=0;el.innerHTML=assets.map(function(a){return '<div class="vc"><div class="vc-nm">'+esc(a.name)+'</div><div class="vc-am">'+mk(a.amount)+'</div></div>'}).join("");stackPlace(null);if(!stackInit){stackInit=true;var st=null;el.addEventListener("pointerdown",function(e){st={x:e.clientX,y:e.clientY}});el.addEventListener("pointerup",function(e){if(!st)return;var dx=e.clientX-st.x,dy=e.clientY-st.y;st=null;if(Math.abs(dx)>30||Math.abs(dy)>30||(Math.abs(dx)<8&&Math.abs(dy)<8))stackNext()})}}
   function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popClose("asSheet")}
   fmtIn($("sIn"));
   function numS(x){var neg=/^\s*[-\u2212]/.test(String(x));var v=num(x);return neg?-v:v}
@@ -2910,7 +2915,7 @@ var KIC=["target","debt","recv"];
   });
   $("btnAssets").addEventListener("click",function(){goTab("aset","assetPanel")});
   $("btnAssetAdd").addEventListener("click",function(){editAsset=null;pendingAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popOpen("asSheet")});
-  $("btnAssetQuick").addEventListener("click",function(){assets.push({id:uid(),name:"Aset baru",amount:0});save();renderAssets();$("aCarousel").scrollLeft=$("aCarousel").scrollWidth;toast("Aset baru ditambahkan")});
+  $("btnAssetQuick").addEventListener("click",function(){assets.push({id:uid(),name:"Aset baru",amount:0});save();renderAssets();toast("Aset baru ditambahkan")});
   $("btnAssetCancel").addEventListener("click",resetAsset);
   $("btnAssetSave").addEventListener("click",function(){
     var n=$("aName").value.trim(), v=numS($("aAmt").value);
@@ -5662,6 +5667,13 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .acar-c .nm{font-size:.85rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .acar-c .am{font-size:1.4rem;font-weight:700;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;word-break:break-word}
 .acar-empty{flex:1 1 100%}
+</style>
+<style id="vstack-cards">
+#aDonut{display:none!important}
+.vstack{position:relative;height:190px;max-width:340px;margin:4px auto 16px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.vc{position:absolute;left:0;right:0;top:0;height:190px;border-radius:24px;padding:22px 22px 20px;display:flex;flex-direction:column;justify-content:space-between;background:var(--glass);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);color:var(--text);transform-origin:50% 0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .45s ease;cursor:pointer;will-change:transform,opacity}
+.vc-nm{font-size:.9rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vc-am{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;word-break:break-word}
 </style>
 </body>
 </html>
