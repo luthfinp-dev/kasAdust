@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-5pwXrE1vucVAdM1cHJtEgfx0mkIX/3JPuKmlKl9ga20=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-EdcidOjgchi5O6B0AD3XZ6gfpkdpJ6EUDKHfc7RQhlM=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2830,8 +2830,8 @@ var KIC=["target","debt","recv"];
   }
   var stackCur=0, stackBusy=false, stackInit=false;
   function stackCards(){return $("aCarousel").querySelectorAll(".vc")}
-  function stackPlace(rise){var cs=stackCards(),n=cs.length;for(var i=0;i<n;i++){var c=cs[i],k=(i-stackCur+n)%n;if(c===rise)k=2;c.style.zIndex=String(10-k);c.style.transform="translateY("+(k*14)+"px) scale("+(1-k*.05)+")";c.style.opacity=k===0?"1":k===1?".55":k===2?".3":"0";c.style.pointerEvents=k===0?"auto":"none"}}
-  function stackNext(){var cs=stackCards(),n=cs.length;if(stackBusy||n<2)return;stackBusy=true;var f=cs[stackCur];f.style.zIndex="30";f.style.transform="translateY(130%)";f.style.opacity="0";f.style.pointerEvents="none";setTimeout(function(){f.style.transition="none";f.style.transform="translateY(70px) scale(.95)";f.style.opacity="0";void f.offsetWidth;f.style.transition="";stackCur=(stackCur+1)%n;stackPlace(f);setTimeout(function(){stackBusy=false},520)},460)}
+  function stackPlace(rise){var cs=stackCards(),n=cs.length;for(var i=0;i<n;i++){var c=cs[i],k=(i-stackCur+n)%n;if(c===rise)k=2;c.classList.toggle("back",k>0);c.style.zIndex=String(10-k);c.style.transform="translateY("+(k*14)+"px) scale("+(1-k*.05)+")";c.style.opacity=k===0?"1":k===1?".55":k===2?".3":"0";c.style.pointerEvents=k===0?"auto":"none"}}
+  function stackNext(){var cs=stackCards(),n=cs.length;if(stackBusy||n<2)return;stackBusy=true;var f=cs[stackCur];f.style.zIndex="30";f.style.transition="transform .32s cubic-bezier(.4,0,.8,.4), opacity .24s ease-in";f.style.transform="translateY(100%)";f.style.opacity="0";f.style.pointerEvents="none";setTimeout(function(){f.style.transition="none";f.style.transform="translateY(70px) scale(.95)";f.style.opacity="0";void f.offsetWidth;f.style.transition="";stackCur=(stackCur+1)%n;stackPlace(f);setTimeout(function(){stackBusy=false},520)},330)}
   function renderStack(){var el=$("aCarousel");if(!assets.length){el.className="";el.innerHTML='<div class="empty">Belum ada aset.</div>';stackCur=0;return}el.className="vstack";if(stackCur>=assets.length)stackCur=0;el.innerHTML=assets.map(function(a,i){return '<div class="vc"><div class="vc-nm"><span>'+esc(a.name)+'</span><span class="pill">#'+(i+1)+'</span></div><div><div class="vc-sub">Saldo tersimpan</div><div class="vc-am">'+mk(a.amount)+'</div></div><div class="vc-ft"><span>kasAdust Smart Asset</span><span>Tap kartu &rarr;</span></div></div>'}).join("");stackPlace(null);if(!stackInit){stackInit=true;var st=null;el.addEventListener("pointerdown",function(e){st={x:e.clientX,y:e.clientY,t:Date.now(),done:false};try{el.setPointerCapture(e.pointerId)}catch(_){}});el.addEventListener("pointermove",function(e){if(!st||st.done)return;var dx=e.clientX-st.x,dy=e.clientY-st.y;if(Math.abs(dy)>36&&Math.abs(dx)<Math.abs(dy)){st.done=true;stackNext()}});el.addEventListener("pointerup",function(e){if(!st)return;var dx=e.clientX-st.x,dy=e.clientY-st.y,dt=Date.now()-st.t;var wasDone=st.done;st=null;if(!wasDone&&Math.abs(dx)<8&&Math.abs(dy)<8&&dt<300)stackNext()});el.addEventListener("pointercancel",function(){st=null})}}
   function asetIco(i){var P=[
     '<svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>',
@@ -5819,6 +5819,13 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #aList .cat.xc .amt b{display:block;font-size:.92rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
 #aList .cat.xc .amt small{display:block;font-size:.7rem;font-weight:600;color:var(--accent)}
 #aList .cat.xc .bar{display:none}
+</style>
+<style id="swipe-clean">
+/* kartu yang turun terpotong di area tumpukan, tidak menembus daftar */
+.vstack{overflow:hidden}
+/* kartu belakang: hanya bentuk, isi tidak terlihat */
+.vc.back>*{opacity:0!important}
+.vc.back{box-shadow:none!important}
 </style>
 </body>
 </html>
