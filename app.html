@@ -5629,5 +5629,17 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 })();
 </script>
 
+<style id="fix-aset-mobile">
+/* hapus bulatan bersinar di ujung grafik beranda */
+.sp-dot,.sp-ring{display:none!important}
+/* legenda kartu Kelola aset: rapi di HP */
+@media (max-width:480px){
+  #assetPanel .dn{width:150px;height:150px}
+  #assetPanel .dleg{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+  #assetPanel .dl{display:grid;grid-template-columns:10px minmax(0,1fr) auto;align-items:center;column-gap:8px;min-width:0}
+  #assetPanel .dl span{white-space:normal;overflow-wrap:anywhere;line-height:1.25}
+  #assetPanel .dl b{font-size:.85rem}
+}
+</style>
 </body>
 </html>
