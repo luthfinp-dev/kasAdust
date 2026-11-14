@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-PjcdPLSJ39IXyrAbtvjhV/vae6AGBSTEn4iUYXMFQRw=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-6oh2XpucyfC34rU98qCXP8eZySHSRGxFNkDHyxnPHPc=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -4659,16 +4659,15 @@ var KIC=["target","debt","recv"];
      pengguna baru tidak melihat angka untuk update lama. */
   var UPD_BASE=0, UPD_KEY="update-seen-v1";
   var UPDATES=[
-    {id:1,v:"1.1",d:"2026-11-11",
-     t:["Kunci PIN, tampilan baru, dan perbaikan","PIN lock, a fresh look, and fixes"],
-     p:[["Kunci PIN 4 angka di Pengaturan. Bisa dihidupkan dan dimatikan, dan PIN hanya tersimpan di perangkatmu.","A 4-digit PIN lock in Settings. Turn it on or off; the PIN is stored only on your device."],
-        ["Salah PIN berkali-kali membuat app dijeda sementara. Kalau lupa PIN, keluar akun lalu masuk lagi.","Too many wrong tries pause the app for a while. If you forget your PIN, sign out and sign in again."],
-        ["Menu Yang baru di profil untuk melihat riwayat update.","A What's new item in the profile menu to see the update history."],
-        ["Angka merah di foto profil menandakan ada update yang belum dibaca.","A red number on your avatar shows unread updates."],
-        ["Halaman Pengaturan dirapikan: kartu profil, baris lebih kompak, dan tombol seragam.","Settings page tidied up: profile card, more compact rows, and consistent buttons."],
-        ["Bayangan kartu dibuat lebih tipis, terutama di mode terang.","Card shadows are softer, especially in light mode."],
-        ["Aplikasi tidak bisa lagi dizoom di HP.","Pinch and double-tap zoom is turned off on phones."],
-        ["Bar tujuan di Beranda tidak lagi beranimasi dua kali.","Goal bars on Home no longer animate twice."]]}
+    {id:2,v:"1.2",d:"2026-11-14",
+     t:["Tampilan aset dan splash baru","New asset view and splash screen"],
+     p:[["Kartu aset kini bertumpuk dan bisa digeser atau di-tap.","Asset cards now stack and can be swiped or tapped."],
+        ["Tombol + di kartu aset untuk langsung menambah aset.","The + button on the asset cards adds an asset right away."],
+        ["Grafik donut di halaman Aset dihapus, grafik di Beranda tetap ada.","The donut chart on the Assets page is removed; the Home chart stays."],
+        ["Splash saat buka app dengan loading bar, lalu logo terbang ke tombol +.","Splash on launch with a loading bar, then the logo flies to the + button."],
+        ["Latar dark mode kini bergradasi, midnight dengan biru dan oranye.","Dark mode backgrounds now have gradients; midnight uses blue and orange."],
+        ["Geser kiri-kanan untuk pindah halaman dinonaktifkan. Pindah lewat navbar.","Swipe left-right to change pages is off. Use the navbar."],
+        ["Keluar akun sekarang juga menghapus data keuangan dari perangkat.","Signing out now also clears financial data from this device."]]}
   ];
   function updSeen(){
     var v=null;try{v=localStorage.getItem(UPD_KEY)}catch(e){}
