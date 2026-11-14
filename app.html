@@ -5699,24 +5699,9 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .vc{transition:transform .65s cubic-bezier(.22,.8,.25,1),opacity .8s cubic-bezier(.33,0,.2,1)}
 </style>
 <style id="fix-layout-tx">
-/* grafik sparkline di kartu Total aset: tinggi tetap seperti sebelumnya, tidak ikut memanjang */
-#aSpark{flex:none;min-height:0}
-#aSpark svg{height:auto!important;max-height:120px;width:100%}
 /* halaman Transaksi: tampil langsung tanpa animasi fade-in */
 #app section[data-t="tx"],#app section[data-t="tx"] *{animation:none!important;transition:none!important}
 #app section[data-t="tx"].fu,#app section[data-t="tx"] .fu{opacity:1!important;transform:none!important}
-</style>
-<style id="fix-spark-height">
-/* kunci tinggi kotak grafik aset: kolom tidak ikut memanjang, hanya garis yang berubah */
-#aSpark,#aSpark .spw{flex:none!important;height:auto!important;min-height:0!important;max-height:none!important;align-self:flex-start!important}
-#aSpark .spw{display:block}
-#aSpark svg{height:120px!important;max-height:120px!important;width:100%!important}
-</style>
-<style id="fix-spark-box">
-/* wrapper grafik aset: lebar dan tinggi dikunci, isi tidak boleh keluar kartu */
-#aSpark{width:100%!important;max-width:100%!important;height:150px!important;overflow:hidden!important;margin:12px 0 0!important;box-sizing:border-box!important;display:block!important}
-#aSpark .spw{width:100%!important;height:100%!important;box-sizing:border-box!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
-#aSpark svg{width:100%!important;height:100px!important;max-height:100px!important;flex:none!important;display:block!important}
 </style>
 </body>
 </html>
