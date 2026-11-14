@@ -1259,6 +1259,10 @@ var KIC=["target","debt","recv"];
 
   <section class="card acc" id="assetPanel" data-t="aset" data-grp="aset">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="assetPanel" data-acc="assetPanel"><i data-ic="up"></i>Kelola aset<span class="accr"><span class="accsum" id="aAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
+    <div class="acar-wrap">
+      <div class="acar-h"><span>Aset kamu</span><button type="button" class="small" id="btnAssetQuick" aria-label="Tambah aset baru">+ Tambah</button></div>
+      <div class="acar" id="aCarousel"></div>
+    </div>
     <div class="donut" id="aDonut"></div>
     <div id="aList"></div>
     <div class="row addrow"><button type="button" class="primary" id="btnAssetAdd">Tambah aset</button></div>
@@ -2817,6 +2821,7 @@ var KIC=["target","debt","recv"];
     }).join("")+'</div>':"";
     $("aInfo").textContent=assets.length?assets.length+" aset":"Belum ada aset";
     $("aAccSum").textContent=assets.length?mk(tot):"Kosong";
+    $("aCarousel").innerHTML=assets.length?assets.map(function(a){return '<div class="acar-c"><div class="nm">'+esc(a.name)+'</div><div class="am">'+mk(a.amount)+'</div></div>'}).join(""):'<div class="empty acar-empty">Belum ada aset.</div>';
     $("aList").innerHTML=assets.length?assets.slice().sort(function(a,b){return b.amount-a.amount}).map(function(a){
       var p=ptot?Math.round(Math.max(0,a.amount)/ptot*1000)/10:0;
       var del=LOCKED[a.id]?"":pendingAsset===a.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(a.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(a.id)+'">'+ic("trash")+'Hapus</button>';
@@ -2905,6 +2910,7 @@ var KIC=["target","debt","recv"];
   });
   $("btnAssets").addEventListener("click",function(){goTab("aset","assetPanel")});
   $("btnAssetAdd").addEventListener("click",function(){editAsset=null;pendingAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popOpen("asSheet")});
+  $("btnAssetQuick").addEventListener("click",function(){assets.push({id:uid(),name:"Aset baru",amount:0});save();renderAssets();$("aCarousel").scrollLeft=$("aCarousel").scrollWidth;toast("Aset baru ditambahkan")});
   $("btnAssetCancel").addEventListener("click",resetAsset);
   $("btnAssetSave").addEventListener("click",function(){
     var n=$("aName").value.trim(), v=numS($("aAmt").value);
@@ -5646,6 +5652,16 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .gfoot{margin-top:auto;padding-top:12px;gap:6px}
 .gfoot #btnGoals{flex:1 1 0;min-width:0;width:0;margin:0;padding:6px 6px;min-height:38px;font-size:.82rem;white-space:nowrap;justify-content:center;text-align:center}
 .gfoot .gdots{flex:0 0 auto}
+</style>
+<style id="acar-cards">
+.acar-wrap{margin:0 0 14px}
+.acar-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:.9rem;color:var(--muted)}
+.acar{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 2px 10px;scrollbar-width:none;overscroll-behavior-x:contain}
+.acar::-webkit-scrollbar{display:none}
+.acar-c{flex:0 0 78%;max-width:300px;min-width:0;scroll-snap-align:center;border-radius:20px;padding:18px 18px 16px;background:var(--glass);border:1px solid var(--glass-b);box-shadow:var(--glass-sh);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);color:var(--text)}
+.acar-c .nm{font-size:.85rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acar-c .am{font-size:1.4rem;font-weight:700;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;word-break:break-word}
+.acar-empty{flex:1 1 100%}
 </style>
 </body>
 </html>
