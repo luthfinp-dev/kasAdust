@@ -5748,5 +5748,18 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
   }
 })();
 </script>
+<style id="dark-gradients">
+/* dark default (hijau): latar gelap dengan gradasi hijau */
+:root[data-theme="dark"]:not([data-skin="midnight"]){--b1:rgba(92,150,110,.42);--b2:rgba(36,84,56,.55);--b3:rgba(140,190,150,.20)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-skin="midnight"]){--b1:rgba(92,150,110,.42);--b2:rgba(36,84,56,.55);--b3:rgba(140,190,150,.20)}}
+:root[data-theme="dark"]:not([data-skin="midnight"]) body::before,:root:not([data-theme="light"]):not([data-skin="midnight"]) body::before{opacity:1}
+/* dark midnight: hitam dengan gradasi biru dan oranye yang lebih jelas */
+:root[data-skin="midnight"][data-theme="dark"]{--b1:rgba(2,151,222,.55);--b2:rgba(252,115,77,.6);--b3:rgba(2,151,222,.3)}
+:root[data-skin="midnight"][data-theme="dark"] body{background:#02070A}
+:root[data-skin="midnight"][data-theme="dark"] body::before{opacity:1;filter:blur(18px)}
+/* splash: logo ikut tema */
+:root[data-skin="midnight"] #intro .ilogo{background-color:#FC734D!important;background-image:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,0))!important}
+:root:not([data-skin="midnight"]) #intro .ilogo{background-color:var(--sage-d)}
+</style>
 </body>
 </html>
