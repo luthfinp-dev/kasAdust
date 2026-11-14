@@ -2790,6 +2790,8 @@ var KIC=["target","debt","recv"];
       +'<linearGradient id="'+uid2+'s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--sp)" stop-opacity=".05"/><stop offset=".55" style="stop-color:var(--sp)" stop-opacity=".85"/><stop offset="1" style="stop-color:var(--sp)" stop-opacity="1"/></linearGradient></defs>'
       +'<path class="sp-area" d="'+line+' L'+lp[0].toFixed(1)+','+H+' L'+pts[0][0].toFixed(1)+','+H+' Z" fill="url(#'+uid2+')"/>'
       +'<path class="sp-line" pathLength="1" d="'+line+'" stroke="url(#'+uid2+'s)"/>'
+      +'<circle class="sp-ring" cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="4"/>'
+      +'<circle class="sp-dot" cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="3.2"/>'
       +'</svg>';
     var v0=vals[0], pc=v0>0?(vals[N-1]-v0)/v0*100:null, up=vals[N-1]>=v0, bd="";
     if(!hideBal&&pc!==null){
