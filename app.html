@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-6oh2XpucyfC34rU98qCXP8eZySHSRGxFNkDHyxnPHPc=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-5pwXrE1vucVAdM1cHJtEgfx0mkIX/3JPuKmlKl9ga20=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2822,17 +2822,23 @@ var KIC=["target","debt","recv"];
     $("aInfo").textContent=assets.length?assets.length+" aset":"Belum ada aset";
     $("aAccSum").textContent=assets.length?mk(tot):"Kosong";
     renderStack();
-    $("aList").innerHTML=assets.length?assets.slice().sort(function(a,b){return b.amount-a.amount}).map(function(a){
+    $("aList").innerHTML=assets.length?assets.slice().sort(function(a,b){return b.amount-a.amount}).map(function(a,ix){
       var p=ptot?Math.round(Math.max(0,a.amount)/ptot*1000)/10:0;
       var del=LOCKED[a.id]?"":pendingAsset===a.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(a.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(a.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="a:"+a.id?" open":"")+'"'+ckAttr("a:"+a.id)+'><div class="top"><span>'+esc(a.name)+" ("+(hideBal?"••":String(p).replace(".",","))+'%)</span><span>'+mk(a.amount)+'</span></div><div class="bar"><i style="width:'+(hideBal?0:p)+'%"></i></div><div class="xd"><div class="xi"><div class="arow">'+(a.id==="dompet"?'<button class="small" data-a="sal" data-id="dompet">'+ic("pen")+'Tambah gaji</button>':'<button class="small" data-a="wd" data-id="'+esc(a.id)+'">'+ic("download")+'Ambil</button><button class="small" data-a="edit" data-id="'+esc(a.id)+'">'+ic("pen")+'Edit</button>'+del)+'</div></div></div></div>';
+      return '<div class="cat xc'+(openCard==="a:"+a.id?" open":"")+'"'+ckAttr("a:"+a.id)+'><div class="top"><div class="ico">'+asetIco(ix)+'</div><div class="meta"><b>'+esc(a.name)+'</b><small>Aset #'+(ix+1)+' · '+(hideBal?"••":String(p).replace(".",","))+'%</small></div><div class="amt"><b>'+mk(a.amount)+'</b><small>Aktif</small></div></div><div class="xd"><div class="xi"><div class="arow">'+(a.id==="dompet"?'<button class="small" data-a="sal" data-id="dompet">'+ic("pen")+'Tambah gaji</button>':'<button class="small" data-a="wd" data-id="'+esc(a.id)+'">'+ic("download")+'Ambil</button><button class="small" data-a="edit" data-id="'+esc(a.id)+'">'+ic("pen")+'Edit</button>'+del)+'</div></div></div></div>';
     }).join(""):'<div class="empty">Belum ada aset. Tambahkan di bawah.</div>';
   }
   var stackCur=0, stackBusy=false, stackInit=false;
   function stackCards(){return $("aCarousel").querySelectorAll(".vc")}
   function stackPlace(rise){var cs=stackCards(),n=cs.length;for(var i=0;i<n;i++){var c=cs[i],k=(i-stackCur+n)%n;if(c===rise)k=2;c.style.zIndex=String(10-k);c.style.transform="translateY("+(k*14)+"px) scale("+(1-k*.05)+")";c.style.opacity=k===0?"1":k===1?".55":k===2?".3":"0";c.style.pointerEvents=k===0?"auto":"none"}}
   function stackNext(){var cs=stackCards(),n=cs.length;if(stackBusy||n<2)return;stackBusy=true;var f=cs[stackCur];f.style.zIndex="30";f.style.transform="translateY(130%)";f.style.opacity="0";f.style.pointerEvents="none";setTimeout(function(){f.style.transition="none";f.style.transform="translateY(70px) scale(.95)";f.style.opacity="0";void f.offsetWidth;f.style.transition="";stackCur=(stackCur+1)%n;stackPlace(f);setTimeout(function(){stackBusy=false},520)},460)}
-  function renderStack(){var el=$("aCarousel");if(!assets.length){el.className="";el.innerHTML='<div class="empty">Belum ada aset.</div>';stackCur=0;return}el.className="vstack";if(stackCur>=assets.length)stackCur=0;el.innerHTML=assets.map(function(a){return '<div class="vc"><div class="vc-nm">'+esc(a.name)+'</div><div class="vc-am">'+mk(a.amount)+'</div></div>'}).join("");stackPlace(null);if(!stackInit){stackInit=true;var st=null;el.addEventListener("pointerdown",function(e){st={x:e.clientX,y:e.clientY,t:Date.now(),done:false};try{el.setPointerCapture(e.pointerId)}catch(_){}});el.addEventListener("pointermove",function(e){if(!st||st.done)return;var dx=e.clientX-st.x,dy=e.clientY-st.y;if(Math.abs(dy)>36&&Math.abs(dx)<Math.abs(dy)){st.done=true;stackNext()}});el.addEventListener("pointerup",function(e){if(!st)return;var dx=e.clientX-st.x,dy=e.clientY-st.y,dt=Date.now()-st.t;var wasDone=st.done;st=null;if(!wasDone&&Math.abs(dx)<8&&Math.abs(dy)<8&&dt<300)stackNext()});el.addEventListener("pointercancel",function(){st=null})}}
+  function renderStack(){var el=$("aCarousel");if(!assets.length){el.className="";el.innerHTML='<div class="empty">Belum ada aset.</div>';stackCur=0;return}el.className="vstack";if(stackCur>=assets.length)stackCur=0;el.innerHTML=assets.map(function(a,i){return '<div class="vc"><div class="vc-nm"><span>'+esc(a.name)+'</span><span class="pill">#'+(i+1)+'</span></div><div><div class="vc-sub">Saldo tersimpan</div><div class="vc-am">'+mk(a.amount)+'</div></div><div class="vc-ft"><span>kasAdust Smart Asset</span><span>Tap kartu &rarr;</span></div></div>'}).join("");stackPlace(null);if(!stackInit){stackInit=true;var st=null;el.addEventListener("pointerdown",function(e){st={x:e.clientX,y:e.clientY,t:Date.now(),done:false};try{el.setPointerCapture(e.pointerId)}catch(_){}});el.addEventListener("pointermove",function(e){if(!st||st.done)return;var dx=e.clientX-st.x,dy=e.clientY-st.y;if(Math.abs(dy)>36&&Math.abs(dx)<Math.abs(dy)){st.done=true;stackNext()}});el.addEventListener("pointerup",function(e){if(!st)return;var dx=e.clientX-st.x,dy=e.clientY-st.y,dt=Date.now()-st.t;var wasDone=st.done;st=null;if(!wasDone&&Math.abs(dx)<8&&Math.abs(dy)<8&&dt<300)stackNext()});el.addEventListener("pointercancel",function(){st=null})}}
+  function asetIco(i){var P=[
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>'];
+    return P[i%4]}
   function resetAsset(){editAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popClose("asSheet")}
   fmtIn($("sIn"));
   function numS(x){var neg=/^\s*[-\u2212]/.test(String(x));var v=num(x);return neg?-v:v}
@@ -2915,7 +2921,7 @@ var KIC=["target","debt","recv"];
   });
   $("btnAssets").addEventListener("click",function(){goTab("aset","assetPanel")});
   $("btnAssetAdd").addEventListener("click",function(){editAsset=null;pendingAsset=null;$("aName").value="";$("aAmt").value="";$("aErr").textContent="";$("aFormTitle").textContent="Tambah aset";$("btnAssetSave").textContent="Tambah aset";popOpen("asSheet")});
-  $("btnAssetQuick").addEventListener("click",function(){assets.push({id:uid(),name:"Aset baru",amount:0});save();renderAssets();toast("Aset baru ditambahkan")});
+  $("btnAssetQuick").addEventListener("click",function(){$("btnAssetAdd").click()});
   $("btnAssetCancel").addEventListener("click",resetAsset);
   $("btnAssetSave").addEventListener("click",function(){
     var n=$("aName").value.trim(), v=numS($("aAmt").value);
@@ -5785,6 +5791,34 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 :root[data-skin="midnight"] #intro .ibar i{background:#FC734D}
 @keyframes ibarSlide{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
 @media (prefers-reduced-motion:reduce){#intro .ibar i{animation:none;width:100%;opacity:.5}}
+</style>
+<style id="aset-redesign">
+/* tombol Tambah aset di bawah dihapus dari tampilan; tambah lewat tombol + di atas */
+.addrow:has(#btnAssetAdd){display:none!important}
+/* kartu: gradasi glass per tema (mengikuti foto) */
+:root:not([data-skin="midnight"]):not([data-theme="light"]) .vc{background:linear-gradient(135deg,#10b981 0%,#059669 50%,#047857 100%)!important}
+:root[data-theme="light"]:not([data-skin="midnight"]) .vc{background:linear-gradient(135deg,#7c9a82 0%,#587a60 100%)!important}
+:root[data-skin="midnight"][data-theme="light"] .vc{background:linear-gradient(135deg,#3b82f6 0%,#1f5fc9 50%,#1e40af 100%)!important}
+:root[data-skin="midnight"]:not([data-theme="light"]) .vc{background:linear-gradient(135deg,#0297DE 0%,#075985 60%,#032030 100%)!important}
+.vc{border:1px solid rgba(255,255,255,.28)!important;box-shadow:0 18px 40px -14px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.35)!important;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
+.vc,.vc *{color:#fff!important}
+.vc-nm{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.95rem;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.2)}
+.vc .pill{font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;background:rgba(0,0,0,.22);color:#fff}
+.vc-sub{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;opacity:.85}
+.vc-am{font-size:1.8rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px rgba(0,0,0,.15)}
+.vc-ft{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;opacity:.85;padding-top:8px;border-top:1px solid rgba(255,255,255,.18)}
+/* rincian: layout kolom seperti desain baru */
+#aList .cat{background:var(--glass)!important;border:1px solid var(--glass-b)!important;border-radius:18px!important;padding:12px 14px!important;margin-bottom:10px;box-shadow:var(--glass-sh);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)}
+#aList .cat.xc .top{display:flex!important;align-items:center;gap:12px;justify-content:flex-start!important}
+#aList .cat.xc .ico{width:38px;height:38px;border-radius:12px;background:var(--chip);display:flex;align-items:center;justify-content:center;flex:none}
+#aList .cat.xc .ico svg{width:18px;height:18px}
+#aList .cat.xc .meta{flex:1;min-width:0}
+#aList .cat.xc .meta b{display:block;font-size:.92rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#aList .cat.xc .meta small{display:block;font-size:.72rem;color:var(--muted)}
+#aList .cat.xc .amt{text-align:right;flex:none}
+#aList .cat.xc .amt b{display:block;font-size:.92rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
+#aList .cat.xc .amt small{display:block;font-size:.7rem;font-weight:600;color:var(--accent)}
+#aList .cat.xc .bar{display:none}
 </style>
 </body>
 </html>
