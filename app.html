@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-PjcdPLSJ39IXyrAbtvjhV/vae6AGBSTEn4iUYXMFQRw=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -3150,8 +3150,9 @@ var KIC=["target","debt","recv"];
     setSync("");
   }
   async function doLogout(){
-    var had=sb;
+    var had=sb, wasDb=(mode==="db");
     wipeMemory();
+    if(wasDb){["pengeluaran-v1","gaji-v1","gaji-x-v1","aset-v1","tujuan-v1","sembunyi-v1","batas-harian-v1","profil-v1","kategori-v1","fb-log-v1"].forEach(function(k){try{localStorage.removeItem(k)}catch(e){}})}
     showAuth();
     try{if(had)await had.auth.signOut({scope:"local"})}catch(e){}
   }
@@ -5702,6 +5703,11 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 /* halaman Transaksi: tampil langsung tanpa animasi fade-in */
 #app section[data-t="tx"],#app section[data-t="tx"] *{animation:none!important;transition:none!important}
 #app section[data-t="tx"].fu,#app section[data-t="tx"] .fu{opacity:1!important;transform:none!important}
+</style>
+<style id="fix-spark-ratio">
+/* grafik aset: tinggi svg dikunci oleh rasio viewBox 200:110 (Safari iOS tidak membaca viewBox saat height:auto) */
+.aspark{align-self:flex-start}
+.aspark svg{width:100%;height:auto;aspect-ratio:200/110;max-height:none;display:block}
 </style>
 </body>
 </html>
