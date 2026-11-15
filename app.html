@@ -6025,11 +6025,11 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .vc-ft{font-size:10px!important;padding-top:6px!important}
 </style>
 <style id="soft-shadow">
-/* bayangan lembut dan menyebar untuk kartu dan baris (HP) */
-#aList .cat,#gList .cat,.vc{box-shadow:0 14px 34px -16px rgba(0,0,0,.42)!important}
-:root:not([data-theme="light"]) #aList .cat,:root:not([data-theme="light"]) #gList .cat,:root:not([data-theme="light"]) .vc{box-shadow:0 14px 34px -16px rgba(0,0,0,.55)!important}
-#aList .cat,#gList .cat{border-color:color-mix(in srgb,var(--glass-b) 55%,transparent)!important}
+/* bayangan lembut: light tipis, dark sedikit lebih kuat */
+#aList .cat,#gList .cat,.vc{box-shadow:0 10px 26px -14px rgba(31,42,34,.10)!important;border-color:rgba(31,42,34,.06)!important}
+:root:not([data-theme="light"]) #aList .cat,:root:not([data-theme="light"]) #gList .cat,:root:not([data-theme="light"]) .vc{box-shadow:0 12px 28px -14px rgba(0,0,0,.35)!important}
 .vc{border-color:rgba(255,255,255,.14)!important}
+:root:not([data-theme="light"]) .vc{border-color:rgba(255,255,255,.14)!important}
 </style>
 </body>
 </html>
