@@ -6008,12 +6008,28 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gList .subs>b{font-size:.78rem}
 </style>
 <style id="addbtn">
-.addbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 16px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--sage-d) 0%,var(--sage) 100%);color:#0b1a12;font:inherit;font-size:.8rem;font-weight:700;letter-spacing:-.01em;cursor:pointer;box-shadow:0 8px 18px -8px color-mix(in srgb,var(--sage-d) 70%,transparent),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .15s ease,filter .15s ease;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.addbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:26px;padding:0 11px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--sage-d) 0%,var(--sage) 100%);color:#0b1a12;font:inherit;font-size:.7rem;font-weight:700;letter-spacing:-.01em;cursor:pointer;box-shadow:0 8px 18px -8px color-mix(in srgb,var(--sage-d) 70%,transparent),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .15s ease,filter .15s ease;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 .addbtn:hover{filter:brightness(1.05)}
 .addbtn:active{transform:scale(.96)}
 .addbtn:focus-visible{outline:2px solid var(--sage-d);outline-offset:2px}
 :root[data-skin="midnight"] .addbtn{background:linear-gradient(135deg,#0297DE 0%,#4DB9F0 100%);color:#02070A;box-shadow:0 8px 18px -8px rgba(2,151,222,.7),inset 0 1px 0 rgba(255,255,255,.35)}
 :root[data-skin="midnight"][data-theme="light"] .addbtn{color:#fff;background:linear-gradient(135deg,#3b82f6 0%,#1f5fc9 100%)}
+</style>
+<style id="asset-card-compact">
+.vstack{height:172px!important}
+.vc{height:148px!important;padding:14px 16px 12px!important;border-radius:20px!important}
+.vc-nm{font-size:.84rem!important}
+.vc .pill{font-size:10px!important;padding:1px 7px!important}
+.vc-sub{font-size:9.5px!important}
+.vc-am{font-size:1.45rem!important}
+.vc-ft{font-size:10px!important;padding-top:6px!important}
+</style>
+<style id="soft-shadow">
+/* bayangan lembut dan menyebar untuk kartu dan baris (HP) */
+#aList .cat,#gList .cat,.vc{box-shadow:0 14px 34px -16px rgba(0,0,0,.42)!important}
+:root:not([data-theme="light"]) #aList .cat,:root:not([data-theme="light"]) #gList .cat,:root:not([data-theme="light"]) .vc{box-shadow:0 14px 34px -16px rgba(0,0,0,.55)!important}
+#aList .cat,#gList .cat{border-color:color-mix(in srgb,var(--glass-b) 55%,transparent)!important}
+.vc{border-color:rgba(255,255,255,.14)!important}
 </style>
 </body>
 </html>
