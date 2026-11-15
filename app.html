@@ -5873,10 +5873,10 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gList .cat>.top{display:flex!important;align-items:center;gap:12px;justify-content:flex-start!important}
 #gList .top .ico{width:38px;height:38px;border-radius:12px;background:var(--gkbg);color:var(--gkc);display:flex;align-items:center;justify-content:center;flex:none}
 #gList .top .ico svg{width:18px;height:18px;stroke:currentColor}
-#gList .top .meta{flex:1;min-width:0}
-#gList .top .meta>b{display:block;font-size:.92rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#gList .top .meta>small{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:600;color:var(--gkc)}
-#gList .top .gsub{font-size:.72rem;color:var(--muted);margin-top:4px;white-space:normal}
+#gList .top .meta{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:6px}
+#gList .top .meta>b{display:block;flex:0 1 auto;min-width:0;font-size:.92rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#gList .top .meta>small{display:inline-block;flex:none;margin-left:0;font-size:.7rem;font-weight:600;color:var(--gkc)}
+#gList .top .gsub{flex-basis:100%;font-size:.72rem;color:var(--muted);margin-top:4px;white-space:normal}
 #gList .top .amt{text-align:right;flex:none}
 #gList .top .amt>b{display:block;font-size:.92rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
 #gList .top .amt>b.ok{color:var(--gkc)}
@@ -5890,6 +5890,14 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gList .top.gkind0{--gkc:#3b82f6;--gkbg:rgba(59,130,246,.16)}
 #gList .top.gkind1{--gkc:#ef4444;--gkbg:rgba(239,68,68,.16)}
 #gList .top.gkind2{--gkc:#22c55e;--gkbg:rgba(34,197,94,.16)}
+</style>
+<style id="goal-align-fix">
+#gList .top .meta{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:6px;row-gap:2px}
+#gList .top .meta>b{grid-column:1;display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#gList .top .meta>small{grid-column:2;margin-left:0;display:inline}
+#gList .top .meta>.gsub{grid-column:1/-1}
+#gList .cat.open .gdt{display:none!important}
+#gList .top .meta>.gsub{white-space:normal;font-size:.7rem;line-height:1.35}
 </style>
 </body>
 </html>
