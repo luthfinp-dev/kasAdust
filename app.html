@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-33uRn3Zo6P+VNgxpGbdNrULtgP/kTnjwcnPN9TS2VCc=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-RU+iskcT4Imfezeb5KNO3DE7CTjR4GTrLgHEjGZ2ekg=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -1262,7 +1262,7 @@ var KIC=["target","debt","recv"];
   <section class="card acc" id="assetPanel" data-t="aset" data-grp="aset">
     <h2 class="acch" role="button" tabindex="0" aria-expanded="true" aria-controls="assetPanel" data-acc="assetPanel"><i data-ic="up"></i>Kelola aset<span class="accr"><span class="accsum" id="aAccSum"></span><i class="accchev" data-ic="chev"></i></span></h2>
     <div class="acar-wrap">
-      <div class="acar-h"><span>Aset kamu</span><button type="button" class="small" id="btnAssetQuick" aria-label="Tambah aset baru">+ Tambah</button></div>
+      <div class="acar-h"><span>Aset kamu</span><button type="button" class="addbtn" id="btnAssetQuick" aria-label="Tambah aset">Tambah aset</button></div>
       <div class="vstack" id="aCarousel"></div>
     </div>
     <div id="aList"></div>
@@ -2460,7 +2460,11 @@ var KIC=["target","debt","recv"];
     if(!/^https?:\/\//i.test(s)){if(/^(javascript|data|vbscript|file|blob|ftp|mailto|tel):/i.test(s))return null;s="https://"+s}
     try{var u=new URL(s);return (u.protocol==="http:"||u.protocol==="https:")?u.href:null}catch(e){return null}
   }
-  var hEdit=null, pendingHist=null;
+  var hEdit=null, pendingHist=null, hMenu=null;
+  function hMenuStrip(x,g){
+    var conf=pendingHist===x.id;
+    return '<div class="hstrip"><button type="button" class="small" data-a="hedit" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Edit</button>'+(conf?'<button type="button" class="small danger confirm" data-a="hdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button type="button" class="small danger" data-a="hdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Hapus</button>')+'</div>';
+  }
   function hEditForm(x,g){
     var conf=pendingHist===x.id;
     return '<div class="srow hform"><div class="hf">'+
@@ -2483,14 +2487,14 @@ var KIC=["target","debt","recv"];
     if(!t&&!hx){toast("Riwayat tidak ditemukan");return}
     if(t){applySave(t,-1);t.amount=amt;t.date=d;if(desc)t.name=desc;applySave(t,1)}
     if(hx){hx.amount=amt;hx.date=d;if(desc)hx.desc=desc}
-    hEdit=null;pendingHist=null;save();renderGoals();toast("Riwayat diperbarui");
+    hEdit=null;hMenu=null;pendingHist=null;save();renderGoals();toast("Riwayat diperbarui");
   }
   function deleteHist(g,id){
     var t=items.filter(function(x){return x.id===id})[0];
     if(t&&t.tambah&&g.target-t.amount<Math.max(1,g.saved)){pendingHist=null;toast("Total tidak boleh kurang dari yang sudah dibayar/diterima");renderGoals();return}
     if(t){applySave(t,-1);items=items.filter(function(x){return x.id!==id})}
     if(Array.isArray(g.history))g.history=g.history.filter(function(x){return x.id!==id});
-    hEdit=null;pendingHist=null;save();renderGoals();toast("Riwayat dihapus");
+    hEdit=null;hMenu=null;pendingHist=null;save();renderGoals();toast("Riwayat dihapus");
   }
   function goalHistoryHtml(g){
     var h=(Array.isArray(g.history)?g.history:[]).map(function(x){var ax=x.asetId?assets.filter(function(y){return y.id===x.asetId})[0]:null;return {id:x.id,type:x.type,amount:x.amount,date:x.date||"",desc:(x.desc||"")+(ax?((x.desc?" \u00b7 ":"")+ax.name):""),ts:0}});
@@ -2504,7 +2508,7 @@ var KIC=["target","debt","recv"];
     var rows=h.slice().reverse().map(function(x){
       var positive=x.type==="setor"||x.type==="terima", isAdd=x.type==="tambah";
       if(hEdit===x.id&&x.id)return hEditForm(x,g);
-      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima",tambah:(g.debt?"Tambah hutang":"Tambah piutang")}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div>'+(x.id?'<button type="button" class="small icon hedit" data-a="hedit" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Edit riwayat">'+ic("pen")+'</button>':'')+(isAdd&&x.id?'<div class="sact"><b>+'+mk(x.amount)+'</b>'+(pendingPa===x.id?'<button class="small danger confirm" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button class="small danger icon" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Hapus tambahan piutang">'+ic("trash")+'</button>')+'</div>':'<b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b>')+'</div>';
+      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima",tambah:(g.debt?"Tambah hutang":"Tambah piutang")}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div>'+(x.id?'<button type="button" class="small icon hmore" data-a="hmenu" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Aksi riwayat">&#8943;</button>':'')+(isAdd&&x.id?'<div class="sact"><b>+'+mk(x.amount)+'</b>'+(pendingPa===x.id?'<button class="small danger confirm" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button class="small danger icon" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Hapus tambahan piutang">'+ic("trash")+'</button>')+'</div>':'<b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b>')+'</div>'+(hMenu===x.id&&x.id?hMenuStrip(x,g):'');
     }).join("");
     return '<div class="subs"><b>Riwayat saldo</b>'+(rows||'<div class="empty sm">'+(gKindOf(g)===1?"Belum ada riwayat pembayaran.":gKindOf(g)===2?"Belum ada riwayat penerimaan.":"Belum ada riwayat setor/dipakai.")+'</div>')+'</div>';
   }
@@ -2529,8 +2533,9 @@ var KIC=["target","debt","recv"];
     var b=e.target.closest("button");if(!b)return;
     var act=b.getAttribute("data-a"), id=b.getAttribute("data-id"), gid=b.getAttribute("data-g")||id;
     var g=goals.filter(function(x){return x.id===gid})[0];
-    if(act==="hedit"){hEdit=id;pendingHist=null;renderGoals();return}
-    if(act==="hcancel"){hEdit=null;pendingHist=null;renderGoals();return}
+    if(act==="hmenu"){hMenu=hMenu===id?null:id;hEdit=null;pendingHist=null;renderGoals();return}
+    if(act==="hedit"){hEdit=id;hMenu=null;pendingHist=null;renderGoals();return}
+    if(act==="hcancel"){hEdit=null;hMenu=null;pendingHist=null;renderGoals();return}
     if(act==="hsave"&&g){saveHist(g,id);return}
     if(act==="hdel"&&g){if(pendingHist===id){deleteHist(g,id)}else{pendingHist=id;renderGoals();setTimeout(function(){if(pendingHist===id){pendingHist=null;renderGoals()}},4000)}return}
     if(act==="toggle"){var was=!!openG[id];openG={};if(!was)openG[id]=true;renderGoals()}
@@ -5977,6 +5982,38 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gList .xd .arow>button:first-child{grid-column:1/-1}
 #gList .xd .arow>button[data-a="del"]{grid-column:auto}
 #btnGoalAdd{padding:11px;font-size:.88rem;margin-top:10px}
+</style>
+<style id="goal-compact">
+#gList .hstrip{display:flex;gap:6px;justify-content:flex-end;margin-top:8px}
+#gList .hstrip button{padding:4px 10px;font-size:.7rem;min-height:28px}
+#gList .hmore{width:28px;height:28px;min-width:28px;padding:0;font-size:1rem;line-height:1;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--muted)}
+#gList .hform{padding:6px 0}
+#gList .hf{display:grid;grid-template-columns:auto 1fr 84px;gap:6px;align-items:end}
+#gList .hf label{gap:2px;font-size:.62rem}
+#gList .hf label:nth-child(2){grid-column:auto}
+#gList .hf input{padding:5px 7px;font-size:.74rem;border-radius:8px}
+#gList .hf label:first-child input{width:118px}
+#gList .hfa{grid-column:1/-1;display:flex;gap:6px;justify-content:flex-end}
+#gList .hfa button{padding:4px 10px;font-size:.7rem;min-height:28px}
+#gList .top .ico{width:30px;height:30px;border-radius:10px}
+#gList .top .ico svg{width:14px;height:14px}
+#gList .top .meta>b{font-size:.8rem}
+#gList .top .meta>small{font-size:.64rem}
+#gList .top .meta>.gsub{font-size:.64rem;margin-top:2px}
+#gList .top .amt>b{font-size:.8rem}
+#gList .top .amt>small{font-size:.6rem}
+#gList .gdt{margin:4px 0 0 40px;font-size:.64rem}
+#gList .gdt b{font-size:.6rem;padding:1px 6px}
+#gList .top{gap:8px}
+#gList .subs>b{font-size:.78rem}
+</style>
+<style id="addbtn">
+.addbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 16px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--sage-d) 0%,var(--sage) 100%);color:#0b1a12;font:inherit;font-size:.8rem;font-weight:700;letter-spacing:-.01em;cursor:pointer;box-shadow:0 8px 18px -8px color-mix(in srgb,var(--sage-d) 70%,transparent),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .15s ease,filter .15s ease;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.addbtn:hover{filter:brightness(1.05)}
+.addbtn:active{transform:scale(.96)}
+.addbtn:focus-visible{outline:2px solid var(--sage-d);outline-offset:2px}
+:root[data-skin="midnight"] .addbtn{background:linear-gradient(135deg,#0297DE 0%,#4DB9F0 100%);color:#02070A;box-shadow:0 8px 18px -8px rgba(2,151,222,.7),inset 0 1px 0 rgba(255,255,255,.35)}
+:root[data-skin="midnight"][data-theme="light"] .addbtn{color:#fff;background:linear-gradient(135deg,#3b82f6 0%,#1f5fc9 100%)}
 </style>
 </body>
 </html>
