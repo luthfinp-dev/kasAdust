@@ -5946,5 +5946,37 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gList .hedit{flex:none;margin-left:6px}
 #gList .hedit svg{width:14px;height:14px}
 </style>
+<style id="goal-minimal">
+/* === Kelola tujuan: tampilan ringkas untuk HP (fungsi tidak berubah) === */
+#gDonut{max-height:118px;overflow:hidden;padding-top:0!important;padding-bottom:0!important}
+#gDonut svg{max-height:100px!important;width:auto!important;height:auto!important;margin:0 auto;display:block}
+#goalPanel .gtabs,#gTabs{gap:4px}
+#gTabs .gtab{font-size:.74rem;padding:6px 6px;min-width:0}
+#gTabs .gtab .gti{display:none}
+#gTabs .gtab .gtl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#gTot{margin-top:8px}
+#gTot .dleg{gap:6px}
+#gTot .dst{padding:7px 8px;min-width:0}
+#gTot .dst span{font-size:.66rem;color:var(--muted)}
+#gTot .dst b{font-size:.74rem;white-space:normal;overflow:visible;display:block;line-height:1.3;word-break:break-word}
+#gList{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+#gList .cat{padding:10px 12px!important;border-radius:16px!important;margin-bottom:0!important}
+#gList .top{gap:10px;align-items:center}
+#gList .top .ico{width:34px;height:34px;border-radius:11px}
+#gList .top .ico svg{width:16px;height:16px}
+#gList .top .meta{display:block;min-width:0}
+#gList .top .meta>b{display:inline;font-size:.88rem;white-space:normal;overflow:visible;text-overflow:clip}
+#gList .top .meta>small{display:inline;margin-left:6px;font-size:.7rem;font-weight:700}
+#gList .top .meta>.gsub{display:block;margin-top:3px;font-size:.7rem;line-height:1.4;white-space:normal}
+#gList .top .amt>b{font-size:.86rem}
+#gList .top .amt>small{font-size:.66rem}
+#gList .gdt{margin:6px 0 0 44px;font-size:.7rem}
+#gList .gdt b{font-size:.66rem;padding:2px 7px}
+#gList .xd .arow{display:grid!important;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+#gList .xd .arow>button{width:100%;justify-content:center;padding:7px 8px;font-size:.76rem;min-height:36px}
+#gList .xd .arow>button:first-child{grid-column:1/-1}
+#gList .xd .arow>button[data-a="del"]{grid-column:auto}
+#btnGoalAdd{padding:11px;font-size:.88rem;margin-top:10px}
+</style>
 </body>
 </html>
