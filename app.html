@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-Vl6ViqOw/Pqe3IpKQPg4VI0PmFK8E+FmjtwAbeF7TYE=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-33uRn3Zo6P+VNgxpGbdNrULtgP/kTnjwcnPN9TS2VCc=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2431,7 +2431,7 @@ var KIC=["target","debt","recv"];
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top gkind'+k+'"><div class="ico">'+ic("target")+'</div><div class="meta"><b>'+esc(g.name)+'</b><small>'+(hideBal?"••":p)+'%</small><div class="gsub">Terkumpul '+nbk(g.saved)+' dari '+nbk(g.target)+'</div></div><div class="amt"><b>'+nbk(g.target)+'</b><small'+(done?' class="ok"':'')+'>'+(done?L.done:'Belum lunas')+'</small></div>'+(k>=1?'<button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button>':'')+'</div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top gkind'+k+'"><div class="ico">'+ic("target")+'</div><div class="meta"><b>'+esc(g.name)+'</b><small>'+(hideBal?"••":p)+'%</small><div class="gsub">Terkumpul '+nbk(g.saved)+' dari '+nbk(g.target)+'</div></div><div class="amt"><b>'+nbk(g.target)+'</b><small'+(done?' class="ok"':'')+'>'+(done?L.done:'Belum lunas')+'</small></div>'+(k>=1?'<button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button>':'')+'</div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -2460,18 +2460,51 @@ var KIC=["target","debt","recv"];
     if(!/^https?:\/\//i.test(s)){if(/^(javascript|data|vbscript|file|blob|ftp|mailto|tel):/i.test(s))return null;s="https://"+s}
     try{var u=new URL(s);return (u.protocol==="http:"||u.protocol==="https:")?u.href:null}catch(e){return null}
   }
+  var hEdit=null, pendingHist=null;
+  function hEditForm(x,g){
+    var conf=pendingHist===x.id;
+    return '<div class="srow hform"><div class="hf">'+
+      '<label>Tanggal<input type="date" id="hfDate" value="'+esc(x.date||"")+'"></label>'+
+      '<label>Deskripsi<input type="text" id="hfDesc" value="'+esc(x.desc||"")+'"></label>'+
+      '<label>Nominal<input type="text" inputmode="numeric" id="hfAmt" value="'+esc(String(x.amount||0))+'"></label>'+
+      '<div class="hfa"><button type="button" class="small" data-a="hsave" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Simpan</button>'+
+      '<button type="button" class="small" data-a="hcancel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Batal</button>'+
+      (conf?'<button type="button" class="small danger confirm" data-a="hdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button type="button" class="small danger" data-a="hdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">'+ic("trash")+'Hapus</button>')+
+      '</div></div></div>';
+  }
+  function saveHist(g,id){
+    var d=(document.getElementById("hfDate")||{}).value||"";
+    var desc=((document.getElementById("hfDesc")||{}).value||"").trim();
+    var amt=Math.round(Number(String((document.getElementById("hfAmt")||{}).value||"").replace(/[^\d]/g,"")));
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){toast("Tanggal tidak valid");return}
+    if(!(amt>0)){toast("Nominal harus lebih dari 0");return}
+    var t=items.filter(function(x){return x.id===id})[0];
+    var hx=(Array.isArray(g.history)?g.history:[]).filter(function(x){return x.id===id})[0];
+    if(!t&&!hx){toast("Riwayat tidak ditemukan");return}
+    if(t){applySave(t,-1);t.amount=amt;t.date=d;if(desc)t.name=desc;applySave(t,1)}
+    if(hx){hx.amount=amt;hx.date=d;if(desc)hx.desc=desc}
+    hEdit=null;pendingHist=null;save();renderGoals();toast("Riwayat diperbarui");
+  }
+  function deleteHist(g,id){
+    var t=items.filter(function(x){return x.id===id})[0];
+    if(t&&t.tambah&&g.target-t.amount<Math.max(1,g.saved)){pendingHist=null;toast("Total tidak boleh kurang dari yang sudah dibayar/diterima");renderGoals();return}
+    if(t){applySave(t,-1);items=items.filter(function(x){return x.id!==id})}
+    if(Array.isArray(g.history))g.history=g.history.filter(function(x){return x.id!==id});
+    hEdit=null;pendingHist=null;save();renderGoals();toast("Riwayat dihapus");
+  }
   function goalHistoryHtml(g){
     var h=(Array.isArray(g.history)?g.history:[]).map(function(x){var ax=x.asetId?assets.filter(function(y){return y.id===x.asetId})[0]:null;return {id:x.id,type:x.type,amount:x.amount,date:x.date||"",desc:(x.desc||"")+(ax?((x.desc?" \u00b7 ":"")+ax.name):""),ts:0}});
     items.forEach(function(t){var gk=gKindOf(g);
       if(t.tujuanId!==g.id||t.tambah)return;
       var a=assets.filter(function(x){return x.id===t.asetId})[0];
-      if(gk===0&&t.category===GOALC&&(t.setor||t.tarik||t.pakai)){h.push({type:t.setor?"setor":t.pakai?"pakai":"ambil",amount:t.amount,date:t.date,desc:t.pakai?(t.name+(a?" \u00b7 "+a.name:"")):(a?a.name:""),ts:t.ts||0})}
-      else if(gk===1&&(t.category===GOALC||t.category===DEBT)){h.push({type:"bayar",amount:t.amount,date:t.date,desc:(t.category===DEBT?t.name:"")+(a?(t.category===DEBT?" \u00b7 ":"")+a.name:""),ts:t.ts||0})}
-      else if(gk===2&&t.category===GOALC){h.push({type:"terima",amount:t.amount,date:t.date,desc:a?a.name:"",ts:t.ts||0})}});
+      if(gk===0&&t.category===GOALC&&(t.setor||t.tarik||t.pakai)){h.push({id:t.id,type:t.setor?"setor":t.pakai?"pakai":"ambil",amount:t.amount,date:t.date,desc:t.pakai?(t.name+(a?" \u00b7 "+a.name:"")):(a?a.name:""),ts:t.ts||0})}
+      else if(gk===1&&(t.category===GOALC||t.category===DEBT)){h.push({id:t.id,type:"bayar",amount:t.amount,date:t.date,desc:(t.category===DEBT?t.name:"")+(a?(t.category===DEBT?" \u00b7 ":"")+a.name:""),ts:t.ts||0})}
+      else if(gk===2&&t.category===GOALC){h.push({id:t.id,type:"terima",amount:t.amount,date:t.date,desc:a?a.name:"",ts:t.ts||0})}});
     h.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:a.ts-b.ts});
     var rows=h.slice().reverse().map(function(x){
       var positive=x.type==="setor"||x.type==="terima", isAdd=x.type==="tambah";
-      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima",tambah:(g.debt?"Tambah hutang":"Tambah piutang")}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div>'+(isAdd&&x.id?'<div class="sact"><b>+'+mk(x.amount)+'</b>'+(pendingPa===x.id?'<button class="small danger confirm" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button class="small danger icon" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Hapus tambahan piutang">'+ic("trash")+'</button>')+'</div>':'<b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b>')+'</div>';
+      if(hEdit===x.id&&x.id)return hEditForm(x,g);
+      return '<div class="srow"><div class="sinfo"><span>'+esc({setor:"Setor",pakai:"Dipakai",bayar:"Bayar",terima:"Terima",tambah:(g.debt?"Tambah hutang":"Tambah piutang")}[x.type]||"Ambil")+(x.desc?' · '+esc(x.desc):"")+'</span><small>'+esc(x.date||"")+'</small></div>'+(x.id?'<button type="button" class="small icon hedit" data-a="hedit" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Edit riwayat">'+ic("pen")+'</button>':'')+(isAdd&&x.id?'<div class="sact"><b>+'+mk(x.amount)+'</b>'+(pendingPa===x.id?'<button class="small danger confirm" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'">Yakin hapus?</button>':'<button class="small danger icon" data-a="pdel" data-g="'+esc(g.id)+'" data-id="'+esc(x.id)+'" aria-label="Hapus tambahan piutang">'+ic("trash")+'</button>')+'</div>':'<b style="color:'+(positive?'var(--sage-d)':'var(--danger)')+'">'+(positive?"+":"−")+mk(x.amount)+'</b>')+'</div>';
     }).join("");
     return '<div class="subs"><b>Riwayat saldo</b>'+(rows||'<div class="empty sm">'+(gKindOf(g)===1?"Belum ada riwayat pembayaran.":gKindOf(g)===2?"Belum ada riwayat penerimaan.":"Belum ada riwayat setor/dipakai.")+'</div>')+'</div>';
   }
@@ -2496,6 +2529,10 @@ var KIC=["target","debt","recv"];
     var b=e.target.closest("button");if(!b)return;
     var act=b.getAttribute("data-a"), id=b.getAttribute("data-id"), gid=b.getAttribute("data-g")||id;
     var g=goals.filter(function(x){return x.id===gid})[0];
+    if(act==="hedit"){hEdit=id;pendingHist=null;renderGoals();return}
+    if(act==="hcancel"){hEdit=null;pendingHist=null;renderGoals();return}
+    if(act==="hsave"&&g){saveHist(g,id);return}
+    if(act==="hdel"&&g){if(pendingHist===id){deleteHist(g,id)}else{pendingHist=id;renderGoals();setTimeout(function(){if(pendingHist===id){pendingHist=null;renderGoals()}},4000)}return}
     if(act==="toggle"){var was=!!openG[id];openG={};if(!was)openG[id]=true;renderGoals()}
     else if(act==="padd"&&g){startPa(g)}
     else if(act==="pdel"&&g){
@@ -5898,6 +5935,16 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gList .top .meta>.gsub{flex:0 0 100%;width:100%}
 #gList .cat.open .gdt{display:none!important}
 #gList .top .meta>.gsub{white-space:normal;font-size:.7rem;line-height:1.35}
+</style>
+<style id="hist-edit">
+#gList .hform{display:block!important;padding:10px 0}
+#gList .hf{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#gList .hf label{display:flex;flex-direction:column;gap:4px;font-size:.72rem;color:var(--muted)}
+#gList .hf label:nth-child(2){grid-column:1/-1}
+#gList .hf input{width:100%;box-sizing:border-box;padding:7px 9px;border-radius:10px;border:1px solid var(--glass-b);background:var(--cat-bg,rgba(255,255,255,.06));color:var(--text);font:inherit;font-size:.85rem}
+#gList .hfa{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+#gList .hedit{flex:none;margin-left:6px}
+#gList .hedit svg{width:14px;height:14px}
 </style>
 </body>
 </html>
