@@ -6031,5 +6031,13 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .vc{border-color:rgba(255,255,255,.14)!important}
 :root:not([data-theme="light"]) .vc{border-color:rgba(255,255,255,.14)!important}
 </style>
+<style id="goal-stats-rows">
+/* ringkasan tujuan: tiga baris, label kiri dan nilai kanan, dipisah garis */
+#gTot .dleg{display:flex!important;flex-direction:column;gap:0;background:transparent;border:0}
+#gTot .dst{display:flex!important;flex-direction:row!important;align-items:center;justify-content:space-between;text-align:left;gap:12px;padding:9px 2px;border-bottom:1px solid var(--line,rgba(127,127,127,.18));background:transparent!important;border-radius:0!important;box-shadow:none!important}
+#gTot .dst:last-child{border-bottom:0}
+#gTot .dst span{font-size:.78rem;color:var(--muted);margin:0}
+#gTot .dst b{font-size:.84rem;font-weight:700;text-align:right;margin-left:auto;white-space:nowrap;overflow:visible;display:block;line-height:1.2;word-break:normal}
+</style>
 </body>
 </html>
