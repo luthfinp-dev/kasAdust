@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-KDTKbHyGbeRoNeTU90tbOPJAKhkz9e0l+Y+eX07GH1o=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-Yq1zGVIp9KVYcO+bkdT86+xJ2mYjHdiOBM3kKEedmDw=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2431,7 +2431,7 @@ var KIC=["target","debt","recv"];
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top gkind'+k+'"><div class="ico">'+ic("target")+'</div><div class="meta"><b>'+esc(g.name)+'</b><small>'+(hideBal?"••":p)+'%</small><div class="gsub">'+nbk(g.saved)+' dari '+nbk(g.target)+'</div></div><div class="amt"><b'+(done?' class="ok"':'')+'>'+(done?L.done:nbk(g.target-g.saved))+'</b><small>'+(done?'':L.left.replace(/[: ]+$/,''))+'</small></div>'+(k>=1?'<button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button>':'')+'</div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top gkind'+k+'"><div class="ico">'+ic("target")+'</div><div class="meta"><b>'+esc(g.name)+'</b><small>'+(hideBal?"••":p)+'%</small><div class="gsub">'+nbk(g.saved)+' dari '+nbk(g.target)+'</div></div><div class="amt"><b>'+nbk(g.target)+'</b><small'+(done?' class="ok"':'')+'>'+(done?L.done:'Belum lunas')+'</small></div>'+(k>=1?'<button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button>':'')+'</div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Detail & riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -5876,13 +5876,15 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gList .top .meta{flex:1;min-width:0}
 #gList .top .meta>b{display:block;font-size:.92rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #gList .top .meta>small{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:600;color:var(--gkc)}
-#gList .top .gsub{font-size:.72rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#gList .top .gsub{font-size:.72rem;color:var(--muted);margin-top:2px}
 #gList .top .amt{text-align:right;flex:none}
 #gList .top .amt>b{display:block;font-size:.92rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
 #gList .top .amt>b.ok{color:var(--gkc)}
 #gList .top .amt>small{display:block;font-size:.7rem;font-weight:600;color:var(--muted)}
 #gList .top .gadd{flex:none}
-#gList .cat .gm,#gList .cat .gtr{display:none!important}
+#gList .cat:not(.open) .gsub,#gList .cat:not(.open) .gm,#gList .cat:not(.open) .gdt,#gList .cat:not(.open) .gtr{display:none!important}
+#gList .cat .gdt{margin:6px 0 0;font-size:.74rem;color:var(--muted)}
+#gList .cat .gm{margin:4px 0 0;font-size:.74rem;color:var(--muted)}
 #gList .top.gkind0{--gkc:#3b82f6;--gkbg:rgba(59,130,246,.16)}
 #gList .top.gkind1{--gkc:#ef4444;--gkbg:rgba(239,68,68,.16)}
 #gList .top.gkind2{--gkc:#22c55e;--gkbg:rgba(34,197,94,.16)}
