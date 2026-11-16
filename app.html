@@ -1135,7 +1135,7 @@ header.hdr .hd-dots svg{width:22px;height:22px;fill:currentColor}
 header.hdr .hd-dots .avbadge{display:none}
 header.hdr .hd-box{position:relative;display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--line);border-radius:22px;background:var(--surface);color:var(--text)}
 header.hdr .hd-bg{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
-header.hdr .hd-wm{position:absolute;right:-30px;top:-34px;width:160px;height:160px;color:var(--sage);opacity:.09}
+header.hdr .hd-wm{position:absolute;right:-22px;top:-30px;width:150px;height:150px;color:var(--sage);opacity:1;overflow:visible}
 header.hdr .hd-logo{position:relative;flex:none;width:44px;height:44px;min-height:0;margin:0;padding:9px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--sage-d);display:flex;align-items:center;justify-content:center;overflow:visible;cursor:pointer}
 header.hdr .hd-logo svg{width:100%;height:100%}
 header.hdr .hd-av{position:absolute;inset:0;border-radius:inherit;overflow:hidden;display:none;align-items:center;justify-content:center;background:var(--sage-l);color:var(--sage-d);font-weight:700;font-size:.85rem}
@@ -1158,6 +1158,13 @@ header.hdr .hd-acts .sw .knob{width:28px;height:28px;top:3px;left:3px}
 header.hdr .hd-acts .sw[aria-checked="true"] .knob{transform:translateX(18px)}
 header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 @media (max-width:374px){header.hdr .hd-date{font-size:.6rem}}
+/* halaman Pengaturan: sembunyikan header (bulan, titik 3, kotak profil) */
+#app[data-tab="set"]>header.hdr{display:none}
+/* siluet debossed di kartu Dompetku & Tujuan (gaya sama dgn watermark header) */
+.stat:has(>.sil-bg){position:relative;isolation:isolate}
+.stat>.sil-bg{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;z-index:-1}
+.stat>.sil-bg .sil{position:absolute;left:-42px;top:50%;width:104px;height:104px;transform:translateY(-50%);color:var(--sage);overflow:visible}
+
 </style>
 </head>
 <body>
@@ -1249,6 +1256,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   </div>
   <div class="wbtns" id="wBtns"></div>
 </div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="silDeboss" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB"><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1000 0" result="m"/><feFlood style="flood-color:var(--sage);flood-opacity:.16"/><feComposite in2="m" operator="in" result="base"/><feComponentTransfer in="m" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer><feOffset in="inv" dx="1.9" dy="2.4" result="o1"/><feGaussianBlur in="o1" stdDeviation="1.9" result="b1"/><feFlood flood-color="#000" flood-opacity=".55"/><feComposite in2="b1" operator="in" result="s1"/><feComposite in="s1" in2="m" operator="in" result="innerDark"/><feOffset in="inv" dx="-1" dy="-1.2" result="o2"/><feGaussianBlur in="o2" stdDeviation=".9" result="b2"/><feFlood flood-color="#fff" flood-opacity=".55"/><feComposite in2="b2" operator="in" result="s2"/><feComposite in="s2" in2="m" operator="in" result="innerLight"/><feMerge><feMergeNode in="base"/><feMergeNode in="innerDark"/><feMergeNode in="innerLight"/></feMerge></filter><mask id="silWMask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><path d="M19 46H81A11 11 0 0 1 92 57V83A11 11 0 0 1 81 94H19A11 11 0 0 1 8 83V57A11 11 0 0 1 19 46ZM64 58H78A8 8 0 0 1 78 74H64A8 8 0 0 1 64 58ZM62.8 66a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0 -6.4 0Z" fill-rule="evenodd" fill="#000" stroke="#000" stroke-width="7" stroke-linejoin="round"/></mask></defs></svg>
 <div class="wrap" id="app" data-tab="home" hidden>
   <header class="hdr" id="hdEl">
     <div class="hd-top">
@@ -1260,7 +1268,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       <button type="button" class="hd-dots" id="btnAvatar" aria-haspopup="menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg><span class="avbadge" id="avBadge" hidden></span></button>
     </div>
     <div class="hd-box">
-      <div class="hd-bg" aria-hidden="true"><svg class="hd-wm" viewBox="159 108 1646 1646" fill="currentColor"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
+      <div class="hd-bg" aria-hidden="true"><svg class="hd-wm" viewBox="159 108 1646 1646" fill="currentColor"><defs><filter id="hdDeboss" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB"><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1000 0" result="m"/><feFlood style="flood-color:var(--sage);flood-opacity:.16"/><feComposite in2="m" operator="in" result="base"/><feComponentTransfer in="m" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer><feOffset in="inv" dx="22" dy="28" result="o1"/><feGaussianBlur in="o1" stdDeviation="22" result="b1"/><feFlood flood-color="#000" flood-opacity=".55"/><feComposite in2="b1" operator="in" result="s1"/><feComposite in="s1" in2="m" operator="in" result="innerDark"/><feOffset in="inv" dx="-12" dy="-14" result="o2"/><feGaussianBlur in="o2" stdDeviation="10" result="b2"/><feFlood flood-color="#fff" flood-opacity=".55"/><feComposite in2="b2" operator="in" result="s2"/><feComposite in="s2" in2="m" operator="in" result="innerLight"/><feMerge><feMergeNode in="base"/><feMergeNode in="innerDark"/><feMergeNode in="innerLight"/></feMerge></filter></defs><path filter="url(#hdDeboss)" d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
       <button type="button" class="hd-logo" id="hdLogo" aria-label="Tampilkan profil"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg><span class="hd-av" id="hdAv"></span><span class="avdot" id="avDot" hidden></span></button>
       <div class="hd-id">
         <div class="hd-name" id="hdName"><span class="hd-nlogo">kasAdust</span><span class="hd-nprof" id="hdNameProf"></span></div>
@@ -1284,6 +1292,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 
   <section class="grid3" data-t="home" aria-label="Ringkasan bulan ini">
     <div class="stat">
+      <div class="sil-bg" aria-hidden="true"><svg class="sil" viewBox="0 0 100 100"><g filter="url(#silDeboss)"><g mask="url(#silWMask)"><g transform="rotate(-10 47 26)"><path d="M26 4H68A8 8 0 0 1 76 12V15H18V12A8 8 0 0 1 26 4Z"/><path d="M18 22H76V40A8 8 0 0 1 68 48H26A8 8 0 0 1 18 40Z"/></g></g><path fill-rule="evenodd" d="M19 46H81A11 11 0 0 1 92 57V83A11 11 0 0 1 81 94H19A11 11 0 0 1 8 83V57A11 11 0 0 1 19 46ZM64 58H78A8 8 0 0 1 78 74H64A8 8 0 0 1 64 58ZM62.8 66a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0 -6.4 0Z"/></g></svg></div>
       <div class="l"><i data-ic="wallet"></i><span id="lLbl">Dompetku</span><button type="button" class="eye" data-eye></button></div><div class="v" id="lVal">Belum diisi</div>
       <div class="n" id="lSal"></div>
       <div class="bar"><i id="lBar" style="width:0"></i></div>
@@ -1307,6 +1316,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       <div class="rnglist" id="rngList" hidden role="group" aria-label="Rentang grafik"><button type="button" data-n="7">7H</button><button type="button" data-n="30">30H</button><button type="button" data-n="90">90H</button></div>
     </div>
     <div class="stat">
+      <div class="sil-bg" aria-hidden="true"><svg class="sil" viewBox="0 0 100 100"><g filter="url(#silDeboss)"><path fill-rule="evenodd" d="M4 50a46 46 0 1 0 92 0a46 46 0 1 0 -92 0Z M12 50a38 38 0 1 0 76 0a38 38 0 1 0 -76 0Z M20 50a30 30 0 1 0 60 0a30 30 0 1 0 -60 0Z M28 50a22 22 0 1 0 44 0a22 22 0 1 0 -44 0Z M37 50a13 13 0 1 0 26 0a13 13 0 1 0 -26 0Z"/></g></svg></div>
       <div class="l"><i data-ic="target"></i>Tujuan<button type="button" class="eye" data-eye></button></div>
       <div class="gcar" id="gCar" role="group" aria-roledescription="carousel" aria-label="Ringkasan tujuan">
         <div class="gtrack" id="gTrack">
