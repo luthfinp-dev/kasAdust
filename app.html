@@ -1153,6 +1153,24 @@ header.hdr .hd-out{color:var(--danger);border-color:transparent;background:color
 #phNameIn{width:100%;margin:6px 0 10px}
 .ph-nl{display:block;font-size:.8rem;color:var(--muted);margin-top:4px}
 </style>
+<style id="header-v7">
+header.hdr{--hdc:var(--surface);grid-template-rows:22px 22px;row-gap:4px}
+header.hdr .hd-name{height:22px;line-height:22px;margin:0;padding:0;min-height:0;font-size:1rem}
+header.hdr .hd-date{height:22px;line-height:22px;margin:0;padding:0;font-size:.72rem}
+header.hdr .hd-h1{height:22px;line-height:22px;margin:0;padding:0;font-size:1rem;display:flex;justify-content:flex-end;align-items:center}
+header.hdr .hd-h1 .ttl{height:22px;line-height:22px;padding:0;margin:0;min-height:0;gap:4px;font-size:1rem}
+header.hdr .hd-h1 .ttl svg{width:14px;height:14px}
+header.hdr .hd-acts{height:22px;align-self:center;zoom:.8;gap:6px}
+header.hdr .hd-ic,header.hdr .calcbtn{width:30px;height:30px;min-height:0;padding:0;margin:0}
+header.hdr .hd-acts .sw{margin:0;min-height:0;padding:0}
+header.hdr .hd-tab{background:var(--hdc)}
+header.hdr .hd-panel{right:66px;left:auto;top:-40px;height:40px;width:auto;padding:0 8px;gap:6px;display:flex;align-items:center;background:var(--hdc);border:1px solid var(--line);border-bottom:0;border-radius:0;box-shadow:none;animation:hdIn .2s ease-out}
+header.hdr .hd-row{width:30px;height:30px;min-height:0;margin:0;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--bg);border:1px solid var(--line);color:var(--text);font-size:.7rem;font-weight:600;white-space:nowrap}
+header.hdr .hd-row svg{width:14px;height:14px;margin:0}
+header.hdr .hd-idle{width:auto;padding:0 10px;border-radius:999px}
+header.hdr .hd-out{color:var(--danger);border-color:transparent;background:color-mix(in srgb,var(--danger) 16%,transparent)}
+header.hdr .hd-idle[aria-pressed="true"]{color:var(--sage-d);border-color:var(--sage-d)}
+</style>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
@@ -1247,8 +1265,10 @@ header.hdr .hd-out{color:var(--danger);border-color:transparent;background:color
   <header class="hdr" id="hdEl">
     <div class="hd-bg" aria-hidden="true"><svg class="hd-wm" viewBox="159 108 1646 1646" fill="currentColor"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
     <div class="hd-panel" id="hdPanel" hidden>
-      <div class="hd-pl"><button type="button" class="hd-row" id="hdPhoto"><i data-ic="camera"></i>Change profile</button><button type="button" class="hd-row hd-idle" id="hdIdle" aria-pressed="false">Idle</button></div>
-      <div class="hd-pr"><button type="button" class="hd-row" id="hdBack"><i data-ic="home"></i>Back to login</button><button type="button" class="hd-row hd-out" id="hdOut"><i data-ic="user"></i>Sign out</button></div>
+      <button type="button" class="hd-row" id="hdPhoto" aria-label="Change profile" title="Change profile"><i data-ic="camera"></i></button>
+      <button type="button" class="hd-row hd-idle" id="hdIdle" aria-pressed="false">Idle</button>
+      <button type="button" class="hd-row" id="hdBack" aria-label="Back to login" title="Back to login"><i data-ic="home"></i></button>
+      <button type="button" class="hd-row hd-out" id="hdOut" aria-label="Sign out" title="Sign out"><i data-ic="user"></i></button>
     </div>
     <div class="hd-tabwrap"><button type="button" class="hd-tab" id="btnAvatar" aria-haspopup="menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg><span class="avbadge" id="avBadge" hidden></span></button></div>
     <button type="button" class="hd-logo" id="hdLogo" aria-label="Tampilkan profil"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg><span class="hd-av" id="hdAv"></span><span class="avdot" id="avDot" hidden></span></button>
