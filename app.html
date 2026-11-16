@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-RU+iskcT4Imfezeb5KNO3DE7CTjR4GTrLgHEjGZ2ekg=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-X/Y7wh2ga8hcCrEN+iJdaa0w93fadrtghllNCIvSybM=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-VYUW4kHImk/4KJeY1vczog/tCJyDdKoSMYcR9dg9KtI=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Jx/X0HJxv4ZHRoUZl7w9FIwjnnnt7C/6phSrnvZU8CE=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2843,7 +2843,7 @@ var KIC=["target","debt","recv"];
     var last=fi>=0?aHist[first]:(seed!=null?seed:Tr), start=fi>=0?fi:0;
     for(j=start;j<N;j++){var d=days[j];if(aHist[d]!=null)last=aHist[d];vals[j]=last}
     var W=200,H=110,pd=14,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals), flat=mx===mn;
-    var lo=flat?mn-1:mn-(mx-mn)*0.04, hi=flat?mx+1:mx+(mx-mn)*0.08, rg=hi-lo||1;
+    var span=Math.max(mx-mn,Math.abs(mx)*0.2,1), mid=(mx+mn)/2, lo=mid-span/2, hi=mid+span/2, rg=span;
     var pts=vals.map(function(v,i){return [8+i*(W-16)/(N-1),pd+(1-(v-lo)/rg)*(H-2*pd)]});
     var line="M"+pts[0][0].toFixed(1)+","+pts[0][1].toFixed(1);
     for(j=1;j<pts.length;j++)line+=" L"+pts[j][0].toFixed(1)+","+pts[j][1].toFixed(1);
@@ -6038,6 +6038,11 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 #gTot .dst:last-child{border-bottom:0}
 #gTot .dst span{font-size:.78rem;color:var(--muted);margin:0}
 #gTot .dst b{font-size:.84rem;font-weight:700;text-align:right;margin-left:auto;white-space:nowrap;overflow:visible;display:block;line-height:1.2;word-break:normal}
+</style>
+<style id="spark-stable">
+/* grafik aset: ukuran tetap, tidak keluar kolom, dan tidak terlihat jatuh tajam */
+#aSpark .spw{overflow:hidden;width:100%;box-sizing:border-box}
+#aSpark svg{display:block;width:100%;height:auto;aspect-ratio:200/110;max-height:none}
 </style>
 </body>
 </html>
