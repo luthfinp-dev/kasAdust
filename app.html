@@ -3283,6 +3283,13 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     try{render();renderProfile()}catch(e){}
     setSync("");
   }
+  function hardReset(){
+    try{authStore.removeItem(AUTH_KEY)}catch(e){}
+    try{localStorage.removeItem("pin-v1")}catch(e){}
+    ["rec-pending-v1","heal-v1","gate-web-v1"].forEach(function(k){try{sessionStorage.removeItem(k)}catch(e){}});
+    sb=null;sbKey="";
+    location.replace(location.pathname);
+  }
   async function doLogout(){
     var had=sb, wasDb=(mode==="db");
     wipeMemory();
@@ -3314,6 +3321,14 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   }
   async function start(){
     showPane("msg");wShow("Memeriksa sesi...",[]);
+    var tok=(window.__startTok=(window.__startTok||0)+1);
+    setTimeout(function(){
+      if(tok!==window.__startTok)return;
+      var m=$("wMsg");
+      if(m&&$("welcome").hidden===false&&/Memeriksa|Memuat|Memulihkan/.test(m.textContent)){
+        wShow("Belum selesai memuat. Coba lagi, atau reset sesi di perangkat ini.",[["retry","Coba lagi","primary"],["reset","Reset sesi perangkat"]]);
+      }
+    },12000);
     if(!window.supabase||!supabase.createClient){if(healLib()){wShow("Memulihkan aplikasi...",[]);return}wShow("Library Supabase gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman.",[["retry","Muat ulang","primary"]]);return}
     var c=getCfg();
     if(!c){showCfg();return}
@@ -3378,6 +3393,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     if(a==="conf"){var ct=confirmTarget();if(ct)location.href=ct;else if(confUser)afterAuth(confUser);else start()}
     else if(a==="go")goDb();
     else if(a==="retry")start();
+    else if(a==="reset")hardReset();
     else if(a==="cfg")showCfg();
     else if(a==="out")doLogout();
     else if(a==="import"||a==="sample"||a==="empty"){
