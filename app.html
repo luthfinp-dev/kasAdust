@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' 'sha256-RK5idrcTuZYpI1yPXrgFmvuMyqhs1piYXjQc/ElTENY=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' 'sha256-pQBPEuecYMiz3bBHvdfQGYjQ5Xb25EsMBxo6ljgvhpI=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -1115,43 +1115,37 @@ var KIC=["target","debt","recv"];
 .kseg button[aria-pressed="true"]{background:var(--raise);color:var(--tc,var(--text));border-color:var(--tc,var(--sage-d));box-shadow:0 3px 10px -4px var(--tc,var(--sage-d));transform:translateY(-1px);transition:transform .2s ease,box-shadow .2s ease}
 .kseg button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
 </style>
-<style id="header-v4">
-header.hdr{display:block;position:relative;margin:40px 0 18px;padding:14px 14px 12px;border:1px solid var(--line);border-radius:22px;background:var(--surface);color:var(--text)}
+<style id="header-v5">
+header.hdr{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:12px;row-gap:6px;align-items:center;position:relative;margin:40px 0 18px;padding:14px 14px 12px;border:1px solid var(--line);border-radius:22px;background:var(--surface);color:var(--text)}
 header.hdr .hd-bg{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
 header.hdr .hd-wm{position:absolute;right:-30px;top:-34px;width:160px;height:160px;color:var(--sage);opacity:.09}
-header.hdr .hd-main{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;min-width:0}
-header.hdr .hd-brand{display:flex;align-items:center;gap:10px;min-width:0}
-header.hdr .hd-logo{width:44px;height:44px;min-height:0;padding:9px;margin:0;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--sage-d);display:flex;align-items:center;justify-content:center;flex:none;position:relative;overflow:hidden;cursor:pointer}
+header.hdr .hd-logo{grid-column:1;grid-row:1 / span 2;position:relative;width:44px;height:44px;min-height:0;padding:9px;margin:0;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--sage-d);display:flex;align-items:center;justify-content:center;overflow:visible;cursor:pointer}
 header.hdr .hd-logo svg{width:100%;height:100%}
-header.hdr .hd-av{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:var(--sage-l);color:var(--sage-d);font-weight:700;font-size:.85rem}
+header.hdr .hd-av{position:absolute;inset:0;border-radius:inherit;overflow:hidden;display:none;align-items:center;justify-content:center;background:var(--sage-l);color:var(--sage-d);font-weight:700;font-size:.85rem}
 header.hdr .hd-av img{width:100%;height:100%;object-fit:cover}
 header.hdr.v-prof .hd-av{display:flex}
 header.hdr.v-prof .hd-logo svg{display:none}
-header.hdr .hd-id{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
-header.hdr .hd-name{padding:0;min-height:0;margin:0;border:0;background:none;font:inherit;font-weight:700;font-size:1rem;letter-spacing:-.01em;color:var(--text);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;cursor:pointer}
+header.hdr .hd-logo .avdot{position:absolute;right:-4px;bottom:-4px;width:11px;height:11px;border-radius:50%;background:#7fbf8e;border:2px solid var(--surface);box-sizing:content-box}
+header.hdr .hd-name{grid-column:2;grid-row:1;justify-self:start;align-self:end;padding:0;min-height:0;margin:0;border:0;background:none;font:inherit;font-weight:700;font-size:1rem;line-height:1.2;letter-spacing:-.01em;color:var(--text);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;cursor:pointer}
 header.hdr .hd-nprof{display:none}
 header.hdr.v-prof .hd-nprof{display:inline}
 header.hdr.v-prof .hd-nlogo{display:none}
-header.hdr .hd-date{font-size:.72rem;color:var(--muted);margin-top:1px;white-space:nowrap}
-header.hdr .hd-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none;min-width:0;padding-top:2px}
-header.hdr .hd-h1{margin:0;font-size:1rem;line-height:1.1}
+header.hdr .hd-date{grid-column:2;grid-row:2;align-self:start;font-size:.72rem;color:var(--muted);white-space:nowrap}
+header.hdr .hd-h1{grid-column:3;grid-row:1;justify-self:end;align-self:end;margin:0;font-size:1rem;line-height:1.2}
 header.hdr .hd-h1 .ttl{font-size:1.02rem;padding:2px 4px;margin:0 -4px 0 0}
-header.hdr .hd-acts{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+header.hdr .hd-acts{grid-column:3;grid-row:2;justify-self:end;align-self:start;display:flex;align-items:center;gap:8px}
 header.hdr .hd-ic{position:relative;width:30px;height:30px;min-height:0;padding:0;margin:0;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--sage-d);display:inline-flex;align-items:center;justify-content:center}
 header.hdr .hd-ic .ic,header.hdr .hd-ic svg{width:16px;height:16px}
 header.hdr .hd-nb{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:var(--danger);color:#fff;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1}
-header.hdr .hd-acts .sw{flex:none}
 header.hdr .hd-tabwrap{position:absolute;right:14px;top:-40px;z-index:3}
 header.hdr .hd-tab{width:52px;height:40px;min-height:0;margin:0;padding:0;border:1px solid var(--line);border-bottom:0;border-radius:16px 16px 0 0;background:var(--surface);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
 header.hdr .hd-tab svg{width:20px;height:20px;fill:currentColor}
-header.hdr .hd-panel{position:absolute;right:0;top:0;width:min(270px,calc(100vw - 36px));padding:10px 10px 12px;border:1px solid var(--line);border-radius:16px 0 16px 16px;background:var(--surface);box-shadow:0 10px 28px rgba(0,0,0,.18);animation:hdIn .22s ease-out;transform-origin:top right}
+header.hdr .hd-panel{position:absolute;left:0;right:66px;top:-40px;height:40px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;border:1px solid var(--line);border-bottom:0;border-radius:16px 0 0 0;background:var(--surface);animation:hdIn .22s ease-out;transform-origin:right center}
 header.hdr .hd-panel[hidden]{display:none}
-@keyframes hdIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
-header.hdr .hd-acc{font-size:.72rem;color:var(--muted);padding:2px 4px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-header.hdr .hd-row{display:flex;width:100%;align-items:center;min-height:0;margin:6px 0 0;padding:9px 10px;border:1px solid transparent;border-radius:10px;background:var(--bg);color:var(--text);font:inherit;font-size:.85rem;font-weight:600;text-align:left;cursor:pointer}
-header.hdr .hd-row.on{color:var(--sage-d);border-color:var(--sage-d)}
-header.hdr .hd-sep{height:1px;background:var(--line);margin:8px 2px 0}
-header.hdr .hd-out{color:var(--danger);background:color-mix(in srgb,var(--danger) 14%,transparent)}
+@keyframes hdIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+header.hdr .hd-pl,header.hdr .hd-pr{display:flex;align-items:center;gap:6px;min-width:0}
+header.hdr .hd-row{min-height:0;height:28px;margin:0;padding:0 9px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--text);font:inherit;font-size:.7rem;font-weight:600;white-space:nowrap;cursor:pointer}
+header.hdr .hd-out{color:var(--danger);border-color:transparent;background:color-mix(in srgb,var(--danger) 14%,transparent)}
 </style>
 </head>
 <body>
@@ -1246,38 +1240,20 @@ header.hdr .hd-out{color:var(--danger);background:color-mix(in srgb,var(--danger
 <div class="wrap" id="app" data-tab="home" hidden>
   <header class="hdr" id="hdEl">
     <div class="hd-bg" aria-hidden="true"><svg class="hd-wm" viewBox="159 108 1646 1646" fill="currentColor"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
-    <div class="hd-tabwrap">
-      <div class="hd-panel" id="hdPanel" hidden>
-        <div class="hd-acc" id="hdAcc"></div>
-        <button type="button" class="hd-row" id="hdPhoto">Ganti foto</button>
-        <button type="button" class="hd-row" id="hdRename">Ganti nama</button>
-        <div class="hd-sep"></div>
-        <button type="button" class="hd-row" id="hdMLogo">Logo tetap</button>
-        <button type="button" class="hd-row" id="hdMProf">Profil tetap</button>
-        <button type="button" class="hd-row" id="hdMIdle">Bergantian 10 detik</button>
-        <div class="hd-sep"></div>
-        <button type="button" class="hd-row" id="hdBack">Back to login</button>
-        <button type="button" class="hd-row hd-out" id="hdOut">Sign out</button>
-      </div>
-      <button type="button" class="hd-tab" id="btnAvatar" aria-haspopup="menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg><span class="avbadge" id="avBadge" hidden></span><span class="avdot" id="avDot" hidden></span></button>
+    <div class="hd-panel" id="hdPanel" hidden>
+      <div class="hd-pl"><button type="button" class="hd-row" id="hdPhoto">Change photo</button><button type="button" class="hd-row" id="hdRename">Change name</button></div>
+      <div class="hd-pr"><button type="button" class="hd-row" id="hdBack">Back to login</button><button type="button" class="hd-row hd-out" id="hdOut">Sign out</button></div>
     </div>
-    <div class="hd-main">
-      <div class="hd-brand">
-        <button type="button" class="hd-logo" id="hdLogo" aria-label="Tampilkan profil"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg><span class="hd-av" id="hdAv"></span></button>
-        <div class="hd-id">
-          <button type="button" class="hd-name" id="hdName"><span class="hd-nlogo">kasAdust</span><span class="hd-nprof" id="hdNameProf"></span></button>
-          <div class="hd-date"><span id="today"></span></div>
-          <span id="today2" hidden></span>
-        </div>
-      </div>
-      <div class="hd-right">
-        <h1 class="hd-h1"><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1>
-        <div class="hd-acts">
-          <button type="button" class="calcbtn hd-ic" id="btnCalc" aria-haspopup="dialog" aria-expanded="false" aria-label="Kalkulator"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M7.9 2h8.2a3.4 3.4 0 0 1 3.4 3.4v13.2a3.4 3.4 0 0 1-3.4 3.4H7.9a3.4 3.4 0 0 1-3.4-3.4V5.4A3.4 3.4 0 0 1 7.9 2zM8.4 4.6h7.2a1.2 1.2 0 0 1 1.2 1.2v2a1.2 1.2 0 0 1-1.2 1.2H8.4A1.2 1.2 0 0 1 7.2 7.8v-2A1.2 1.2 0 0 1 8.4 4.6zM7.45 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0z"/></svg></button>
-          <button type="button" class="hd-ic" id="btnNotif" aria-label="Yang baru"><i data-ic="bell"></i><span class="hd-nb" id="ntBadge" hidden></span></button>
-          <button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button>
-        </div>
-      </div>
+    <div class="hd-tabwrap"><button type="button" class="hd-tab" id="btnAvatar" aria-haspopup="menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg><span class="avbadge" id="avBadge" hidden></span></button></div>
+    <button type="button" class="hd-logo" id="hdLogo" aria-label="Tampilkan profil"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg><span class="hd-av" id="hdAv"></span><span class="avdot" id="avDot" hidden></span></button>
+    <button type="button" class="hd-name" id="hdName"><span class="hd-nlogo">kasAdust</span><span class="hd-nprof" id="hdNameProf"></span></button>
+    <div class="hd-date"><span id="today"></span></div>
+    <span id="today2" hidden></span>
+    <h1 class="hd-h1"><button type="button" class="ttl" id="btnMonth" aria-haspopup="dialog" aria-expanded="false"><span id="ttlText">Oktober 2026</span><i data-ic="chev"></i></button></h1>
+    <div class="hd-acts">
+      <button type="button" class="calcbtn hd-ic" id="btnCalc" aria-haspopup="dialog" aria-expanded="false" aria-label="Kalkulator"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M7.9 2h8.2a3.4 3.4 0 0 1 3.4 3.4v13.2a3.4 3.4 0 0 1-3.4 3.4H7.9a3.4 3.4 0 0 1-3.4-3.4V5.4A3.4 3.4 0 0 1 7.9 2zM8.4 4.6h7.2a1.2 1.2 0 0 1 1.2 1.2v2a1.2 1.2 0 0 1-1.2 1.2H8.4A1.2 1.2 0 0 1 7.2 7.8v-2A1.2 1.2 0 0 1 8.4 4.6zM7.45 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 12.6a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 15.9a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM7.45 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM10.85 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0zM14.25 19.1a1.15 1.15 0 1 0 2.30 0a1.15 1.15 0 1 0 -2.30 0z"/></svg></button>
+      <button type="button" class="hd-ic" id="btnNotif" aria-label="Yang baru"><i data-ic="bell"></i><span class="hd-nb" id="ntBadge" hidden></span></button>
+      <button type="button" class="sw" id="btnTheme" role="switch" aria-checked="false" aria-label="Ganti ke mode gelap"><span class="knob" id="knob"></span></button>
     </div>
     <div id="mOverlay" class="ov" hidden></div>
     <div id="mSheet" class="sheet" role="dialog" aria-label="Pilih bulan" hidden>
@@ -4844,7 +4820,7 @@ header.hdr .hd-out{color:var(--danger);background:color-mix(in srgb,var(--danger
     if(m==="idle") hdTimer=setInterval(hdToggle,10000);
     else hdView=m==="prof"?"prof":"logo";
     hdPaint();
-    [["pmMLogo","logo"],["pmMProf","prof"],["pmMIdle","idle"],["hdMLogo","logo"],["hdMProf","prof"],["hdMIdle","idle"]].forEach(function(x){ var on=x[1]===m, el=$(x[0]); el.setAttribute("aria-pressed",String(on)); el.classList.toggle("on",on) });
+    [["pmMLogo","logo"],["pmMProf","prof"],["pmMIdle","idle"]].forEach(function(x){ var on=x[1]===m, el=$(x[0]); el.setAttribute("aria-pressed",String(on)); el.classList.toggle("on",on) });
   }
   $("hdLogo").addEventListener("click",hdToggle);
   $("hdName").addEventListener("click",hdToggle);
@@ -4856,15 +4832,11 @@ header.hdr .hd-out{color:var(--danger);background:color-mix(in srgb,var(--danger
     var p=$("hdPanel"), t=$("btnAvatar");
     if(open===undefined) open=p.hidden;
     p.hidden=!open; t.setAttribute("aria-expanded",String(open));
-    if(open) $("hdAcc").textContent=$("userTag").textContent||"";
   }
   $("btnAvatar").addEventListener("click",function(e){ e.stopPropagation(); hdMenu() });
-  document.addEventListener("click",function(e){ if(!$("hdPanel").hidden && !e.target.closest(".hd-tabwrap")) hdMenu(false) });
+  document.addEventListener("click",function(e){ if(!$("hdPanel").hidden && !e.target.closest(".hd-tabwrap,#hdPanel")) hdMenu(false) });
   $("hdPhoto").addEventListener("click",function(){ hdMenu(false); $("pmPhoto").click() });
   $("hdRename").addEventListener("click",function(){ hdMenu(false); openPm(); $("pmRename").click() });
-  $("hdMLogo").addEventListener("click",function(){ hdMenu(false); $("pmMLogo").click() });
-  $("hdMProf").addEventListener("click",function(){ hdMenu(false); $("pmMProf").click() });
-  $("hdMIdle").addEventListener("click",function(){ hdMenu(false); $("pmMIdle").click() });
   $("hdBack").addEventListener("click",function(){ hdMenu(false); $("pmWelcome").click() });
   $("hdOut").addEventListener("click",function(){ hdMenu(false); $("pmSwitch").click() });
   $("btnUpClose").addEventListener("click",function(){popClose("upSheet")});
