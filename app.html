@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-mlpW9ozfYfbBwROtjnhyd8HtreFvNnFDUGvO3hNfags=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-mlpW9ozfYfbBwROtjnhyd8HtreFvNnFDUGvO3hNfags=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' 'sha256-gQ6VJVIxzADbf1ii7ew1YgHdqXvta9sS87VFMQgHprY=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -1115,6 +1115,17 @@ var KIC=["target","debt","recv"];
 .kseg button[aria-pressed="true"]{background:var(--raise);color:var(--tc,var(--text));border-color:var(--tc,var(--sage-d));box-shadow:0 3px 10px -4px var(--tc,var(--sage-d));transform:translateY(-1px);transition:transform .2s ease,box-shadow .2s ease}
 .kseg button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
 </style>
+<style id="header-collapse">
+header{grid-template-columns:minmax(0,1fr) auto auto auto}
+header.hcol{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;margin:0 -18px 12px;padding:10px 18px;grid-template-columns:minmax(0,1fr) auto;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header.hcol .hl h1,header.hcol .hl .ttl{font-size:1.05rem!important;margin:0}
+header.hcol .hl .brand{display:block!important;font-size:.7rem;color:var(--muted);line-height:1.2;margin-bottom:2px}
+header.hcol .hmeta,header.hcol .hl .date,header.hcol .hr,header.hcol .avatar:not(.big){display:none!important}
+.hcbtn{grid-column:4;grid-row:1;width:30px;height:30px;min-height:0;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--sage-d);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.hcbtn svg{width:14px;height:14px;transition:transform .25s ease}
+header.hcol .hcbtn{grid-column:2}
+header.hcol .hcbtn svg{transform:rotate(180deg)}
+</style>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
@@ -1217,6 +1228,7 @@ var KIC=["target","debt","recv"];
       <div class="addm"><label for="mAdd"><i data-ic="plus"></i>Tambah bulan</label><input type="month" id="mAdd"><button type="button" class="small primary" id="btnAddM">Tambah</button></div>
       <div class="err" id="mErr" role="alert"></div>
     </div>
+    <button type="button" class="hcbtn" id="hcBtn" aria-expanded="true" aria-label="Ciutkan header"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </header>
 
   <section class="grid3" data-t="home" aria-label="Ringkasan bulan ini">
@@ -6100,6 +6112,22 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
     if(app.hidden){ wasHidden=true; settle(); return }
     if(wasHidden){ wasHidden=false; if(landed&&!document.getElementById("intro")) enter() }
   }).observe(app,{attributes:true,attributeFilter:["hidden"]});
+})();
+</script>
+<script>
+(function(){
+  var app=document.getElementById("app"); if(!app) return;
+  var hd=app.querySelector(":scope > header"), btn=document.getElementById("hcBtn");
+  if(!hd||!btn) return;
+  var lastY=window.pageYOffset||0, up=0;
+  function set(c){ hd.classList.toggle("hcol",c); btn.setAttribute("aria-expanded",String(!c)); btn.setAttribute("aria-label",c?"Buka header":"Ciutkan header") }
+  btn.addEventListener("click",function(){ set(!hd.classList.contains("hcol")) });
+  window.addEventListener("scroll",function(){
+    var y=window.pageYOffset||0, dy=y-lastY; lastY=y;
+    if(y<24){ up=0; set(false); return }
+    if(dy>0){ up=0; if(y>80) set(true) }
+    else if(dy<0){ up+=-dy; if(up>36){ up=0; set(false) } }
+  },{passive:true});
 })();
 </script>
 </body>
