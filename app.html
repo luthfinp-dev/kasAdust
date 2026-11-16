@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-mlpW9ozfYfbBwROtjnhyd8HtreFvNnFDUGvO3hNfags=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-jvvy2em+jJ44DdDDB1RCP9sWWI/nh35Jlr0B9oKdlsQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-hbPuT0YaiHrNRxtJmDzb6Ttsb13Qm/fVT3qmsX1jKDM=' 'sha256-mlpW9ozfYfbBwROtjnhyd8HtreFvNnFDUGvO3hNfags=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -6034,130 +6034,60 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 .rn{display:inline-block!important;white-space:nowrap!important;font-variant-numeric:tabular-nums}
 </style>
 <script>
-/* Rolling nominal beranda: slot vertikal, 2,4 detik, berakhir di angka asli.
-   Disiapkan saat logo mulai terbang, dimulai tepat saat logo mendarat, dan diulang tiap kembali ke beranda. */
+/* Hitung naik nominal total di beranda: 0 → angka asli dalam 1,4 detik (easing halus).
+   Hanya kartu total besar (Dompetku, Total pengeluaran, Total aset). Dimulai saat intro selesai,
+   saat PIN dibuka, dan tiap kembali ke beranda. Meninggalkan beranda = angka asli kembali. */
 (function(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   var app=document.getElementById("app"); if(!app) return;
-  var D=2400, EASE="cubic-bezier(.2,.8,.2,1)";
-  var SPLIT=/((?:[-+\u2212]\s*)?Rp\s?(?:\d{1,3}(?:\.\d{3})+|\d+))/, ISNUM=/^([-+\u2212]?\s*Rp\s?)(\d[\d.]*)$/;
-  var MASK="linear-gradient(to bottom,transparent 0,#000 25%,#000 75%,transparent 100%)";
-  var active=[], strips=[], timer=0, token=0;
-
-  function span(cls,css,txt){var e=document.createElement("span");if(cls)e.className=cls;e.style.cssText=css;if(txt!=null)e.textContent=txt;return e}
-  function settle(){
-    token++; clearTimeout(timer);
-    for(var i=0;i<active.length;i++){var a=active[i];if(a.wrap.parentNode)a.wrap.parentNode.replaceChild(a.orig,a.wrap)}
-    active=[]; strips=[];
-  }
+  var D=1400, IDS=["lVal","mTotal","aTotal"], RE=/^([-+\u2212]?\s*Rp\s?)(\d[\d.]*)$/;
+  var jobs=[], raf=0, token=0, landed=false, pend=false;
+  function fmt(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,".") }
+  function ease(t){ return 1-Math.pow(1-t,3) }
+  function restore(){ jobs.forEach(function(j){ j.el.textContent=j.final }); jobs=[] }
+  function settle(){ token++; cancelAnimationFrame(raf); restore() }
   function collect(){
-    var out=[], roots=app.querySelectorAll('[data-t="home"]');
-    for(var r=0;r<roots.length;r++){
-      var w=document.createTreeWalker(roots[r],NodeFilter.SHOW_TEXT), n;
-      while((n=w.nextNode())){
-        if(n.nodeValue.indexOf("Rp")<0) continue;
-        var pe=n.parentElement;
-        if(!pe||pe.closest("script,style,.rnw,.clone,[hidden]")||!pe.getClientRects().length) continue;
-        if(SPLIT.test(n.nodeValue)) out.push(n);
-      }
-    }
-    return out;
+    jobs=[];
+    IDS.forEach(function(id){
+      var el=document.getElementById(id); if(!el||!el.getClientRects().length) return;
+      var txt=el.textContent.trim(), m=RE.exec(txt); if(!m) return;
+      jobs.push({el:el,final:el.textContent,prefix:m[1],target:parseInt(m[2].replace(/\./g,""),10)||0});
+    });
   }
-  function number(o,m,seed){
-    var lh=o.lh, pad=Math.round(lh*.3*100)/100, px=Math.round(lh*.25*100)/100;
-    var rn=span("rn","display:inline-block!important;white-space:nowrap!important");
-    rn.setAttribute("aria-label",(m[1]+m[2]).trim());
-    var base="display:inline-block!important;height:"+lh+"px!important;line-height:"+lh+"px!important;vertical-align:top!important;white-space:pre!important";
-    var pre=span("",base,m[1]); pre.setAttribute("aria-hidden","true"); rn.appendChild(pre);
-    var digits=m[2], k=seed;
-    for(var i=0;i<digits.length;i++){
-      var ch=digits.charAt(i);
-      if(ch<"0"||ch>"9"){var x=span("",base,ch);x.setAttribute("aria-hidden","true");rn.appendChild(x);continue}
-      var d=+ch, off=3+(k%3), from=(d-off+10)%10, travel=10+off; k++;
-      var col=span("",
-        "display:inline-block!important;box-sizing:content-box!important;width:"+o.w[ch]+"px!important;height:"+lh+"px!important;"+
-        "padding:"+pad+"px "+px+"px!important;margin:-"+pad+"px -"+px+"px!important;overflow:hidden!important;vertical-align:top!important;text-align:center!important;"+
-        "-webkit-mask-image:"+MASK+";mask-image:"+MASK);
-      col.setAttribute("aria-hidden","true");
-      var st=span("","display:block!important;margin:0!important;padding:0!important");
-      for(var q=0;q<=travel;q++) st.appendChild(span("","display:block!important;float:none!important;margin:0!important;padding:0!important;height:"+lh+"px!important;line-height:"+lh+"px!important;white-space:nowrap!important",String((from+q)%10)));
-      col.appendChild(st); rn.appendChild(col);
-      strips.push({st:st,dist:travel*lh});
-    }
-    return rn;
-  }
-  /* siapkan: bangun DOM slot (angka berhenti di posisi awal), belum bergerak */
-  function prepare(){
+  function run(){
     settle();
-    var nodes=collect(); if(!nodes.length) return false;
-    /* fase baca (digabung supaya tidak bolak-balik layout) */
-    var info=nodes.map(function(n){
-      var p=n.parentElement, cs=getComputedStyle(p), fs=parseFloat(cs.fontSize)||16, lh=parseFloat(cs.lineHeight);
-      if(!(lh>0)) lh=Math.round(fs*1.2*100)/100;
-      return {n:n,p:p,lh:lh,w:{}};
-    });
-    var ms=[];
-    info.forEach(function(o){
-      var seen={}; o.n.nodeValue.replace(/\d/g,function(c){seen[c]=1});
-      Object.keys(seen).forEach(function(c){
-        var m=span("","position:absolute!important;visibility:hidden!important;white-space:pre!important;left:0;top:0",c);
-        o.p.appendChild(m); ms.push([o,c,m]);
-      });
-    });
-    ms.forEach(function(t){t[0].w[t[1]]=t[2].getBoundingClientRect().width});
-    ms.forEach(function(t){if(t[2].parentNode)t[2].parentNode.removeChild(t[2])});
-    /* fase tulis */
-    var seed=0;
-    info.forEach(function(o){
-      if(!o.n.parentNode) return;
-      var parts=o.n.nodeValue.split(SPLIT), wrap=document.createElement("span"); wrap.className="rnw";
-      parts.forEach(function(t){
-        if(!t) return;
-        var m=ISNUM.exec(t);
-        if(m){wrap.appendChild(number(o,m,seed));seed+=m[2].length}
-        else wrap.appendChild(document.createTextNode(t));
-      });
-      o.p.replaceChild(wrap,o.n); active.push({wrap:wrap,orig:o.n});
-    });
-    return active.length>0;
+    collect(); if(!jobs.length) return;
+    var my=token, t0=null;
+    jobs.forEach(function(j){ j.el.textContent=j.prefix+"0" });
+    function frame(now){
+      if(my!==token) return;
+      if(t0===null) t0=now;
+      var t=Math.min(1,(now-t0)/D), v=ease(t);
+      jobs.forEach(function(j){ j.el.textContent=j.prefix+fmt(Math.round(j.target*v)) });
+      if(t<1) raf=requestAnimationFrame(frame);
+      else { restore() }
+    }
+    raf=requestAnimationFrame(frame);
   }
-  function valid(){ if(!active.length) return false; for(var i=0;i<active.length;i++) if(!active[i].wrap.isConnected) return false; return true }
-  /* mulai: semua kolom bergerak bersamaan, tanpa jeda, di compositor (WAAPI) */
-  function play(){
-    if(!valid()) return;
-    var my=token;
-    strips.forEach(function(s){
-      var to="translateY(-"+s.dist+"px)";
-      if(s.st.animate) s.st.animate([{transform:"translateY(0px)"},{transform:to}],{duration:D,easing:EASE,fill:"both"});
-      else {s.st.style.transition="transform "+D+"ms "+EASE;requestAnimationFrame(function(){s.st.style.transform=to})}
-    });
-    timer=setTimeout(function(){ if(my===token) settle() },D+80);
-  }
-
-  var landed=false, pend=false;
   function homeOn(){ return !app.hidden && app.getAttribute("data-tab")==="home" }
   function locked(){ return document.documentElement.classList.contains("plk") }
-  function enter(){ /* siapkan + langsung jalan di frame berikutnya */
+  function enter(){
     if(!homeOn()) return;
-    if(locked()){pend=true;return}
-    if(prepare()) requestAnimationFrame(play);
+    if(locked()){ pend=true; return }
+    run();
   }
-  /* 1) disiapkan saat logo mulai terbang, jalan tepat saat logo mendarat di tombol + */
-  document.addEventListener("introfly",function(){ if(!landed&&homeOn()&&!locked()) prepare() });
   function onLanded(){
     if(landed) return; landed=true;
     if(!homeOn()) return;
-    if(locked()){settle();pend=true;return}
-    if(valid()) play(); else if(prepare()) requestAnimationFrame(play);
+    if(locked()){ pend=true; return }
+    run();
   }
   document.addEventListener("introlanded",onLanded);
-  var iv=setInterval(function(){ /* cadangan bila splash selesai tanpa logo terbang */
-    if(landed){clearInterval(iv);return}
-    if(!document.getElementById("intro")&&!app.hidden){clearInterval(iv);onLanded()}
+  var iv=setInterval(function(){
+    if(landed){ clearInterval(iv); return }
+    if(!document.getElementById("intro")&&!app.hidden){ clearInterval(iv); onLanded() }
   },120);
-  /* 2) setelah PIN dibuka */
-  window.addEventListener("pin-unlocked",function(){ if(pend){pend=false;enter()} });
-  /* 3) tiap kembali ke beranda; meninggalkan beranda = angka asli kembali */
+  window.addEventListener("pin-unlocked",function(){ if(pend){ pend=false; enter() } });
   var last=app.getAttribute("data-tab");
   new MutationObserver(function(){
     var cur=app.getAttribute("data-tab");
@@ -6165,11 +6095,10 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
     if(cur!=="home") settle();
     else if(landed&&!document.getElementById("intro")) enter();
   }).observe(app,{attributes:true,attributeFilter:["data-tab"]});
-  /* 4) app baru tampil setelah splash (mis. selesai login) */
   var wasHidden=app.hidden;
   new MutationObserver(function(){
-    if(app.hidden){wasHidden=true;settle();return}
-    if(wasHidden){wasHidden=false; if(landed&&!document.getElementById("intro")) enter()}
+    if(app.hidden){ wasHidden=true; settle(); return }
+    if(wasHidden){ wasHidden=false; if(landed&&!document.getElementById("intro")) enter() }
   }).observe(app,{attributes:true,attributeFilter:["hidden"]});
 })();
 </script>
