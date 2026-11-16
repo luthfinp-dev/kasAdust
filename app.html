@@ -3143,8 +3143,14 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     }
     syncing=false;
   }
+  function withTimeout(p,ms,code){
+    return new Promise(function(res,rej){
+      var t=setTimeout(function(){var e=new Error("timeout");e.code=code;rej(e)},ms);
+      p.then(function(v){clearTimeout(t);res(v)},function(e){clearTimeout(t);rej(e)});
+    });
+  }
   async function readDb(){
-    var snap=await col().get(), docs={};
+    var snap=await withTimeout(col().get(),15000,"timeout_db"), docs={};
     snap.docs.forEach(function(x){if(x.exists)docs[x.id]=cl(x.data()||{})});
     return docs;
   }
@@ -3313,7 +3319,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     if(!c){showCfg();return}
     try{
       if(!sb||sbKey!==c.url+"|"+c.key)initClient(c);
-      var r=await sb.auth.getSession(), sess=r&&r.data&&r.data.session;
+      var r=await withTimeout(sb.auth.getSession(),8000,"timeout_session"), sess=r&&r.data&&r.data.session;
       if(urlRec||urlErr||urlConf)cleanUrl();
       if(urlErr&&!sess){var ue=urlErr;urlErr=null;urlRec=false;showAuth(urlErrMsg(ue));return}
       if(sess&&(recMode||urlRec||recPending())){urlRec=false;recPending(true);showReset();return}
@@ -3321,6 +3327,12 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       if(sess){await afterAuth(sess.user);return}
       showAuth();
     }catch(e){
+      if(e&&e.code==="timeout_session"){
+        try{authStore.removeItem(AUTH_KEY)}catch(x){}
+        sb=null;sbKey="";
+        showAuth("Sesi lama tidak bisa dibaca. Silakan masuk lagi.");
+        return;
+      }
       wShow("Tidak bisa terhubung ke Supabase. Periksa koneksi internet.",[["retry","Coba lagi","primary"],["cfg","Ubah konfigurasi"]]);
     }
   }
