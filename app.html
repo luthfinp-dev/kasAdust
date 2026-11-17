@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-/fV6xwEm0USDlQeJjtqr2SMSQvscwek5rGyJOCKlyA0=' 'sha256-mlo5dD+5vymlZaFmiQ+HKUvRsI2aSN6IEh+pdjuWIrU=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-mOHjPhTSDwy2oLkfd+d0DQNAMc7CrNHbS9RcVwzVjdc=' 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-/fV6xwEm0USDlQeJjtqr2SMSQvscwek5rGyJOCKlyA0=' 'sha256-mlo5dD+5vymlZaFmiQ+HKUvRsI2aSN6IEh+pdjuWIrU=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -1378,6 +1378,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   <div class="two">
     <div class="tov" id="txOv" hidden></div>
     <section class="msheet" id="txSheet" role="dialog" aria-modal="true" aria-label="Form transaksi" hidden>
+      <div class="tx-grip" id="txGrip" aria-hidden="true"><i></i></div>
       <h2><i data-ic="plus"></i><span id="formTitle">Tambah transaksi</span></h2>
       <form id="form" novalidate>
         <div class="fields">
@@ -6517,6 +6518,65 @@ html:root[data-skin="clean"] #gList .top .ico,html:root[data-skin="clean"][data-
 html:root[data-skin="clean"] .acchips button{box-shadow:var(--nu-o-s)}
 html:root[data-skin="clean"] .acchips button:active,html:root[data-skin="clean"] .acchips button.on{box-shadow:var(--nu-i-s)}
 html:root[data-skin="clean"] #gList .cat .top .gadd,html:root[data-skin="clean"] #gList .srow>.hmore{box-shadow:var(--nu-o-s)!important}
+/* ===== Sheet: hilangkan cahaya putih di sekelilingnya ===== */
+html:root[data-skin="clean"] .msheet,html:root[data-skin="clean"] .sheet{box-shadow:0 -4px 22px rgba(0,0,0,.14)!important}
+html:root[data-skin="clean"][data-theme="dark"] .msheet,html:root[data-skin="clean"][data-theme="dark"] .sheet{box-shadow:0 -6px 26px rgba(0,0,0,.5)!important}
+@media (min-width:761px){html:root[data-skin="clean"] .msheet{box-shadow:0 10px 36px rgba(0,0,0,.22)!important}}
+/* ===== Tambah transaksi: tinggi bisa ditarik ===== */
+#txSheet .tx-grip{display:flex;justify-content:center;padding:6px 0 12px;margin:-14px 0 0;touch-action:none;cursor:grab;-webkit-tap-highlight-color:transparent}
+#txSheet .tx-grip i{display:block;width:38px;height:4px;border-radius:99px;background:var(--muted);opacity:.45}
+#txSheet h2{touch-action:none}
+#txSheet.dragging{transition:none!important;animation:none!important}
+@media (min-width:761px){#txSheet .tx-grip{display:none}}
 </style>
+<script>
+(function(){
+  var s=document.getElementById("txSheet"),g=document.getElementById("txGrip"),h2=s&&s.querySelector("h2");
+  if(!s||!g)return;
+  var d=null;
+  function mob(){return window.innerWidth<=760}
+  function vh(){return window.visualViewport?window.visualViewport.height:window.innerHeight}
+  function maxH(){return Math.round(vh()*0.94)}
+  function reset(){s.style.height="";s.classList.remove("dragging")}
+  function down(e){
+    if(!mob()||(e.pointerType==="mouse"&&e.button!==0))return;
+    d={y:e.clientY,h:s.getBoundingClientRect().height,m:false,id:e.pointerId,el:e.currentTarget};
+    try{d.el.setPointerCapture(e.pointerId)}catch(x){}
+    s.classList.add("dragging");
+  }
+  function move(e){
+    if(!d||e.pointerId!==d.id)return;
+    var dy=d.y-e.clientY;
+    if(Math.abs(dy)>4)d.m=true;
+    if(!d.m)return;
+    var h=Math.max(0,Math.min(maxH(),d.h+dy));
+    s.style.maxHeight=maxH()+"px";
+    s.style.height=h+"px";
+    e.preventDefault();
+  }
+  function up(e){
+    if(!d||e.pointerId!==d.id)return;
+    var moved=d.m,h=s.getBoundingClientRect().height;
+    try{d.el.releasePointerCapture(d.id)}catch(x){}
+    d=null;s.classList.remove("dragging");
+    if(!moved){
+      if(s.style.height)reset();else{s.style.maxHeight=maxH()+"px";s.style.height=maxH()+"px"}
+      return;
+    }
+    if(h<120){
+      reset();
+      document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}));
+    }
+  }
+  [g,h2].forEach(function(el){
+    if(!el)return;
+    el.addEventListener("pointerdown",down);
+    el.addEventListener("pointermove",move);
+    el.addEventListener("pointerup",up);
+    el.addEventListener("pointercancel",up);
+  });
+  new MutationObserver(function(){if(s.hidden){reset();s.style.maxHeight=""}}).observe(s,{attributes:true,attributeFilter:["hidden"]});
+})();
+</script>
 </body>
 </html>
