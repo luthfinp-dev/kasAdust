@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-lJleeA2v5ArNgQrdnao2dC0WSnBP1MU91MGcBJshqr0=' 'sha256-sPee03tCIb/O2ni8bkjFjRHc+YYoVKjsQQ11D4lOtMM=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-TSdQl1B5Ud6n2BCHVAvhJJvKzVHLOlYLjBYIR7hVC+4=' 'sha256-DQYyLJMP/6zpfy6r2Mtru7ZMkNll7/bM+3mYivRbM7Q=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -1275,7 +1275,8 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
         <button type="button" class="hd-mi" id="hdPhoto"><i data-ic="camera"></i>Change profile</button>
         <button type="button" class="hd-mi hd-out" id="hdOut"><i data-ic="out"></i>Sign out</button>
       </div>
-      <button type="button" class="hd-dots" id="btnAvatar" aria-haspopup="menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg><span class="avbadge" id="avBadge" hidden></span></button>
+      <div class="hd-act"><button type="button" class="hd-close" id="btnClose" aria-label="Keluar aplikasi" title="Keluar aplikasi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8.5"/><path d="M6.6 6.9a8 8 0 1 0 10.8 0"/></svg></button>
+      <button type="button" class="hd-dots" id="btnAvatar" aria-haspopup="menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg><span class="avbadge" id="avBadge" hidden></span></button></div>
     </div>
     <div class="hd-box">
       <div class="hd-bg" aria-hidden="true"><svg class="hd-wm" viewBox="159 108 1646 1646" fill="currentColor"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
@@ -1824,6 +1825,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   Object.assign(EN,{"Terbesar":"Largest","Menabung bulan ini":"Saved this month"});
   Object.assign(EN,{"Gaya geser navbar":"Navbar swipe style","Pindah saat lepas":"Switch on release","Pindah langsung":"Switch instantly","Ketuk saja":"Tap only","Efek ikon":"Icon effect","Tepi pelangi":"Rainbow edge","Warna aksen":"Accent color"});
   Object.assign(EN,{"Akun, keamanan, tampilan, dan bantuan.":"Account, security, appearance and help.","Keamanan":"Security","Tampilan":"Appearance","Masukan":"Feedback","Kamu dan statusmu di aplikasi ini.":"You and your status in this app.","Akun yang sedang dipakai di perangkat ini.":"The account in use on this device.","Status data akunmu.":"Your account data status.","Panduan":"Guide","Lihat lagi tur singkat aplikasi.":"Replay the short app tour.","Ganti akun atau keluar dari perangkat ini.":"Switch accounts or sign out on this device.","Masuk & keamanan":"Sign-in & security","Cara kasAdust memastikan ini kamu.":"How kasAdust knows it's you.","Minta PIN setiap kali membuka aplikasi.":"Ask for your PIN every time the app opens.","Ganti PIN dengan yang baru.":"Replace your PIN with a new one.","Warna dan suasana aplikasi.":"Colors and mood of the app.","Pilih bahasa tampilan aplikasi.":"Choose the app language.","Atur cara geser dan efek ikon di navbar bawah.":"How swiping and icon effects work on the bottom navbar.","Langsung sampai ke pembuat aplikasi.":"Goes straight to the app's maker."});
+  Object.assign(EN,{"Keluar aplikasi":"Close app","Belum bisa ditutup otomatis":"Can\u2019t close automatically","Geser aplikasi dari daftar app untuk keluar":"Swipe the app away from your recent apps to exit"});
   Object.assign(EN,{"Ubah password":"Change password","Ganti password akun kamu.":"Change your account password.","Password lama":"Current password","Password baru":"New password","Ulangi password baru":"Repeat new password","Simpan password":"Save password","Isi password lama.":"Enter your current password.","Password lama salah.":"Current password is incorrect.","Password berhasil diganti.":"Password changed successfully.","Belum masuk. Muat ulang halaman.":"Not signed in. Reload the page."});
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
@@ -2418,19 +2420,26 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   try{var gt0=+localStorage.getItem("gtab-v1");if(gt0===1||gt0===2)gTab=gt0}catch(e){}
   function usedTot(g){return items.reduce(function(s,t){return s+((t.category===GOALC&&t.tujuanId===g.id&&t.pakai)?t.amount:0)},0)}
   function usedNote(g,k){if(k!==0)return "";var u=usedTot(g);return u>0?'<div class="gm"><span>Sudah terpakai '+mk(u)+'</span></div>':""}
+  function gDays(g){
+    if(!g.date)return null;
+    var q=g.date.split("-"), d=new Date(+q[0],+q[1]-1,+q[2]), n=new Date(), t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+    return Math.round((d-t0)/864e5);
+  }
+  /* kolom jadi merah: H-7 s/d H-2 = due7, H-1 / hari ini / terlambat = due1 (lebih tegas) */
+  function gDueCls(g,done){
+    if(done)return "";
+    var d=gDays(g);
+    if(d===null||d>7)return "";
+    return d<=1?" due1":" due7";
+  }
+  /* jatuh tempo: hanya sisa hari, tanpa tanggal */
   function gDateInfo(g,k,done){
-    if(!g.date&&!g.start)return "";
-    var rel="", cls="";
-    if(g.date){
-      var q=g.date.split("-"), d=new Date(+q[0],+q[1]-1,+q[2]), n=new Date(), t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
-      var days=Math.round((d-t0)/864e5);
-      if(!done){
-        if(days<0){rel="Terlambat "+(-days)+" hari";cls=" late"}
-        else if(days===0){rel="Hari ini";cls=" soon"}
-        else{rel=days+" hari lagi";if(days<=7)cls=" soon"}
-      }
-    }
-    return '<div class="gdt'+cls+(g.start&&g.date?" two":"")+'">'+(g.start?'<span class="gds">'+ic("cal")+'<span>Tanggal '+dateLabel(g.start)+'</span></span>':'')+(g.date?'<span class="gdd">'+(g.start?'':ic("cal"))+'<span>'+GK[k].dl+" "+dateLabel(g.date)+'</span></span>':'')+(rel?'<b>'+rel+'</b>':'')+'</div>';
+    if(done||!g.date)return "";
+    var days=gDays(g), rel, cls="";
+    if(days<0){rel="Terlambat "+(-days)+" hari";cls=" late"}
+    else if(days===0){rel="Hari ini";cls=" late"}
+    else{rel=days+" hari lagi";if(days<=7)cls=" late"}
+    return '<div class="gdt'+cls+'"><b>'+rel+'</b></div>';
   }
   /* ===== Carousel ringkasan Tujuan (scroll asli + snap, jadi tidak bentrok dengan geser antar-tab) ===== */
   var car={idx:0,sig:"",raf:0,touch:false,t:0,len:0}, RM=!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -2532,7 +2541,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       var done=g.saved>=g.target, p=done?100:Math.min(99,Math.floor(g.saved/g.target*100));
       var subs=g.subs||[], open=!!openG[g.id];
       var del=pendingGoal===g.id?'<button class="small danger confirm" data-a="del" data-id="'+esc(g.id)+'">Yakin hapus?</button>':'<button class="small danger" data-a="del" data-id="'+esc(g.id)+'">'+ic("trash")+'Hapus</button>';
-      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+'"'+ckAttr("g:"+g.id)+'><div class="top gkind'+k+'"><div class="ico">'+ic("target")+'</div><div class="meta"><b>'+esc(g.name)+'</b><small>'+(hideBal?"••":p)+'%</small><div class="gsub">Terkumpul '+nbk(g.saved)+' dari '+nbk(g.target)+'</div></div><div class="amt"><b>'+nbk(g.target)+'</b><small'+(done?' class="ok"':'')+'>'+(done?L.done:'Belum lunas')+'</small></div>'+(k>=1?'<button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button>':'')+'</div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
+      return '<div class="cat xc'+(openCard==="g:"+g.id?" open":"")+gDueCls(g,done)+'"'+ckAttr("g:"+g.id)+'><div class="top gkind'+k+'"><div class="ico">'+ic("target")+'</div><div class="meta"><b>'+esc(g.name)+'</b><small>'+(hideBal?"••":p)+'%</small><div class="gsub">Terkumpul '+nbk(g.saved)+' dari '+nbk(g.target)+'</div></div><div class="amt"><b>'+nbk(g.target)+'</b><small'+(done?' class="ok"':'')+'>'+(done?L.done:'Belum lunas')+'</small></div>'+(k>=1?'<button type="button" class="small icon gadd" data-a="padd" data-id="'+esc(g.id)+'" aria-label="'+(k===1?"Tambah hutang":"Tambah piutang")+'" title="'+(k===1?"Tambah hutang":"Tambah piutang")+'">'+ic("plus")+'</button>':'')+'</div>'+usedNote(g,k)+gDateInfo(g,k,done)+'<div class="xd"><div class="xi"><div class="arow"><button class="small" data-a="toggle" data-id="'+esc(g.id)+'" aria-expanded="'+open+'">'+ic("chev")+'Riwayat</button><button class="small" data-a="deposit" data-id="'+esc(g.id)+'">+ Setor</button>'+(k===0?'<button class="small" data-a="withdraw" data-id="'+esc(g.id)+'">− Dipakai</button>':"")+'<button class="small" data-a="edit" data-id="'+esc(g.id)+'">'+ic("pen")+'Edit</button>'+del+'</div>'+(open?goalHistoryHtml(g)+subsHtml(g):"")+'</div></div></div>';
     }).join(""):'<div class="empty">'+L.empty+'</div>';
     $("btnGoalAdd").textContent=L.add;
   }
@@ -4689,6 +4698,15 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     requestAnimationFrame(function(){t.classList.add("on")});
     toastT=setTimeout(hideToast,ms);buzz();
   }
+  /* tombol keluar aplikasi: coba tutup jendela; kalau browser menolak, beri petunjuk */
+  (function(){
+    var b=$("btnClose");if(!b)return;
+    b.addEventListener("click",function(){
+      try{if(navigator.serviceWorker)navigator.serviceWorker.getRegistration().then(function(r){if(r)r.update()}).catch(function(){})}catch(e){}
+      try{window.close()}catch(e){}
+      setTimeout(function(){toast("Belum bisa ditutup otomatis",null,"Geser aplikasi dari daftar app untuk keluar")},350);
+    });
+  })();
   var noCU=0;
   function syncStats(){}
   var fitQ=0;
@@ -6344,6 +6362,18 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 }
 :root[data-theme="dark"] #app button.small:not(.primary):not(.danger):not(.del){background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.18)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #app button.small:not(.primary):not(.danger):not(.del){background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.18)}}
+</style>
+<style id="due-warn">
+/* jatuh tempo: kolom merah saat H-7 (lembut) dan H-1 / hari ini / terlambat (tegas) */
+#gList .cat.due7{background:var(--rdl)!important;border-color:rgba(214,69,69,.45)!important}
+#gList .cat.due1{background:linear-gradient(135deg,rgba(214,69,69,.28),rgba(214,69,69,.14))!important;border-color:var(--rd)!important;box-shadow:0 0 0 1px var(--rd) inset,var(--glass-sh)}
+</style>
+<style id="hd-close-css">
+/* tombol keluar aplikasi: sebelah titik tiga, ukuran sama (36px, ikon 22px), merah terang di semua tema */
+header.hdr .hd-act{display:flex;align-items:center;gap:2px;flex:none}
+header.hdr .hd-close{width:36px;height:36px;min-height:0;margin:0;padding:0;border:0;background:none;color:#ff3b3b!important;display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+header.hdr .hd-close svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+header.hdr .hd-close:active{transform:scale(.9)}
 </style>
 </body>
 </html>
