@@ -18,7 +18,6 @@
 <meta name="apple-mobile-web-app-title" content="kasAdust">
 <script>try{var r=document.documentElement,t=localStorage.getItem("tema-v1"),k=localStorage.getItem("skin-v1");if(k==="midnight"){r.setAttribute("data-skin","midnight");r.setAttribute("data-theme",t==="light"?"light":"dark")}else if(t==="dark"||t==="light")r.setAttribute("data-theme",t)}catch(e){}</script>
 <script>window.__dip=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dip=e});window.addEventListener("appinstalled",function(){window.__dip=null;try{localStorage.setItem("pwa-installed-v1","1")}catch(e){}});try{if(matchMedia("(display-mode: standalone)").matches||navigator.standalone===true)localStorage.setItem("pwa-installed-v1","1")}catch(e){}</script>
-<script>try{var r=document.documentElement;if(localStorage.getItem("nav-pos")==="side"){r.setAttribute("data-navpos","side");if(localStorage.getItem("nav-open")==="1")r.setAttribute("data-navopen","1")}}catch(e){}</script>
 <style>
 :root{
   box-sizing:border-box;
@@ -1464,6 +1463,19 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       <div class="srow"><div class="sr-l"><div class="sr-t" id="pinLbl">Kunci PIN</div><div class="sr-d">Minta PIN setiap kali membuka aplikasi.</div></div><button type="button" class="sw" id="pinSw" role="switch" aria-checked="false" aria-labelledby="pinLbl"><span class="knob"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span></button></div>
       <p class="note" id="pinNote" hidden></p>
       <div class="srow" id="pinRow" hidden><div class="sr-l"><div class="sr-t">PIN</div><div class="sr-d">Ganti PIN dengan yang baru.</div></div><button type="button" class="small" id="pinChg">Ubah PIN</button></div>
+      <div class="srow"><div class="sr-l"><div class="sr-t">Password</div><div class="sr-d">Ganti password akun kamu.</div></div><button type="button" class="small" id="cpOpen" aria-controls="cpBox">Ubah password</button></div>
+      <form id="cpBox" hidden autocomplete="off">
+        <label for="cpCur">Password lama</label>
+        <input id="cpCur" type="password" autocomplete="current-password">
+        <label for="cpNew">Password baru</label>
+        <input id="cpNew" type="password" autocomplete="new-password">
+        <div class="pwhint">Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.</div>
+        <label for="cpNew2">Ulangi password baru</label>
+        <input id="cpNew2" type="password" autocomplete="new-password">
+        <div class="row"><button type="submit" class="primary" id="cpSubmit">Simpan password</button><button type="button" id="cpCancel">Batal</button></div>
+        <p class="err" id="cpErr" aria-live="polite"></p>
+      </form>
+      <p class="note" id="cpOk" aria-live="polite"></p>
     </section>
   </div>
   <div class="sx-panel sx-off" data-t="set" data-sx="tampilan" role="tabpanel" id="sxpTampilan">
@@ -1483,8 +1495,6 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     </section>
     <section class="card sxc" id="setCard">
       <div class="sxc-t">Navbar</div><div class="sxc-s">Atur posisi, cara geser, dan efek ikon navbar.</div>
-      <p class="acch2">Posisi navbar</p>
-      <div class="acchips" id="navPosChips" role="group" aria-label="Posisi navbar"><button type="button" data-np="bottom" aria-pressed="true">Bawah</button><button type="button" data-np="side" aria-pressed="false">Samping</button></div>
       <p class="acch2">Gaya geser navbar</p>
       <div class="acchips" id="navModeChips" role="group" aria-label="Gaya geser navbar"><button type="button" data-nm="release" aria-pressed="true">Pindah saat lepas</button><button type="button" data-nm="live" aria-pressed="false">Pindah langsung</button><button type="button" data-nm="tap" aria-pressed="false">Ketuk saja</button></div>
       <p class="acch2">Efek ikon</p>
@@ -1795,6 +1805,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   Object.assign(EN,{"Terbesar":"Largest","Menabung bulan ini":"Saved this month"});
   Object.assign(EN,{"Gaya geser navbar":"Navbar swipe style","Pindah saat lepas":"Switch on release","Pindah langsung":"Switch instantly","Ketuk saja":"Tap only","Efek ikon":"Icon effect","Tepi pelangi":"Rainbow edge","Warna aksen":"Accent color"});
   Object.assign(EN,{"Akun, keamanan, tampilan, dan bantuan.":"Account, security, appearance and help.","Keamanan":"Security","Tampilan":"Appearance","Masukan":"Feedback","Kamu dan statusmu di aplikasi ini.":"You and your status in this app.","Akun yang sedang dipakai di perangkat ini.":"The account in use on this device.","Status data akunmu.":"Your account data status.","Panduan":"Guide","Lihat lagi tur singkat aplikasi.":"Replay the short app tour.","Ganti akun atau keluar dari perangkat ini.":"Switch accounts or sign out on this device.","Masuk & keamanan":"Sign-in & security","Cara kasAdust memastikan ini kamu.":"How kasAdust knows it's you.","Minta PIN setiap kali membuka aplikasi.":"Ask for your PIN every time the app opens.","Ganti PIN dengan yang baru.":"Replace your PIN with a new one.","Warna dan suasana aplikasi.":"Colors and mood of the app.","Pilih bahasa tampilan aplikasi.":"Choose the app language.","Atur cara geser dan efek ikon di navbar bawah.":"How swiping and icon effects work on the bottom navbar.","Langsung sampai ke pembuat aplikasi.":"Goes straight to the app's maker."});
+  Object.assign(EN,{"Ubah password":"Change password","Ganti password akun kamu.":"Change your account password.","Password lama":"Current password","Password baru":"New password","Ulangi password baru":"Repeat new password","Simpan password":"Save password","Isi password lama.":"Enter your current password.","Password lama salah.":"Current password is incorrect.","Password berhasil diganti.":"Password changed successfully.","Belum masuk. Muat ulang halaman.":"Not signed in. Reload the page."});
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
    [/^Jatuh tempo (.+)$/,function(m){return "Due "+m[1]}],
@@ -3553,6 +3564,39 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   });
   $("rcCancel").addEventListener("click",function(){recMode=false;recPending(false);doLogout()});
   $("btnWelcome").addEventListener("click",doLogout);
+  /* ganti password dari tab Keamanan: cek password lama dulu, lalu simpan yang baru */
+  (function(){
+    var f=$("cpBox"), busy=false;
+    if(!f)return;
+    $("cpOpen").addEventListener("click",function(){
+      f.hidden=!f.hidden; $("cpErr").textContent=""; $("cpOk").textContent="";
+      if(!f.hidden)$("cpCur").focus();
+    });
+    $("cpCancel").addEventListener("click",function(){f.hidden=true;f.reset();$("cpErr").textContent=""});
+    f.addEventListener("submit",async function(e){
+      e.preventDefault(); if(busy)return;
+      var cur=$("cpCur").value, p1=$("cpNew").value, p2=$("cpNew2").value, err=$("cpErr");
+      err.textContent=""; $("cpOk").textContent="";
+      if(!cur){err.textContent="Isi password lama.";$("cpCur").focus();return}
+      if(pwErr(p1)){err.textContent=pwErr(p1);$("cpNew").focus();return}
+      if(p1!==p2){err.textContent="Ulangi password dengan benar.";$("cpNew2").focus();return}
+      busy=true; $("cpSubmit").disabled=true;
+      try{
+        var u=await sb.auth.getUser(), em=u&&u.data&&u.data.user&&u.data.user.email;
+        if(!em)throw {code:"no_user"};
+        var chk=await sb.auth.signInWithPassword({email:em,password:cur});
+        if(chk.error)throw chk.error;
+        var r=await sb.auth.updateUser({password:p1});
+        if(r.error)throw r.error;
+        f.reset(); f.hidden=true; $("cpOk").textContent="Password berhasil diganti.";
+      }catch(x){
+        if(x&&x.code==="no_user")err.textContent="Belum masuk. Muat ulang halaman.";
+        else if(x&&(x.code==="invalid_credentials"||/Invalid login credentials/i.test(x.message||"")))err.textContent="Password lama salah.";
+        else err.textContent=authMsg(x);
+      }
+      busy=false; $("cpSubmit").disabled=false;
+    });
+  })();
   $("btnRetry").addEventListener("click",queueSync);
   function applySave(t,sign){
     if(t&&t.category===WD){var wa0=assets.filter(function(x){return x.id===t.asetId})[0];if(wa0)wa0.amount=wa0.amount-sign*t.amount;return}
@@ -4051,7 +4095,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   /* posisi navbar: bawah (horizontal) <-> samping (vertikal), label bisa dibuka/ditutup */
   (function(){
     var root=document.documentElement,pos="bottom",open=false;
-    try{pos=localStorage.getItem("nav-pos")==="side"?"side":"bottom";open=localStorage.getItem("nav-open")==="1"}catch(e){}
+    // navbar selalu di bawah (opsi samping dihapus)
     var fl=$("navFlip"),ex=$("navExpand"),chips=$("navPosChips");
     if(!fl||!ex)return;
     function paint(){
