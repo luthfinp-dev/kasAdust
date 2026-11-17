@@ -1169,6 +1169,13 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 :root[data-skin="midnight"] #welcome.wl .wload i{background:#FC734D}
 @media (prefers-reduced-motion:reduce){#welcome.wl .wload i{animation:none;width:100%;opacity:.5}}
 </style>
+<style id="nav-round">
+/* bentuk navbar seragam: bar, gelembung kaca, dan sorotan tab sama-sama pil, tinggi sorotan = tinggi gelembung */
+.navbar .nb{align-self:stretch;margin:5px 0;border-radius:999px}
+.navbar .nb[aria-selected="true"]{border-radius:999px;transform:none}
+/* jarak sorotan ke tepi bar sama di semua sisi (5px) supaya lengkungannya sejajar */
+.navbar{padding-left:5px;padding-right:5px}
+</style>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
