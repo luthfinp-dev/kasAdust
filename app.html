@@ -1183,7 +1183,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     <button type="button" class="gopt" id="gWeb"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.6 5.3 3.6 8.5s-1.2 6-3.6 8.5c-2.4-2.5-3.6-5.3-3.6-8.5s1.2-6 3.6-8.5Z"/></svg></span><span class="gtx"><b>Lanjut di website</b><small>Langsung masuk lewat browser ini.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
   </div>
 </div></div>
-<div class="welcome" id="welcome"><div class="wcard">
+<div class="welcome" id="welcome" hidden><div class="wcard">
   <div class="wlang" role="group" aria-label="Language" data-notr><button type="button" data-lang="en">EN</button><button type="button" data-lang="id">ID</button></div>
   <div class="wlogo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
   <p class="weyebrow"><span>kasAdust</span><b></b><span>Pencatatan Pengeluaran</span></p>
@@ -3103,7 +3103,8 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   assets=loadKey("aset-v1");
   assets=Array.isArray(assets)?cleanList(assets,cleanAsset,500):[{id:uid(),name:"Reksa dana",amount:2000000},{id:uid(),name:"Emas",amount:1500000},{id:uid(),name:"Tabungan",amount:1000000}];
   }
-  function wShow(msg,btns){$("wSub").hidden=true;$("wMsg").textContent=msg;$("wBtns").innerHTML=btns.map(function(b){return '<button type="button" class="'+(b[2]||"")+'" data-w="'+b[0]+'">'+b[1]+'</button>'}).join("")}
+  function wLoad(){$("gate").hidden=true;$("welcome").hidden=true;$("app").hidden=true}
+  function wShow(msg,btns){$("welcome").hidden=false;$("wSub").hidden=true;$("wMsg").textContent=msg;$("wBtns").innerHTML=btns.map(function(b){return '<button type="button" class="'+(b[2]||"")+'" data-w="'+b[0]+'">'+b[1]+'</button>'}).join("")}
   function setSync(t,fail){$("syncBox").hidden=(mode!=="db");$("syncSt").textContent=t||"";$("btnRetry").hidden=!fail;paintSet();paintDot(t,fail)}
   function enter(){
     $("welcome").hidden=true;$("app").hidden=false;noCU=Date.now()+2000;
@@ -3245,7 +3246,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     if(!msg&&gateWanted()){
       if(window.__dip){showGate();return}
       if(!gateWaited){
-        gateWaited=true;showPane("msg");$("wBtns").innerHTML="";$("wMsg").textContent="Memeriksa sesi...";
+        gateWaited=true;wLoad();
         setTimeout(function(){if(!window.__dip)gateDone=true;showAuth()},1200);
         return;
       }
@@ -3331,12 +3332,12 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     return true;
   }
   async function start(){
-    showPane("msg");wShow("Memeriksa sesi...",[]);
+    wLoad();
     var tok=(window.__startTok=(window.__startTok||0)+1);
     setTimeout(function(){
       if(tok!==window.__startTok)return;
       var m=$("wMsg");
-      if(m&&$("welcome").hidden===false&&/Memeriksa|Memuat|Memulihkan/.test(m.textContent)){
+      if(m&&$("app").hidden&&$("authBox").hidden&&$("cfgBox").hidden&&$("fgBox").hidden&&$("rcBox").hidden&&$("gate").hidden){
         wShow("Belum selesai memuat. Coba lagi, atau reset sesi di perangkat ini.",[["retry","Coba lagi","primary"],["reset","Reset sesi perangkat"]]);
       }
     },12000);
@@ -3380,7 +3381,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   }
   $("wCheck").addEventListener("click",playCheck);
   async function goDb(){
-    showPane("msg");wShow("Memuat data...",[]);
+    wLoad();
     try{
       var docs=await readDb();
       mode="db";
@@ -4784,6 +4785,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     showTab("home");window.scrollTo(0,0);
   }
   function tourMaybe(){
+    if(document.getElementById("intro")){setTimeout(tourMaybe,200);return}
     if(trOn||trSeen()||$("app").hidden||recMode)return;
     if(typeof topPanel==="function"&&topPanel())return;
     trStart();
