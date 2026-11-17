@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-b4HZ4pxr535CpIwcd7i8oRg7bzFrpxJsvvEUiVgBcv8=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-viKzcGZ38qCzOrGfIiAVAbWxpSUVdjBb2j3UMNklI1s=' 'sha256-pVw+LqLdVxTBjRn2qT85lm3/Vk2+e5O0GDCmd2d3rNY=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9GLPsy6cpmKBbM8rjNV5HNH6qeNUXE+IFcXa3GeO1d8=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-lJleeA2v5ArNgQrdnao2dC0WSnBP1MU91MGcBJshqr0=' 'sha256-sPee03tCIb/O2ni8bkjFjRHc+YYoVKjsQQ11D4lOtMM=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -1158,6 +1158,17 @@ header.hdr .hd-acts .sw[aria-checked="true"] .knob{transform:translateX(18px)}
 header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 @media (max-width:374px){header.hdr .hd-date{font-size:.6rem}}
 </style>
+<style id="wl-load">
+/* mode memuat: hanya logo + bar loading, tidak pernah layar kosong */
+#welcome .wload{display:none}
+#welcome.wl .wcard>*:not(.wlogo):not(.wload){display:none!important}
+#welcome.wl .wcard{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding-top:0!important;padding-bottom:0!important}
+#welcome.wl .wcard::before{display:none!important}
+#welcome.wl .wload{display:block;width:64px;height:3px;border-radius:99px;overflow:hidden;background:rgba(127,127,127,.22);margin:26px auto 0}
+#welcome.wl .wload i{display:block;width:40%;height:100%;border-radius:99px;background:var(--sage-d);animation:ibarSlide 1.1s ease-in-out infinite}
+:root[data-skin="midnight"] #welcome.wl .wload i{background:#FC734D}
+@media (prefers-reduced-motion:reduce){#welcome.wl .wload i{animation:none;width:100%;opacity:.5}}
+</style>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
@@ -1183,7 +1194,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     <button type="button" class="gopt" id="gWeb"><span class="gico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.6 5.3 3.6 8.5s-1.2 6-3.6 8.5c-2.4-2.5-3.6-5.3-3.6-8.5s1.2-6 3.6-8.5Z"/></svg></span><span class="gtx"><b>Lanjut di website</b><small>Langsung masuk lewat browser ini.</small></span><span class="garr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
   </div>
 </div></div>
-<div class="welcome" id="welcome" hidden><div class="wcard">
+<div class="welcome wl" id="welcome"><div class="wcard">
   <div class="wlang" role="group" aria-label="Language" data-notr><button type="button" data-lang="en">EN</button><button type="button" data-lang="id">ID</button></div>
   <div class="wlogo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div>
   <p class="weyebrow"><span>kasAdust</span><b></b><span>Pencatatan Pengeluaran</span></p>
@@ -1192,6 +1203,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   <div class="wrule" aria-hidden="true"><i></i><b></b><i></i></div>
   <div class="wcheck" id="wCheck" aria-hidden="true" hidden><i style="--a:0deg"></i><i style="--a:60deg"></i><i style="--a:120deg"></i><i style="--a:180deg"></i><i style="--a:240deg"></i><i style="--a:300deg"></i><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
   <div class="wmsg" id="wMsg" role="status">Memeriksa sesi...</div>
+  <div class="wload" aria-hidden="true"><i></i></div>
   <p class="wsub" id="wSub" hidden></p>
   <div id="authBox" hidden>
     <div class="auth-tabs" role="tablist" aria-label="Masuk atau daftar">
@@ -3103,8 +3115,8 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   assets=loadKey("aset-v1");
   assets=Array.isArray(assets)?cleanList(assets,cleanAsset,500):[{id:uid(),name:"Reksa dana",amount:2000000},{id:uid(),name:"Emas",amount:1500000},{id:uid(),name:"Tabungan",amount:1000000}];
   }
-  function wLoad(){$("gate").hidden=true;$("welcome").hidden=true;$("app").hidden=true}
-  function wShow(msg,btns){$("welcome").hidden=false;$("wSub").hidden=true;$("wMsg").textContent=msg;$("wBtns").innerHTML=btns.map(function(b){return '<button type="button" class="'+(b[2]||"")+'" data-w="'+b[0]+'">'+b[1]+'</button>'}).join("")}
+  function wLoad(){$("gate").hidden=true;$("app").hidden=true;$("authBox").hidden=true;$("cfgBox").hidden=true;$("fgBox").hidden=true;$("rcBox").hidden=true;$("wBtns").innerHTML="";$("wSub").hidden=true;$("wMsg").textContent="Memeriksa sesi...";$("welcome").classList.add("wl");$("welcome").hidden=false}
+  function wShow(msg,btns){$("welcome").classList.remove("wl");$("welcome").hidden=false;$("wSub").hidden=true;$("wMsg").textContent=msg;$("wBtns").innerHTML=btns.map(function(b){return '<button type="button" class="'+(b[2]||"")+'" data-w="'+b[0]+'">'+b[1]+'</button>'}).join("")}
   function setSync(t,fail){$("syncBox").hidden=(mode!=="db");$("syncSt").textContent=t||"";$("btnRetry").hidden=!fail;paintSet();paintDot(t,fail)}
   function enter(){
     $("welcome").hidden=true;$("app").hidden=false;noCU=Date.now()+2000;
@@ -3208,7 +3220,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   }
   function showPane(p){
     $("gate").hidden=true;$("authBox").hidden=p!=="auth";$("cfgBox").hidden=p!=="cfg";$("fgBox").hidden=p!=="fg";$("rcBox").hidden=p!=="rc";
-    $("welcome").hidden=false;$("app").hidden=true;$("wSub").hidden=true;$("wCheck").hidden=true;$("wCheck").classList.remove("go");$("wCheck").parentNode.classList.remove("conf","go");
+    $("welcome").classList.remove("wl");$("welcome").hidden=false;$("app").hidden=true;$("wSub").hidden=true;$("wCheck").hidden=true;$("wCheck").classList.remove("go");$("wCheck").parentNode.classList.remove("conf","go");
   }
   function authHead(){
     var w=$("wMsg");if(w.getAttribute("data-m")==="1"||$("authBox").hidden)return;
