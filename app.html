@@ -6544,6 +6544,13 @@ html:root[data-skin="clean"][data-theme="dark"] .msheet,html:root[data-skin="cle
 #appclosed b{font-size:1.05rem}
 #appclosed small{color:var(--muted);font-size:.8rem;max-width:260px;line-height:1.4}
 #appclosed button{margin-top:6px;border:0;border-radius:999px;padding:11px 28px;font:inherit;font-weight:700;background:var(--sage-d,#1c1c1e);color:var(--bg,#fff);cursor:pointer}
+/* ===== Ikon "masuk" (inset): atas gelap, bawah terang, ada garis tepi; warna dari palet --is1/--is2/--is3 ===== */
+:root[data-skin="clean"]{--w-bg:linear-gradient(145deg,var(--is3),var(--is2));--w-bd:1px solid rgba(255,255,255,.8);--w-sh:inset 2px 2px 4px rgba(163,171,184,.5),inset -2px -2px 4px rgba(255,255,255,.95);--w-gl:drop-shadow(0 1px 0 rgba(255,255,255,.95))}
+:root[data-skin="clean"][data-theme="dark"]{--w-bg:linear-gradient(145deg,#050505,#232326);--w-bd:1px solid rgba(255,255,255,.09);--w-sh:inset 0 2px 4px rgba(0,0,0,.85),inset 0 -1px 0 rgba(255,255,255,.07);--w-gl:drop-shadow(0 1px 0 rgba(0,0,0,.85))}
+html:root[data-skin="clean"] .ico,html:root[data-skin="clean"] #gList .top .ico,html:root[data-skin="clean"] #aList .cat.xc .ico,html:root[data-skin="clean"] .gtab .gti,html:root[data-skin="clean"] .stat .l i[data-ic],html:root[data-skin="clean"] .gico,html:root[data-skin="clean"] .pk-ic,html:root[data-skin="clean"] h2>i[data-ic],html:root[data-skin="clean"] .pm-item>i[data-ic],html:root[data-skin="clean"] .hd-mi>i[data-ic]{background:var(--w-bg)!important;border:var(--w-bd)!important;box-shadow:var(--w-sh)!important}
+html:root[data-skin="clean"] .ico svg,html:root[data-skin="clean"] #gList .top .ico svg,html:root[data-skin="clean"] #aList .cat.xc .ico svg,html:root[data-skin="clean"] .gtab .gti svg,html:root[data-skin="clean"] .stat .l i[data-ic] svg,html:root[data-skin="clean"] .gico svg,html:root[data-skin="clean"] .pk-ic svg,html:root[data-skin="clean"] h2>i[data-ic] svg,html:root[data-skin="clean"] .pm-item>i[data-ic] svg,html:root[data-skin="clean"] .hd-mi>i[data-ic] svg{filter:var(--w-gl)}
+html:root[data-skin="clean"] h2>i[data-ic],html:root[data-skin="clean"] .pm-item>i[data-ic],html:root[data-skin="clean"] .hd-mi>i[data-ic]{width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box}
+html:root[data-skin="clean"] h2>i[data-ic] svg,html:root[data-skin="clean"] .pm-item>i[data-ic] svg,html:root[data-skin="clean"] .hd-mi>i[data-ic] svg{width:15px;height:15px}
 </style>
 <script>
 (function(){
