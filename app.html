@@ -6679,5 +6679,16 @@ header.hdr .hd-close svg{stroke-width:2.2}
   },true);
 })();
 </script>
+<style id="clean-tweaks">
+/* Ambient Clean: tombol Keluar tanpa kotak, teks merah */
+html:root[data-skin="clean"] #btnWelcome,
+html:root[data-skin="clean"] #pmSwitch{background:transparent!important;border:0!important;box-shadow:none!important;color:#e5484d!important}
+html:root[data-skin="clean"][data-theme="dark"] #btnWelcome,
+html:root[data-skin="clean"][data-theme="dark"] #pmSwitch{color:#ff6b6b!important}
+/* Ambient Clean: grafik 7 hari bergradasi; terang = putih ke abu, gelap = abu ke hitam */
+html:root[data-skin="clean"] .wcol{background:linear-gradient(180deg,#ffffff 0%,#c7c7cc 100%)!important}
+html:root[data-skin="clean"][data-theme="dark"] .wcol{background:linear-gradient(180deg,#8e8e93 0%,#000000 100%)!important}
+html:root[data-skin="clean"] .lv0 .wcol{background:var(--track)!important}
+</style>
 </body>
 </html>
