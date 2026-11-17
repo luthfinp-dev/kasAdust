@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-/fV6xwEm0USDlQeJjtqr2SMSQvscwek5rGyJOCKlyA0=' 'sha256-mlo5dD+5vymlZaFmiQ+HKUvRsI2aSN6IEh+pdjuWIrU=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-/fV6xwEm0USDlQeJjtqr2SMSQvscwek5rGyJOCKlyA0=' 'sha256-2jnZFE9IZnTezAhcFd6MvYhK5f1kRJVX+pGc5u/YNdo=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -4919,6 +4919,13 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
      pengguna baru tidak melihat angka untuk update lama. */
   var UPD_BASE=0, UPD_KEY="update-seen-v1";
   var UPDATES=[
+    {id:3,v:"1.2.1",d:"2026-11-17",
+     t:["Layout, tema, dan handle baru","New layout, theme, and handle"],
+     p:[["Layout baru.","New layout."],
+        ["Tema baru.","New theme."],
+        ["Handle baru saat transaksi: tarik untuk tutup, setengah, atau layar penuh.","New handle on add transaction: drag to close, half, or full screen."],
+        ["Tombol close app.","Close app button."],
+        ["Perbaikan bug.","Bug fixes."]]},
     {id:2,v:"1.2",d:"2026-11-14",
      t:["Tampilan aset dan splash baru","New asset view and splash screen"],
      p:[["Kartu aset kini bertumpuk dan bisa digeser atau di-tap.","Asset cards now stack and can be swiped or tapped."],
