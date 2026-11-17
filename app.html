@@ -6778,5 +6778,87 @@ html:root[data-skin="clean"] .wcol{background:linear-gradient(180deg,#ffffff 0%,
 html:root[data-skin="clean"][data-theme="dark"] .wcol{background:linear-gradient(180deg,#8e8e93 0%,#000000 100%)!important}
 html:root[data-skin="clean"] .lv0 .wcol{background:var(--track)!important}
 </style>
+<style id="xclearCss">
+.xclear{position:fixed;z-index:2147483000;width:22px;height:22px;min-height:0;padding:0;margin:0;border:0;border-radius:50%;display:none;align-items:center;justify-content:center;background:var(--line);color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.xclear.on{display:flex}
+.xclear:active{filter:brightness(.92)}
+.xclear svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;pointer-events:none}
+input.xc-pad,textarea.xc-pad{padding-right:40px!important}
+input.xc-pad::-webkit-calendar-picker-indicator{display:none!important}
+</style>
+<script id="xclearJs">
+(function(){
+  var OK={"":1,text:1,email:1,url:1,search:1,tel:1,number:1};
+  var btn=document.createElement("button");
+  btn.type="button";btn.className="xclear";btn.tabIndex=-1;
+  btn.setAttribute("aria-label","Hapus isi");
+  btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  document.body.appendChild(btn);
+  var cur=null,raf=0;
+  function eligible(el){
+    if(!el||!el.tagName)return false;
+    var t=el.tagName;
+    if(t==="TEXTAREA")return !el.readOnly&&!el.disabled;
+    if(t!=="INPUT")return false;
+    var ty=(el.getAttribute("type")||"").toLowerCase();
+    return !!OK[ty]&&!el.readOnly&&!el.disabled&&!el.hidden;
+  }
+  function hide(){
+    btn.classList.remove("on");
+    if(cur)cur.classList.remove("xc-pad");
+  }
+  function place(){
+    if(!cur||!document.body.contains(cur)){cur=null;hide();raf=0;return}
+    var has=cur.value&&cur.value.length>0;
+    var r=cur.getBoundingClientRect();
+    if(!has||r.width===0||r.height===0){btn.classList.remove("on");cur.classList.remove("xc-pad")}
+    else{
+      cur.classList.add("xc-pad");
+      btn.classList.add("on");
+      var top=cur.tagName==="TEXTAREA"?r.top+10:r.top+(r.height-22)/2;
+      btn.style.top=top+"px";
+      btn.style.left=(r.right-22-10)+"px";
+    }
+    raf=requestAnimationFrame(place);
+  }
+  function start(el){
+    if(cur&&cur!==el)cur.classList.remove("xc-pad");
+    cur=el;
+    if(!raf)raf=requestAnimationFrame(place);
+  }
+  document.addEventListener("focusin",function(e){
+    if(e.target===btn)return;
+    if(eligible(e.target))start(e.target);
+    else{cur=null;hide()}
+  });
+  document.addEventListener("focusout",function(e){
+    if(e.target!==cur)return;
+    setTimeout(function(){
+      if(document.activeElement===cur)return;
+      cur.classList.remove("xc-pad");cur=null;hide();
+      if(raf){cancelAnimationFrame(raf);raf=0}
+    },0);
+  });
+  function inBtn(e){return e.target===btn||(btn.contains&&btn.contains(e.target))}
+  function swallow(e){if(inBtn(e)){e.stopImmediatePropagation();e.stopPropagation()}}
+  ["mousedown","mouseup","touchstart","touchend","click"].forEach(function(n){
+    window.addEventListener(n,function(e){
+      if(!inBtn(e))return;
+      e.preventDefault();swallow(e);
+    },true);
+  });
+  window.addEventListener("pointerdown",function(e){
+    if(!inBtn(e))return;
+    e.preventDefault();swallow(e);
+    if(!cur)return;
+    var el=cur;
+    el.value="";
+    el.dispatchEvent(new Event("input",{bubbles:true}));
+    el.dispatchEvent(new Event("change",{bubbles:true}));
+    try{el.focus({preventScroll:true})}catch(_){el.focus()}
+    btn.classList.remove("on");el.classList.remove("xc-pad");
+  },true);
+})();
+</script>
 </body>
 </html>
