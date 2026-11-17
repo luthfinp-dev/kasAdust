@@ -1173,6 +1173,47 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 /* jarak sorotan ke tepi bar sama di semua sisi (5px) supaya lengkungannya sejajar */
 .navbar{padding-left:5px;padding-right:5px}
 </style>
+<style id="sx-ios">
+/* Pengaturan gaya daftar (grup + baris + panah), halaman dalam dengan tombol kembali */
+.sxm,.sxb,.sx-panel{max-width:560px;margin-left:auto;margin-right:auto}
+.sxm{display:block;margin-bottom:24px}
+.sxm.sx-off{display:none!important}
+.sxm .sx-title{margin:0 4px 6px}
+.sxg{margin:20px 14px 8px;font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.sxl{background:var(--bg);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.sxsolo{margin-top:16px}
+#sxMain .sxr{display:flex;align-items:center;gap:12px;width:100%;min-height:50px;padding:0 14px;margin:0;background:none;border:0;border-radius:0;box-shadow:none;text-align:left;font-size:.92rem;font-weight:600;color:var(--text);cursor:pointer;transition:background-color .15s ease}
+#sxMain .sxl>.sxr+.sxr,#sxMain .sxl>.sxr+span .sxr{border-top:1px solid var(--line)}
+#sxMain .sxr:active{background:var(--hover)}
+#sxMain .sxr .l{flex:1;min-width:0}
+#sxMain .sxr .v{color:var(--muted);font-weight:500;font-size:.84rem;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sxi{flex:none;width:18px;height:18px}
+.sxr .chev{width:15px;height:15px;color:var(--muted);opacity:.7}
+#sxMain .sxr.center{justify-content:center;font-weight:700}
+#sxMain .sxr.danger{color:var(--danger)}
+.sxb{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;padding-top:14px;margin-bottom:12px}
+.sxb[hidden]{display:none}
+#sxBack{width:36px;height:36px;min-height:0;padding:0;display:grid;place-items:center;border-radius:50%;background:none;border:0;box-shadow:none;color:var(--text)}
+#sxBack:active{background:var(--hover)}
+#sxBarT{text-align:center;font-weight:700;font-size:1rem}
+#app[data-tab="set"] .sx-panel{display:grid}
+#app[data-tab="set"] .sx-panel.sx-off{display:none!important}
+.sx-panel.sx-acc{grid-template-columns:minmax(0,1fr)!important}
+.sx-panel .sxc-t{display:none}
+.sx-panel .sxc{border-radius:18px;padding:10px 16px 6px}
+.sx-panel .sxc-s{margin:0 0 6px}
+/* Tema dan Bahasa: daftar dengan centang */
+#skinCard .skins,#langCard .skins{display:block;margin:0 0 6px}
+#skinCard .skin,#langCard .lgopt{width:100%;padding:12px 2px;min-height:54px;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;border-bottom:1px solid var(--line)!important;column-gap:12px;align-items:center}
+#skinCard .skin:last-child,#langCard .lgopt:last-child{border-bottom:0!important}
+#skinCard .skin{display:grid;grid-template-columns:auto 1fr 20px;grid-template-areas:"p n c" "p s c";row-gap:1px}
+#skinCard .sw-prev{grid-area:p}#skinCard .sk-name{grid-area:n}#skinCard .sk-sub{grid-area:s}
+#langCard .lgopt{display:flex}
+#langCard .lg-badge{display:none}
+#langCard .sk-name{flex:1;font-size:.92rem}
+#skinCard .skin::after,#langCard .lgopt::after{content:"";grid-area:c;flex:none;width:18px;height:18px;margin-left:auto;background:var(--sage-d);opacity:0;transition:opacity .15s ease;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center/contain no-repeat}
+#skinCard .skin[aria-checked="true"]::after,#langCard .lgopt[aria-checked="true"]::after{opacity:1}
+</style>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
@@ -1451,15 +1492,30 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     </div>
     <div class="flow" id="flowSum"></div>
   </section>
-  <div class="sx" data-t="set" id="sxHead">
+  <div class="sxm" data-t="set" id="sxMain">
     <h2 class="sx-title">Pengaturan</h2>
-    <p class="sx-sub">Akun, keamanan, tampilan, dan bantuan.</p>
-    <div class="sx-tabs" role="tablist" aria-label="Pengaturan">
-      <button type="button" role="tab" class="sx-tab on" data-sx="akun" aria-selected="true">Akun</button>
-      <button type="button" role="tab" class="sx-tab" data-sx="keamanan" aria-selected="false" tabindex="-1">Keamanan</button>
-      <button type="button" role="tab" class="sx-tab" data-sx="tampilan" aria-selected="false" tabindex="-1">Tampilan</button>
-      <button type="button" role="tab" class="sx-tab" id="sxtMasukan" data-sx="masukan" aria-selected="false" tabindex="-1">Masukan</button>
+    <div class="sxg">Akun</div>
+    <div class="sxl">
+      <button type="button" class="sxr" data-go="akun"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="l">Profil</span><span class="v" data-notr id="sxvAcc"></span><svg class="sxi chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button type="button" class="sxr" data-go="keamanan"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span class="l">Keamanan</span><svg class="sxi chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
     </div>
+    <div class="sxg">Preferensi</div>
+    <div class="sxl">
+      <button type="button" class="sxr" data-go="tema"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg><span class="l">Tema</span><span class="v" data-notr id="sxvSkin"></span><svg class="sxi chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button type="button" class="sxr" data-go="bahasa"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span class="l">Bahasa</span><span class="v" data-notr id="sxvLang"></span><svg class="sxi chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button type="button" class="sxr" data-go="navbar"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h8M18 6h2M4 12h2M12 12h8M4 18h10M20 18h0"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg><span class="l">Navbar</span><svg class="sxi chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="sxg">Bantuan</div>
+    <div class="sxl">
+      <button type="button" class="sxr" id="sxTour"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01"/></svg><span class="l">Panduan</span><svg class="sxi chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      <span id="sxMasukanRow" hidden><button type="button" class="sxr" data-go="masukan"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span class="l">Masukan</span><svg class="sxi chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></span>
+    </div>
+    <div class="sxl sxsolo"><button type="button" class="sxr center" id="sxOut">Keluar</button></div>
+    <div class="sxl sxsolo"><button type="button" class="sxr center danger" id="sxReset">Reset semua data</button></div>
+  </div>
+  <div class="sxb" data-t="set" id="sxBar" hidden>
+    <button type="button" id="sxBack" aria-label="Kembali"><svg class="sxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <span id="sxBarT"></span><span></span>
   </div>
   <div class="sx-panel sx-acc" data-t="set" data-sx="akun" role="tabpanel">
     <section class="card sxc sx-prof">
@@ -1469,11 +1525,13 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       </div>
       <div class="sx-kv"><span>Status</span><b id="setSt">-</b></div>
     </section>
+    <div id="sxLegacy" hidden>
     <section class="card sxc">
       <div class="sxc-t">Akun</div><div class="sxc-s">Kamu dan statusmu di aplikasi ini.</div>
       <div class="srow"><div class="sr-l"><div class="sr-t">Panduan</div><div class="sr-d">Lihat lagi tur singkat aplikasi.</div></div><button type="button" class="small" id="btnTour">Ulangi panduan</button></div>
       <div class="srow"><div class="sr-l"><div class="sr-t">Keluar</div><div class="sr-d">Ganti akun atau keluar dari perangkat ini.</div></div><button type="button" class="small" id="btnWelcome">Keluar</button></div>
     </section>
+    </div>
   </div>
   <div class="sx-panel sx-off" data-t="set" data-sx="keamanan" role="tabpanel">
     <section class="card sxc">
@@ -1496,7 +1554,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       <p class="note" id="cpOk" aria-live="polite"></p>
     </section>
   </div>
-  <div class="sx-panel sx-off" data-t="set" data-sx="tampilan" role="tabpanel" id="sxpTampilan">
+  <div class="sx-panel sx-off" data-t="set" data-sx="tema" role="tabpanel">
     <section class="card sxc" id="skinCard">
       <div class="sxc-t">Tema<span class="accsum" id="skAccSum" hidden></span></div><div class="sxc-s">Warna dan suasana aplikasi.</div>
       <div class="skins" role="radiogroup" aria-label="Pilih tema">
@@ -1505,6 +1563,8 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       <button type="button" role="radio" class="skin" data-skin="clean" aria-checked="false" tabindex="-1"><span class="sw-prev p-clean"><i></i><i></i><i></i></span><span class="sk-name">Ambient Clean</span><span class="sk-sub">Putih, abu, dan hitam</span></button>
     </div>
     </section>
+  </div>
+  <div class="sx-panel sx-off" data-t="set" data-sx="bahasa" role="tabpanel">
     <section class="card sxc" id="langCard">
       <div class="sxc-t">Bahasa<span class="accsum" id="lgAccSum" data-notr hidden></span></div><div class="sxc-s">Pilih bahasa tampilan aplikasi.</div>
       <div class="skins" role="radiogroup" aria-label="Pilih bahasa">
@@ -1512,6 +1572,8 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       <button type="button" role="radio" class="lgopt" data-lang="id" aria-checked="false" tabindex="-1"><span class="lg-badge" data-notr>ID</span><span class="sk-name" data-notr>Bahasa Indonesia</span></button>
     </div>
     </section>
+  </div>
+  <div class="sx-panel sx-off" data-t="set" data-sx="navbar" role="tabpanel">
     <section class="card sxc" id="setCard">
       <div class="sxc-t">Navbar</div><div class="sxc-s">Atur posisi, cara geser, dan efek ikon navbar.</div>
       <p class="acch2">Gaya geser navbar</p>
@@ -1824,6 +1886,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   Object.assign(EN,{"Terbesar":"Largest","Menabung bulan ini":"Saved this month"});
   Object.assign(EN,{"Gaya geser navbar":"Navbar swipe style","Pindah saat lepas":"Switch on release","Pindah langsung":"Switch instantly","Ketuk saja":"Tap only","Efek ikon":"Icon effect","Tepi pelangi":"Rainbow edge","Warna aksen":"Accent color"});
   Object.assign(EN,{"Akun, keamanan, tampilan, dan bantuan.":"Account, security, appearance and help.","Keamanan":"Security","Tampilan":"Appearance","Masukan":"Feedback","Kamu dan statusmu di aplikasi ini.":"You and your status in this app.","Akun yang sedang dipakai di perangkat ini.":"The account in use on this device.","Status data akunmu.":"Your account data status.","Panduan":"Guide","Lihat lagi tur singkat aplikasi.":"Replay the short app tour.","Ganti akun atau keluar dari perangkat ini.":"Switch accounts or sign out on this device.","Masuk & keamanan":"Sign-in & security","Cara kasAdust memastikan ini kamu.":"How kasAdust knows it's you.","Minta PIN setiap kali membuka aplikasi.":"Ask for your PIN every time the app opens.","Ganti PIN dengan yang baru.":"Replace your PIN with a new one.","Warna dan suasana aplikasi.":"Colors and mood of the app.","Pilih bahasa tampilan aplikasi.":"Choose the app language.","Atur cara geser dan efek ikon di navbar bawah.":"How swiping and icon effects work on the bottom navbar.","Langsung sampai ke pembuat aplikasi.":"Goes straight to the app's maker."});
+  Object.assign(EN,{"Preferensi":"Preferences","Bantuan":"Help","Kembali":"Back","Navbar":"Navbar"});
   Object.assign(EN,{"Putih, abu, dan hitam":"White, grey and black"});
   Object.assign(EN,{"Keluar aplikasi":"Close app","Belum bisa ditutup otomatis":"Can\u2019t close automatically","Geser aplikasi dari daftar app untuk keluar":"Swipe the app away from your recent apps to exit"});
   Object.assign(EN,{"Ubah password":"Change password","Ganti password akun kamu.":"Change your account password.","Password lama":"Current password","Password baru":"New password","Ulangi password baru":"Repeat new password","Simpan password":"Save password","Isi password lama.":"Enter your current password.","Password lama salah.":"Current password is incorrect.","Password berhasil diganti.":"Password changed successfully.","Belum masuk. Muat ulang halaman.":"Not signed in. Reload the page."});
@@ -4945,21 +5008,40 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   var FB_ENABLED=false, fbBusy=false;
   $("fbCard").hidden=!FB_ENABLED;
   (function(){
-    var tabs=document.querySelectorAll(".sx-tab"),panels=document.querySelectorAll(".sx-panel");
-    function go(k){
-      tabs.forEach(function(t){var on=t.getAttribute("data-sx")===k;t.classList.toggle("on",on);t.setAttribute("aria-selected",on?"true":"false");t.tabIndex=on?0:-1});
-      panels.forEach(function(pn){pn.classList.toggle("sx-off",pn.getAttribute("data-sx")!==k)});
+    var panels=document.querySelectorAll(".sx-panel"),main=$("sxMain"),bar=$("sxBar"),barT=$("sxBarT"),cur=null;
+    var TT={akun:"Profil",keamanan:"Keamanan",tema:"Tema",bahasa:"Bahasa",navbar:"Navbar",masukan:"Masukan"};
+    function tr(s){try{return window.I18N&&I18N.t?I18N.t(s):s}catch(e){return s}}
+    function txt(id){var e=$(id);return e?(e.textContent||"").trim():""}
+    function vals(){
+      var a=$("sxvAcc"),s=$("sxvSkin"),l=$("sxvLang");
+      if(a)a.textContent=txt("setAcc").replace(/^-$/,"");
+      if(s)s.textContent=txt("skAccSum");
+      if(l)l.textContent=txt("lgAccSum");
     }
-    var mt=$("sxtMasukan");if(mt)mt.hidden=!FB_ENABLED;
-    tabs.forEach(function(t){
-      t.addEventListener("click",function(){go(t.getAttribute("data-sx"))});
-      t.addEventListener("keydown",function(e){
-        if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
-        var vis=Array.prototype.filter.call(tabs,function(x){return !x.hidden}),i=vis.indexOf(t);
-        var n=vis[(i+(e.key==="ArrowRight"?1:-1)+vis.length)%vis.length];e.preventDefault();n.focus();go(n.getAttribute("data-sx"));
-      });
+    function go(k){
+      cur=k;
+      panels.forEach(function(pn){pn.classList.toggle("sx-off",pn.getAttribute("data-sx")!==k)});
+      main.classList.toggle("sx-off",!!k);
+      bar.hidden=!k;
+      if(k)barT.textContent=tr(TT[k]||"");
+      vals();window.scrollTo(0,0);
+    }
+    $("sxMasukanRow").hidden=!FB_ENABLED;
+    main.addEventListener("click",function(e){
+      var b=e.target.closest(".sxr");if(!b)return;
+      var k=b.getAttribute("data-go");if(k){go(k);return}
+      if(b.id==="sxTour")$("btnTour").click();
+      else if(b.id==="sxOut")$("btnWelcome").click();
+      else if(b.id==="sxReset")$("pmReset").click();
     });
-    go("akun");
+    $("sxBack").addEventListener("click",function(){go(null)});
+    window.addEventListener("langchange",function(){if(cur)barT.textContent=tr(TT[cur]||"");setTimeout(vals,0)});
+    if(window.MutationObserver){
+      var mo=new MutationObserver(vals);
+      ["setAcc","skAccSum","lgAccSum"].forEach(function(id){var e=$(id);if(e)mo.observe(e,{childList:true,characterData:true,subtree:true})});
+      new MutationObserver(function(){if($("app").getAttribute("data-tab")==="set")go(null)}).observe($("app"),{attributes:true,attributeFilter:["data-tab"]});
+    }
+    go(null);
   })();
   (function(){
     var n=$("setAcc"),av=$("sxAv");if(!n||!av)return;
