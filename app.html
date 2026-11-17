@@ -6357,11 +6357,6 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
    30% pendamping: hijau sage (tema Sage) / biru (tema Midnight) untuk kartu, ikon, tab aktif
    10% aksen   : satu warna "pemancing mata", hanya untuk tombol + (dan penanda kecil) */
 
-/* --- SAGE: tambah aksen amber di tombol + --- */
-:root:not([data-skin="midnight"]){--acc:#e0a038;--acc2:#f3c96b;--acc-ink:#3a2606}
-:root[data-theme="dark"]:not([data-skin="midnight"]){--acc:#f0b647;--acc2:#f8d58a}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-skin="midnight"]){--acc:#f0b647;--acc2:#f8d58a}}
-:root:not([data-skin="midnight"]) .fab,:root:not([data-skin="midnight"]) .fab:hover{background:linear-gradient(135deg,var(--acc),var(--acc2));color:var(--acc-ink);border:2px solid rgba(255,255,255,.7);box-shadow:0 10px 24px rgba(224,160,56,.4),0 0 0 6px rgba(224,160,56,.14)}
 
 /* --- MIDNIGHT: aksen (oranye/pink) tidak lagi bocor ke kartu dan latar; kartu bergradasi biru saja --- */
 :root[data-skin="midnight"]{--b2:rgba(252,115,77,.14);--t2:rgba(2,151,222,.2);--t4:rgba(77,185,240,.12)}
