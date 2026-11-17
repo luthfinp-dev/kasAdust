@@ -1393,16 +1393,16 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
               <div><label for="fTo">Ke (bank/dompet)</label><input id="fTo" list="trOpts" maxlength="30" placeholder="Contoh: SeaBank" autocomplete="off"></div>
             </div>
             <datalist id="trOpts"></datalist>
-            <div class="note" style="margin-top:8px">Transfer hanya memindahkan uang, tidak dihitung sebagai pengeluaran. Ketik sendiri nama bank atau dompetnya jika tidak ada di daftar.</div>
+            <div class="note" style="margin-top:8px">Transfer hanya memindahkan uang. Bukan pengeluaran.</div>
           </div>
           <div class="full" id="saveBox" hidden>
             <label>Bayar pakai</label><input type="hidden" id="fSaveAcct"><div class="srcp" id="saveSrcP" style="margin-bottom:10px"></div><label for="fAset">Tambah ke aset</label><select id="fAset"></select>
-            <div id="fGoalW"><label for="fGoal" style="margin-top:10px">Untuk tujuan non-hutang (opsional)</label><select id="fGoal"></select></div>
+            <div id="fGoalW"><label for="fGoal" style="margin-top:10px">Tujuan (opsional)</label><select id="fGoal"></select></div>
             <div class="err" id="saveHint"></div>
           </div>
           <div class="full" id="wdBox" hidden>
             <label>Ambil dari aset</label><select id="fWdAset" hidden></select><div class="srcp" id="wdAsetP"></div><label style="margin-top:10px">Masuk ke rekening</label><input type="hidden" id="fWdAcct"><div class="srcp" id="wdAcctP"></div>
-            <div class="note" style="margin-top:8px">Uang yang diambil mengurangi aset dan otomatis jadi gaji tambahan bulan ini, jadi menambah sisa uang bulan ini. Tidak dihitung pengeluaran.</div>
+            <div class="note" style="margin-top:8px">Uang dari aset jadi gaji tambahan bulan ini. Bukan pengeluaran.</div>
             <div class="err" id="wdHint"></div>
           </div>
           <div class="full" id="goalBox" hidden>
@@ -1416,7 +1416,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
           </div>
           <div class="full" id="debtBox" hidden>
             <label for="fDebtGoal">Bayar hutang untuk</label><select id="fDebtGoal"></select>
-            <div class="note" style="margin-top:8px">Pembayaran hutang dihitung sebagai pengeluaran dan mengurangi sisa hutang pada tujuan yang dipilih.</div>
+            <div class="note" style="margin-top:8px">Dihitung sebagai pengeluaran. Mengurangi sisa hutang.</div>
             <div class="err" id="debtHint"></div>
           </div>
         </div>
@@ -1696,7 +1696,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   var KEY="lang-v1", lang="id";
   try{var sv=localStorage.getItem(KEY);if(sv==="id"||sv==="en")lang=sv}catch(e){}
   var EN={
-    "Arah":"Direction","Ambil aset":"Withdraw asset","Ambil":"Withdraw","Ambil dari aset":"Withdraw from asset","Pilih aset yang diambil.":"Choose the asset to withdraw.","Jumlah melebihi saldo aset.":"Amount exceeds the asset balance.","Aset diambil":"Asset withdrawn","Otomatis dari transaksi":"Automatic from transactions","Uang yang diambil mengurangi aset dan otomatis jadi gaji tambahan bulan ini, jadi menambah sisa uang bulan ini. Tidak dihitung pengeluaran.":"Withdrawn money reduces the asset and is automatically added as extra salary this month, so it increases this month's remaining money. Not counted as spending.","Setor ke tujuan":"Save to goal","Tarik ke dompet":"Withdraw to wallet","Dari aset":"From asset","Ke aset":"To asset","Otomatis dari dompet":"Automatic from wallet","Dompet tidak bisa dihapus":"Wallet can't be deleted","Aset ini tidak bisa dihapus":"This asset can't be deleted","Ubah lewat tujuan: hapus lalu tambah ulang":"Edit via the goal: delete and add again","Total tidak boleh kurang dari yang sudah dibayar/diterima":"Total can't be less than what is already paid/received","Tarik melebihi dana terkumpul tujuan.":"Withdrawal exceeds the goal's saved amount.","Dompet":"Wallet",
+    "Arah":"Direction","Ambil aset":"Withdraw asset","Ambil":"Withdraw","Ambil dari aset":"Withdraw from asset","Pilih aset yang diambil.":"Choose the asset to withdraw.","Jumlah melebihi saldo aset.":"Amount exceeds the asset balance.","Aset diambil":"Asset withdrawn","Otomatis dari transaksi":"Automatic from transactions","Uang dari aset jadi gaji tambahan bulan ini. Bukan pengeluaran.":"Withdrawn money reduces the asset and is automatically added as extra salary this month, so it increases this month's remaining money. Not counted as spending.","Setor ke tujuan":"Save to goal","Tarik ke dompet":"Withdraw to wallet","Dari aset":"From asset","Ke aset":"To asset","Otomatis dari dompet":"Automatic from wallet","Dompet tidak bisa dihapus":"Wallet can't be deleted","Aset ini tidak bisa dihapus":"This asset can't be deleted","Ubah lewat tujuan: hapus lalu tambah ulang":"Edit via the goal: delete and add again","Total tidak boleh kurang dari yang sudah dibayar/diterima":"Total can't be less than what is already paid/received","Tarik melebihi dana terkumpul tujuan.":"Withdrawal exceeds the goal's saved amount.","Dompet":"Wallet",
     "Setor: uang keluar dari aset atau dompet yang dipilih dan masuk ke tujuan. Dihitung sebagai tabungan, bukan pengeluaran.":"Save: money leaves the selected asset or wallet and goes into the goal. Counted as savings, not spending.",
     "Tarik: uang kembali dari tujuan ke dompet dan otomatis jadi gaji tambahan bulan ini.":"Withdraw: money returns from the goal to the wallet and is automatically added as extra salary this month.",
     "Piutang yang diterima masuk ke aset yang dipilih. Kalau masuk Dompet, otomatis jadi gaji tambahan bulan ini, dan mengurangi sisa piutang.":"Received receivables go to the selected asset. If they go to the Wallet, they are automatically added as extra salary this month and reduce the remaining receivable.",
@@ -1721,11 +1721,11 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 "Masukkan URL project dan Publishable Key dari Supabase (Settings, API Keys). Jangan masukkan secret key atau service_role key.":"Enter the project URL and Publishable Key from Supabase (Settings, API Keys). Do not enter a secret key or service_role key.",
 "Simpan":"Save","Muat ulang":"Reload",
 "Pilih bulan":"Select month","Tambah bulan":"Add month","Tambah":"Add",
-"Sisa uang":"Money left","7H":"7D","30H":"30D","90H":"90D","Belum ada perubahan":"No changes yet","Semua":"All","Pemasukan":"Income","Pengeluaran":"Spending","Tabungan & aset":"Savings & assets","Pindah uang":"Move money","Selisih":"Net","Gaji":"Salary","Pilih tanggal":"Pick a date","Hapus filter tanggal":"Clear date filter","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
+"Sisa uang":"Money left","7H":"7D","30H":"30D","90H":"90D","Belum ada perubahan":"No changes yet","Semua":"All","Pemasukan":"Income","Pengeluaran":"Spending","Tabungan & aset":"Savings & assets","Pindah uang":"Move money","Selisih":"Net","Gaji":"Salary","Pilih tanggal":"Pick a date","Hapus filter tanggal":"Clear date filter","Masuk ke aset (opsional)":"Into asset (optional)","Hutang ditambah":"Debt added","Tambah hutang:":"Add debt:","Catatan (opsional)":"Note (optional)","Diambil dari aset (opsional)":"Taken from asset (optional)","Piutang ditambah":"Receivable added","Nominal harus lebih dari Rp 0.":"Amount must be more than Rp 0.","Total piutang tidak boleh kurang dari yang sudah diterima":"Total receivable cannot be less than what has been received","Yakin hapus?":"Sure?","Belum ada riwayat pembayaran.":"No payment history yet.","Belum ada riwayat penerimaan.":"No receipt history yet.","Bayar":"Paid","Terima":"Received","Setor: uang masuk ke tujuan. Dihitung tabungan, bukan pengeluaran.":"Deposit: money goes into the selected asset and adds to the goal's saved amount. Counted as savings, not spending. If the asset is not My Balance, your My Balance is reduced.","Dipakai (pengeluaran)":"Used (spending)","− Dipakai":"− Used","Catat":"Record","Dipakai dari tujuan:":"Used from goal:","Belum ada riwayat setor/dipakai.":"No deposit/usage history yet.","Dipakai":"Used","Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Counted as spending. The goal's saved amount does not decrease, it is only recorded as used. The selected asset is reduced.","Dompetku":"My Balance","Tambah gaji":"Add salary","Sisa uang bulan ini":"Money left this month",
 "Belum diisi":"Not set","Atur gaji":"Set salary",
 "Total pengeluaran":"Total spending","Total pengeluaran bulan ini":"Total spending this month",
 "Total aset":"Total assets","Belum ada aset":"No assets yet","Kelola aset":"Manage assets",
-"Tujuan":"Goals","Kelola tujuan":"Manage goals","Jenis tujuan":"Goal type","Non-hutang":"Non-debt","Hutang":"Debt","Total hutang (Rp)":"Total debt (Rp)","Sudah dibayar (Rp)":"Already paid (Rp)","Contoh: Cicilan motor":"Example: Motorbike installment","Ringkasan hutang":"Debt summary","Total hutang":"Total debt","Sudah dibayar":"Already paid","Sisa hutang":"Remaining debt","Lunas":"Paid off","Bayar hutang untuk":"Pay debt for","Pilih tujuan hutang":"Choose a debt goal","Belum ada tujuan hutang":"No debt goals yet","Untuk tujuan non-hutang (opsional)":"For non-debt goal (optional)","Pembayaran hutang dihitung sebagai pengeluaran dan mengurangi sisa hutang pada tujuan yang dipilih.":"Debt payments count as spending and reduce the remaining debt on the chosen goal.","Tambahkan dulu tujuan berjenis Hutang di tab Aset > Kelola tujuan.":"First add a Debt-type goal in the Assets tab > Manage goals.","Pilih tujuan hutang yang dibayar.":"Choose the debt goal being paid.","Belum ada tujuan hutang. Tambahkan dulu di tab Aset.":"No debt goals yet. Add one first in the Assets tab.","Pembayaran hutang dicatat":"Debt payment recorded","Tujuan ini sudah punya transaksi terkait, jenisnya tidak bisa diubah.":"This goal already has linked transactions, so its type cannot be changed.",
+"Tujuan":"Goals","Kelola tujuan":"Manage goals","Jenis tujuan":"Goal type","Non-hutang":"Non-debt","Hutang":"Debt","Total hutang (Rp)":"Total debt (Rp)","Sudah dibayar (Rp)":"Already paid (Rp)","Contoh: Cicilan motor":"Example: Motorbike installment","Ringkasan hutang":"Debt summary","Total hutang":"Total debt","Sudah dibayar":"Already paid","Sisa hutang":"Remaining debt","Lunas":"Paid off","Bayar hutang untuk":"Pay debt for","Pilih tujuan hutang":"Choose a debt goal","Belum ada tujuan hutang":"No debt goals yet","Tujuan (opsional)":"For non-debt goal (optional)","Dihitung sebagai pengeluaran. Mengurangi sisa hutang.":"Debt payments count as spending and reduce the remaining debt on the chosen goal.","Tambahkan dulu tujuan berjenis Hutang di tab Aset > Kelola tujuan.":"First add a Debt-type goal in the Assets tab > Manage goals.","Pilih tujuan hutang yang dibayar.":"Choose the debt goal being paid.","Belum ada tujuan hutang. Tambahkan dulu di tab Aset.":"No debt goals yet. Add one first in the Assets tab.","Pembayaran hutang dicatat":"Debt payment recorded","Tujuan ini sudah punya transaksi terkait, jenisnya tidak bisa diubah.":"This goal already has linked transactions, so its type cannot be changed.",
 "Gaji bulan ini (Rp)":"Salary this month (Rp)","Simpan gaji":"Save salary","Tutup":"Close","Kosong":"Empty",
 "Belum ada aset. Tambahkan di bawah.":"No assets yet. Add one below.",
 "Tambah aset":"Add asset","Nama aset":"Asset name","Nominal (Rp)":"Amount (Rp)","Batal":"Cancel",
@@ -1735,7 +1735,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 "Tambah transaksi":"Add transaction","Nama pengeluaran":"Expense name","Tanggal":"Date","Kategori":"Category",
 "Belanja":"Shopping","Hiburan":"Entertainment","Kesehatan":"Health","Makanan & Minuman":"Food & Drinks","Menabung":"Savings","Tagihan":"Bills","Transportasi":"Transportation","Lainnya":"Other",
 "Dari (bank/dompet)":"From (bank/wallet)","Ke (bank/dompet)":"To (bank/wallet)",
-"Transfer hanya memindahkan uang, tidak dihitung sebagai pengeluaran. Ketik sendiri nama bank atau dompetnya jika tidak ada di daftar.":"A transfer only moves money and is not counted as spending. Type the bank or wallet name yourself if it is not in the list.",
+"Transfer hanya memindahkan uang. Bukan pengeluaran.":"A transfer only moves money and is not counted as spending. Type the bank or wallet name yourself if it is not in the list.",
 "Simpan ke aset":"Save to asset","Untuk tujuan (opsional)":"For goal (optional)",
 "Ringkasan per kategori":"Summary by category","Semua transaksi":"All transactions","Bulan":"Month","Reset filter":"Reset filters","Nama":"Name","Nominal":"Amount",
 "Tema":"Theme","Putih dan hijau sage":"White and sage green","Biru, pink, dan oranye":"Blue, pink, and orange",
@@ -1813,7 +1813,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 "Maksimal 40 kategori.":"Maximum 40 categories.","Minimal harus ada satu kategori.":"At least one category is required.","Belum dipakai":"Not used yet"
   };
   Object.assign(EN,{"Minimal 8 karakter, dengan huruf besar, huruf kecil, dan angka.":"At least 8 characters, with uppercase letters, lowercase letters, and numbers.","Password harus berisi huruf besar, huruf kecil, dan angka.":"The password must include uppercase letters, lowercase letters, and numbers.","Password terlalu lemah. Pakai minimal 8 karakter dengan huruf besar, huruf kecil, dan angka.":"The password is too weak. Use at least 8 characters with uppercase letters, lowercase letters, and numbers."});
-  Object.assign(EN,{"Pilih rekening Bayar pakai.":"Choose a Pay with account.","Masuk ke rekening":"Into account","Pilih rekening Dompetku.":"Choose a My Balance account.","Pilih rekening penerima.":"Choose a receiving account.","Aset":"Assets","Bayar pakai":"Pay with","Masuk ke":"Goes into","Pilih sumber dana.":"Choose a source.","Saldo tidak cukup.":"Insufficient balance.","Belum ada aset.":"No assets yet.","Piutang yang diterima masuk ke pilihanmu. Kalau masuk Dompetku, otomatis jadi gaji tambahan bulan ini.":"Received receivables go into your choice. If into My Balance, it becomes extra salary this month.","Dihitung sebagai pengeluaran dan mengurangi sisa hutang. Saldo yang dipilih ikut berkurang.":"Counted as spending and reduces the remaining debt. The selected balance is reduced too.","Tambah rekening":"Add account","Nama rekening":"Account name","Saldo bulan ini":"Balance this month","Saldo":"Balance","Hapus":"Delete","Yakin?":"Sure?","Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
+  Object.assign(EN,{"Pilih rekening Bayar pakai.":"Choose a Pay with account.","Masuk ke rekening":"Into account","Pilih rekening Dompetku.":"Choose a My Balance account.","Pilih rekening penerima.":"Choose a receiving account.","Aset":"Assets","Bayar pakai":"Pay with","Masuk ke":"Goes into","Pilih sumber dana.":"Choose a source.","Saldo tidak cukup.":"Insufficient balance.","Belum ada aset.":"No assets yet.","Piutang masuk ke pilihanmu. Kalau ke Dompetku, jadi gaji tambahan bulan ini.":"Received receivables go into your choice. If into My Balance, it becomes extra salary this month.","Dihitung sebagai pengeluaran. Mengurangi sisa hutang.":"Counted as spending and reduces the remaining debt. The selected balance is reduced too.","Tambah rekening":"Add account","Nama rekening":"Account name","Saldo bulan ini":"Balance this month","Saldo":"Balance","Hapus":"Delete","Yakin?":"Sure?","Rincian":"Details","Pindah dana":"Move funds","Belum dialokasikan":"Unallocated","Nama kosong.":"Name is empty.","Nama kembar.":"Duplicate name.","Minimal satu rekening.":"At least one account.","Saldo belum nol. Pindahkan dulu.":"Balance is not zero. Move it first.","Maksimal 8.":"Maximum 8."});
   Object.assign(EN,{"Contoh: Tambah/Ambil aset":"Example: Add/Withdraw asset","Contoh: Transfer uang ke bank":"Example: Transfer money to bank"});
   Object.assign(EN,{"Email terkonfirmasi":"Email confirmed","Lanjut ke aplikasi":"Continue to the app","sudah aktif. Akun Anda siap dipakai.":"is now active. Your account is ready."});
   Object.assign(EN,{"Kritik & saran":"Feedback & suggestions","Ada kritik, saran, error, atau ide fitur? Tulis di sini, langsung sampai ke pembuat aplikasi.":"Got a critique, suggestion, bug, or feature idea? Write it here and it goes straight to the app maker.","Pesan":"Message","Kirim masukan":"Send feedback","Contoh: Tolong tambah grafik per bulan, atau tombol ini bikin bingung":"Example: Please add a monthly chart, or this button is confusing","Tulis minimal 5 karakter.":"Write at least 5 characters.","Masuk ke akun dulu untuk mengirim masukan.":"Sign in first to send feedback.","Gagal mengirim. Periksa koneksi lalu coba lagi.":"Failed to send. Check your connection and try again.","Terima kasih!":"Thank you!","Masukanmu sudah terkirim":"Your feedback has been sent"});
@@ -1830,6 +1830,93 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
   Object.assign(EN,{"Putih, abu, dan hitam":"White, grey and black"});
   Object.assign(EN,{"Keluar aplikasi":"Close app","Belum bisa ditutup otomatis":"Can\u2019t close automatically","Geser aplikasi dari daftar app untuk keluar":"Swipe the app away from your recent apps to exit"});
   Object.assign(EN,{"Ubah password":"Change password","Ganti password akun kamu.":"Change your account password.","Password lama":"Current password","Password baru":"New password","Ulangi password baru":"Repeat new password","Simpan password":"Save password","Isi password lama.":"Enter your current password.","Password lama salah.":"Current password is incorrect.","Password berhasil diganti.":"Password changed successfully.","Belum masuk. Muat ulang halaman.":"Not signed in. Reload the page."});
+  Object.assign(EN,{
+  "Aset kamu":"Your assets",
+  "Tambah ke aset":"Add to assets",
+  "Form tambah piutang":"Add receivable form",
+  "Contoh: Pinjam lagi buat renovasi":"e.g. Borrow again for renovation",
+  "Contoh: Pinjaman ke teman":"e.g. Loan to a friend",
+  "Nama tampilan (maks 30 karakter)":"Display name (max 30 characters)",
+  "Tampilkan profil":"Show profile",
+  "Maskot status pengeluaran":"Spending status mascot",
+  "Rentang grafik":"Chart range",
+  "Ringkasan tujuan":"Goals summary",
+  "Jenis transaksi":"Transaction type",
+  "Ulangi panduan":"Repeat tour",
+  "Kunci PIN":"PIN lock",
+  "Ubah PIN":"Change PIN",
+  "Persen":"Percent",
+  "Bagi":"Divide",
+  "Kali":"Multiply",
+  "Kurang":"Subtract",
+  "Ubah tanda":"Toggle sign",
+  "Desimal":"Decimal",
+  "Sama dengan":"Equals",
+  "Belum ada aset.":"No assets yet.",
+  "Belum ada tujuan jenis ini":"No goals of this type yet",
+  "Belum ada update.":"No updates yet.",
+  "Catat transaksi":"Record transaction",
+  "Ganti bulan":"Change month",
+  "Gagal":"Failed",
+  "Gagal membaca data":"Failed to read data",
+  "Gagal menyimpan":"Failed to save",
+  "Gagal menyimpan PIN di perangkat ini":"Failed to save PIN on this device",
+  "Hutang":"Debt",
+  "Piutang":"Receivable",
+  "Setor ke tujuan":"Deposit to goal",
+  "Bayar/Kelola tujuan":"Pay / manage goal",
+  "Transfer hanya memindahkan uang. Bukan pengeluaran.":"Transfer only moves money. Not spending.",
+  "Uang dari aset jadi gaji tambahan bulan ini. Bukan pengeluaran.":"Money from assets becomes extra salary this month. Not spending.",
+  "Dihitung sebagai pengeluaran. Mengurangi sisa hutang.":"Counted as spending. Reduces remaining debt.",
+  "Tujuan (opsional)":"Goal (optional)",
+  "Piutang masuk ke pilihanmu. Kalau ke Dompetku, jadi gaji tambahan bulan ini.":"Receivable goes to your choice. If to My Balance, it becomes extra salary this month.",
+  "Setor: uang masuk ke tujuan. Dihitung tabungan, bukan pengeluaran.":"Deposit: money goes into the goal. Counted as savings, not spending.",
+  "Bayar & kelola tujuan":"Pay & manage goal",
+  "Bayar & Kelola Tujuan":"Pay & Manage Goal",
+  "Bayar & Kelola tujuan":"Pay & manage goal",
+  "Bayar/Kelola Tujuan":"Pay / Manage Goal",
+  "Aset ditambah":"Asset added",
+  "Pilih":"Choose",
+  "Pilih tanggal yang valid.":"Pick a valid date.",
+  "Tanggal tidak valid":"Invalid date",
+  "Nominal harus lebih dari 0":"Amount must be more than 0",
+  "PIN tidak sama. Ulangi dari awal.":"PIN doesn't match. Start again.",
+  "Masukkan PIN yang sama":"Enter the same PIN",
+  "Masukkan PIN untuk mematikan":"Enter PIN to turn off",
+  "Riwayat tidak ditemukan":"History not found",
+  "Total pengeluaran bulan ini":"Total spending this month",
+  "Yakin hapus?":"Confirm delete?",
+  "Total aset":"Total assets",
+  "Tujuan":"Goals",
+  "Kelola aset":"Manage assets",
+  "Kelola tujuan":"Manage goals",
+  "Ringkasan per kategori":"Summary by category",
+  "Belum lunas":"Not paid off",
+  "Sudah diterima (Rp)":"Received (Rp)",
+  "Belum selesai memuat. Coba lagi, atau reset sesi di perangkat ini.":"Still loading. Try again, or reset the session on this device.",
+  "Browser ini belum mendukung PIN (butuh koneksi aman HTTPS).":"This browser doesn't support PIN (needs a secure HTTPS connection).",
+  "Sesi lama tidak bisa dibaca. Silakan masuk lagi.":"Old session can't be read. Please sign in again.",
+  "Tenang, belum ada lonjakan":"Calm, no spikes yet",
+  "Masih aman dan terkendali":"Still safe and under control",
+  "Dompet tersenyum lebar":"Wallet smiling wide",
+  "Keluar dari akun ini untuk masuk dengan akun lain? PIN di perangkat ini akan dihapus.":"Sign out of this account to sign in with another one? The PIN on this device will be removed.",
+  "Isi gajimu dulu supaya sisa uang bisa dihitung. Gaji tambahan juga dicatat di sini.":"Enter your salary first so the remaining money can be calculated. Extra salary is also recorded here.",
+  "Transaksi terbaru ada di paling atas. Ketuk satu untuk Edit atau Hapus.":"The latest transactions are at the top. Tap one to Edit or Delete.",
+  "Ini panduan singkat untuk fitur yang paling sering dipakai. Bisa diulang lewat Pengaturan.":"This is a quick guide to the most-used features. You can repeat it from Settings.",
+  "Tiap tujuan punya target dan jumlah terkumpul. Hutang dan piutang juga bisa dicatat di sini.":"Each goal has a target and saved amount. Debts and receivables can be recorded here too.",
+  "Tambahkan dulu tujuan jenis ini di tab Aset > Kelola tujuan.":"First add a goal of this type in the Assets > Manage goals tab.",
+  "Pilih aset untuk menambah aset.":"Choose an asset to add to assets.",
+  "Layout, tema, dan handle baru":"New layout, themes, and handle",
+  "Tampilan aset dan splash baru":"New assets view and splash",
+  "Latar dark mode kini bergradasi, midnight dengan biru dan oranye.":"Dark mode background now has a gradient; midnight uses blue and orange.",
+  "Grafik donut di halaman Aset dihapus, grafik di Beranda tetap ada.":"Donut chart on the Assets page removed; the chart on Home stays.",
+  "Handle baru saat transaksi: tarik untuk tutup, setengah, atau layar penuh.":"New handle on transactions: drag to close, half, or full screen.",
+  "Kartu aset kini bertumpuk dan bisa digeser atau di-tap.":"Asset cards are now stacked and can be swiped or tapped.",
+  "Tujuan diperbarui":"Goal updated",
+  "Geser kiri-kanan untuk pindah halaman dinonaktifkan. Pindah lewat navbar.":"Swipe left-right to change pages is disabled. Use the navbar.",
+  "Lihat pembagian asetmu dalam grafik donut. Tambah rekening baru lewat tombol Tambah aset.":"See how your assets are split in the donut chart. Add a new account with the Add asset button.",
+  "Tombol + di kartu aset untuk langsung menambah aset.":"Use the + button on an asset card to add an asset right away."
+  });
   var RX=[
    [/^(\S+)% (dibayar|diterima)$/,function(m){return m[1]+"% "+(m[2]==="dibayar"?"paid":"received")}],
    [/^Jatuh tempo (.+)$/,function(m){return "Due "+m[1]}],
@@ -3821,10 +3908,10 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     if(P.t==="acct"){
       L=accList();b=accBal(($("fDate").value||"").slice(0,7)||viewYM);
       if(!accById(cur)){cur=accById(lastAcct)?lastAcct:(L[0]?L[0].id:"");hid.value=cur}
-      h=L.map(function(a){return '<button type="button" data-c="'+esc(a.id)+'"'+(a.id===cur?' class="on"':'')+'><span>'+esc(a.name)+'</span><small>'+mk(b[a.id]||0)+'</small></button>'}).join("");
+      h=L.map(function(a){return '<button type="button" data-c="'+esc(a.id)+'"'+(a.id===cur?' class="on"':'')+'><span>'+esc(a.name)+'</span>'+(a.id===cur?'<small>'+mk(b[a.id]||0)+'</small>':'')+'</button>'}).join("");
     }else{
       L=assets.filter(function(a){return a.id!=="dompet"});
-      h=L.length?L.map(function(a){return '<button type="button" data-c="'+esc(a.id)+'"'+(a.id===cur?' class="on"':'')+'><span>'+esc(a.name)+'</span><small>'+mk(a.amount)+'</small></button>'}).join(""):'<div class="note">Belum ada aset.</div>';
+      h=L.length?L.map(function(a){return '<button type="button" data-c="'+esc(a.id)+'"'+(a.id===cur?' class="on"':'')+'><span>'+esc(a.name)+'</span>'+(a.id===cur?'<small>'+mk(a.amount)+'</small>':'')+'</button>'}).join(""):'<div class="note">Belum ada aset.</div>';
     }
     box.innerHTML='<div class="acchips">'+h+'</div>';
   }
@@ -3855,10 +3942,10 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       L=accList();b=accBal(ym);
       if(!accById(ac)){ac=accById(lastAcct)?lastAcct:(L[0]?L[0].id:"");$(P.acct).value=ac}
       sel.value="dompet";
-      h+=L.map(function(a){return '<button type="button" data-c="d:'+esc(a.id)+'"'+(a.id===ac?' class="on"':'')+'><span>'+esc(a.name)+'</span><small>'+mk(b[a.id]||0)+'</small></button>'}).join("");
+      h+=L.map(function(a){return '<button type="button" data-c="d:'+esc(a.id)+'"'+(a.id===ac?' class="on"':'')+'><span>'+esc(a.name)+'</span>'+(a.id===ac?'<small>'+mk(b[a.id]||0)+'</small>':'')+'</button>'}).join("");
     }else{
       L=assets.filter(function(a){return a.id!=="dompet"});
-      h+=L.length?L.map(function(a){return '<button type="button" data-c="a:'+esc(a.id)+'"'+(a.id===v?' class="on"':'')+'><span>'+esc(a.name)+'</span><small>'+mk(a.amount)+'</small></button>'}).join(""):'<div class="note">Belum ada aset.</div>';
+      h+=L.length?L.map(function(a){return '<button type="button" data-c="a:'+esc(a.id)+'"'+(a.id===v?' class="on"':'')+'><span>'+esc(a.name)+'</span>'+(a.id===v?'<small>'+mk(a.amount)+'</small>':'')+'</button>'}).join(""):'<div class="note">Belum ada aset.</div>';
     }
     box.innerHTML=h+'</div>';
   }
@@ -3891,7 +3978,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     fillSelect($("fAset2"),[["",opt?"Tanpa aset":(assets.length?"Pilih aset":"Belum ada aset")]].concat(assets.map(function(a){return [a.id,a.name]})),ca||"dompet");
     $("fAset2L").textContent=fgk===2?"Masuk ke":"Bayar pakai";srcRender("g");
     $("gDirBox").hidden=fgk!==0;var dbs=$("fDir").querySelectorAll("button");for(var j=0;j<dbs.length;j++)dbs[j].setAttribute("aria-pressed",String((dbs[j].getAttribute("data-d")==="t")===(fdir==="t")));
-    $("goalNote").textContent=fgk===1?"Dihitung sebagai pengeluaran dan mengurangi sisa hutang. Saldo yang dipilih ikut berkurang.":fgk===2?"Piutang yang diterima masuk ke pilihanmu. Kalau masuk Dompetku, otomatis jadi gaji tambahan bulan ini.":(fdir==="t"?"Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Setor: uang masuk ke aset yang dipilih dan menambah dana terkumpul tujuan. Dihitung sebagai tabungan, bukan pengeluaran. Kalau asetnya bukan Dompetku, sisa Dompetku berkurang.");
+    $("goalNote").textContent=fgk===1?"Dihitung sebagai pengeluaran. Mengurangi sisa hutang.":fgk===2?"Piutang masuk ke pilihanmu. Kalau ke Dompetku, jadi gaji tambahan bulan ini.":(fdir==="t"?"Dihitung sebagai pengeluaran. Dana terkumpul di tujuan tidak berkurang, hanya dicatat sebagai sudah terpakai. Aset yang dipilih ikut berkurang.":"Setor: uang masuk ke tujuan. Dihitung tabungan, bukan pengeluaran.");
     $("goalHint").textContent=gl.length?"":"Tambahkan dulu tujuan jenis ini di tab Aset > Kelola tujuan.";
   }
   $("fDir").addEventListener("click",function(e){var b=e.target.closest("button");if(b){fdir=b.getAttribute("data-d");toggleGoalBox("","")}});
@@ -6680,11 +6767,15 @@ header.hdr .hd-close svg{stroke-width:2.2}
 })();
 </script>
 <style id="clean-tweaks">
-/* Ambient Clean: tombol Keluar tanpa kotak, teks merah */
-html:root[data-skin="clean"] #btnWelcome,
-html:root[data-skin="clean"] #pmSwitch{background:transparent!important;border:0!important;box-shadow:none!important;color:#e5484d!important}
-html:root[data-skin="clean"][data-theme="dark"] #btnWelcome,
-html:root[data-skin="clean"][data-theme="dark"] #pmSwitch{color:#ff6b6b!important}
+/* Ambient Clean: "Keluar" di menu titik tiga tanpa kotak, teks & ikon merah */
+html:root[data-skin="clean"] #pmSwitch,
+html:root[data-skin="clean"] #pmSwitch:hover,
+html:root[data-skin="clean"] #pmSwitch:active{background:transparent!important;border:0!important;box-shadow:none!important;color:#e5484d!important}
+html:root[data-skin="clean"] #pmSwitch i[data-ic],
+html:root[data-skin="clean"] #pmSwitch .ic{background:transparent!important;box-shadow:none!important;color:#e5484d!important;stroke:#e5484d!important}
+html:root[data-skin="clean"][data-theme="dark"] #pmSwitch,
+html:root[data-skin="clean"][data-theme="dark"] #pmSwitch i[data-ic],
+html:root[data-skin="clean"][data-theme="dark"] #pmSwitch .ic{color:#ff6b6b!important;stroke:#ff6b6b!important}
 /* Ambient Clean: grafik 7 hari bergradasi; terang = putih ke abu, gelap = abu ke hitam */
 html:root[data-skin="clean"] .wcol{background:linear-gradient(180deg,#ffffff 0%,#c7c7cc 100%)!important}
 html:root[data-skin="clean"][data-theme="dark"] .wcol{background:linear-gradient(180deg,#8e8e93 0%,#000000 100%)!important}
