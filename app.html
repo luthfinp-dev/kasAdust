@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-/fV6xwEm0USDlQeJjtqr2SMSQvscwek5rGyJOCKlyA0=' 'sha256-2jnZFE9IZnTezAhcFd6MvYhK5f1kRJVX+pGc5u/YNdo=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-/fV6xwEm0USDlQeJjtqr2SMSQvscwek5rGyJOCKlyA0=' 'sha256-2jnZFE9IZnTezAhcFd6MvYhK5f1kRJVX+pGc5u/YNdo=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-G5g7wFpFX5hGVOADXwqDfltJICNAiAZPQefa/NQiltg=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-CVeVyRzn0cciBhOoQiHx4jMf4L3Z/S0To3HZfmde+AQ=' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -6536,6 +6536,14 @@ html:root[data-skin="clean"][data-theme="dark"] .msheet,html:root[data-skin="cle
 #txSheet.dragging{transition:none!important}
 #txSheet.snap{transition:height .26s cubic-bezier(.22,.8,.3,1)}
 @media (min-width:761px){#txSheet .tx-grip{display:none}}
+#appclosed{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:var(--page,var(--bg,#eceef1));color:var(--text,#1c1c1e)}
+#appclosed[hidden]{display:none}
+#appclosed .acl-logo{width:72px;height:72px;border-radius:22px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#3a3a3c,#0d0d0f);color:#fff;box-shadow:0 10px 24px -8px rgba(0,0,0,.35)}
+:root[data-skin="clean"][data-theme="dark"] #appclosed .acl-logo{background:linear-gradient(145deg,#ffffff,#cfcfd4);color:#000}
+#appclosed .acl-logo svg{width:34px;height:34px}
+#appclosed b{font-size:1.05rem}
+#appclosed small{color:var(--muted);font-size:.8rem;max-width:260px;line-height:1.4}
+#appclosed button{margin-top:6px;border:0;border-radius:999px;padding:11px 28px;font:inherit;font-weight:700;background:var(--sage-d,#1c1c1e);color:var(--bg,#fff);cursor:pointer}
 </style>
 <script>
 (function(){
@@ -6599,6 +6607,29 @@ html:root[data-skin="clean"][data-theme="dark"] .msheet,html:root[data-skin="cle
     st="half";
     requestAnimationFrame(openFit);setTimeout(openFit,120);
   }).observe(s,{attributes:true,attributeFilter:["hidden"]});
+})();
+</script>
+<script>
+(function(){
+  var b=document.getElementById("btnClose");if(!b)return;
+  var el=null;
+  function build(){
+    el=document.createElement("div");el.id="appclosed";el.hidden=true;
+    el.setAttribute("role","dialog");el.setAttribute("aria-label","Aplikasi ditutup");
+    el.innerHTML='<div class="acl-logo"><svg viewBox="159 108 1646 1646" fill="currentColor" aria-hidden="true"><path d="M204 976L981 1753 1759 976 1047 990 1048 997 1346 1103 982 1753 617 1103 915 997 916 990ZM205 884L916 870 916 864 617 758 981 108 1346 758 1047 864 1047 870 1759 884 982 108Z"/></svg></div><b>Aplikasi ditutup</b><small>Data disembunyikan. Untuk keluar penuh, geser app dari daftar app terbuka.</small><button type="button">Buka lagi</button>';
+    el.querySelector("button").addEventListener("click",function(){el.hidden=true;document.documentElement.classList.remove("lock")});
+    document.body.appendChild(el);
+  }
+  b.addEventListener("click",function(e){
+    e.stopImmediatePropagation();e.preventDefault();
+    var pin=false;try{pin=!!localStorage.getItem("pin-v1")}catch(x){}
+    try{window.close()}catch(x){}
+    setTimeout(function(){
+      if(pin){location.reload();return}
+      if(!el)build();
+      el.hidden=false;document.documentElement.classList.add("lock");
+    },150);
+  },true);
 })();
 </script>
 </body>
