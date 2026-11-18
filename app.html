@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-pRXo7nTJQszcb3ScdUVe6w7zwSkHZhM0zHCyDftAaPY=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-msD8qk9xbeyjvnbbuRi9/zQNL8bHGzaFRckTzC83stQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-g528djcXdNU68vc28U5qmNuHJP3W1Wfnwf7RElcwoQs=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-msD8qk9xbeyjvnbbuRi9/zQNL8bHGzaFRckTzC83stQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -639,6 +639,10 @@ button,.xc,.tablebox tr.txr{transition:transform .16s var(--ease),background .22
 #app.tabin .wb:nth-child(6) .wcol{animation-delay:.25s}
 #app.tabin .wb:nth-child(7) .wcol{animation-delay:.3s}
 .toast{transition:opacity .32s ease,transform .55s var(--ease)}
+/* blur halus saat muncul: 5px menajam ke 0 dalam 0,3 dtk; saat hilang cukup memudar */
+.toast{filter:blur(5px);transition:opacity .32s ease,transform .55s var(--ease),filter .01s .32s}
+.toast.on{filter:blur(0);transition:opacity .32s ease,transform .55s var(--ease),filter .3s ease}
+@media (prefers-reduced-motion:reduce){.toast,.toast.on{filter:none}}
 .toast.on .ti{animation:tpop .6s var(--ease) .1s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.xd,.tablebox tr.txr td.act,.bar i,.wcol,.toast{transition:none}}
@@ -2445,7 +2449,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       $("fCatF").value="all";
     }
     lastCat=cat;try{localStorage.setItem("kategori-terakhir-v1",cat)}catch(e){}
-    var wasE=!!editId;save();resetForm();closeTx();render();toast(wasE?"Perubahan disimpan":(cat===GOALC?"Tujuan diperbarui":cat===WD?"Aset diambil":isSave(cat)?"Aset ditambah":cat===TRF?"Transfer dicatat":cat===DEBT?"Pembayaran hutang dicatat":"Pengeluaran dicatat"),null,name+" \u00b7 "+rp(amt));
+    var wasE=!!editId;save();resetForm();closeTx();render();if(!wasE)fabFx();toast(wasE?"Perubahan disimpan":(cat===GOALC?"Tujuan diperbarui":cat===WD?"Aset diambil":isSave(cat)?"Aset ditambah":cat===TRF?"Transfer dicatat":cat===DEBT?"Pembayaran hutang dicatat":"Pengeluaran dicatat"),null,name+" \u00b7 "+rp(amt));
   });
 
   $("btnCancel").addEventListener("click",function(){resetForm();closeTx()});
@@ -4340,6 +4344,40 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     },{passive:true});
     document.addEventListener("touchcancel",function(){live=false},{passive:true});
   })();
+  /* tombol +: tetap + saat diam; setelah transaksi ditambah (jeda 0,1 dtk) berputar jadi koin, lalu ceklis, lalu kembali ke + */
+  function fabFx(){
+    var fab=$("btnAdd");if(!fab||fab.__fx)return;
+    if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    var plus=fab.firstElementChild;if(!plus||!fab.animate)return;
+    fab.__fx=true;
+    var ov=document.createElement("span");
+    ov.setAttribute("aria-hidden","true");
+    ov.style.cssText="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none";
+    ov.innerHTML='<svg class="fx-coin" viewBox="0 0 32 32" width="34" height="34" style="position:absolute;opacity:0"><circle cx="16" cy="16" r="14.5" fill="#f6c445" stroke="#c98f12" stroke-width="2"/><circle cx="16" cy="16" r="10.5" fill="none" stroke="#c98f12" stroke-width="1.4" opacity=".7"/></svg>'
+      +'<svg class="fx-ck" viewBox="0 0 24 24" width="22" height="22" style="position:absolute;opacity:0" fill="none" stroke="#7a4e00" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" stroke-dasharray="24" stroke-dashoffset="24"/></svg>';
+    fab.appendChild(ov);
+    var coin=ov.querySelector(".fx-coin"),ck=ov.querySelector(".fx-ck"),ckp=ck.querySelector("path"),prevDisp=plus.style.display,E="cubic-bezier(.3,.8,.3,1)";
+    plus.style.display="flex";plus.style.transformOrigin="50% 50%";
+    var an=[];
+    function A(el,kf,o){var a=el.animate(kf,o);an.push(a);return a}
+    /* jeda 0,1 dtk, lalu + berputar dan berubah jadi bulatan (koin) */
+    A(plus,[{transform:"rotate(0) scale(1)",opacity:1},{transform:"rotate(270deg) scale(.35)",opacity:0}],{duration:420,delay:100,easing:E,fill:"forwards"});
+    A(coin,[{opacity:0,transform:"rotate(-200deg) scale(.2)"},{opacity:1,transform:"rotate(0) scale(1.06)",offset:.7},{opacity:1,transform:"rotate(0) scale(1)"}],{duration:480,delay:140,easing:E,fill:"both"});
+    /* koin berputar (flip) sekali */
+    A(coin,[{transform:"perspective(160px) rotateY(0)"},{transform:"perspective(160px) rotateY(360deg)"}],{duration:450,delay:650,easing:"ease-in-out"});
+    /* ceklis muncul di tengah bulatan */
+    A(ck,[{opacity:0,transform:"scale(.5)"},{opacity:1,transform:"scale(1.12)",offset:.6},{opacity:1,transform:"scale(1)"}],{duration:340,delay:1150,easing:E,fill:"both"});
+    A(ckp,[{strokeDashoffset:24},{strokeDashoffset:0}],{duration:320,delay:1170,easing:"ease-out",fill:"both"});
+    /* bulatan + ceklis mengecil lalu ikon tambah kembali */
+    A(coin,[{opacity:1,transform:"rotate(0) scale(1)"},{opacity:0,transform:"rotate(180deg) scale(.2)"}],{duration:360,delay:1900,easing:E,fill:"forwards"});
+    A(ck,[{opacity:1,transform:"scale(1)"},{opacity:0,transform:"scale(.2)"}],{duration:300,delay:1900,easing:E,fill:"forwards"});
+    A(plus,[{transform:"rotate(-180deg) scale(.35)",opacity:0},{transform:"rotate(0) scale(1)",opacity:1}],{duration:400,delay:2050,easing:E,fill:"both"});
+    setTimeout(function(){
+      an.forEach(function(a){try{a.cancel()}catch(e){}});
+      if(ov.parentNode)ov.parentNode.removeChild(ov);
+      plus.style.display=prevDisp;plus.style.transformOrigin="";fab.__fx=false;
+    },2550);
+  }
   $("btnAdd").addEventListener("click",function(){resetForm();openTx()});
   $("txOv").addEventListener("click",function(){resetForm();closeTx()});
   window.addEventListener("popstate",function(){if(!$("txSheet").hidden){txPushed=false;resetForm();closeTx(true)}});
