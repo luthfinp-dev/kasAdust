@@ -6326,7 +6326,7 @@ html:root[data-skin="midnight"][data-theme="dark"] .mz,html:root[data-skin="clea
 :root[data-skin="clean"][data-theme="dark"] .fab{--fxk:#fff}
 .fx-ov{position:absolute;inset:0;pointer-events:none}
 .fx-ripple{position:absolute;inset:-6px;border-radius:9999px;border:2px solid currentColor;opacity:0}
-.fx-ring{position:absolute;inset:0;margin:auto;width:32px;height:32px;border-radius:9999px;border:2px dashed currentColor;opacity:0;filter:blur(1.5px);transform-origin:center}
+.fx-ring{position:absolute;inset:0;margin:auto;width:32px;height:32px;border-radius:9999px;border:2px dashed currentColor;opacity:0;filter:blur(.8px);transform-origin:center}
 .fx-circ{position:absolute;inset:0;margin:auto;width:28px;height:28px;border-radius:9999px;background:currentColor;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.2) rotate(0deg);filter:blur(0);will-change:transform,opacity,filter}
 .fx-circ svg{display:block}
 .fx-ck{stroke:var(--fxk);stroke-dasharray:20;stroke-dashoffset:20}
@@ -6337,20 +6337,20 @@ html:root[data-skin="midnight"][data-theme="dark"] .mz,html:root[data-skin="clea
 .fab.fx-run .fx-ripple{animation:fxRipple .7s ease-out .4s forwards}
 @keyframes fxPlus{
 0%,4.76%{transform:rotate(0) scale(1);opacity:1;filter:blur(0)}
-10%{transform:rotate(45deg) scale(.7);opacity:.8;filter:blur(2.5px) drop-shadow(0 0 3px var(--fxs))}
-18%{transform:rotate(135deg) scale(.2);opacity:0;filter:blur(3.5px)}
+10%{transform:rotate(45deg) scale(.7);opacity:.8;filter:blur(1.2px) drop-shadow(0 0 2px var(--fxs))}
+18%{transform:rotate(135deg) scale(.2);opacity:0;filter:blur(1.8px)}
 72%{transform:rotate(135deg) scale(.2);opacity:0;filter:blur(0)}
-82%{transform:rotate(45deg) scale(.7);opacity:.7;filter:blur(2px) drop-shadow(0 0 3px var(--fxs))}
-92%{transform:rotate(-10deg) scale(1.08);opacity:1;filter:blur(.5px)}
+82%{transform:rotate(45deg) scale(.7);opacity:.7;filter:blur(1px) drop-shadow(0 0 2px var(--fxs))}
+92%{transform:rotate(-10deg) scale(1.08);opacity:1;filter:blur(.3px)}
 100%{transform:rotate(0) scale(1);opacity:1;filter:blur(0)}}
 @keyframes fxCirc{
-0%,4.76%{opacity:0;transform:scale(.2) rotate(-135deg);filter:blur(3px)}
-12%{opacity:.9;transform:scale(.8) rotate(-45deg);filter:blur(2px) drop-shadow(0 0 5px var(--fxs))}
+0%,4.76%{opacity:0;transform:scale(.2) rotate(-135deg);filter:blur(1.5px)}
+12%{opacity:.9;transform:scale(.8) rotate(-45deg);filter:blur(1px) drop-shadow(0 0 2px var(--fxs))}
 20%{opacity:1;transform:scale(1.05) rotate(0);filter:blur(0)}
 24%{transform:scale(1) rotate(0);filter:blur(0)}
 70%{opacity:1;transform:scale(1) rotate(0);filter:blur(0)}
-78%{opacity:.85;transform:scale(.8) rotate(70deg);filter:blur(2.5px) drop-shadow(0 0 4px var(--fxs))}
-86%{opacity:0;transform:scale(.1) rotate(160deg);filter:blur(3.5px)}
+78%{opacity:.85;transform:scale(.8) rotate(70deg);filter:blur(1.2px) drop-shadow(0 0 2px var(--fxs))}
+86%{opacity:0;transform:scale(.1) rotate(160deg);filter:blur(1.8px)}
 100%{opacity:0;transform:scale(0) rotate(180deg);filter:blur(0)}}
 @keyframes fxRing{
 0%,4.76%{opacity:0;transform:rotate(0) scale(.8)}
@@ -6953,5 +6953,45 @@ input.xc-pad,textarea.xc-pad{padding-right:40px!important}
 input.xc-pad::-webkit-calendar-picker-indicator{display:none!important}
 </style>
 <script id="xclearJs">(function(){ var OK={"":1,text:1,email:1,url:1,search:1,tel:1,number:1}; var btn=document.createElement("button"); btn.type="button";btn.className="xclear";btn.tabIndex=-1; btn.setAttribute("aria-label","Hapus isi"); btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>'; document.body.appendChild(btn); var cur=null,raf=0; function eligible(el){ if(!el||!el.tagName)return false; var t=el.tagName; if(t==="TEXTAREA")return !el.readOnly&&!el.disabled; if(t!=="INPUT")return false; var ty=(el.getAttribute("type")||"").toLowerCase(); return !!OK[ty]&&!el.readOnly&&!el.disabled&&!el.hidden; } function hide(){ btn.classList.remove("on"); if(cur)cur.classList.remove("xc-pad"); } function place(){ if(!cur||!document.body.contains(cur)){cur=null;hide();raf=0;return} var has=cur.value&&cur.value.length>0; var r=cur.getBoundingClientRect(); if(!has||r.width===0||r.height===0){btn.classList.remove("on");cur.classList.remove("xc-pad")} else{ cur.classList.add("xc-pad"); btn.classList.add("on"); var top=cur.tagName==="TEXTAREA"?r.top+10:r.top+(r.height-22)/2; btn.style.top=top+"px"; btn.style.left=(r.right-22-10)+"px"; } raf=requestAnimationFrame(place); } function start(el){ if(cur&&cur!==el)cur.classList.remove("xc-pad"); cur=el; if(!raf)raf=requestAnimationFrame(place); } document.addEventListener("focusin",function(e){ if(e.target===btn)return; if(eligible(e.target))start(e.target); else{cur=null;hide()} }); document.addEventListener("focusout",function(e){ if(e.target!==cur)return; setTimeout(function(){ if(document.activeElement===cur)return; cur.classList.remove("xc-pad");cur=null;hide(); if(raf){cancelAnimationFrame(raf);raf=0} },0); }); function inBtn(e){return e.target===btn||(btn.contains&&btn.contains(e.target))} function swallow(e){if(inBtn(e)){e.stopImmediatePropagation();e.stopPropagation()}} ["mousedown","mouseup","touchstart","touchend","click"].forEach(function(n){ window.addEventListener(n,function(e){ if(!inBtn(e))return; e.preventDefault();swallow(e); },true); }); window.addEventListener("pointerdown",function(e){ if(!inBtn(e))return; e.preventDefault();swallow(e); if(!cur)return; var el=cur; el.value=""; el.dispatchEvent(new Event("input",{bubbles:true})); el.dispatchEvent(new Event("change",{bubbles:true})); try{el.focus({preventScroll:true})}catch(_){el.focus()} btn.classList.remove("on");el.classList.remove("xc-pad"); },true); })();</script>
+<style id="clean-tidy">
+/* Ambient: bayangan kecil dan tegas (tanpa blur lebar), highlight putih diminimalkan */
+:root[data-skin="clean"]{
+  --glass-sh:0 1px 2px rgba(60,60,67,.10),0 2px 8px -3px rgba(60,60,67,.14);
+  --nu-o:0 1px 2px rgba(60,60,67,.14),0 2px 5px -2px rgba(60,60,67,.14);
+  --nu-i:inset 0 1px 3px rgba(60,60,67,.18);
+  --ui-inset-sh:inset 0 1px 2px rgba(60,60,67,.22);
+  --ui-inset-soft:inset 0 1px 2px rgba(60,60,67,.16);
+  --ui-raise-sh:0 1px 2px rgba(60,60,67,.16),0 1px 4px -2px rgba(60,60,67,.14);
+  --ui-card-sh:0 1px 3px rgba(60,60,67,.14),0 0 0 1px rgba(60,60,67,.04);
+  --ui-inset-bd:1px solid rgba(60,60,67,.08);
+  --ui-glyph:none}
+:root[data-skin="clean"][data-theme="dark"]{
+  --glass-sh:0 1px 2px rgba(0,0,0,.5),0 4px 12px -5px rgba(0,0,0,.5);
+  --nu-o:0 1px 2px rgba(0,0,0,.5),0 2px 6px -3px rgba(0,0,0,.5);
+  --nu-i:inset 0 1px 3px rgba(0,0,0,.7);
+  --ui-inset-sh:inset 0 1px 2px rgba(0,0,0,.7);
+  --ui-inset-soft:inset 0 1px 2px rgba(0,0,0,.5);
+  --ui-raise-sh:0 1px 2px rgba(0,0,0,.5);
+  --ui-card-sh:0 1px 3px rgba(0,0,0,.5);
+  --ui-inset-bd:1px solid rgba(255,255,255,.06);
+  --ui-glyph:none}
+html:root[data-skin="clean"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),0 3px 8px rgba(60,60,67,.28)!important}
+html:root[data-skin="clean"][data-theme="dark"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),0 3px 8px rgba(0,0,0,.6)!important}
+html:root[data-skin="clean"] .msheet,html:root[data-skin="clean"] .sheet{box-shadow:0 -2px 12px rgba(0,0,0,.12)!important}
+html:root[data-skin="clean"][data-theme="dark"] .msheet,html:root[data-skin="clean"][data-theme="dark"] .sheet{box-shadow:0 -2px 14px rgba(0,0,0,.45)!important}
+@media (min-width:761px){html:root[data-skin="clean"] .msheet{box-shadow:0 6px 20px rgba(0,0,0,.18)!important}}
+html:root[data-skin="clean"] #intro .ilogo{box-shadow:0 6px 16px rgba(0,0,0,.22)}
+html:root[data-skin="clean"][data-theme="dark"] #intro .ilogo{box-shadow:0 6px 16px rgba(0,0,0,.5)}
+html:root[data-skin="clean"] .mz{box-shadow:inset 0 2px 6px rgba(0,0,0,.3),0 2px 6px -2px rgba(0,0,0,.3)!important}
+html:root[data-skin="clean"][data-theme="dark"] .mz{box-shadow:inset 0 2px 6px rgba(0,0,0,.1),0 2px 6px -2px rgba(0,0,0,.4)!important}
+/* ritme jarak di HP: skala 8 (kelipatan 4/8) supaya antar blok konsisten */
+@media (max-width:760px){
+  .grid3{gap:12px;margin-bottom:16px}
+  .card{padding:16px;margin-bottom:16px}
+  .two>.card{margin-bottom:16px}
+  .sxg{margin:20px 16px 8px}
+  .sxsolo{margin-top:16px}
+}
+</style>
 </body>
 </html>
