@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-DfQhXO+Bj+xwiq3J4hvg/ahHrRVT9z9mo6UYlzUEjjs=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-msD8qk9xbeyjvnbbuRi9/zQNL8bHGzaFRckTzC83stQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-506y/a/AL+wFBhd9hu0SBU4EsMILcdcxY3iKD7AhF4Q=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-msD8qk9xbeyjvnbbuRi9/zQNL8bHGzaFRckTzC83stQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2449,7 +2449,7 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       $("fCatF").value="all";
     }
     lastCat=cat;try{localStorage.setItem("kategori-terakhir-v1",cat)}catch(e){}
-    var wasE=!!editId;save();resetForm();closeTx();render();if(!wasE)fabFx();toast(wasE?"Perubahan disimpan":(cat===GOALC?"Tujuan diperbarui":cat===WD?"Aset diambil":isSave(cat)?"Aset ditambah":cat===TRF?"Transfer dicatat":cat===DEBT?"Pembayaran hutang dicatat":"Pengeluaran dicatat"),null,name+" \u00b7 "+rp(amt));
+    var wasE=!!editId;save();resetForm();closeTx();render();if(!wasE)setTimeout(fabFx,300);toast(wasE?"Perubahan disimpan":(cat===GOALC?"Tujuan diperbarui":cat===WD?"Aset diambil":isSave(cat)?"Aset ditambah":cat===TRF?"Transfer dicatat":cat===DEBT?"Pembayaran hutang dicatat":"Pengeluaran dicatat"),null,name+" \u00b7 "+rp(amt));
   });
 
   $("btnCancel").addEventListener("click",function(){resetForm();closeTx()});
@@ -4822,7 +4822,8 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     $("btnTheme").disabled=false;
     $("skAccSum").textContent=mid?"Midnight Electric":skin==="clean"?"Ambient Clean":"Original";
   }
-  function refreshDonut(){try{if(typeof renderAssets==="function")renderAssets()}catch(e){}}
+  /* ganti tema/skin tidak perlu membangun ulang halaman aset (warna sudah dari CSS variabel); membangunnya ulang memutar ulang animasi grafik dan kartu */
+  function refreshDonut(){}
   function applySkin(sk){
     skin=sk==="midnight"?"midnight":sk==="clean"?"clean":"original";
     var r=document.documentElement;
@@ -6958,23 +6959,13 @@ input.xc-pad::-webkit-calendar-picker-indicator{display:none!important}
 :root[data-skin="clean"]{
   --glass-sh:5px 5px 12px rgba(163,171,184,.45),-5px -5px 12px rgba(255,255,255,.9);
   --nu-o:3px 3px 8px rgba(163,171,184,.48),-3px -3px 8px rgba(255,255,255,.92);
-  --nu-i:inset 2px 2px 5px rgba(163,171,184,.5),inset -2px -2px 5px rgba(255,255,255,.92);
-  --ui-inset-sh:inset 2px 2px 4px rgba(163,171,184,.5),inset -2px -2px 4px rgba(255,255,255,.95);
-  --ui-inset-soft:inset 1.5px 1.5px 3px rgba(163,171,184,.34),inset -1.5px -1.5px 3px rgba(255,255,255,.88);
   --ui-raise-sh:2px 2px 5px rgba(163,171,184,.34),-2px -2px 5px rgba(255,255,255,.9);
-  --ui-card-sh:3px 3px 8px rgba(163,171,184,.4),-3px -3px 8px rgba(255,255,255,.88);
-  --ui-inset-bd:1px solid rgba(255,255,255,.75);
-  --ui-glyph:drop-shadow(0 1px 0 rgba(255,255,255,.95))}
+  --ui-card-sh:3px 3px 8px rgba(163,171,184,.4),-3px -3px 8px rgba(255,255,255,.88);}
 :root[data-skin="clean"][data-theme="dark"]{
   --glass-sh:0 8px 18px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);
   --nu-o:0 5px 12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.1);
-  --nu-i:inset 0 2px 6px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.07);
-  --ui-inset-sh:inset 0 2px 4px rgba(0,0,0,.85),inset 0 -1px 0 rgba(255,255,255,.08);
-  --ui-inset-soft:inset 0 1.5px 3px rgba(0,0,0,.55),inset 0 -1px 0 rgba(255,255,255,.04);
   --ui-raise-sh:0 3px 7px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07);
-  --ui-card-sh:0 4px 10px -3px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);
-  --ui-inset-bd:1px solid rgba(255,255,255,.09);
-  --ui-glyph:drop-shadow(0 1px 0 rgba(0,0,0,.85))}
+  --ui-card-sh:0 4px 10px -3px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);}
 html:root[data-skin="clean"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),4px 5px 11px rgba(140,148,160,.55),-3px -3px 8px rgba(255,255,255,.9)!important}
 html:root[data-skin="clean"][data-theme="dark"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),0 6px 14px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.6)!important}
 html:root[data-skin="clean"] .msheet,html:root[data-skin="clean"] .sheet{box-shadow:0 -2px 14px rgba(0,0,0,.14)!important}
@@ -6992,6 +6983,12 @@ html:root[data-skin="clean"][data-theme="dark"] .mz{box-shadow:inset 0 2px 6px r
   .sxg{margin:20px 16px 8px}
   .sxsolo{margin-top:16px}
 }
+</style>
+<style id="sel-fix">
+/* teks di seluruh aplikasi bisa dipilih dan disalin (tahan lama di HP); area kontrol/gestur tetap tidak bisa dipilih */
+:where(html,body,#app,#app *){-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+.navbar,.navbar *,.fab,.fab *,.coinbox,.coinbox *,.mz,.mz *,.vstack,.vstack *,.acch,.acch *{-webkit-user-select:none;user-select:none}
+input,textarea{-webkit-user-select:text;user-select:text}
 </style>
 </body>
 </html>
