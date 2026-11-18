@@ -6283,6 +6283,19 @@ html:root[data-skin="midnight"] .mz{--mz1:#bcd3f7!important;--mz2:#cfe0f9!import
 html:root[data-skin="midnight"][data-theme="dark"] .mz{--mz1:#041a29!important;--mz2:#072c45!important;--mz3:#0a3d5f!important;border:1px solid rgba(120,200,240,.22)!important;box-shadow:inset 0 3px 10px rgba(0,0,0,.5),0 6px 18px -8px rgba(0,0,0,.55)!important}
 html:root[data-skin="clean"] .mz{--mz1:#111113!important;--mz2:#1c1c1e!important;--mz3:#2c2c2e!important;border:1px solid transparent!important;box-shadow:inset 0 3px 10px rgba(0,0,0,.35),0 6px 18px -8px rgba(0,0,0,.4)!important}
 html:root[data-skin="clean"][data-theme="dark"] .mz{--mz1:#f2f2f7!important;--mz2:#e9e9ee!important;--mz3:#e5e5ea!important;border:1px solid transparent!important;box-shadow:inset 0 3px 10px rgba(0,0,0,.1),0 6px 18px -8px rgba(0,0,0,.5)!important}
+/* latar bergerak: cahaya melayang pelan + titik naik, kecepatan ikut status */
+html:root .mz{--mzg:rgba(255,255,255,.13);--mzp:rgba(255,255,255,.24)}
+html:root[data-theme="dark"] .mz,html:root[data-skin="midnight"] .mz,html:root[data-skin="clean"][data-theme="dark"] .mz{--mzg:rgba(0,0,0,.07);--mzp:rgba(0,0,0,.14)}
+html:root[data-skin="midnight"][data-theme="dark"] .mz,html:root[data-skin="clean"] .mz{--mzg:rgba(255,255,255,.13);--mzp:rgba(255,255,255,.24)}
+.mz::before,.mz::after{content:"";position:absolute;pointer-events:none;z-index:0}
+.mz::before{inset:-30%;background:radial-gradient(circle at 22% 35%,var(--mzg) 0,transparent 36%),radial-gradient(circle at 78% 68%,var(--mzg) 0,transparent 40%);animation:mzDrift 9s ease-in-out infinite alternate}
+.mz::after{inset:0;background:radial-gradient(circle,var(--mzp) 0 2px,transparent 3px) 0 0/46px 46px,radial-gradient(circle,var(--mzp) 0 1.5px,transparent 2.5px) 23px 23px/46px 46px;-webkit-mask-image:linear-gradient(to top,#000,transparent 85%);mask-image:linear-gradient(to top,#000,transparent 85%);animation:mzRise 8s linear infinite}
+.mz.hemat::after{animation-duration:10s}
+.mz.boros::before{animation-duration:4.5s}.mz.boros::after{animation-duration:3.5s}
+.mz .mz-scale{z-index:1}
+@keyframes mzDrift{from{transform:translate(-6%,-4%) scale(1)}to{transform:translate(6%,5%) scale(1.12)}}
+@keyframes mzRise{from{background-position:0 0,23px 23px}to{background-position:0 -46px,23px -23px}}
+@media (prefers-reduced-motion:reduce){.mz::before,.mz::after{animation:none}}
 </style>
 <style id="goal-rows">
 #gList .cat{background:var(--glass)!important;border:1px solid var(--glass-b)!important;border-radius:18px!important;padding:12px 14px!important;margin-bottom:10px;box-shadow:var(--glass-sh);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)}
