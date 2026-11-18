@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-yYDy2x87sJxF7HplvV9LczJQXbqlCB5zOHutHZFuxfc=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-msD8qk9xbeyjvnbbuRi9/zQNL8bHGzaFRckTzC83stQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-DfQhXO+Bj+xwiq3J4hvg/ahHrRVT9z9mo6UYlzUEjjs=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-msD8qk9xbeyjvnbbuRi9/zQNL8bHGzaFRckTzC83stQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -4344,33 +4344,19 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     },{passive:true});
     document.addEventListener("touchcancel",function(){live=false},{passive:true});
   })();
-  /* tombol +: tetap + saat diam; setelah transaksi ditambah (jeda 0,1 dtk) berputar jadi koin, lalu ceklis, lalu kembali ke + */
+  /* tombol +: setelah transaksi baru tersimpan, + berputar (motion blur) jadi bulatan seukuran + dengan ceklis, lalu kembali ke + (animasi: 2,1 dtk, kelas CSS .fx-run) */
+  var fabFxT=0;
   function fabFx(){
-    var fab=$("btnAdd");if(!fab||fab.__fx)return;
+    var fab=$("btnAdd");if(!fab||fab.classList.contains("fx-run"))return;
     if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-    var plus=fab.firstElementChild;if(!plus||!fab.animate)return;
-    fab.__fx=true;
-    var ov=document.createElement("span");
-    ov.setAttribute("aria-hidden","true");
-    ov.style.cssText="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none";
-    ov.innerHTML='<svg class="fx-badge" viewBox="0 0 28 28" width="28" height="28" style="position:absolute;opacity:0"><circle cx="14" cy="14" r="13" fill="#1fa65a"/><path class="fx-ckp" d="M8.2 14.4l4 4 7.6-8.4" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="22" stroke-dashoffset="22"/></svg>';
-    fab.appendChild(ov);
-    var bd=ov.querySelector(".fx-badge"),ckp=ov.querySelector(".fx-ckp"),prevDisp=plus.style.display,E="cubic-bezier(.3,.8,.3,1)";
-    plus.style.display="flex";plus.style.transformOrigin="50% 50%";
-    var an=[];
-    function A(el,kf,o){var a=el.animate(kf,o);an.push(a);return a}
-    /* jeda 0,1 dtk: + berputar dan berubah jadi bulatan hijau seukuran + (dengan motion blur) */
-    A(plus,[{transform:"rotate(0) scale(1)",opacity:1,filter:"blur(0)"},{transform:"rotate(270deg) scale(.35)",opacity:0,filter:"blur(4px)"}],{duration:420,delay:100,easing:E,fill:"forwards"});
-    A(bd,[{opacity:0,transform:"rotate(-200deg) scale(.2)",filter:"blur(5px)"},{opacity:1,transform:"rotate(0) scale(1.06)",filter:"blur(0)",offset:.7},{opacity:1,transform:"rotate(0) scale(1)",filter:"blur(0)"}],{duration:480,delay:140,easing:E,fill:"both"});
-    /* ceklis tergambar di tengah bulatan */
-    A(ckp,[{strokeDashoffset:22},{strokeDashoffset:0}],{duration:340,delay:600,easing:"ease-out",fill:"both"});
-    /* bulatan berputar mengecil, ikon + kembali */
-    A(bd,[{opacity:1,transform:"rotate(0) scale(1)",filter:"blur(0)"},{opacity:0,transform:"rotate(180deg) scale(.2)",filter:"blur(5px)"}],{duration:380,delay:1500,easing:E,fill:"forwards"});
-    A(plus,[{transform:"rotate(-180deg) scale(.35)",opacity:0,filter:"blur(4px)"},{transform:"rotate(0) scale(1)",opacity:1,filter:"blur(0)"}],{duration:420,delay:1650,easing:E,fill:"both"});
-    setTimeout(function(){
-      an.forEach(function(a){try{a.cancel()}catch(e){}});
+    var plus=fab.firstElementChild;if(!plus)return;
+    var ov=document.createElement("span");ov.className="fx-ov";ov.setAttribute("aria-hidden","true");
+    ov.innerHTML='<span class="fx-ripple"></span><span class="fx-ring"></span><span class="fx-circ"><svg viewBox="0 0 20 20" width="16" height="16" fill="none"><path class="fx-ck" d="M4.5 10.5L8.2 14.2L15.5 6.5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    fab.appendChild(ov);plus.classList.add("fx-plus");fab.classList.add("fx-run");
+    clearTimeout(fabFxT);
+    fabFxT=setTimeout(function(){
+      fab.classList.remove("fx-run");plus.classList.remove("fx-plus");
       if(ov.parentNode)ov.parentNode.removeChild(ov);
-      plus.style.display=prevDisp;plus.style.transformOrigin="";fab.__fx=false;
     },2200);
   }
   $("btnAdd").addEventListener("click",function(){resetForm();openTx()});
@@ -6329,6 +6315,53 @@ html:root[data-skin="midnight"][data-theme="dark"] .mz,html:root[data-skin="clea
 @keyframes mzDrift{from{transform:translate(-6%,-4%) scale(1)}to{transform:translate(6%,5%) scale(1.12)}}
 @keyframes mzRise{from{background-position:0 0,23px 23px}to{background-position:0 -46px,23px -23px}}
 @media (prefers-reduced-motion:reduce){.mz::before,.mz::after{animation:none}}
+</style>
+<style id="fab-fx">
+/* animasi tombol + setelah transaksi: urutan 4 fase (jeda 0,1 dtk, putar + motion blur jadi bulatan, ceklis tergambar, putar balik ke +). Warna ikut tema dan mode lewat currentColor tombol. */
+.fab{--fxk:#fff;--fxs:color-mix(in srgb,currentColor 40%,transparent)}
+:root[data-theme="dark"] .fab{--fxk:#d4ecd9}
+:root[data-skin="midnight"] .fab{--fxk:#ec5b9a}
+:root[data-skin="midnight"][data-theme="dark"] .fab{--fxk:#fc734d}
+:root[data-skin="clean"] .fab{--fxk:#1c1c1e}
+:root[data-skin="clean"][data-theme="dark"] .fab{--fxk:#fff}
+.fx-ov{position:absolute;inset:0;pointer-events:none}
+.fx-ripple{position:absolute;inset:-6px;border-radius:9999px;border:2px solid currentColor;opacity:0}
+.fx-ring{position:absolute;inset:0;margin:auto;width:32px;height:32px;border-radius:9999px;border:2px dashed currentColor;opacity:0;filter:blur(1.5px);transform-origin:center}
+.fx-circ{position:absolute;inset:0;margin:auto;width:28px;height:28px;border-radius:9999px;background:currentColor;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.2) rotate(0deg);filter:blur(0);will-change:transform,opacity,filter}
+.fx-circ svg{display:block}
+.fx-ck{stroke:var(--fxk);stroke-dasharray:20;stroke-dashoffset:20}
+.fab.fx-run .fx-plus{display:flex;align-items:center;justify-content:center;transform-origin:center center;will-change:transform,opacity,filter;animation:fxPlus 2.1s cubic-bezier(.4,0,.2,1) forwards}
+.fab.fx-run .fx-circ{animation:fxCirc 2.1s cubic-bezier(.34,1.3,.64,1) forwards}
+.fab.fx-run .fx-ck{animation:fxCheck .4s ease-out .45s forwards}
+.fab.fx-run .fx-ring{animation:fxRing 2.1s cubic-bezier(.4,0,.2,1) forwards}
+.fab.fx-run .fx-ripple{animation:fxRipple .7s ease-out .4s forwards}
+@keyframes fxPlus{
+0%,4.76%{transform:rotate(0) scale(1);opacity:1;filter:blur(0)}
+10%{transform:rotate(45deg) scale(.7);opacity:.8;filter:blur(2.5px) drop-shadow(0 0 3px var(--fxs))}
+18%{transform:rotate(135deg) scale(.2);opacity:0;filter:blur(3.5px)}
+72%{transform:rotate(135deg) scale(.2);opacity:0;filter:blur(0)}
+82%{transform:rotate(45deg) scale(.7);opacity:.7;filter:blur(2px) drop-shadow(0 0 3px var(--fxs))}
+92%{transform:rotate(-10deg) scale(1.08);opacity:1;filter:blur(.5px)}
+100%{transform:rotate(0) scale(1);opacity:1;filter:blur(0)}}
+@keyframes fxCirc{
+0%,4.76%{opacity:0;transform:scale(.2) rotate(-135deg);filter:blur(3px)}
+12%{opacity:.9;transform:scale(.8) rotate(-45deg);filter:blur(2px) drop-shadow(0 0 5px var(--fxs))}
+20%{opacity:1;transform:scale(1.05) rotate(0);filter:blur(0)}
+24%{transform:scale(1) rotate(0);filter:blur(0)}
+70%{opacity:1;transform:scale(1) rotate(0);filter:blur(0)}
+78%{opacity:.85;transform:scale(.8) rotate(70deg);filter:blur(2.5px) drop-shadow(0 0 4px var(--fxs))}
+86%{opacity:0;transform:scale(.1) rotate(160deg);filter:blur(3.5px)}
+100%{opacity:0;transform:scale(0) rotate(180deg);filter:blur(0)}}
+@keyframes fxRing{
+0%,4.76%{opacity:0;transform:rotate(0) scale(.8)}
+12%{opacity:.85;transform:rotate(180deg) scale(1.15)}
+18%{opacity:0;transform:rotate(360deg) scale(.8)}
+70%{opacity:0;transform:rotate(0) scale(.8)}
+82%{opacity:.7;transform:rotate(-180deg) scale(1.1)}
+90%{opacity:0;transform:rotate(-360deg) scale(1)}
+100%{opacity:0}}
+@keyframes fxCheck{from{stroke-dashoffset:20}to{stroke-dashoffset:0}}
+@keyframes fxRipple{from{transform:scale(.85);opacity:.8}to{transform:scale(1.35);opacity:0}}
 </style>
 <style id="goal-rows">
 #gList .cat{background:var(--glass)!important;border:1px solid var(--glass-b)!important;border-radius:18px!important;padding:12px 14px!important;margin-bottom:10px;box-shadow:var(--glass-sh);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)}
