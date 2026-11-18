@@ -6954,36 +6954,36 @@ input.xc-pad::-webkit-calendar-picker-indicator{display:none!important}
 </style>
 <script id="xclearJs">(function(){ var OK={"":1,text:1,email:1,url:1,search:1,tel:1,number:1}; var btn=document.createElement("button"); btn.type="button";btn.className="xclear";btn.tabIndex=-1; btn.setAttribute("aria-label","Hapus isi"); btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>'; document.body.appendChild(btn); var cur=null,raf=0; function eligible(el){ if(!el||!el.tagName)return false; var t=el.tagName; if(t==="TEXTAREA")return !el.readOnly&&!el.disabled; if(t!=="INPUT")return false; var ty=(el.getAttribute("type")||"").toLowerCase(); return !!OK[ty]&&!el.readOnly&&!el.disabled&&!el.hidden; } function hide(){ btn.classList.remove("on"); if(cur)cur.classList.remove("xc-pad"); } function place(){ if(!cur||!document.body.contains(cur)){cur=null;hide();raf=0;return} var has=cur.value&&cur.value.length>0; var r=cur.getBoundingClientRect(); if(!has||r.width===0||r.height===0){btn.classList.remove("on");cur.classList.remove("xc-pad")} else{ cur.classList.add("xc-pad"); btn.classList.add("on"); var top=cur.tagName==="TEXTAREA"?r.top+10:r.top+(r.height-22)/2; btn.style.top=top+"px"; btn.style.left=(r.right-22-10)+"px"; } raf=requestAnimationFrame(place); } function start(el){ if(cur&&cur!==el)cur.classList.remove("xc-pad"); cur=el; if(!raf)raf=requestAnimationFrame(place); } document.addEventListener("focusin",function(e){ if(e.target===btn)return; if(eligible(e.target))start(e.target); else{cur=null;hide()} }); document.addEventListener("focusout",function(e){ if(e.target!==cur)return; setTimeout(function(){ if(document.activeElement===cur)return; cur.classList.remove("xc-pad");cur=null;hide(); if(raf){cancelAnimationFrame(raf);raf=0} },0); }); function inBtn(e){return e.target===btn||(btn.contains&&btn.contains(e.target))} function swallow(e){if(inBtn(e)){e.stopImmediatePropagation();e.stopPropagation()}} ["mousedown","mouseup","touchstart","touchend","click"].forEach(function(n){ window.addEventListener(n,function(e){ if(!inBtn(e))return; e.preventDefault();swallow(e); },true); }); window.addEventListener("pointerdown",function(e){ if(!inBtn(e))return; e.preventDefault();swallow(e); if(!cur)return; var el=cur; el.value=""; el.dispatchEvent(new Event("input",{bubbles:true})); el.dispatchEvent(new Event("change",{bubbles:true})); try{el.focus({preventScroll:true})}catch(_){el.focus()} btn.classList.remove("on");el.classList.remove("xc-pad"); },true); })();</script>
 <style id="clean-tidy">
-/* Ambient: bayangan kecil dan tegas (tanpa blur lebar), highlight putih diminimalkan */
+/* Ambient: timbul menyatu dengan latar (neumorphism), tapi sebaran bayangan dan highlight sedang, tidak melebar */
 :root[data-skin="clean"]{
-  --glass-sh:0 1px 2px rgba(60,60,67,.10),0 2px 8px -3px rgba(60,60,67,.14);
-  --nu-o:0 1px 2px rgba(60,60,67,.14),0 2px 5px -2px rgba(60,60,67,.14);
-  --nu-i:inset 0 1px 3px rgba(60,60,67,.18);
-  --ui-inset-sh:inset 0 1px 2px rgba(60,60,67,.22);
-  --ui-inset-soft:inset 0 1px 2px rgba(60,60,67,.16);
-  --ui-raise-sh:0 1px 2px rgba(60,60,67,.16),0 1px 4px -2px rgba(60,60,67,.14);
-  --ui-card-sh:0 1px 3px rgba(60,60,67,.14),0 0 0 1px rgba(60,60,67,.04);
-  --ui-inset-bd:1px solid rgba(60,60,67,.08);
-  --ui-glyph:none}
+  --glass-sh:5px 5px 12px rgba(163,171,184,.45),-5px -5px 12px rgba(255,255,255,.9);
+  --nu-o:3px 3px 8px rgba(163,171,184,.48),-3px -3px 8px rgba(255,255,255,.92);
+  --nu-i:inset 2px 2px 5px rgba(163,171,184,.5),inset -2px -2px 5px rgba(255,255,255,.92);
+  --ui-inset-sh:inset 2px 2px 4px rgba(163,171,184,.5),inset -2px -2px 4px rgba(255,255,255,.95);
+  --ui-inset-soft:inset 1.5px 1.5px 3px rgba(163,171,184,.34),inset -1.5px -1.5px 3px rgba(255,255,255,.88);
+  --ui-raise-sh:2px 2px 5px rgba(163,171,184,.34),-2px -2px 5px rgba(255,255,255,.9);
+  --ui-card-sh:3px 3px 8px rgba(163,171,184,.4),-3px -3px 8px rgba(255,255,255,.88);
+  --ui-inset-bd:1px solid rgba(255,255,255,.75);
+  --ui-glyph:drop-shadow(0 1px 0 rgba(255,255,255,.95))}
 :root[data-skin="clean"][data-theme="dark"]{
-  --glass-sh:0 1px 2px rgba(0,0,0,.5),0 4px 12px -5px rgba(0,0,0,.5);
-  --nu-o:0 1px 2px rgba(0,0,0,.5),0 2px 6px -3px rgba(0,0,0,.5);
-  --nu-i:inset 0 1px 3px rgba(0,0,0,.7);
-  --ui-inset-sh:inset 0 1px 2px rgba(0,0,0,.7);
-  --ui-inset-soft:inset 0 1px 2px rgba(0,0,0,.5);
-  --ui-raise-sh:0 1px 2px rgba(0,0,0,.5);
-  --ui-card-sh:0 1px 3px rgba(0,0,0,.5);
-  --ui-inset-bd:1px solid rgba(255,255,255,.06);
-  --ui-glyph:none}
-html:root[data-skin="clean"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),0 3px 8px rgba(60,60,67,.28)!important}
-html:root[data-skin="clean"][data-theme="dark"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),0 3px 8px rgba(0,0,0,.6)!important}
-html:root[data-skin="clean"] .msheet,html:root[data-skin="clean"] .sheet{box-shadow:0 -2px 12px rgba(0,0,0,.12)!important}
-html:root[data-skin="clean"][data-theme="dark"] .msheet,html:root[data-skin="clean"][data-theme="dark"] .sheet{box-shadow:0 -2px 14px rgba(0,0,0,.45)!important}
-@media (min-width:761px){html:root[data-skin="clean"] .msheet{box-shadow:0 6px 20px rgba(0,0,0,.18)!important}}
-html:root[data-skin="clean"] #intro .ilogo{box-shadow:0 6px 16px rgba(0,0,0,.22)}
-html:root[data-skin="clean"][data-theme="dark"] #intro .ilogo{box-shadow:0 6px 16px rgba(0,0,0,.5)}
-html:root[data-skin="clean"] .mz{box-shadow:inset 0 2px 6px rgba(0,0,0,.3),0 2px 6px -2px rgba(0,0,0,.3)!important}
-html:root[data-skin="clean"][data-theme="dark"] .mz{box-shadow:inset 0 2px 6px rgba(0,0,0,.1),0 2px 6px -2px rgba(0,0,0,.4)!important}
+  --glass-sh:0 8px 18px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);
+  --nu-o:0 5px 12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.1);
+  --nu-i:inset 0 2px 6px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.07);
+  --ui-inset-sh:inset 0 2px 4px rgba(0,0,0,.85),inset 0 -1px 0 rgba(255,255,255,.08);
+  --ui-inset-soft:inset 0 1.5px 3px rgba(0,0,0,.55),inset 0 -1px 0 rgba(255,255,255,.04);
+  --ui-raise-sh:0 3px 7px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07);
+  --ui-card-sh:0 4px 10px -3px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);
+  --ui-inset-bd:1px solid rgba(255,255,255,.09);
+  --ui-glyph:drop-shadow(0 1px 0 rgba(0,0,0,.85))}
+html:root[data-skin="clean"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),4px 5px 11px rgba(140,148,160,.55),-3px -3px 8px rgba(255,255,255,.9)!important}
+html:root[data-skin="clean"][data-theme="dark"] :is(.fab,.fab:hover){box-shadow:0 0 0 4px var(--glass),0 6px 14px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.6)!important}
+html:root[data-skin="clean"] .msheet,html:root[data-skin="clean"] .sheet{box-shadow:0 -2px 14px rgba(0,0,0,.14)!important}
+html:root[data-skin="clean"][data-theme="dark"] .msheet,html:root[data-skin="clean"][data-theme="dark"] .sheet{box-shadow:0 -3px 16px rgba(0,0,0,.5)!important}
+@media (min-width:761px){html:root[data-skin="clean"] .msheet{box-shadow:0 8px 24px rgba(0,0,0,.2)!important}}
+html:root[data-skin="clean"] #intro .ilogo{box-shadow:0 8px 20px rgba(0,0,0,.25)}
+html:root[data-skin="clean"][data-theme="dark"] #intro .ilogo{box-shadow:0 8px 20px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.6)}
+html:root[data-skin="clean"] .mz{box-shadow:inset 0 2px 6px rgba(0,0,0,.3),3px 3px 8px rgba(163,171,184,.5),-3px -3px 8px rgba(255,255,255,.9)!important}
+html:root[data-skin="clean"][data-theme="dark"] .mz{box-shadow:inset 0 2px 6px rgba(0,0,0,.1),0 5px 12px rgba(0,0,0,.55)!important}
 /* ritme jarak di HP: skala 8 (kelipatan 4/8) supaya antar blok konsisten */
 @media (max-width:760px){
   .grid3{gap:12px;margin-bottom:16px}
