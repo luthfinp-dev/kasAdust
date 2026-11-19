@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-K/6WgKQ8X8MCiXqMbEKo1uJsdez1+SdyLrdmZRIFoxY=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-SG1N6iXuOT8VkuZIBTXIc/yGfWbsa0AaIDcSHUjcdvU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-qAPB0TnzsoJwMU0TcNZz65GSI6TkllXTYF0zY0NCA40=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-8EskHBeds5Ky2eGrMobV8+7acJe1POQKcXl98oVUeLE=' 'sha256-RY1ox6fyX9b1AQZivjyfWas3aY+b1fTX9eNfjSdo008=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-SG1N6iXuOT8VkuZIBTXIc/yGfWbsa0AaIDcSHUjcdvU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -1425,10 +1425,17 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
       <h2><i data-ic="plus"></i><span id="formTitle">Tambah transaksi</span></h2>
       <form id="form" novalidate>
         <div class="fields">
+          <div class="full"><div class="kseg" id="fType" role="group" aria-label="Jenis transaksi">
+            <button type="button" class="k1" data-ty="out" aria-pressed="true"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>Pengeluaran</button>
+            <button type="button" class="k2" data-ty="in" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7L7 17M15 17H7V9"/></svg>Pemasukan</button>
+            <button type="button" class="k0" data-ty="trf" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg>Transfer</button>
+          </div></div>
+          <div class="full" id="catBox"><div class="lblrow"><label id="fCatL">Kategori</label><button type="button" class="catset" id="btnCatSet" aria-label="Atur kategori" title="Atur kategori"><i data-ic="plus"></i></button></div><div class="catchips" id="catChips" role="group" aria-labelledby="fCatL"></div><select id="fCat" hidden aria-hidden="true" tabindex="-1"></select></div>
           <div class="full"><label for="fName">Nama pengeluaran</label><input id="fName" maxlength="80" placeholder="Contoh: Makan siang" autocomplete="off"></div>
-          <div><label for="fAmt">Nominal (Rp)</label><input id="fAmt" inputmode="numeric" placeholder="25.000" autocomplete="off"></div>
-          <div><label for="fDate">Tanggal</label><input id="fDate" type="date" min="1900-01-01" max="2199-12-31"></div>
-          <div class="full"><div class="lblrow"><label for="fCat">Kategori</label><button type="button" class="catset" id="btnCatSet" aria-label="Atur kategori" title="Atur kategori"><i data-ic="plus"></i></button></div><select id="fCat"></select></div>
+          <div class="full amtrow">
+            <div><label for="fAmt">Nominal (Rp)</label><input id="fAmt" inputmode="numeric" placeholder="25.000" autocomplete="off"></div>
+            <div class="calcol"><label for="fDate">Tanggal</label><span class="calw"><span class="calbtn" id="fDateBtn" aria-hidden="true"><i data-ic="cal"></i></span><input type="date" id="fDate" aria-label="Pilih tanggal" title="Pilih tanggal" min="1900-01-01" max="2199-12-31"></span></div>
+          </div>
           <div class="full" id="acBox" hidden><label>Bayar pakai</label><input type="hidden" id="fAcct"><div class="acchips" id="acChips"></div></div>
           <div class="full" id="trBox" hidden>
             <div class="fields">
@@ -2346,8 +2353,44 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
     $("fCat").innerHTML=G.filter(function(g){return g[1].length}).map(function(g){
       return '<optgroup label="'+esc(g[0])+'">'+g[1].map(function(c){return '<option value="'+esc(c)+'"'+(c===sel?" selected":"")+'>'+esc(c)+'</option>'}).join("")+'</optgroup>';
     }).join("");
-    setNamePh();
+    setNamePh();typeUI();paintDate();
   }
+  /* jenis transaksi (Pengeluaran / Pemasukan / Transfer) -> pilihan kategori; <select id="fCat"> tetap jadi sumber nilai */
+  var fTy="out";
+  function catsFor(ty){
+    var all=[].map.call($("fCat").options,function(o){return o.value});
+    if(ty==="trf")return all.filter(function(c){return c===TRF});
+    if(ty==="in")return all.filter(function(c){return c===WD||c===GOALC});
+    return all.filter(function(c){return c!==TRF&&c!==WD});
+  }
+  function typeUI(){
+    var v=$("fCat").value;
+    if(v===TRF)fTy="trf";else if(v===WD)fTy="in";else if(!(v===GOALC&&fTy==="in"))fTy="out";
+    [].forEach.call($("fType").querySelectorAll("button"),function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-ty")===fTy))});
+    $("catBox").hidden=(fTy==="trf");
+    var list=catsFor(fTy),box=$("catChips");
+    box.innerHTML=list.map(function(c){return '<button type="button" class="cch'+(c===v?" on":"")+'" data-c="'+esc(c)+'" aria-pressed="'+(c===v)+'">'+esc(c)+'</button>'}).join("");
+    var on=box.querySelector(".on");
+    if(on)box.scrollLeft=Math.max(0,on.offsetLeft-(box.clientWidth-on.offsetWidth)/2);
+  }
+  function setCat(c){var s=$("fCat");s.value=c;s.dispatchEvent(new Event("change",{bubbles:true}))}
+  function paintDate(){
+    var v=$("fDate").value,b=$("fDateBtn");if(!b)return;
+    b.classList.toggle("on",!!v&&v!==ymd(new Date()));
+    $("fDate").title=v?("Tanggal: "+v.split("-").reverse().join("/")):"Pilih tanggal";
+  }
+  $("fType").addEventListener("click",function(e){
+    var b=e.target.closest&&e.target.closest("button[data-ty]");if(!b)return;
+    var ty=b.getAttribute("data-ty");fTy=ty;
+    var list=catsFor(ty),cur=$("fCat").value;
+    setCat(list.indexOf(cur)>=0?cur:(ty==="out"&&list.indexOf(lastCat)>=0?lastCat:list[0]));
+  });
+  $("catChips").addEventListener("click",function(e){
+    var b=e.target.closest&&e.target.closest("button[data-c]");if(!b)return;
+    setCat(b.getAttribute("data-c"));
+  });
+  $("fCat").addEventListener("change",typeUI);
+  $("fDate").addEventListener("input",paintDate);$("fDate").addEventListener("change",paintDate);
   var lastAcct="";try{lastAcct=localStorage.getItem("akun-terakhir-v1")||""}catch(e){}
   function resetForm(){
     editId=null;
@@ -6369,6 +6412,17 @@ html:root[data-skin="midnight"][data-theme="dark"] .mz,html:root[data-skin="clea
 100%{opacity:0}}
 @keyframes fxCheck{from{stroke-dashoffset:20}to{stroke-dashoffset:0}}
 @keyframes fxRipple{from{transform:scale(.85);opacity:.8}to{transform:scale(1.35);opacity:0}}
+</style>
+<style id="tx-form-new">
+#txSheet #fType button{font-size:.8rem;gap:4px;padding:6px 4px}
+#txSheet .catchips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin:0 -2px;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+#txSheet .catchips::-webkit-scrollbar{display:none}
+#txSheet .cch{flex:none;scroll-snap-align:center;min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--glass-b);background:var(--chip);color:inherit;font:inherit;font-size:.86rem;font-weight:600;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#txSheet .cch.on{background:var(--sage-d);color:#fff;border-color:transparent}
+#txSheet .amtrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end}
+#txSheet .amtrow .calcol{display:flex;flex-direction:column}
+#txSheet .amtrow .calw,#txSheet .amtrow .calbtn{height:46px;width:46px}
+#txSheet .catchips[hidden],#txSheet #catBox[hidden]{display:none}
 </style>
 <style id="goal-rows">
 #gList .cat{background:var(--glass)!important;border:1px solid var(--glass-b)!important;border-radius:18px!important;padding:12px 14px!important;margin-bottom:10px;box-shadow:var(--glass-sh);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)}
