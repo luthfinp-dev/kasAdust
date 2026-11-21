@@ -1221,6 +1221,32 @@ header.hdr .hd-acts .sw .knob .ic{width:16px;height:16px}
 .wktip .tr span{color:var(--wk-tipm)}
 .wktip .tr strong{font-weight:700;font-variant-numeric:tabular-nums}
 </style>
+<style id="dd-theme">
+/* kolom dropdown: abu dengan teks kontras di kedua mode (menimpa gaya tombol bawaan skin) */
+html:root .ddf{background:#eceef1!important;color:#1c1c1e!important;border:1px solid rgba(0,0,0,.1)!important}
+html:root .ddf .ddt b{color:#1c1c1e!important}
+html:root .ddf .ddt b.ph{color:#6b6b70!important}
+html:root .ddf .ddt small{color:#6b6b70!important}
+html:root .ddf .chev{color:#1c1c1e!important}
+html:root .ddf.on{background:#dfe2e7!important;border-color:rgba(0,0,0,.28)!important;box-shadow:none!important}
+html:root .ddi{color:#1c1c1e!important;background:transparent!important;border:0!important}
+html:root .ddi:hover,html:root .ddi:focus-visible{background:rgba(0,0,0,.06)!important}
+html:root .ddi.on{background:rgba(0,0,0,.09)!important}
+html:root .ddi .dds{color:#6b6b70!important}
+html:root .ddi .dds.neg{color:#c0392b!important}
+html:root[data-theme="dark"] .ddf{background:#2c2c30!important;color:#ffffff!important;border:1px solid rgba(255,255,255,.12)!important}
+html:root[data-theme="dark"] .ddf .ddt b,html:root[data-theme="dark"] .ddf .chev{color:#ffffff!important}
+html:root[data-theme="dark"] .ddf .ddt b.ph,html:root[data-theme="dark"] .ddf .ddt small{color:rgba(255,255,255,.6)!important}
+html:root[data-theme="dark"] .ddf.on{background:#3a3a40!important;border-color:rgba(255,255,255,.4)!important}
+html:root[data-theme="dark"] .ddpop{background:rgba(44,44,48,.97)!important;border-color:rgba(255,255,255,.12)!important}
+html:root[data-theme="dark"] .ddi{color:#ffffff!important}
+html:root[data-theme="dark"] .ddi:hover,html:root[data-theme="dark"] .ddi:focus-visible{background:rgba(255,255,255,.09)!important}
+html:root[data-theme="dark"] .ddi.on{background:rgba(255,255,255,.14)!important}
+html:root[data-theme="dark"] .ddi .dds{color:rgba(255,255,255,.6)!important}
+html:root[data-theme="dark"] .ddi .dds.neg{color:#ff7b72!important}
+html:root[data-theme="dark"] .ddg{color:rgba(255,255,255,.5)}
+html:root .ddf:disabled{opacity:.5}
+</style>
 </head>
 <body>
 <script>try{if(localStorage.getItem("pin-v1"))document.documentElement.classList.add("plk")}catch(e){}</script>
