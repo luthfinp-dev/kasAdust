@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-aGJwKbe3Hzp7ymG9hYZh4M4Ajf5eipML/5XksAsA5II=' 'sha256-aGxg994Uum0Simb/2ylhf0XDAKni3BJtu8E7Tfez7jM=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-aZ3jVk4YW7anNjxVvPiRfiouLFv1ibdBO1t+WFhDvYs=' 'sha256-qIa7g/dowslSv/vrXyWn3y0cIA57xNJP/QN618sEfSY=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-npOnCssf/0UF1kX8WPtxem/TOeORFPAPmoXPcZfYqVw=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-SG1N6iXuOT8VkuZIBTXIc/yGfWbsa0AaIDcSHUjcdvU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-aGxg994Uum0Simb/2ylhf0XDAKni3BJtu8E7Tfez7jM=' 'sha256-Z6cabpOd1Hg5fta7SIC245LpeGE44OSFnAlnuYNeYvM=' 'sha256-NFXOaawsled+0VnUfqEANuTsIhwbVpPKfDJk360sHTk=' 'sha256-e/GAxhsPaRdmCzzdhWZ1LCEk4pbbTX3eOZxNF9yJUg0=' 'sha256-7UgqBiouM3GZIKcqeDIDQpl89hO40SIy4WyF3izDRTo=' 'sha256-aZ3jVk4YW7anNjxVvPiRfiouLFv1ibdBO1t+WFhDvYs=' 'sha256-tuPKmW+HoJ80kRgjPWFrgnqQ/IDqd5EYYvRXMFO7jmg=' 'sha256-X02nJIztg/iB41k7UzzQ6xcSLALfgz5j/quM0NqMPYQ=' 'sha256-dhyMi7MVz8z/iIdOdheM7b1yfY/lKj69HHl6V+mHVi8=' 'sha256-AkfpKQDFGGIwUfOGqA/SSznlOKbc3SpOsbiRu65RpGE=' 'sha256-CN8CIKtkWVQER3gHeTquZnN9YZDAaxyqmVDjU3P1osE=' 'sha256-EVN+QAeTVZ6L/2Oxx6WiyWA8uLVUg27qhRmVZaA70W8=' 'sha256-Vx9iH9C2Y8SSv/yrDCbL7FGmzEuYeS17lt9Q1hPPtvE=' 'sha256-GUSt2rsJoiCDQL4yjS1b7Hk8hpJ0z8rVvYFbGtxB9e8=' 'sha256-nmFHIuDlqozy88XGQdEtp8XnuQqd3sRYbo9BaELrVH4=' 'sha256-++PB59htwbn21z/D7uWkJeMiHLTEePKaX0kd9BBSjxA=' 'sha256-SG1N6iXuOT8VkuZIBTXIc/yGfWbsa0AaIDcSHUjcdvU=' 'sha256-aGJwKbe3Hzp7ymG9hYZh4M4Ajf5eipML/5XksAsA5II=' ; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2408,10 +2408,17 @@ html{overscroll-behavior-y:contain}
     $("fDate").title=v?("Tanggal: "+v.split("-").reverse().join("/")):"Pilih tanggal";
   }
   $("fType").addEventListener("click",function(e){
-    var b=e.target.closest&&e.target.closest("button[data-ty]");if(!b)return;
-    var ty=b.getAttribute("data-ty");fTy=ty;
-    var list=catsFor(ty),cur=$("fCat").value;
-    setCat(list.indexOf(cur)>=0&&(cur!==GOALC||VT[vKey()]===ty)?cur:(ty==="out"&&list.indexOf(lastCat)>=0?lastCat:list[0]));
+    var b=e.target&&e.target.closest?e.target.closest("button[data-ty]"):null;if(!b)return;
+    var ty=b.getAttribute("data-ty");
+    try{
+      fTy=ty;
+      var list=catsFor(ty),cur=$("fCat").value,pick;
+      if(list.indexOf(cur)>=0&&(cur!==GOALC||VT[vKey()]===ty))pick=cur;
+      else if(ty==="out"&&list.indexOf(lastCat)>=0)pick=lastCat;
+      else pick=list[0];
+      if(pick===undefined)pick=ty==="trf"?TRF:(ty==="in"?WD:(CATS.filter(function(c){return c!==TRF&&c!==WD&&c!==ASET&&c!==GOALC&&!isInc(c)})[0]||"Lainnya"));
+      setCat(pick);
+    }catch(err){try{typeUI()}catch(_){}}
   });
   $("catChips").addEventListener("click",function(e){
     var b=e.target.closest&&e.target.closest("button[data-c],button[data-v]");if(!b)return;
@@ -6026,7 +6033,8 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
   window.__calc={press:press,get:function(){return disp.textContent},open:open,close:close};
 })();
 </script>
-<script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){(function(){var B="v10-20261123",ok=1;try{var p=localStorage.getItem("build-v1");localStorage.setItem("build-v1",B);if(p&&p!==B&&!sessionStorage.getItem("bg-"+B)){sessionStorage.setItem("bg-"+B,"1");ok=0;navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}).then(function(){return window.caches?caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}):0}).then(function(){location.reload()},function(){location.reload()})}}catch(e){}
+if(ok)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(r){try{r.update()}catch(e){}}).catch(function(){})})})()}</script>
 <script>
 /* Animasi masuk: bar terisi, garis grafik aset tergambar. (Animasi angka ada di skrip roll-num.) */
 (function(){
@@ -6279,6 +6287,11 @@ html.vt-navpos::view-transition-group(root){animation-duration:.5s}
 <style id="vstack-smooth">
 .vstack{touch-action:none}
 .vc{transition:transform .65s cubic-bezier(.22,.8,.25,1),opacity .8s cubic-bezier(.33,0,.2,1)}
+</style>
+<style id="fix-tx-tap">
+#txSheet #fType,#txSheet #catChips{position:relative;z-index:1}
+#txSheet #fType button,#txSheet .cch{pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#txSheet #fType button *{pointer-events:none}
 </style>
 <style id="fix-layout-tx">
 /* halaman Transaksi: tampil langsung tanpa animasi fade-in */
