@@ -2435,7 +2435,7 @@ html #aCarousel .cd-logo{position:absolute;right:5cqw;bottom:5cqw;width:11.7cqw;
       fTy=ty;
       var list=catsFor(ty),cur=$("fCat").value,pick;
       if(list.indexOf(cur)>=0&&(cur!==GOALC||VT[vKey()]===ty))pick=cur;
-      else if(ty==="out"&&list.indexOf(lastCat)>=0)pick=lastCat;
+      else if(ty==="out"&&lastCat!==GOALC&&list.indexOf(lastCat)>=0)pick=lastCat;
       else pick=list[0];
       if(pick===undefined)pick=ty==="trf"?TRF:(ty==="in"?WD:(CATS.filter(function(c){return c!==TRF&&c!==WD&&c!==ASET&&c!==GOALC&&!isInc(c)})[0]||"Lainnya"));
       setCat(pick);
